@@ -1,0 +1,15 @@
+Package: WalesIshOTPGraph
+Title: WalesIshOTPGraph
+Version: 0.0.1
+Authors@R: c(
+  person("Adam", "Watkins", email = "adam@stupidpupil.co.uk", role = c("aut", "cre"))
+  )
+Description: Wales
+License: MT
+Encoding: UTF-8
+Depends: 
+  R (>= 2.10),
+  tidyverse,
+  UK2GTFS
+Suggests: 
+  testthat
