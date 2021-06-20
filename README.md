@@ -18,11 +18,12 @@ This is a bunch to scripts to help assemble OpenTripPlanner graphs that are usea
 
 ```R
 devtools::load_all()
-# Download latest ATOC timetable data from data.atoc.org and move it to data-raw/atoc.zip
+# You have to download the latest ATOC timetable data from data.atoc.org 
+# and move it to data-raw/atoc.zip
 prepare_atoc_gtfs()
 download_and_prepare_bus_gtfs()
 download_and_prepare_osm()
 prepare_street_graph()
 prepare_transport_graph()
-
+# output/ should contain streetGraph.obj and graph.obj
 ```
