@@ -27,7 +27,8 @@ better_gtfs_read <- function(path){
 
   if(checkmate::test_file_exists(file.path(tmp_folder,"routes.txt"))){
     gtfs$routes <- readr::read_csv(file.path(tmp_folder,"routes.txt"),
-                                   col_types = readr::cols(route_id = readr::col_character()))
+                                   col_types = readr::cols(route_id = readr::col_character(),
+                                                           route_short_name = readr::col_character()))
   } else {
     warning("Unable to find required file: routes.txt")
   }
