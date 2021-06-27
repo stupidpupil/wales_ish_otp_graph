@@ -56,13 +56,20 @@ jobs:
               atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
               tnds_username: !expr Sys.getenv("TNDS_USERNAME")
               tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+            
 
       - name: Download and prepare GTFS
         run: |
           devtools::load_all()
+
+          print("Downloading and preparing ATOC…")
           download_atoc()
           prepare_atoc_gtfs()
+
+          print("Downloading and preparing TNDS…")
           download_tnds()
           prepare_tnds_gtfs()
+
+          print("Downloading and preparing BODS…")
           download_and_prepare_bus_gtfs()
         shell: Rscript {0}
