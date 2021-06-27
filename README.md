@@ -9,8 +9,9 @@ The map below shows the train and bus stops included (as of June 2021), giving a
 
 ## Features and Anti-Features
 
-- Downloads bus etc. open data from DfT GOV.UK
+- Downloads English bus etc. open data from DfT GOV.UK
 - Downloads OpenStreetMap data from geofabrik.de
+- Downloads Welsh bus etc. data from Traveline (requires registration)
 - Download heavy rail CIF from data.atoc.org (requires registration)
 - Creates extracts of street and public transport data covering Wales and strip of the borders
 - Covers Chester, Liverpool, Shrewsbury, Hereford, Bristol, Gloucester
