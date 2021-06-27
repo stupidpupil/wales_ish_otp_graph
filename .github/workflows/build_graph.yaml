@@ -60,6 +60,18 @@ jobs:
               tnds_username: !expr Sys.getenv("TNDS_USERNAME")
               tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
 
+      - name: Download and prepare OSM
+        run: |
+          devtools::load_all()
+          download_and_prepare_osm()
+        shell: Rscript {0}
+
+      - name: Upload OSM artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: wales_ish.osm.pbf
+          path: output/wales_ish.osm.pbf
+          if-no-files-found: error
 
       - name: Download and prepare ATOC GTFS
         run: |
