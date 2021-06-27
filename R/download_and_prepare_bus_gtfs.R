@@ -1,9 +1,10 @@
 download_and_prepare_bus_gtfs <- function(){
 
-  wales_and_regions <- c('wales', 'west_midlands', 'north_west', 'south_west')
+  english_regions <- c('west_midlands', 'north_west', 'south_west')
+  wales_and_regions <- c('wales', english_regions)
   base_bus_url <- "https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/"
 
-  for (r in wales_and_regions) {
+  for (r in english_regions) {
     print(paste0("Downloading bus data for ", r, "…"))
     bus_url <- paste0(base_bus_url, r, '/')
     dest_path <- paste0("data-raw/", r, ".bus.gtfs.zip")
