@@ -19,6 +19,16 @@ gtfs_wales_ish_ify <- function(gtfs){
   gtfs$routes <- gtfs$routes %>% filter(route_id %in% gtfs$trips$route_id)
   gtfs$agency <- gtfs$agency %>% filter(agency_id %in% gtfs$routes$agency_id)
 
+  # Create new agencies if we have to
+  gtfs$agency <- gtfs$agency %>% bind_rows(tibble(
+    agency_id = setdiff(gtfs$routes$agency_id, gtfs$agency$agency_id),
+  ) %>% mutate(
+    agency_name = agency_id,
+    agency_url = paste0("https://", agency_id, ".example"),
+    agency_timezone = "Europe/London"
+  ))
+
+
   # UK2GTFS doesn't support saving shapes
   gtfs$trips$shape_id <- NULL
   gtfs$stop_times$shape_dist_traveled <- NULL
