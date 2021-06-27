@@ -42,8 +42,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages(c("remotes"))
-          remotes::install_deps(dependencies = TRUE)
+          install.packages(c("devtools"))
+          devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
       - name: Write config.yml
