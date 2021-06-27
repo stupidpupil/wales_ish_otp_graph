@@ -10,6 +10,8 @@ Encoding: UTF-8
 Depends: 
   R (>= 2.10),
   tidyverse,
-  UK2GTFS
+  UK2GTFS,
+  config,
+  rvest
 Suggests: 
   testthat
