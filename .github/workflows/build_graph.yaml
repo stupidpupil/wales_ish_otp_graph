@@ -46,6 +46,9 @@ jobs:
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
+      - name: Install osmium
+        run: brew install osmium-tool
+
       - name: Write config.yml
         uses: DamianReeves/write-file-action@v1.0
         with:
@@ -65,7 +68,8 @@ jobs:
           prepare_atoc_gtfs()
         shell: Rscript {0}
 
-      - uses: actions/upload-artifact@v2
+      - name: Upload ATOC GTFS artifact
+        uses: actions/upload-artifact@v2
         with:
           name: atoc.walesish.gtfs.zip
           path: output/atoc.walesish.gtfs.zip
