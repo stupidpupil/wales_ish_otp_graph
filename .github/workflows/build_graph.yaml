@@ -59,10 +59,12 @@ jobs:
               atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
               tnds_username: !expr Sys.getenv("TNDS_USERNAME")
               tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+              
 
       - name: Download and prepare OSM
         run: |
           devtools::load_all()
+          options(timeout=240)
           download_and_prepare_osm()
         shell: Rscript {0}
 
