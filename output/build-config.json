@@ -1,3 +1,4 @@
 {
-  "osmWayPropertySet":"uk"
+  "osmWayPropertySet": "uk",
+  "platformEntriesLinking": true
 }
