@@ -1,0 +1,67 @@
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+name: build-graph
+
+jobs:
+  build-graph:
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.TNDS_USERNAME }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@v1
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Restore R package cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install dependencies
+        run: |
+          install.packages(c("remotes"))
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+
+      - name: Write config.yml
+        uses: DamianReeves/write-file-action@v1.0
+        path: ${{ github.workspace }}/config.yml
+        contents: |
+          default:
+            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
+            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+
+      - name: Download and prepare GTFS
+        run: |
+          devtools::load_all()
+          download_atoc()
+          prepare_atoc_gtfs()
+          download_tnds()
+          prepare_tnds_gtfs()
+          download_and_prepare_bus_gtfs()
+        shell: Rscript {0}
