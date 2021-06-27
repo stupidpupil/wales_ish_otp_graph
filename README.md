@@ -37,3 +37,15 @@ prepare_street_graph()
 prepare_transport_graph()
 # output/ should now contain streetGraph.obj and graph.obj
 ```
+## Licence of outputs
+
+Outputs include data derived from the following sources:
+
+| Data                       | License                                                                             | Source                                   |
+|----------------------------|-------------------------------------------------------------------------------------|------------------------------------------|
+| ATOC Heavy Rail Timetables | [CC-BY 2.0](https://creativecommons.org/licenses/by/2.0/uk/legalcode)    | RSP Limited (Rail Delivery Group)                              |
+| DfT Bus Open Data Service (BODS) | [OGLv3](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) | Department for Transport (UK Government)  |
+| Traveline National Data Set (TNDS) | [OGLv3](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) | Traveline  |
+| OpenStreetMap data         | [ODbl](https://opendatacommons.org/licenses/odbl/)                                  | OpenStreetMap contributors, Geofabrik.de |
+
+
