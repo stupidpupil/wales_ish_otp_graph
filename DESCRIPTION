@@ -13,5 +13,5 @@ Depends:
   UK2GTFS,
   config,
   rvest
-Suggests: 
-  testthat
+Remotes:
+    ITSLeeds/UK2GTFS
