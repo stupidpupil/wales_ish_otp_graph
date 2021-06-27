@@ -1,3 +1,5 @@
 *.zip
 *.jar
 *.pbf
+gtfs_temp
+gtfs_temp/*
