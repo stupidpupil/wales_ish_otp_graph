@@ -28,6 +28,8 @@ devtools::load_all()
 # Complete config.yml
 download_atoc()
 prepare_atoc_gtfs()
+download_tnds()
+prepare_tnds_gtfs()
 download_and_prepare_bus_gtfs()
 download_and_prepare_osm()
 prepare_street_graph()
