@@ -20,19 +20,28 @@ gtfs_wales_ish_ify <- function(gtfs){
     trip_id %in% gtfs$trips$trip_id
     )
 
+  str_is_empty <- function(x){is.na(x) | str_length(x) == 0}
+
   gtfs$trips <- gtfs$trips %>% filter(trip_id %in% gtfs$stop_time$trip_id)
-  gtfs$routes <- gtfs$routes %>% filter(route_id %in% gtfs$trips$route_id)
-  gtfs$agency <- gtfs$agency %>% filter(agency_id %in% gtfs$routes$agency_id)
+  gtfs$routes <- gtfs$routes %>% filter(route_id %in% gtfs$trips$route_id) %>% 
+    mutate(agency_id = ifelse(str_is_empty(agency_id), paste0("Unknown", route_id), agency_id))
+
+  gtfs$agency <- gtfs$agency %>% filter(!is.na(agency_id), agency_id %in% gtfs$routes$agency_id)
 
   # Create new agencies if we have to
   gtfs$agency <- gtfs$agency %>% bind_rows(tibble(
-    agency_id = setdiff(gtfs$routes$agency_id, gtfs$agency$agency_id),
-  ) %>% mutate(
-    agency_name = agency_id,
-    agency_url = paste0("https://", agency_id, ".example"),
-    agency_timezone = "Europe/London"
+    agency_id = setdiff(gtfs$routes$agency_id, gtfs$agency$agency_id)
   ))
 
+  # We don't need to risk any optional agency fields
+  # But make sure the required ones are completed
+  gtfs$agency <- gtfs$agency %>%
+  select(agency_id, agency_name, agency_url, agency_timezone) %>%
+  mutate(
+    agency_name = ifelse(str_is_empty(agency_name), agency_id, agency_name),
+    agency_url = ifelse(str_is_empty(agency_url), paste0("https://", agency_id, ".example"), agency_url),
+    agency_timezone = ifelse(str_is_empty(agency_timezone), "Europe/London", agency_timezone),
+  )
 
   # UK2GTFS doesn't support saving shapes
   gtfs$trips$shape_id <- NULL
