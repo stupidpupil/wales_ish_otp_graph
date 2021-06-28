@@ -11,12 +11,18 @@ output:
     pandoc_args: ["--wrap=preserve"]
 ---
 
+![](map.png){data-external="1" style="float:right;"}
+
+This is an OpenTripPlanner graph for planning trips, by car or public transport, between places in Wales - including where these trips involve a short journey entirely within England. (It likely also works well enough for planning trips between places in Wales and a small number of English towns just the other side of the border.)
+
+The map shows bus and train routes included in the latest graph, giving a rough idea of the region included.
+
 You can [download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest).
 
 ## Update
 The graph file was last updated at `r file.mtime("output/graph.obj")  %>% strftime("%H:%M %Z on %d %B %Y", tz="Europe/London")`.
 
-It was prepared using the following version of OpenTripPlanner - ``r otp_version()`` - running on the following version of Java - ``r java_version()``.
+It was prepared using the following version of OpenTripPlanner - ``r otp_version()``{style="white-space:normal;"} - running on the following version of Java - ``r java_version()``.
 
 ## License
 The *graph.obj* graph file is made available under the [ODbL v1.0](https://opendatacommons.org/licenses/odbl/1-0/) by Adam Watkins as part of the [Wales-ish OTP graph project](https://stupidpupil.github.io/wales_ish_otp_graph).
