@@ -12,6 +12,7 @@ Depends:
   tidyverse,
   UK2GTFS,
   config,
-  rvest
+  rvest,
+  rmarkdown
 Remotes:
     ITSLeeds/UK2GTFS

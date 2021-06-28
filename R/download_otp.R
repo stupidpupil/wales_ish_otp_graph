@@ -3,3 +3,7 @@ download_otp <- function(){
   dest_path <- "data-raw/otp.jar"
   download.file(otp_url, dest_path)
 }
+
+otp_version <- function(){
+  system(paste0(java_command(), " -jar data-raw/otp.jar --version"), intern=TRUE) %>% str_replace("^OpenTripPlanner version: ", "")
+}

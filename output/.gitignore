@@ -1,3 +1,5 @@
 *.zip
 *.pbf
 *.obj
+*.jar
+*.html
