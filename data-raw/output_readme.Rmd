@@ -4,6 +4,8 @@ output:
   html_document:
     toc: true
     theme: united
+  md_document:
+    variant: gfm
 ---
 
 You can [download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest).
