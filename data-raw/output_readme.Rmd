@@ -19,6 +19,8 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 You can [download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest).
 
+You can [see the scripts used to download source data and generate this graph here](https://github.com/stupidpupil/wales_ish_otp_graph).
+
 ## Update
 The graph file was last updated at `r file.mtime("output/graph.obj")  %>% strftime("%H:%M %Z on %d %B %Y", tz="Europe/London")`.
 

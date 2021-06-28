@@ -2,10 +2,7 @@
 
 This is a bunch to scripts to help assemble OpenTripPlanner graphs that are useable for planning trips, by car or public transport, between places in Wales - including where these trips involve a short journey entirely within England. (It likely also works well enough for planning trips between places in Wales and a small number of English towns just the other side of the border.)
 
-The map below shows the train and bus stops included (as of June 2021), giving an idea of the region included:
-
-![Map of train and bus stops covered by Wales-ish region](map.png)
-
+[See the GitHub page for this repository for releases of graphs produced by this script](https://stupidpupil.github.io/wales_ish_otp_graph/).
 
 ## Features and Anti-Features
 
