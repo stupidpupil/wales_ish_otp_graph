@@ -1,5 +1,9 @@
-on: workflow_dispatch
-name: build-graph-parallel
+on: 
+  workflow_dispatch
+  schedule:
+    - cron: 25 5 * * 1
+    
+name: build-and-release
 
 jobs:
   download_and_prepare_osm:
@@ -320,7 +324,8 @@ jobs:
           TZ: Europe/London
         run: echo "::set-output name=timestamp::$(date +'%Y-%m-%dT%H-%M-%S')"
 
-      - uses: ncipollo/release-action@v1
+      - name: Release new graph
+        uses: ncipollo/release-action@v1
         with:
           artifacts: "data-raw/otp.jar,output/graph.obj"
           bodyFile: "output/output_readme.md"
