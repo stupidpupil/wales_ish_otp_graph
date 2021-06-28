@@ -1,8 +1,16 @@
+![](map.png)
+
+This is an OpenTripPlanner graph for planning trips, by car or public transport, between places in Wales - including where these trips involve a short journey entirely within England. (It likely also works well enough for planning trips between places in Wales and a small number of English towns just the other side of the border.)
+
+The map shows bus and train routes included in the latest graph, giving a rough idea of the region included.
+
 You can [download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest).
+
+You can [see the scripts used to download source data and generate this graph here](https://github.com/stupidpupil/wales_ish_otp_graph).
 
 ## Update
 
-The graph file was last updated at 17:51 BST on 28 June 2021.
+The graph file was last updated at 19:57 BST on 28 June 2021.
 
 It was prepared using the following version of OpenTripPlanner - `2.1.0-SNAPSHOT, ser.ver.id: 8, commit: 6aebf2927b11be1f005c8db1041e66a2d8e884ec, branch: dev-2.x` - running on the following version of Java - `openjdk 11.0.11 2021-04-20`.
 
