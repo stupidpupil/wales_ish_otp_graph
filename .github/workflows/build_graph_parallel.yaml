@@ -185,6 +185,7 @@ jobs:
 
 
   prepare_otp_graphs:
+    needs: ['download_and_prepare_osm', 'download_and_prepare_atoc_gtfs', 'download_and_prepare_bus_gtfs']
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
