@@ -220,37 +220,41 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: wales_ish.osm.pbf
-          path: output/wales_ish.osm.pbf
+          path: output
 
       - name: Download ATOC GTFS artifact
         uses: actions/download-artifact@v2
         with:
           name: atoc.walesish.gtfs.zip
-          path: output/atoc.walesish.gtfs.zip
+          path: output
 
       - name: Download Wales Bus GTFS artifact
         uses: actions/download-artifact@v2
         with:
           name: wales.bus.walesish.gtfs.zip
-          path: output/wales.bus.walesish.gtfs.zip
+          path: output
 
       - name: Download NW Bus GTFS artifact
         uses: actions/download-artifact@v2
         with:
           name: north_west.bus.walesish.gtfs.zip
-          path: output/north_west.bus.walesish.gtfs.zip
+          path: output
 
       - name: Download SW Bus GTFS artifact
         uses: actions/download-artifact@v2
         with:
           name: south_west.bus.walesish.gtfs.zip
-          path: output/south_west.bus.walesish.gtfs.zip
+          path: output
 
       - name: Download WM Bus GTFS artifact
         uses: actions/download-artifact@v2
         with:
           name: west_midlands.bus.walesish.gtfs.zip
-          path: output/west_midlands.bus.walesish.gtfs.zip
+          path: output
+
+      - name: Display structure of output dir
+        run: ls -R
+        working-directory: output
 
       - name: Install Java 11
         uses: actions/setup-java@v2
