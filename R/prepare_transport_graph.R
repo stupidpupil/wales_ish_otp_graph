@@ -1,3 +1,3 @@
 prepare_transport_graph <- function(){
-  system("java -Xmx24G -jar data-raw/otp.jar --loadStreet --save output")
+  system(paste0(java_command(), " -jar data-raw/otp.jar --loadStreet --save output"))
 }

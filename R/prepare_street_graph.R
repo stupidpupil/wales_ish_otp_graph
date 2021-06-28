@@ -1,3 +1,3 @@
 prepare_street_graph <- function(){
-  system("java -Xmx24G -jar data-raw/otp.jar --buildStreet output")
+  system(paste0(java_command(), " -jar data-raw/otp.jar --buildStreet output"))
 }
