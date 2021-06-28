@@ -5,7 +5,10 @@ output:
     toc: true
     theme: united
   md_document:
-    variant: gfm
+    variant: gfm-yaml_metadata_block
+    preserve_yaml: false
+    toc: false
+    pandoc_args: ["--wrap=preserve"]
 ---
 
 You can [download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest).
