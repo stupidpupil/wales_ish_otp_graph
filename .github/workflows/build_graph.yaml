@@ -9,7 +9,7 @@ jobs:
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
       ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
       TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
-      TNDS_PASSWORD: ${{ secrets.TNDS_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
     steps:
       - uses: actions/checkout@v2
 
@@ -51,8 +51,6 @@ jobs:
               tnds_username: !expr Sys.getenv("TNDS_USERNAME")
               tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
             
-          trying_to_force: an empty line
-
       - name: Download and prepare OSM
         run: |
           devtools::load_all()
