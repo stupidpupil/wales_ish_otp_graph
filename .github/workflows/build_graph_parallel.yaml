@@ -257,29 +257,29 @@ jobs:
           distribution: 'adopt' # See 'Supported distributions' for available options
           java-version: '11'
 
-        - name: Prepare street graph
-          run: |
-            devtools::load_all()
-            download_otp()
-            prepare_street_graph()
-          shell: Rscript {0}
+      - name: Prepare street graph
+        run: |
+          devtools::load_all()
+          download_otp()
+          prepare_street_graph()
+        shell: Rscript {0}
 
-        - name: Upload street graph artifact
-          uses: actions/upload-artifact@v2
-          with:
-            name: streetGraph.obj
-            path: output/streetGraph.obj
-            if-no-files-found: error
+      - name: Upload street graph artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: streetGraph.obj
+          path: output/streetGraph.obj
+          if-no-files-found: error
 
-        - name: Prepare transport graph
-          run: |
-            devtools::load_all()
-            prepare_transport_graph()
-          shell: Rscript {0}
+      - name: Prepare transport graph
+        run: |
+          devtools::load_all()
+          prepare_transport_graph()
+        shell: Rscript {0}
 
-        - name: Upload transport graph artifact
-          uses: actions/upload-artifact@v2
-          with:
-            name: graph.obj
-            path: output/graph.obj
-            if-no-files-found: error
+      - name: Upload transport graph artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: graph.obj
+          path: output/graph.obj
+          if-no-files-found: error
