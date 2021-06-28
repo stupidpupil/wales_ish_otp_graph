@@ -120,6 +120,12 @@ jobs:
           path: output/south_west.bus.walesish.gtfs.zip
           if-no-files-found: error
 
+      - name: Install Java 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt' # See 'Supported distributions' for available options
+          java-version: '11'
+
       - name: Prepare street graph
         run: |
           devtools::load_all()
