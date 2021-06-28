@@ -59,7 +59,7 @@ jobs:
               atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
               tnds_username: !expr Sys.getenv("TNDS_USERNAME")
               tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-              
+
 
       - name: Download and prepare OSM
         run: |
@@ -88,4 +88,75 @@ jobs:
           name: atoc.walesish.gtfs.zip
           path: output/atoc.walesish.gtfs.zip
           if-no-files-found: error
+
+      - name: Download and prepare TNDS GTFS
+        run: |
+          devtools::load_all()
+          download_tnds()
+          prepare_tnds_gtfs()
+        shell: Rscript {0}
+
+      - name: Upload TNDS GTFS artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: wales.bus.walesish.gtfs.zip
+          path: output/wales.bus.walesish.gtfs.zip
+          if-no-files-found: error
+
+      - name: Download and prepare BODS GTFS
+        run: |
+          devtools::load_all()
+          download_and_prepare_bus_gtfs()
+        shell: Rscript {0}
+
+      - name: Upload BODS GTFS WM artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: west_midlands.bus.walesish.gtfs.zip
+          path: output/west_midlands.bus.walesish.gtfs.zip
+          if-no-files-found: error
+
+      - name: Upload BODS GTFS NW artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: north_west.bus.walesish.gtfs.zip
+          path: output/north_west.bus.walesish.gtfs.zip
+          if-no-files-found: error
+
+      - name: Upload BODS GTFS SW artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: south_west.bus.walesish.gtfs.zip
+          path: output/south_west.bus.walesish.gtfs.zip
+          if-no-files-found: error
+
+      - name: Prepare street graph
+        run: |
+          devtools::load_all()
+          download_otp()
+          prepare_street_graph()
+        shell: Rscript {0}
+
+      - name: Upload street graph artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: streetGraph.obj
+          path: output/streetGraph.obj
+          if-no-files-found: error
+
+      - name: Prepare transport graph
+        run: |
+          devtools::load_all()
+          download_otp()
+          prepare_street_graph()
+        shell: Rscript {0}
+
+      - name: Upload transport graph artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: graph.obj
+          path: output/graph.obj
+          if-no-files-found: error
+          
+
 
