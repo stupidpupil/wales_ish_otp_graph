@@ -288,3 +288,44 @@ jobs:
           name: graph.obj
           path: output/graph.obj
           if-no-files-found: error
+
+      - name: Prepare Graph Readme
+        run: |
+          devtools::load_all()
+          prepare_readme()
+        shell: Rscript {0}
+
+
+      - name: Checkout graph-releases branch
+        uses: actions/checkout@v2
+        with:
+          ref: graph-releases
+          path: graph-releases
+
+      - name: Copy READMEs and Commit
+        run: |
+          cd graph-releases
+          cp ../output/output_readme.html index.html
+          cp ../output/output_readme.md README.md
+          git config user.name "Graph Release Bot"
+          git config user.email "<>"
+          git add .
+          git commit -m "Updated for new release"
+          git push origin graph-releases
+          cd ..
+
+      - name: Get timestamp for release
+        id: timestamp
+        env:
+          TZ: Europe/London
+        run: echo "::set-output name=timestamp::$(date +'%Y-%m-%dT%H-%M-%S')"
+
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "data-raw/otp.jar,output/graph.obj"
+          bodyFile: "output/output_readme.md"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit: graph-releases
+          tag: ${{ steps.timestamp.outputs.timestamp }}
+
+
