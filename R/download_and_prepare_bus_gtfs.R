@@ -10,6 +10,13 @@ download_and_prepare_bus_gtfs <- function(){
     dest_path <- paste0("data-raw/", r, ".bus.gtfs.zip")
     download.file(bus_url, dest_path)
 
+    toJSON(pretty = TRUE, auto_unbox = TRUE, list(
+      SourceUrl = bus_url,
+      SourceDownloadedAt = now() %>% format_ISO8601(usetz=TRUE),
+      SourceLicence = "OGL-UK-3.0",
+      SourceAttribution = "UK Department for Transport"
+    )) %>% write(paste0(dest_path, "meta.json"))
+
     print(paste0("Preparing bus data for ", r, "…"))
     gtfs <- better_gtfs_read(dest_path)
     gtfs <- gtfs %>% gtfs_wales_ish_ify()

@@ -15,6 +15,7 @@ Depends:
   rvest,
   rmarkdown,
   processx,
-  jsonlite
+  jsonlite,
+  lubridate
 Remotes:
     ITSLeeds/UK2GTFS

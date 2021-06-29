@@ -13,6 +13,13 @@ download_atoc <- function(){
 
   atoc_session <- atoc_session %>% rvest::session_jump_to(atoc_download_url)
 
-  writeBin(atoc_session$response$content, "data-raw/atoc.zip") 
+  writeBin(atoc_session$response$content, "data-raw/atoc.zip")
+
+  toJSON(pretty = TRUE, auto_unbox = TRUE, list(
+    SourceUrl = atoc_download_url,
+    SourceDownloadedAt = now() %>% format_ISO8601(usetz=TRUE),
+    SourceLicence = "CC-BY-2.0",
+    SourceAttribution = "RSP Limited (Rail Delivery Group)"
+  )) %>% write("data-raw/atoc.zip.meta.json")
 
 }
