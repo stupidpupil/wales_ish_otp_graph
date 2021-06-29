@@ -89,4 +89,6 @@ pretty_wales_ish_map <- function(){
 
 prepare_pretty_wales_ish_map <- function(){
   ggsave(plot=pretty_wales_ish_map(), filename="output/map.png", width=440/72, height=490/72, units="in", dpi=72)
+  ggsave(plot=pretty_wales_ish_map(), filename="output/map.2x.png", width=440/72, height=490/72, units="in", dpi=144)
+  ggsave(plot=pretty_wales_ish_map(), filename="output/map.4x.png", width=440/72, height=490/72, units="in", dpi=288)
 }
