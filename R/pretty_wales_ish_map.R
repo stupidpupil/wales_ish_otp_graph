@@ -42,15 +42,14 @@ pretty_wales_ish_map <- function(){
     mutate(route_id = paste0(filename, "-", route_id)) %>%
     group_by(route_id, trip_id) %>% mutate(trip_n = n()) %>% ungroup() %>%
     arrange(route_id, -trip_n, trip_id, stop_sequence) %>% 
-    group_by(route_id) %>% filter(trip_id == first(trip_id)) %>% ungroup() %>%
-    filter(!(filename %>% str_detect("ncsd"))) 
-
-  # Exclude National Coaches from the map, 
-  # because they're not very aesthetically pleasing!
+    group_by(route_id) %>% filter(trip_id == first(trip_id)) %>% ungroup()
 
   plot_map <- ggplot(tibble(), aes(x=stop_lon, y=stop_lat, group=route_id)) + 
-    geom_path(data = crude_routes,
+    geom_path(data = crude_routes %>% filter(!(route_type %in% c(4, 200:299))),
       colour = '#bbbbbb', size=0.2
+    ) +
+    geom_path(data = crude_routes %>% filter(route_type %in% c(4, 1502, 1200:1299)),
+      colour = '#7ebdbc', linetype=2
     ) +
     geom_path(data = crude_routes %>% 
         filter(filename %>% str_detect("atoc")) %>% 
