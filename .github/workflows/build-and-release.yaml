@@ -153,11 +153,18 @@ jobs:
           prepare_tnds_gtfs()
         shell: Rscript {0}
 
-      - name: Upload TNDS GTFS artifact
+      - name: Upload Wales TNDS GTFS artifact
         uses: actions/upload-artifact@v2
         with:
           name: wales.bus.walesish.gtfs.zip
           path: output/wales.bus.walesish.gtfs.zip
+          if-no-files-found: error
+
+      - name: Upload NCSD TNDS GTFS artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ncsd.bus.walesish.gtfs.zip
+          path: output/ncsd.bus.walesish.gtfs.zip
           if-no-files-found: error
 
       - name: Download and prepare BODS GTFS
@@ -236,6 +243,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: wales.bus.walesish.gtfs.zip
+          path: output
+
+      - name: Download NCSD Bus GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ncsd.bus.walesish.gtfs.zip
           path: output
 
       - name: Download NW Bus GTFS artifact
