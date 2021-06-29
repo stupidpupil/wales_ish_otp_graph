@@ -301,6 +301,19 @@ jobs:
           prepare_readme()
         shell: Rscript {0}
 
+      - name: Upload test journeys artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: test_journeys.obj
+          path: output/test_journeys.obj
+          if-no-files-found: error
+
+      - name: Upload map artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: map.png
+          path: output/map.png
+          if-no-files-found: error
 
       - name: Checkout graph-releases branch
         uses: actions/checkout@v2
