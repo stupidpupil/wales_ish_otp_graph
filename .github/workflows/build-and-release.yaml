@@ -293,10 +293,11 @@ jobs:
           path: output/graph.obj
           if-no-files-found: error
 
-      - name: Prepare Graph Map and Read Me
+      - name: Prepare map, test journeys, and readme
         run: |
           devtools::load_all()
           prepare_pretty_wales_ish_map()
+
           prepare_readme()
         shell: Rscript {0}
 
@@ -311,6 +312,7 @@ jobs:
         run: |
           cd graph-releases
           cp ../output/map.png map.png
+          cp ../output/test_journeys.csv test_journeys.csv
           cp ../output/output_readme.html index.html
           cp ../output/output_readme.md README.md
           git config user.name "Graph Release Bot"
