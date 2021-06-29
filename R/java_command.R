@@ -1,5 +1,9 @@
+java_args = function(){
+  c("--add-opens", "java.base/java.io=ALL-UNNAMED", "--add-opens", "java.base/java.util=ALL-UNNAMED", "-Xmx8g")
+}
+
 java_command = function(){
-  "java --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED -Xmx8g"
+  paste0("java ", paste(java_args(), collapse=" "))
 }
 
 java_version = function(){

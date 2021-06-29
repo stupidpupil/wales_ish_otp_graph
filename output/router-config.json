@@ -1,0 +1,13 @@
+{
+  "routingDefaults": {
+    "maxTransfers": 20,
+    "maxDirectStreetDurationSeconds": 43200
+  },
+  "streetRoutingTimeout":60,
+  "transit": {
+    "dynamicSearchWindow": {
+      "minWinTimeMinutes":  240,
+      "maxWinTimeMinutes": 1440
+    }
+  }
+}
