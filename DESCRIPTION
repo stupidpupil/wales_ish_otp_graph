@@ -13,6 +13,8 @@ Depends:
   UK2GTFS,
   config,
   rvest,
-  rmarkdown
+  rmarkdown,
+  processx,
+  jsonlite
 Remotes:
     ITSLeeds/UK2GTFS

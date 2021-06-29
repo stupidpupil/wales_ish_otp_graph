@@ -297,7 +297,7 @@ jobs:
         run: |
           devtools::load_all()
           prepare_pretty_wales_ish_map()
-
+          prepare_test_journeys()
           prepare_readme()
         shell: Rscript {0}
 
