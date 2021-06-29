@@ -5,8 +5,6 @@ prepare_tnds_gtfs <- function(){
   gtfs <- gtfs %>% gtfs_wales_ish_ify()
   gtfs %>% gtfs_write(folder="output", name="wales.bus.walesish.gtfs")
 
-
-
   # NCSD TXC stuff is buried within the zip
   unlink("data-raw/ncsd.bus.tnds", recursive=TRUE)
   unzip("data-raw/ncsd.bus.tnds.zip", exdir="data-raw/ncsd.bus.tnds")
@@ -16,6 +14,7 @@ prepare_tnds_gtfs <- function(){
     try_mode=TRUE, scotland="no")
 
   gtfs <- gtfs %>% gtfs_wales_ish_ify()
+  gtfs$routes$route_type = 202
   gtfs %>% gtfs_write(folder="output", name="ncsd.bus.walesish.gtfs")
   unlink("data-raw/ncsd.bus.tnds", recursive=TRUE)
 }
