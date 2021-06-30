@@ -48,7 +48,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: wales_ish.osm.pbf
-          path: output/wales_ish.osm.pbf
+          path: output/wales_ish.osm.pbf*
           if-no-files-found: error
 
   download_and_prepare_atoc_gtfs:
@@ -101,7 +101,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: atoc.walesish.gtfs.zip
-          path: output/atoc.walesish.gtfs.zip
+          path: output/atoc.walesish.gtfs.zip*
           if-no-files-found: error
 
   download_and_prepare_bus_gtfs:
@@ -157,14 +157,14 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: wales.bus.walesish.gtfs.zip
-          path: output/wales.bus.walesish.gtfs.zip
+          path: output/wales.bus.walesish.gtfs.zip*
           if-no-files-found: error
 
       - name: Upload NCSD TNDS GTFS artifact
         uses: actions/upload-artifact@v2
         with:
           name: ncsd.bus.walesish.gtfs.zip
-          path: output/ncsd.bus.walesish.gtfs.zip
+          path: output/ncsd.bus.walesish.gtfs.zip*
           if-no-files-found: error
 
       - name: Download and prepare BODS GTFS
@@ -177,21 +177,21 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: west_midlands.bus.walesish.gtfs.zip
-          path: output/west_midlands.bus.walesish.gtfs.zip
+          path: output/west_midlands.bus.walesish.gtfs.zip*
           if-no-files-found: error
 
       - name: Upload BODS GTFS NW artifact
         uses: actions/upload-artifact@v2
         with:
           name: north_west.bus.walesish.gtfs.zip
-          path: output/north_west.bus.walesish.gtfs.zip
+          path: output/north_west.bus.walesish.gtfs.zip*
           if-no-files-found: error
 
       - name: Upload BODS GTFS SW artifact
         uses: actions/upload-artifact@v2
         with:
           name: south_west.bus.walesish.gtfs.zip
-          path: output/south_west.bus.walesish.gtfs.zip
+          path: output/south_west.bus.walesish.gtfs.zip*
           if-no-files-found: error
 
 
@@ -337,6 +337,9 @@ jobs:
       - name: Copy READMEs and Commit
         run: |
           cd graph-releases
+          rm -rf file_metadata
+          mkdir file_metadata
+          cp ../output/*.meta.json file_metadata/
           cp ../output/map.png map.png
           cp ../output/test_journeys.csv test_journeys.csv
           cp ../output/output_readme.html index.html
