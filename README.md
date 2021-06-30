@@ -11,7 +11,7 @@ This is a bunch to scripts to help assemble OpenTripPlanner graphs that are usea
 - Downloads Welsh bus etc. data from Traveline (requires registration)
 - Download heavy rail CIF from data.atoc.org (requires registration)
 - Creates extracts of street and public transport data covering Wales and strip of the borders
-- Covers Chester, Liverpool, Shrewsbury, Hereford, Bristol, Gloucester
+- Covers Chester, Crewe, Liverpool, Shrewsbury, Hereford, Bristol, Gloucester
 - Doesn't cover Wolverhampton, Birmingham or most of Manchester
 
 ## Requirements
