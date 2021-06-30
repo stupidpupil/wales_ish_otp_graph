@@ -6,7 +6,7 @@ pretty_wales_ish_map <- function(){
   agencies <- tibble()
   routes <- tibble()
 
-  for(fn in dir("output", ".gtfs.zip")){
+  for(fn in list.files("output", "\\.gtfs\\.zip$")){
     gtfs <- better_gtfs_read(paste0("output/", fn))
 
     stops <- stops %>% bind_rows(
