@@ -318,14 +318,14 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: test_journeys.obj
-          path: output/test_journeys.obj
+          path: output/test_journeys.csv
           if-no-files-found: error
 
       - name: Upload map artifact
         uses: actions/upload-artifact@v2
         with:
           name: map.png
-          path: output/map.png
+          path: output/map.png*
           if-no-files-found: error
 
       - name: Checkout graph-releases branch
