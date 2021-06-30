@@ -12,17 +12,22 @@ download_and_prepare_osm <- function(){
     SourceAttribution = "OpenStreetMap contributors"
   )) %>% write(paste0(dest_path, "meta.json"))
 
-  bbox_string <- paste0(wales_ish_bounding_box %>% rev() %>% unlist() %>% rev(), collapse=",")
-
   osmium_command = paste0(
     "osmium extract -b ",
-    bbox_string,
+    wales_ish_bounding_box_string,
     " -s smart ",
     dest_path,
     " -o output/wales_ish.osm.pbf"
   )
 
   system(osmium_command)
+
+  list(
+    CreatedAt = now() %>% format_ISO8601(usetz=TRUE),
+    MaxSpatialExtent = wales_ish_bounding_box_string,
+    DerivedFrom = I(describe_file(dest_path))
+  ) %>% toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
+  write(paste0("output/wales_ish.osm.pbf.meta.json"))
 
 }
 

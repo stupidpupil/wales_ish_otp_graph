@@ -21,6 +21,14 @@ download_and_prepare_bus_gtfs <- function(){
     gtfs <- better_gtfs_read(dest_path)
     gtfs <- gtfs %>% gtfs_wales_ish_ify()
     gtfs %>% gtfs_write(folder="output", name=paste0(r, ".bus.walesish.gtfs"))
+
+    list(
+      CreatedAt = now() %>% format_ISO8601(usetz=TRUE),
+      MaxSpatialExtent = wales_ish_bounding_box_string,
+      DerivedFrom = I(describe_file(dest_path))
+    ) %>% toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
+    write(paste0("output/", r, ".bus.walesish.gtfs.zip.meta.json"))
+
   }
 
 }
