@@ -30,7 +30,7 @@ prepare_tnds_gtfs <- function(){
     MaxSpatialExtent = wales_ish_bounding_box_string,
     DerivedFrom = I(describe_file("data-raw/ncsd.bus.tnds.zip"))
   ) %>% toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
-  write(paste0("output/ncsd.bus.tnds.zip.meta.json"))
+  write(paste0("output/ncsd.bus.walesish.gtfs.zip.meta.json"))
 
 }
 

@@ -10,7 +10,7 @@ download_and_prepare_osm <- function(){
     SourceDownloadedAt = now() %>% format_ISO8601(usetz=TRUE),
     SourceLicence = "ODbL-1.0",
     SourceAttribution = "OpenStreetMap contributors"
-  )) %>% write(paste0(dest_path, "meta.json"))
+  )) %>% write(paste0(dest_path, ".meta.json"))
 
   osmium_command = paste0(
     "osmium extract -b ",

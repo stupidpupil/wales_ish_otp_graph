@@ -15,7 +15,7 @@ download_and_prepare_bus_gtfs <- function(){
       SourceDownloadedAt = now() %>% format_ISO8601(usetz=TRUE),
       SourceLicence = "OGL-UK-3.0",
       SourceAttribution = "UK Department for Transport"
-    )) %>% write(paste0(dest_path, "meta.json"))
+    )) %>% write(paste0(dest_path, ".meta.json"))
 
     print(paste0("Preparing bus data for ", r, "…"))
     gtfs <- better_gtfs_read(dest_path)
