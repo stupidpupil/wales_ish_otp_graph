@@ -359,6 +359,7 @@ pre code {
 
 <div id="TOC">
 <ul>
+<li><a href="#how-to-use-this">How to use this</a></li>
 <li><a href="#update">Update</a></li>
 <li><a href="#license">License</a></li>
 <li><a href="#test-journeys">Test Journeys</a></li>
@@ -368,12 +369,17 @@ pre code {
 <p><img src="map.png" data-external="1" style="float:right;" /></p>
 <p>This is an OpenTripPlanner graph for planning trips, by car or public transport, between places in Wales - including where these trips involve a short journey entirely within England. (It likely also works well enough for planning trips between places in Wales and a small number of English towns just the other side of the border.)</p>
 <p>The map shows bus and train routes included in the latest graph, giving a rough idea of the region included.</p>
-<p>You can <a href="https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest">download the latest release of the Wales-ish OTP graph here</a>.</p>
-<p>You can <a href="https://github.com/stupidpupil/wales_ish_otp_graph">see the scripts used to download source data and generate this graph here</a>. These depend enormously on the <a href="https://itsleeds.github.io/UK2GTFS/">UK2GTFS R package</a> and the <a href="https://osmcode.org/osmium-tool/">Osmium tool</a>.</p>
+<div id="how-to-use-this" class="section level2">
+<h2>How to use this</h2>
+<p><a href="https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest">Download the latest release of the Wales-ish OTP graph here</a>. You’ll need to download both the <em>otp.jar</em> and <em>graph.obj</em> files and put them in same place.</p>
+<p>You can then start OpenTripPlanner with the following command: <code style="white-space:normal;">java --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED -Xmx8g -jar otp.jar --load .</code> Eventually it’ll print “Started listener bound to [0.0.0.0:8080]” and you’ll be able to access the planner at <code>http://localhost:8080</code> .</p>
+<p>(You’ll need <a href="https://adoptopenjdk.net/">Java 11 or later</a>. See the <a href="http://docs.opentripplanner.org/en/latest/">OTP documentation</a> for more information.)</p>
+</div>
 <div id="update" class="section level2">
 <h2>Update</h2>
-<p>The graph file was last updated at 02:17 BST on 29 June 2021.</p>
+<p>The graph file was last updated at 03:22 BST on 30 June 2021.</p>
 <p>It was prepared using the following version of OpenTripPlanner - <code style="white-space:normal;">2.1.0-SNAPSHOT, ser.ver.id: 8, commit: 6aebf2927b11be1f005c8db1041e66a2d8e884ec, branch: dev-2.x</code> - running on the following version of Java - <code>openjdk 11.0.11 2021-04-20</code>.</p>
+<p>You can <a href="https://github.com/stupidpupil/wales_ish_otp_graph">see the scripts used to download source data and generate this graph here</a>. These depend enormously on the <a href="https://itsleeds.github.io/UK2GTFS/">UK2GTFS R package</a> and the <a href="https://osmcode.org/osmium-tool/">Osmium tool</a>.</p>
 </div>
 <div id="license" class="section level2">
 <h2>License</h2>
@@ -407,7 +413,7 @@ pre code {
 </tr>
 <tr class="even">
 <td align="left">Bala to Cardiff</td>
-<td align="left">3h52m</td>
+<td align="left">3h46m</td>
 <td align="left">5h23m</td>
 </tr>
 <tr class="odd">
@@ -417,7 +423,7 @@ pre code {
 </tr>
 <tr class="even">
 <td align="left">Cardiff to Bala</td>
-<td align="left">3h57m</td>
+<td align="left">3h46m</td>
 <td align="left">5h 6m</td>
 </tr>
 <tr class="odd">
@@ -432,7 +438,7 @@ pre code {
 </tr>
 <tr class="odd">
 <td align="left">Chirk to Walton</td>
-<td align="left">1h32m</td>
+<td align="left">1h29m</td>
 <td align="left">3h32m</td>
 </tr>
 <tr class="even">

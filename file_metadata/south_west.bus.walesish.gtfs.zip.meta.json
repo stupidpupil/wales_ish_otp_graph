@@ -1,0 +1,8 @@
+{
+  "CreatedAt": "2021-06-30T02:06:51+0000",
+  "MaxSpatialExtent": "-5.4672,51.3431,-2.1742,53.4761",
+  "DerivedFrom": {
+    "Filename": "south_west.bus.gtfs.zip",
+    "SizeBytes": 84760600
+  }
+}
