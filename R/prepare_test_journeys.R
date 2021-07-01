@@ -37,7 +37,7 @@ prepare_test_journeys <- function(){
       "&date=",when %>% strftime("%Y-%m-%d"),
       "&mode=", mode, 
       "&maxWalkDistance=", 5000.0, 
-      "&arriveBy=false&wheelchair=false&debugItineraryFilter=false&locale=en&maxItineraries=1")
+      "&arriveBy=false&wheelchair=false&debugItineraryFilter=false&locale=en&maxItineraries=2")
   }
 
 
@@ -56,7 +56,17 @@ prepare_test_journeys <- function(){
 
   try_to_get_duration <- function(otp_response_json){
     tryCatch({
-      return(otp_response_json$plan$itineraries[[1, 'duration']])
+      itineraries_i <- 1
+
+      itineraries <- otp_response_json$plan$itineraries
+
+      if(nrow(itineraries) > 1){ # Workaround for OTP issue #3289
+        if(itineraries[[2, 'duration']] < itineraries[[1, 'duration']]){
+          itineraries_i <- 2
+        }
+      }
+
+      return(itineraries[[itineraries_i, 'duration']])
     }, error=function(err){})
     return(NA_integer_)
   }
