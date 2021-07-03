@@ -364,10 +364,85 @@ jobs:
           path: output/map.png*
           if-no-files-found: error
 
-  prepare_otp_graphs:
+
+  prepare_street_graph:
+    needs: ['download_and_prepare_osm']
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@v1
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Restore R package cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install dependencies
+        run: |
+          install.packages(c("devtools"))
+          devtools::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+
+      - name: Download OTP
+        run: |
+          devtools::load_all()
+          download_otp()
+        shell: Rscript {0}
+
+      - name: Download OSM artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: wales_ish.osm.pbf
+          path: output
+
+      - name: Cache street graph
+        id: cache_street_graph
+        uses: actions/cache@v2
+        with:
+          path: output/streetGraph.obj*
+          key: ${{ hashFiles('data-raw/*.jar', 'output/wales_ish.osm*', 'R/java*', 'R/*street_graph*') }}
+
+      - name: Install Java 11
+        if: steps.cache_street_graph.outputs.cache-hit != 'true'
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt' # See 'Supported distributions' for available options
+          java-version: '11'
+
+      - name: Prepare street graph
+        if: steps.cache_street_graph.outputs.cache-hit != 'true'
+        run: |
+          devtools::load_all()
+          prepare_street_graph()
+        shell: Rscript {0}
+
+      - name: Upload street graph artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: streetGraph.obj
+          path: output/streetGraph.obj
+          if-no-files-found: error
+
+
+  prepare_final_graph_and_release:
     needs: [
       'prepare_pretty_map',
-      'download_and_prepare_osm', 
+      'download_and_prepare_osm',
+      'prepare_street_graph', 
       'download_and_prepare_atoc_gtfs', 
       'download_and_prepare_bods_gtfs', 
       'download_and_prepare_tnds_gtfs']
@@ -443,29 +518,21 @@ jobs:
           name: west_midlands.bus.walesish.gtfs.zip
           path: output
 
+      - name: Download street graph artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: output/streetGraph.obj
+          path: output
+
       - name: Display structure of output dir
         run: ls -R
         working-directory: output
 
-      - name: Install Java 11
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt' # See 'Supported distributions' for available options
-          java-version: '11'
-
-      - name: Prepare street graph
+      - name: Download OTP
         run: |
           devtools::load_all()
           download_otp()
-          prepare_street_graph()
         shell: Rscript {0}
-
-      - name: Upload street graph artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: streetGraph.obj
-          path: output/streetGraph.obj
-          if-no-files-found: error
 
       - name: Prepare transport graph
         run: |
