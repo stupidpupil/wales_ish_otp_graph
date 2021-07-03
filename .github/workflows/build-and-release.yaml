@@ -558,8 +558,7 @@ jobs:
   release:
     needs: [
       'prepare_pretty_map',
-      'prepare_final_graph',
-      'prepare_street_graph']
+      'prepare_final_graph']
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
