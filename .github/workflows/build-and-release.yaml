@@ -25,7 +25,7 @@ jobs:
         with:
           path: |
             output/*osm*
-        key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('R/*osm*', 'R/*bound*') }}
+          key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('R/*osm*', 'R/*bound*') }}
 
       - name: Query dependencies
         if: steps.cache_osm.outputs.cache-hit != 'true'
@@ -121,7 +121,7 @@ jobs:
         with:
           path: |
             output/*atoc*gtfs*
-        key: ${{ steps.atoc_url.outputs.url }}-${{ hashFiles('R/*atoc*', 'R/*bound*', 'R/gtfs*') }}
+          key: ${{ steps.atoc_url.outputs.url }}-${{ hashFiles('R/*atoc*', 'R/*bound*', 'R/gtfs*') }}
 
       - name: Download and prepare ATOC GTFS
         if: steps.cache_atoc.outputs.cache-hit != 'true'
