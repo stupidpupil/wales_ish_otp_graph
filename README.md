@@ -15,7 +15,7 @@ You can then start OpenTripPlanner with the following command:
 
 ## Update
 
-The graph file was last updated at 13:02 BST on 03 July 2021.
+The graph file was last updated at 17:39 BST on 03 July 2021.
 
 It was prepared using the following version of OpenTripPlanner - `2.1.0-SNAPSHOT, ser.ver.id: 8, commit: 6aebf2927b11be1f005c8db1041e66a2d8e884ec, branch: dev-2.x` - running on the following version of Java - `openjdk 11.0.11 2021-04-20`.
 
@@ -39,7 +39,7 @@ If you provide a routing service or similar using the graph file you should make
 
 ## Test Journeys
 
-A small number of journeys, departing on the next Tuesday morning, are tested every time that the graph is built. The results from the latest update of the graph are shown below.
+A small number of journeys, departing on Tuesday morning the following week, are tested every time that the graph is built. The results from the latest update of the graph are shown below.
 
 | Description                    | Car   | Public |
 | :----------------------------- | :---- | :----- |
