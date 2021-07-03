@@ -15,7 +15,7 @@ You can then start OpenTripPlanner with the following command:
 
 ## Update
 
-The graph file was last updated at 17:39 BST on 03 July 2021.
+The graph file was last updated at 18:25 BST on 03 July 2021.
 
 It was prepared using the following version of OpenTripPlanner - `2.1.0-SNAPSHOT, ser.ver.id: 8, commit: 6aebf2927b11be1f005c8db1041e66a2d8e884ec, branch: dev-2.x` - running on the following version of Java - `openjdk 11.0.11 2021-04-20`.
 
@@ -43,20 +43,20 @@ A small number of journeys, departing on Tuesday morning the following week, are
 
 | Description                    | Car   | Public |
 | :----------------------------- | :---- | :----- |
-| Abergavenny to Pontypridd      | 0h43m | 2h 3m  |
-| Bala to Cardiff                | 3h46m | 5h39m  |
-| Bangor Pier to Great Orme      | 0h50m | 1h33m  |
-| Caerphilly to Cwmafan          | 0h48m | 1h51m  |
-| Cardiff to Bala                | 3h46m | 4h16m  |
+| Abergavenny to Pontypridd      | 0h43m | 1h42m  |
+| Bala to Cardiff                | 3h46m | 5h23m  |
+| Bangor Pier to Great Orme      | 0h50m | 1h25m  |
+| Caerphilly to Cwmafan          | 0h48m | 1h27m  |
+| Cardiff to Bala                | 3h46m | 4h53m  |
 | Cardiff to Sheffield           | N/A   | N/A    |
-| Cardigan to Trawsfynydd        | 3h 2m | N/A    |
-| Chirk to Walton                | 1h29m | N/A    |
-| Grangetown Library to UHW A\&E | 0h21m | 0h46m  |
-| Lampeter to Llandovery         | 0h30m | 4h54m  |
-| Llangollen to Ruthin           | 0h29m | 4h30m  |
-| Merthyr to Cardiff             | 0h46m | 1h10m  |
-| Rhosllanerchrugog to Denbigh   | 1h 2m | 3h18m  |
-| Swansea to Bargoed             | 1h13m | 2h12m  |
-| Swansea to Wrexham             | 3h42m | 4h 7m  |
-| Treharris to Gellideg          | 0h19m | 0h58m  |
-| Whitland to Cardigan           | 0h44m | 7h 3m  |
+| Cardigan to Trawsfynydd        | 3h 2m | 3h33m  |
+| Chirk to Walton                | 1h29m | 3h32m  |
+| Grangetown Library to UHW A\&E | 0h21m | 0h38m  |
+| Lampeter to Llandovery         | 0h30m | 3h10m  |
+| Llangollen to Ruthin           | 0h29m | 1h11m  |
+| Merthyr to Cardiff             | 0h46m | 1h 7m  |
+| Rhosllanerchrugog to Denbigh   | 1h 2m | 1h52m  |
+| Swansea to Bargoed             | 1h13m | 1h57m  |
+| Swansea to Wrexham             | 3h42m | 4h29m  |
+| Treharris to Gellideg          | 0h19m | 0h43m  |
+| Whitland to Cardigan           | 0h44m | 2h 1m  |
