@@ -108,7 +108,23 @@ jobs:
               atoc_username: !expr Sys.getenv("ATOC_USERNAME")
               atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
 
+      - name: Get ATOC URL
+        id: atoc_url
+        run: |
+          devtools::load_all()
+          cat(paste0("::set-output name=url::", get_atoc_download_url(),"\n"))
+        shell: Rscript {0}
+
+      - name: Cache ATOC
+        id: cache_atoc
+        uses: actions/cache@v2
+        with:
+          path: |
+            output/*atoc*gtfs*
+        key: ${{ steps.atoc_url.outputs.url }}-${{ hashFiles('R/*atoc*', 'R/*bound*', 'R/gtfs*') }}
+
       - name: Download and prepare ATOC GTFS
+        if: steps.cache_atoc.outputs.cache-hit != 'true'
         run: |
           devtools::load_all()
           download_atoc()
