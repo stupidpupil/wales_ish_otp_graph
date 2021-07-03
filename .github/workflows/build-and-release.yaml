@@ -284,7 +284,7 @@ jobs:
           if-no-files-found: error
 
 
-  create_pretty_map:
+  prepare_pretty_map:
     needs: [
       'download_and_prepare_atoc_gtfs', 
       'download_and_prepare_bods_gtfs', 
@@ -366,6 +366,7 @@ jobs:
 
   prepare_otp_graphs:
     needs: [
+      'prepare_pretty_map',
       'download_and_prepare_osm', 
       'download_and_prepare_atoc_gtfs', 
       'download_and_prepare_bods_gtfs', 
