@@ -140,12 +140,95 @@ jobs:
           path: output/atoc.walesish.gtfs.zip*
           if-no-files-found: error
 
-  download_and_prepare_bus_gtfs:
+  download_and_prepare_tnds_gtfs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
       TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get TNDS directory listing hash
+        id: tnds_dir_list_hash
+        run : |
+          echo "::set-output name=hash::$(curl ftp://$TNDS_USERNAME:$TNDS_PASSWORD@ftp.tnds.basemap.co.uk | md5)"
+
+      - name: Cache TNDS
+        id: cache_tnds
+        uses: actions/cache@v2
+        with:
+          path: |
+            output/wales.bus*
+            output/ncsd.bus*
+          key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/*bound*', 'R/gtfs*') }}
+
+      - uses: r-lib/actions/setup-r@v1
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+
+      - uses: r-lib/actions/setup-pandoc@v1
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+
+      - name: Query dependencies
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Restore R package cache
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install dependencies
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        run: |
+          install.packages(c("devtools"))
+          devtools::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+
+      - name: Write config.yml
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+              tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+              tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+            
+      - name: Download and prepare TNDS GTFS
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        run: |
+          devtools::load_all()
+          download_tnds()
+          prepare_tnds_gtfs()
+        shell: Rscript {0}
+
+      - name: Upload Wales TNDS GTFS artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: wales.bus.walesish.gtfs.zip
+          path: output/wales.bus.walesish.gtfs.zip*
+          if-no-files-found: error
+
+      - name: Upload NCSD TNDS GTFS artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ncsd.bus.walesish.gtfs.zip
+          path: output/ncsd.bus.walesish.gtfs.zip*
+          if-no-files-found: error
+
+
+  download_and_prepare_bods_gtfs:
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
 
@@ -172,36 +255,6 @@ jobs:
           install.packages(c("devtools"))
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}
-
-      - name: Write config.yml
-        uses: DamianReeves/write-file-action@v1.0
-        with:
-          path: ${{ github.workspace }}/config.yml
-          contents: |
-            default:
-              tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-              tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            
-      - name: Download and prepare TNDS GTFS
-        run: |
-          devtools::load_all()
-          download_tnds()
-          prepare_tnds_gtfs()
-        shell: Rscript {0}
-
-      - name: Upload Wales TNDS GTFS artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: wales.bus.walesish.gtfs.zip
-          path: output/wales.bus.walesish.gtfs.zip*
-          if-no-files-found: error
-
-      - name: Upload NCSD TNDS GTFS artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ncsd.bus.walesish.gtfs.zip
-          path: output/ncsd.bus.walesish.gtfs.zip*
-          if-no-files-found: error
 
       - name: Download and prepare BODS GTFS
         run: |
@@ -230,9 +283,12 @@ jobs:
           path: output/south_west.bus.walesish.gtfs.zip*
           if-no-files-found: error
 
-
   prepare_otp_graphs:
-    needs: ['download_and_prepare_osm', 'download_and_prepare_atoc_gtfs', 'download_and_prepare_bus_gtfs']
+    needs: [
+      'download_and_prepare_osm', 
+      'download_and_prepare_atoc_gtfs', 
+      'download_and_prepare_bods_gtfs', 
+      'download_and_prepare_tnds_gtfs']
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
