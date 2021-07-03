@@ -232,11 +232,26 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Get BODS index page hash
+        id: bods_index_page_hash
+        run : |
+          echo "::set-output name=hash::$(curl "https://data.bus-data.dft.gov.uk/timetable/download/" | md5)"
+
+      - name: Cache BODS
+        id: cache_bods
+        uses: actions/cache@v2
+        with:
+          path: output/*.bus.*
+          key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('R/*bus*', 'R/*bound*', 'R/*gtfs*') }}
+
       - uses: r-lib/actions/setup-r@v1
+        if: steps.cache_bods.outputs.cache-hit != 'true'
 
       - uses: r-lib/actions/setup-pandoc@v1
+        if: steps.cache_bods.outputs.cache-hit != 'true'
 
       - name: Query dependencies
+        if: steps.cache_bods.outputs.cache-hit != 'true'
         run: |
           install.packages('remotes')
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
@@ -244,6 +259,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Restore R package cache
+        if: steps.cache_bods.outputs.cache-hit != 'true'
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
@@ -251,12 +267,14 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
       - name: Install dependencies
+        if: steps.cache_bods.outputs.cache-hit != 'true'
         run: |
           install.packages(c("devtools"))
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
       - name: Download and prepare BODS GTFS
+        if: steps.cache_bods.outputs.cache-hit != 'true'
         run: |
           devtools::load_all()
           download_and_prepare_bus_gtfs()
