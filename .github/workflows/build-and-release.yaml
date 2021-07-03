@@ -541,7 +541,17 @@ jobs:
           download_otp()
         shell: Rscript {0}
 
+      - name: Cache transport graph
+        id: cache_transport_graph
+        uses: actions/cache@v2
+        with:
+          path: |
+            output/graph.obj*
+            output/*.meta.json
+          key: ${{ hashFiles('output/*', 'data-raw/*.jar', 'R/java*', 'R/*transport_graph*') }}
+
       - name: Prepare transport graph
+        if: steps.cache_transport_graph.outputs.cache-hit != 'true'
         run: |
           devtools::load_all()
           prepare_transport_graph()
@@ -560,7 +570,6 @@ jobs:
           name: meta.jsons
           path: output/*.meta.json
           if-no-files-found: error
-
 
   release:
     needs: [
