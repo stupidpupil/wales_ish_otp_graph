@@ -14,7 +14,21 @@ jobs:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@v1
 
+      - name: Get Geofabrik ETag
+        id: geofabrik_etag
+        run : |
+          echo "::set-output name=etag::$(curl -I "https://download.geofabrik.de/europe/great-britain-latest.osm.pbf" | grep "ETag")"
+
+      - name: Cache OSM
+        id: cache_osm
+        uses: actions/cache@v2
+        with:
+          path: |
+            output/*osm*
+        key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('R/*osm*', 'R/*bound*') }}
+
       - name: Query dependencies
+        if: steps.cache_osm.outputs.cache-hit != 'true'
         run: |
           install.packages('remotes')
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
@@ -22,6 +36,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Restore R package cache
+        if: steps.cache_osm.outputs.cache-hit != 'true'
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
@@ -29,15 +44,18 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
       - name: Install dependencies
+        if: steps.cache_osm.outputs.cache-hit != 'true'
         run: |
           install.packages(c("devtools"))
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
       - name: Install osmium
+        if: steps.cache_osm.outputs.cache-hit != 'true'
         run: brew install osmium-tool
             
       - name: Download and prepare OSM
+        if: steps.cache_osm.outputs.cache-hit != 'true'
         run: |
           devtools::load_all()
           options(timeout=240)
