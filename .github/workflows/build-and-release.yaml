@@ -523,7 +523,7 @@ jobs:
       - name: Download street graph artifact
         uses: actions/download-artifact@v2
         with:
-          name: output/streetGraph.obj
+          name: streetGraph.obj
           path: output
 
       - name: Display structure of output dir
