@@ -436,7 +436,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: streetGraph.obj
-          path: output/streetGraph.obj
+          path: output/streetGraph.obj*
           if-no-files-found: error
 
   prepare_final_graph:
