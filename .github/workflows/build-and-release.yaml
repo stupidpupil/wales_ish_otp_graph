@@ -646,7 +646,7 @@ jobs:
       - name: Upload test journeys artifact
         uses: actions/upload-artifact@v2
         with:
-          name: test_journeys.obj
+          name: test_journeys.csv
           path: output/test_journeys.csv
           if-no-files-found: error
 
