@@ -439,10 +439,8 @@ jobs:
           path: output/streetGraph.obj
           if-no-files-found: error
 
-
-  prepare_final_graph_and_release:
+  prepare_final_graph:
     needs: [
-      'prepare_pretty_map',
       'download_and_prepare_osm',
       'prepare_street_graph', 
       'download_and_prepare_atoc_gtfs', 
@@ -548,6 +546,67 @@ jobs:
           name: graph.obj
           path: output/graph.obj
           if-no-files-found: error
+
+      - name: Upload meta jsons artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: meta.jsons
+          path: output/*.meta.json
+          if-no-files-found: error
+
+
+  release:
+    needs: [
+      'prepare_pretty_map',
+      'prepare_final_graph',
+      'prepare_street_graph']
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@v1
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Restore R package cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install dependencies
+        run: |
+          install.packages(c("devtools"))
+          devtools::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+
+      - name: Download OTP
+        run: |
+          devtools::load_all()
+          download_otp()
+        shell: Rscript {0}
+
+      - name: Download meta jsons artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: meta.jsons
+          path: output
+
+      - name: Download transport graph artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: graph.obj
+          path: output
 
       - name: Download pretty map artifact
         uses: actions/download-artifact@v2
