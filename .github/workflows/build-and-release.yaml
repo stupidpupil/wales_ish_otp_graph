@@ -283,6 +283,87 @@ jobs:
           path: output/south_west.bus.walesish.gtfs.zip*
           if-no-files-found: error
 
+
+  create_pretty_map:
+    needs: [
+      'download_and_prepare_atoc_gtfs', 
+      'download_and_prepare_bods_gtfs', 
+      'download_and_prepare_tnds_gtfs']
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Restore R package cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install dependencies
+        run: |
+          install.packages(c("devtools"))
+          devtools::install_deps(dependencies = TRUE)
+
+      - name: Download ATOC GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: atoc.walesish.gtfs.zip
+          path: output
+
+      - name: Download Wales Bus GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: wales.bus.walesish.gtfs.zip
+          path: output
+
+      - name: Download NCSD Bus GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ncsd.bus.walesish.gtfs.zip
+          path: output
+
+      - name: Download NW Bus GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: north_west.bus.walesish.gtfs.zip
+          path: output
+
+      - name: Download SW Bus GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: south_west.bus.walesish.gtfs.zip
+          path: output
+
+      - name: Download WM Bus GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: west_midlands.bus.walesish.gtfs.zip
+          path: output
+
+      - name: Prepare map
+        run: |
+          devtools::load_all()
+          prepare_pretty_wales_ish_map()
+
+      - name: Upload map artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: map.png
+          path: output/map.png*
+          if-no-files-found: error
+
   prepare_otp_graphs:
     needs: [
       'download_and_prepare_osm', 
@@ -398,10 +479,15 @@ jobs:
           path: output/graph.obj
           if-no-files-found: error
 
-      - name: Prepare map, test journeys, and readme
+      - name: Download pretty map artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: map.png
+          path: output
+
+      - name: Prepare test journeys, and readme
         run: |
           devtools::load_all()
-          prepare_pretty_wales_ish_map()
           prepare_test_journeys()
           prepare_readme()
         shell: Rscript {0}
@@ -411,13 +497,6 @@ jobs:
         with:
           name: test_journeys.obj
           path: output/test_journeys.csv
-          if-no-files-found: error
-
-      - name: Upload map artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: map.png
-          path: output/map.png*
           if-no-files-found: error
 
       - name: Checkout graph-releases branch
