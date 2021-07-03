@@ -422,7 +422,7 @@ jobs:
         if: steps.cache_street_graph.outputs.cache-hit != 'true'
         uses: actions/setup-java@v2
         with:
-          distribution: 'adopt' # See 'Supported distributions' for available options
+          distribution: 'adopt'
           java-version: '11'
 
       - name: Prepare street graph
@@ -527,6 +527,13 @@ jobs:
       - name: Display structure of output dir
         run: ls -R
         working-directory: output
+
+      - name: Install Java 11
+        if: steps.cache_street_graph.outputs.cache-hit != 'true'
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
 
       - name: Download OTP
         run: |
