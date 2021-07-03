@@ -42,7 +42,10 @@ prepare_test_journeys <- function(){
 
 
   initialise_test_journeys_tibble <- function(){
-    when = lubridate::now() %>% (function(x){x - lubridate::wday(x) + lubridate::days(1)}) %>% update(hour=11, minute=0, second = 0)
+
+    # Tuesday, next week
+    when = lubridate::now() %>% (function(x){x + lubridate::days(8 - lubridate::wday(x))}) %>% update(hour=11, minute=0, second = 0)
+
     read_csv("data-raw/test_journeys.csv") %>%
       crossing(expand_grid(when=when, public=c(T,F))) %>%
       mutate(requestUrl = otp_route_request_url(fromLat, fromLon, toLat, toLon, when, public))

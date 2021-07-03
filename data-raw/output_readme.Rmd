@@ -50,7 +50,7 @@ If you provide a routing service or similar using the graph file you should make
 
 ## Test Journeys
 
-A small number of journeys, departing on the next Tuesday morning, are tested every time that the graph is built. The results from the latest update of the graph are shown below.
+A small number of journeys, departing on Tuesday morning the following week, are tested every time that the graph is built. The results from the latest update of the graph are shown below.
 
 ```{r warning = FALSE, message = FALSE, echo = FALSE, results = 'asis'}
 
