@@ -15,7 +15,7 @@ You can then start OpenTripPlanner with the following command:
 
 ## Update
 
-The graph file was last updated at 03:22 BST on 30 June 2021.
+The graph file was last updated at 13:02 BST on 03 July 2021.
 
 It was prepared using the following version of OpenTripPlanner - `2.1.0-SNAPSHOT, ser.ver.id: 8, commit: 6aebf2927b11be1f005c8db1041e66a2d8e884ec, branch: dev-2.x` - running on the following version of Java - `openjdk 11.0.11 2021-04-20`.
 
@@ -35,21 +35,28 @@ The graph file is provided without any warranty of any kind and without any endo
 
 If you provide a routing service or similar using the graph file you should make sure that the above attributions are stated clearly. If you produce a set of routing instructions using such a routing service, these likely form a “derived database” and should also be provided under the [ODbL v1.0](https://opendatacommons.org/licenses/odbl/1-0/), again with the attributions above attached.
 
-*otp.jar* is a copy of the version of [OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner) used to generate the graph file; it is released under the [LGPL v3.0 (or later)](https://opensource.org/licenses/LGPL-3.0). Again, it is provided without any warranty of any kind and without any endorsement, for any purpose.
+*otp.jar* is a copy of the version of [OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner) used to generate the graph file; it is released under the [LGPL v3.0 (or later)](https://github.com/opentripplanner/OpenTripPlanner/blob/dev-2.x/LICENSE). Again, it is provided without any warranty of any kind and without any endorsement, for any purpose.
 
 ## Test Journeys
 
 A small number of journeys, departing on the next Tuesday morning, are tested every time that the graph is built. The results from the latest update of the graph are shown below.
 
-| Description               | Car   | Public |
-| :------------------------ | :---- | :----- |
-| Abergavenny to Pontypridd | 0h43m | 1h42m  |
-| Bala to Cardiff           | 3h46m | 5h23m  |
-| Caerphilly to Cwmafan     | 0h48m | 1h42m  |
-| Cardiff to Bala           | 3h46m | 5h 6m  |
-| Cardiff to Sheffield      | N/A   | N/A    |
-| Cardigan to Trawsfynydd   | 3h 2m | 4h18m  |
-| Chirk to Walton           | 1h29m | 3h32m  |
-| Merthyr to Cardiff        | 0h46m | 1h11m  |
-| Swansea to Bargoed        | 1h13m | 2h11m  |
-| Swansea to Wrexham        | 3h42m | 4h32m  |
+| Description                    | Car   | Public |
+| :----------------------------- | :---- | :----- |
+| Abergavenny to Pontypridd      | 0h43m | 2h 3m  |
+| Bala to Cardiff                | 3h46m | 5h39m  |
+| Bangor Pier to Great Orme      | 0h50m | 1h33m  |
+| Caerphilly to Cwmafan          | 0h48m | 1h51m  |
+| Cardiff to Bala                | 3h46m | 4h16m  |
+| Cardiff to Sheffield           | N/A   | N/A    |
+| Cardigan to Trawsfynydd        | 3h 2m | N/A    |
+| Chirk to Walton                | 1h29m | N/A    |
+| Grangetown Library to UHW A\&E | 0h21m | 0h46m  |
+| Lampeter to Llandovery         | 0h30m | 4h54m  |
+| Llangollen to Ruthin           | 0h29m | 4h30m  |
+| Merthyr to Cardiff             | 0h46m | 1h10m  |
+| Rhosllanerchrugog to Denbigh   | 1h 2m | 3h18m  |
+| Swansea to Bargoed             | 1h13m | 2h12m  |
+| Swansea to Wrexham             | 3h42m | 4h 7m  |
+| Treharris to Gellideg          | 0h19m | 0h58m  |
+| Whitland to Cardigan           | 0h44m | 7h 3m  |
