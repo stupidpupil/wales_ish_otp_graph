@@ -15,7 +15,7 @@ You can then start OpenTripPlanner with the following command:
 
 ## Update
 
-The graph file was last updated at 18:25 BST on 03 July 2021.
+The graph file was last updated at 21:04 BST on 03 July 2021.
 
 It was prepared using the following version of OpenTripPlanner - `2.1.0-SNAPSHOT, ser.ver.id: 8, commit: 6aebf2927b11be1f005c8db1041e66a2d8e884ec, branch: dev-2.x` - running on the following version of Java - `openjdk 11.0.11 2021-04-20`.
 
