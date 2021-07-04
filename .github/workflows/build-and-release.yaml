@@ -701,7 +701,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "data-raw/otp.jar,output/graph.obj"
-          bodyFile: "output/output_readme.md"
+          bodyFile: "output/release_body.md"
           token: ${{ secrets.GITHUB_TOKEN }}
           commit: graph-releases
           tag: ${{ steps.timestamp.outputs.timestamp }}
