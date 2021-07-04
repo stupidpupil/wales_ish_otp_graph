@@ -2,9 +2,13 @@
 
 This is an OpenTripPlanner graph for planning trips, by car or public transport, between places in Wales - including where these trips involve a short journey entirely within England. (It likely also works well enough for planning trips between places in Wales and a small number of English towns just the other side of the border.)
 
+You can [see the scripts used to download source data and generate this graph here](https://github.com/stupidpupil/wales_ish_otp_graph).
+
 The map shows bus and train routes included in the latest graph, giving a rough idea of the region included.
 
 ## How to use this
+
+The graph file was last updated at 13:21 BST on 04 July 2021.
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download both the *otp.jar* and *graph.obj* files and put them in same place.
 
@@ -12,14 +16,6 @@ You can then start OpenTripPlanner with the following command:
 `java --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED -Xmx8g -jar otp.jar --load .` Eventually it’ll print “Started listener bound to \[0.0.0.0:8080\]” and you’ll be able to access the planner at `http://localhost:8080` .
 
 (You’ll need [Java 11 or later](https://adoptopenjdk.net/). See the [OTP documentation](http://docs.opentripplanner.org/en/latest/) for more information.)
-
-## Update
-
-The graph file was last updated at 21:04 BST on 03 July 2021.
-
-It was prepared using the following version of OpenTripPlanner - `2.1.0-SNAPSHOT, ser.ver.id: 8, commit: 6aebf2927b11be1f005c8db1041e66a2d8e884ec, branch: dev-2.x` - running on the following version of Java - `openjdk 11.0.11 2021-04-20`.
-
-You can [see the scripts used to download source data and generate this graph here](https://github.com/stupidpupil/wales_ish_otp_graph). These depend enormously on the [UK2GTFS R package](https://itsleeds.github.io/UK2GTFS/) and the [Osmium tool](https://osmcode.org/osmium-tool/).
 
 ## License
 
@@ -51,6 +47,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Cardiff to Sheffield           | N/A   | N/A    |
 | Cardigan to Trawsfynydd        | 3h 2m | 3h33m  |
 | Chirk to Walton                | 1h29m | 3h32m  |
+| CP2 to Secret Garden Cafe      | 0h21m | 0h 9m  |
 | Grangetown Library to UHW A\&E | 0h21m | 0h38m  |
 | Lampeter to Llandovery         | 0h30m | 3h10m  |
 | Llangollen to Ruthin           | 0h29m | 1h11m  |
@@ -60,3 +57,11 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Swansea to Wrexham             | 3h42m | 4h29m  |
 | Treharris to Gellideg          | 0h19m | 0h43m  |
 | Whitland to Cardigan           | 0h44m | 2h 1m  |
+
+## Thanks
+
+This project developed out of a [NHS Welsh Modelling Collaborative](https://twitter.com/nhswmc) hackathon, with the support of colleagues across NHS Wales.
+
+It depends entirely on the work done by [OpenStreetMap contributors](https://www.openstreetmap.org/), [Malcolm Morgan (University of Leeds, Institute for Transport Studies) and UK2GTFS contributors](https://itsleeds.github.io/UK2GTFS/), [Traveline](https://www.travelinedata.org.uk/), the [*osmium* developers](https://osmcode.org/), and of course the [OpenTripPlanner developers](http://www.opentripplanner.org/).
+
+Important inspiration included the [*graphite* project](https://github.com/datasciencecampus/graphite) produced as part of [a piece of work by the ONS Data Campus](https://datasciencecampus.ons.gov.uk/access-to-services-using-multimodal-transport-networks/). Also of note is the [*OTP4GB* project](https://github.com/odileeds/OTP4GB) and [other work by ODI Leeds](https://odileeds.org/blog/2021-06-08-transportaccessibilityinnorthengland).
