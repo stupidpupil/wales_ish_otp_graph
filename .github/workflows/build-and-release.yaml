@@ -152,7 +152,7 @@ jobs:
       - name: Get TNDS directory listing hash
         id: tnds_dir_list_hash
         run : |
-          echo "::set-output name=hash::$(curl ftp://$TNDS_USERNAME:$TNDS_PASSWORD@ftp.tnds.basemap.co.uk | md5)"
+          echo "::set-output name=hash::$(curl ftp://$TNDS_USERNAME:$TNDS_PASSWORD@ftp.tnds.basemap.co.uk | md5sum)"
 
       - name: Cache TNDS
         id: cache_tnds
@@ -235,7 +235,7 @@ jobs:
       - name: Get BODS index page hash
         id: bods_index_page_hash
         run : |
-          echo "::set-output name=hash::$(curl "https://data.bus-data.dft.gov.uk/timetable/download/" | md5)"
+          echo "::set-output name=hash::$(curl "https://data.bus-data.dft.gov.uk/timetable/download/" | md5sum)"
 
       - name: Cache BODS
         id: cache_bods
