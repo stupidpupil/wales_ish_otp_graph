@@ -72,7 +72,7 @@ jobs:
           if-no-files-found: error
 
   download_and_prepare_atoc_gtfs:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
@@ -141,7 +141,7 @@ jobs:
           if-no-files-found: error
 
   download_and_prepare_tnds_gtfs:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
@@ -152,7 +152,7 @@ jobs:
       - name: Get TNDS directory listing hash
         id: tnds_dir_list_hash
         run : |
-          echo "::set-output name=hash::$(curl ftp://$TNDS_USERNAME:$TNDS_PASSWORD@ftp.tnds.basemap.co.uk | md5sum)"
+          echo "::set-output name=hash::$(curl ftp://$TNDS_USERNAME:$TNDS_PASSWORD@ftp.tnds.basemap.co.uk | md5)"
 
       - name: Cache TNDS
         id: cache_tnds
@@ -226,7 +226,7 @@ jobs:
 
 
   download_and_prepare_bods_gtfs:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -235,7 +235,7 @@ jobs:
       - name: Get BODS index page hash
         id: bods_index_page_hash
         run : |
-          echo "::set-output name=hash::$(curl "https://data.bus-data.dft.gov.uk/timetable/download/" | md5sum)"
+          echo "::set-output name=hash::$(curl "https://data.bus-data.dft.gov.uk/timetable/download/" | md5)"
 
       - name: Cache BODS
         id: cache_bods
@@ -307,7 +307,7 @@ jobs:
       'download_and_prepare_atoc_gtfs', 
       'download_and_prepare_bods_gtfs', 
       'download_and_prepare_tnds_gtfs']
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -387,7 +387,7 @@ jobs:
 
   prepare_street_graph:
     needs: ['download_and_prepare_osm']
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -464,7 +464,7 @@ jobs:
       'download_and_prepare_atoc_gtfs', 
       'download_and_prepare_bods_gtfs', 
       'download_and_prepare_tnds_gtfs']
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -593,7 +593,7 @@ jobs:
     needs: [
       'prepare_pretty_map',
       'prepare_final_graph']
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -705,5 +705,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit: graph-releases
           tag: ${{ steps.timestamp.outputs.timestamp }}
+
 
 
