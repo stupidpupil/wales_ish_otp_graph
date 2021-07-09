@@ -123,7 +123,7 @@ jobs:
         with:
           path: |
             output/*atoc*gtfs*
-          key: ${{ steps.atoc_url.outputs.url }}-${{ hashFiles('R/*atoc*', 'R/*bound*', 'R/gtfs*') }}
+          key: ${{ steps.atoc_url.outputs.url }}-${{ hashFiles('R/*atoc*', 'R/*bound*', 'R/gtfs*') }}-v1
 
       - name: Download and prepare ATOC GTFS
         if: steps.cache_atoc.outputs.cache-hit != 'true'
