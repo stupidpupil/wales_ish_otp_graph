@@ -18,4 +18,4 @@ Depends:
   jsonlite,
   lubridate
 Remotes:
-    ITSLeeds/UK2GTFS
+  stupidpupil/UK2GTFS
