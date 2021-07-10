@@ -372,7 +372,7 @@ pre code {
 <p>The map shows bus and train routes included in the latest graph, giving a rough idea of the region included.</p>
 <div id="how-to-use-this" class="section level2">
 <h2>How to use this</h2>
-<p>The graph file was last updated at 06:55 BST on 05 July 2021.</p>
+<p>The graph file was last updated at 01:15 BST on 10 July 2021.</p>
 <p><a href="https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest">Download the latest release of the Wales-ish OTP graph here</a>. You’ll need to download both the <em>otp.jar</em> and <em>graph.obj</em> files and put them in same place.</p>
 <p>You can then start OpenTripPlanner with the following command: <code style="white-space:normal;">java --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED -Xmx8g -jar otp.jar --load .</code> Eventually it’ll print “Started listener bound to [0.0.0.0:8080]” and you’ll be able to access the planner at <code>http://localhost:8080</code> .</p>
 <p>(You’ll need <a href="https://adoptopenjdk.net/">Java 11 or later</a>. See the <a href="http://docs.opentripplanner.org/en/latest/">OTP documentation</a> for more information.)</p>
@@ -448,51 +448,56 @@ pre code {
 <td align="left">0h 9m</td>
 </tr>
 <tr class="even">
+<td align="left">Cynghordy to Rhyader</td>
+<td align="left">0h55m</td>
+<td align="left">N/A</td>
+</tr>
+<tr class="odd">
 <td align="left">Grangetown Library to UHW A&amp;E</td>
 <td align="left">0h21m</td>
 <td align="left">0h38m</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Lampeter to Llandovery</td>
-<td align="left">0h30m</td>
+<td align="left">0h33m</td>
 <td align="left">3h10m</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Llangollen to Ruthin</td>
 <td align="left">0h29m</td>
 <td align="left">1h11m</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Merthyr to Cardiff</td>
 <td align="left">0h46m</td>
 <td align="left">1h 7m</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Pontsticill to the Naughty Stone</td>
 <td align="left">0h28m</td>
 <td align="left">1h10m</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Rhosllanerchrugog to Denbigh</td>
 <td align="left">1h 2m</td>
 <td align="left">1h52m</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Swansea to Bargoed</td>
 <td align="left">1h13m</td>
 <td align="left">1h57m</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Swansea to Wrexham</td>
 <td align="left">3h42m</td>
 <td align="left">4h29m</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Treharris to Gellideg</td>
 <td align="left">0h19m</td>
 <td align="left">0h43m</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Whitland to Cardigan</td>
 <td align="left">0h44m</td>
 <td align="left">2h 1m</td>
@@ -502,7 +507,7 @@ pre code {
 </div>
 <div id="thanks" class="section level2">
 <h2>Thanks</h2>
-<p>This project developed out of a <a href="https://twitter.com/nhswmc">NHS Welsh Modelling Collaborative</a> hackathon, with the support of colleagues across NHS Wales.</p>
+<p>This project developed out of a <a href="https://twitter.com/nhswmc">NHS Welsh Modelling Collaborative</a> hackathon, with the support of colleagues across NHS Wales including James Cooke of the Welsh Ambulance Service.</p>
 <p>It depends entirely on the work done by <a href="https://www.openstreetmap.org/">OpenStreetMap contributors</a>, <a href="https://itsleeds.github.io/UK2GTFS/">Malcolm Morgan (University of Leeds, Institute for Transport Studies) and UK2GTFS contributors</a>, <a href="https://www.travelinedata.org.uk/">Traveline</a>, the <a href="https://osmcode.org/"><em>osmium</em> developers</a>, and of course the <a href="http://www.opentripplanner.org/">OpenTripPlanner developers</a>.</p>
 <p>Important inspiration included the <a href="https://github.com/datasciencecampus/graphite"><em>graphite</em> project</a> produced as part of <a href="https://datasciencecampus.ons.gov.uk/access-to-services-using-multimodal-transport-networks/">a piece of work by the ONS Data Campus</a>. Also of note is the <a href="https://github.com/odileeds/OTP4GB"><em>OTP4GB</em> project</a> and <a href="https://odileeds.org/blog/2021-06-08-transportaccessibilityinnorthengland">other work by ODI Leeds</a>.</p>
 </div>

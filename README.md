@@ -8,7 +8,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 06:55 BST on 05 July 2021.
+The graph file was last updated at 01:15 BST on 10 July 2021.
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download both the *otp.jar* and *graph.obj* files and put them in same place.
 
@@ -48,8 +48,9 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Cardigan to Trawsfynydd          | 3h 2m | 3h33m  |
 | Chirk to Walton                  | 1h29m | 3h32m  |
 | CP2 to Secret Garden Cafe        | 0h21m | 0h 9m  |
+| Cynghordy to Rhyader             | 0h55m | N/A    |
 | Grangetown Library to UHW A\&E   | 0h21m | 0h38m  |
-| Lampeter to Llandovery           | 0h30m | 3h10m  |
+| Lampeter to Llandovery           | 0h33m | 3h10m  |
 | Llangollen to Ruthin             | 0h29m | 1h11m  |
 | Merthyr to Cardiff               | 0h46m | 1h 7m  |
 | Pontsticill to the Naughty Stone | 0h28m | 1h10m  |
@@ -61,7 +62,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 
 ## Thanks
 
-This project developed out of a [NHS Welsh Modelling Collaborative](https://twitter.com/nhswmc) hackathon, with the support of colleagues across NHS Wales.
+This project developed out of a [NHS Welsh Modelling Collaborative](https://twitter.com/nhswmc) hackathon, with the support of colleagues across NHS Wales including James Cooke of the Welsh Ambulance Service.
 
 It depends entirely on the work done by [OpenStreetMap contributors](https://www.openstreetmap.org/), [Malcolm Morgan (University of Leeds, Institute for Transport Studies) and UK2GTFS contributors](https://itsleeds.github.io/UK2GTFS/), [Traveline](https://www.travelinedata.org.uk/), the [*osmium* developers](https://osmcode.org/), and of course the [OpenTripPlanner developers](http://www.opentripplanner.org/).
 
