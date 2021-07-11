@@ -29,6 +29,8 @@ download_atoc <- function(){
   atoc_session <- atoc_session %>% rvest::session_jump_to("http://data.atoc.org/data-download")
   atoc_session <- atoc_session %>% rvest::session_jump_to(atoc_download_url)
 
+  print(atoc_session)
+
   writeBin(atoc_session$response$content, "data-raw/atoc.zip")
 
   toJSON(pretty = TRUE, auto_unbox = TRUE, list(
