@@ -658,6 +658,7 @@ jobs:
         run: |
           devtools::load_all()
           prepare_test_journeys()
+          check_test_journeys()
           prepare_readme()
         shell: Rscript {0}
 
