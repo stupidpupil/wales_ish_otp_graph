@@ -1,4 +1,5 @@
-# Taken from UK2GTFS
+# Originally from UK2GTFS
+# https://github.com/ITSLeeds/UK2GTFS/blob/master/LICENSE
 
 better_gtfs_read <- function(path){
   checkmate::assert_file_exists(path)
