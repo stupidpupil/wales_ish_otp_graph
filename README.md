@@ -1,14 +1,12 @@
 ![](map.png)
 
-This is an OpenTripPlanner graph for planning trips, by car or public transport, between places in Wales - including where these trips involve a short journey entirely within England. (It likely also works well enough for planning trips between places in Wales and a small number of English towns just the other side of the border.)
-
-You can [see the scripts used to download source data and generate this graph here](https://github.com/stupidpupil/wales_ish_otp_graph).
+This is an OpenTripPlanner network graph for planning trips, by car or public transport, between places in Wales - including where these trips involve a short journey entirely within England. (It likely also works well enough for planning trips between places in Wales and a small number of English towns just the other side of the border.)
 
 The map shows bus and train routes included in the latest graph, giving a rough idea of the region included.
 
 ## How to use this
 
-The graph file was last updated at 07:07 BST on 12 July 2021.
+The graph file was last updated at 21:06 BST on 12 July 2021. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download both the *otp.jar* and *graph.obj* files and put them in same place.
 
@@ -16,6 +14,8 @@ You can then start OpenTripPlanner with the following command:
 `java --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED -Xmx8g -jar otp.jar --load .` Eventually it’ll print “Started listener bound to \[0.0.0.0:8080\]” and you’ll be able to access the planner at `http://localhost:8080` .
 
 (You’ll need [Java 11 or later](https://adoptopenjdk.net/). See the [OTP documentation](http://docs.opentripplanner.org/en/latest/) for more information.)
+
+You can [see the code used to download source data and generate this graph here](https://github.com/stupidpupil/wales_ish_otp_graph).
 
 ## License
 
@@ -40,9 +40,9 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Description                      | Car   | Public |
 | :------------------------------- | :---- | :----- |
 | Abergavenny to Pontypridd        | 0h43m | 1h42m  |
-| Bala to Cardiff                  | 3h46m | 5h23m  |
+| Bala to Cardiff                  | 3h46m | 5h16m  |
 | Bangor Pier to Great Orme        | 0h50m | 1h25m  |
-| Caerphilly to Cwmafan            | 0h48m | 1h27m  |
+| Caerphilly to Cwmafan            | 0h48m | 1h30m  |
 | Cardiff to Bala                  | 3h46m | 4h53m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
 | Cardigan to Trawsfynydd          | 3h 2m | 6h54m  |
@@ -50,15 +50,15 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | CP2 to Secret Garden Cafe        | 0h21m | 0h 9m  |
 | Cynghordy to Rhyader             | 0h55m | 1h52m  |
 | Grangetown Library to UHW A\&E   | 0h21m | 0h38m  |
-| Lampeter to Llandovery           | 0h33m | 2h50m  |
+| Lampeter to Llandovery           | 0h33m | 2h42m  |
 | Llangollen to Ruthin             | 0h29m | 1h11m  |
-| Merthyr to Cardiff               | 0h46m | 1h 7m  |
+| Merthyr to Cardiff               | 0h46m | 1h13m  |
 | Pontsticill to the Naughty Stone | 0h28m | 1h10m  |
-| Rhosllanerchrugog to Denbigh     | 1h 2m | 1h52m  |
+| Rhosllanerchrugog to Denbigh     | 1h 2m | 1h55m  |
 | Swansea to Bargoed               | 1h13m | 1h57m  |
 | Swansea to Wrexham               | 3h42m | 4h29m  |
-| Treharris to Gellideg            | 0h19m | 0h43m  |
-| Whitland to Cardigan             | 0h44m | 2h17m  |
+| Treharris to Gellideg            | 0h19m | 0h42m  |
+| Whitland to Cardigan             | 0h44m | 1h58m  |
 
 ## Thanks
 

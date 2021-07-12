@@ -367,15 +367,15 @@ pre code {
 </div>
 
 <p><img src="map.png" data-external="1" style="float:right;" /></p>
-<p>This is an OpenTripPlanner graph for planning trips, by car or public transport, between places in Wales - including where these trips involve a short journey entirely within England. (It likely also works well enough for planning trips between places in Wales and a small number of English towns just the other side of the border.)</p>
-<p>You can <a href="https://github.com/stupidpupil/wales_ish_otp_graph">see the scripts used to download source data and generate this graph here</a>.</p>
+<p>This is an OpenTripPlanner network graph for planning trips, by car or public transport, between places in Wales - including where these trips involve a short journey entirely within England. (It likely also works well enough for planning trips between places in Wales and a small number of English towns just the other side of the border.)</p>
 <p>The map shows bus and train routes included in the latest graph, giving a rough idea of the region included.</p>
 <div id="how-to-use-this" class="section level2">
 <h2>How to use this</h2>
-<p>The graph file was last updated at 07:07 BST on 12 July 2021.</p>
+<p>The graph file was last updated at 21:06 BST on 12 July 2021. (The graph should update weekly.)</p>
 <p><a href="https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest">Download the latest release of the Wales-ish OTP graph here</a>. You’ll need to download both the <em>otp.jar</em> and <em>graph.obj</em> files and put them in same place.</p>
 <p>You can then start OpenTripPlanner with the following command: <code style="white-space:normal;">java --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED -Xmx8g -jar otp.jar --load .</code> Eventually it’ll print “Started listener bound to [0.0.0.0:8080]” and you’ll be able to access the planner at <code>http://localhost:8080</code> .</p>
 <p>(You’ll need <a href="https://adoptopenjdk.net/">Java 11 or later</a>. See the <a href="http://docs.opentripplanner.org/en/latest/">OTP documentation</a> for more information.)</p>
+<p>You can <a href="https://github.com/stupidpupil/wales_ish_otp_graph">see the code used to download source data and generate this graph here</a>.</p>
 </div>
 <div id="license" class="section level2">
 <h2>License</h2>
@@ -410,7 +410,7 @@ pre code {
 <tr class="even">
 <td align="left">Bala to Cardiff</td>
 <td align="left">3h46m</td>
-<td align="left">5h23m</td>
+<td align="left">5h16m</td>
 </tr>
 <tr class="odd">
 <td align="left">Bangor Pier to Great Orme</td>
@@ -420,7 +420,7 @@ pre code {
 <tr class="even">
 <td align="left">Caerphilly to Cwmafan</td>
 <td align="left">0h48m</td>
-<td align="left">1h27m</td>
+<td align="left">1h30m</td>
 </tr>
 <tr class="odd">
 <td align="left">Cardiff to Bala</td>
@@ -460,7 +460,7 @@ pre code {
 <tr class="even">
 <td align="left">Lampeter to Llandovery</td>
 <td align="left">0h33m</td>
-<td align="left">2h50m</td>
+<td align="left">2h42m</td>
 </tr>
 <tr class="odd">
 <td align="left">Llangollen to Ruthin</td>
@@ -470,7 +470,7 @@ pre code {
 <tr class="even">
 <td align="left">Merthyr to Cardiff</td>
 <td align="left">0h46m</td>
-<td align="left">1h 7m</td>
+<td align="left">1h13m</td>
 </tr>
 <tr class="odd">
 <td align="left">Pontsticill to the Naughty Stone</td>
@@ -480,7 +480,7 @@ pre code {
 <tr class="even">
 <td align="left">Rhosllanerchrugog to Denbigh</td>
 <td align="left">1h 2m</td>
-<td align="left">1h52m</td>
+<td align="left">1h55m</td>
 </tr>
 <tr class="odd">
 <td align="left">Swansea to Bargoed</td>
@@ -495,12 +495,12 @@ pre code {
 <tr class="odd">
 <td align="left">Treharris to Gellideg</td>
 <td align="left">0h19m</td>
-<td align="left">0h43m</td>
+<td align="left">0h42m</td>
 </tr>
 <tr class="even">
 <td align="left">Whitland to Cardigan</td>
 <td align="left">0h44m</td>
-<td align="left">2h17m</td>
+<td align="left">1h58m</td>
 </tr>
 </tbody>
 </table>
