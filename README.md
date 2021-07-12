@@ -6,11 +6,15 @@ This is a bunch to scripts to help assemble OpenTripPlanner graphs that are usea
 
 ## Features and Anti-Features
 
-- Downloads English bus etc. open data from DfT GOV.UK
 - Downloads OpenStreetMap data from geofabrik.de
 - Downloads Welsh bus etc. data from Traveline (requires registration)
 - Download heavy rail CIF from data.atoc.org (requires registration)
-- Creates extracts of street and public transport data covering Wales and strip of the borders
+- Downloads English bus etc. open data from DfT GOV.UK
+- Does some basic checking of a small number of test journeys
+- Includes a Github Actions workflow with parallelisation and caching
+
+### Default Coverage
+- Creates extracts of street and public transport data covering Wales and a strip of the borders
 - Covers Chester, Crewe, Liverpool, Shrewsbury, Hereford, Bristol, Gloucester
 - Doesn't cover Wolverhampton, Birmingham or most of Manchester
 
@@ -32,7 +36,9 @@ download_and_prepare_bus_gtfs()
 download_and_prepare_osm()
 prepare_street_graph()
 prepare_transport_graph()
-# output/ should now contain streetGraph.obj and graph.obj
+prepare_test_journeys()
+check_test_journeys()
+# output/ should now contain graph.obj
 ```
 ## Licence of outputs
 
