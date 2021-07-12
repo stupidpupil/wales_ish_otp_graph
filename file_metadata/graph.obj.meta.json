@@ -1,5 +1,5 @@
 {
-  "CreatedAt": ["2021-07-11T17:17:55+0000"],
+  "CreatedAt": ["2021-07-12T06:04:54+0000"],
   "CreatedWithCommand": ["java --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED -Xmx8g -jar data-raw/otp.jar --loadStreet --save output"],
   "CreatedWithOpenTripPlannerVersion": ["2.1.0-SNAPSHOT, ser.ver.id: 8, commit: 6aebf2927b11be1f005c8db1041e66a2d8e884ec, branch: dev-2.x"],
   "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
@@ -35,48 +35,48 @@
     {
       "Filename": ["north_west.bus.walesish.gtfs.zip"],
       "SizeBytes": [15729564],
-      "CreatedAt": ["2021-07-11T10:46:05+0000"],
+      "CreatedAt": ["2021-07-12T05:31:32+0000"],
       "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
       "DerivedFrom": {
         "Filename": ["north_west.bus.gtfs.zip"],
         "SizeBytes": [51824633],
         "SourceUrl": ["https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/north_west/"],
-        "SourceDownloadedAt": ["2021-07-11T10:45:20+0000"],
+        "SourceDownloadedAt": ["2021-07-12T05:30:47+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["UK Department for Transport"]
       }
     },
     {
       "Filename": ["south_west.bus.walesish.gtfs.zip"],
-      "SizeBytes": [5959582],
-      "CreatedAt": ["2021-07-11T10:46:41+0000"],
+      "SizeBytes": [5768902],
+      "CreatedAt": ["2021-07-12T05:32:08+0000"],
       "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
       "DerivedFrom": {
         "Filename": ["south_west.bus.gtfs.zip"],
-        "SizeBytes": [86317615],
+        "SizeBytes": [85862088],
         "SourceUrl": ["https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/south_west/"],
-        "SourceDownloadedAt": ["2021-07-11T10:46:15+0000"],
+        "SourceDownloadedAt": ["2021-07-12T05:31:43+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["UK Department for Transport"]
       }
     },
     {
       "Filename": ["streetGraph.obj"],
-      "SizeBytes": [239229862],
-      "CreatedAt": ["2021-07-11T10:51:51+0000"],
+      "SizeBytes": [239682532],
+      "CreatedAt": ["2021-07-12T05:44:09+0000"],
       "CreatedWithCommand": ["java --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED -Xmx8g -jar data-raw/otp.jar --buildStreet output"],
       "CreatedWithOpenTripPlannerVersion": ["2.1.0-SNAPSHOT, ser.ver.id: 8, commit: 6aebf2927b11be1f005c8db1041e66a2d8e884ec, branch: dev-2.x"],
       "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
       "DerivedFrom": {
         "Filename": ["wales_ish.osm.pbf"],
-        "SizeBytes": [204346808],
-        "CreatedAt": ["2021-07-11T10:45:16+0000"],
+        "SizeBytes": [204547141],
+        "CreatedAt": ["2021-07-12T05:34:46+0000"],
         "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
         "DerivedFrom": {
           "Filename": ["great-britain-latest.osm.pbf"],
-          "SizeBytes": [1358939464],
+          "SizeBytes": [1360037627],
           "SourceUrl": ["https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"],
-          "SourceDownloadedAt": ["2021-07-11T10:43:26+0000"],
+          "SourceDownloadedAt": ["2021-07-12T05:33:00+0000"],
           "SourceLicence": ["ODbL-1.0"],
           "SourceAttribution": ["OpenStreetMap contributors"]
         }
@@ -99,13 +99,13 @@
     {
       "Filename": ["west_midlands.bus.walesish.gtfs.zip"],
       "SizeBytes": [3520458],
-      "CreatedAt": ["2021-07-11T10:45:14+0000"],
+      "CreatedAt": ["2021-07-12T05:30:39+0000"],
       "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
       "DerivedFrom": {
         "Filename": ["west_midlands.bus.gtfs.zip"],
         "SizeBytes": [46671590],
         "SourceUrl": ["https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/west_midlands/"],
-        "SourceDownloadedAt": ["2021-07-11T10:44:56+0000"],
+        "SourceDownloadedAt": ["2021-07-12T05:30:21+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["UK Department for Transport"]
       }

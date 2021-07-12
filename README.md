@@ -8,7 +8,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 18:21 BST on 11 July 2021.
+The graph file was last updated at 07:07 BST on 12 July 2021.
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download both the *otp.jar* and *graph.obj* files and put them in same place.
 
@@ -45,7 +45,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Caerphilly to Cwmafan            | 0h48m | 1h27m  |
 | Cardiff to Bala                  | 3h46m | 4h53m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
-| Cardigan to Trawsfynydd          | 3h 2m | 3h33m  |
+| Cardigan to Trawsfynydd          | 3h 2m | 6h54m  |
 | Chirk to Walton                  | 1h29m | 3h32m  |
 | CP2 to Secret Garden Cafe        | 0h21m | 0h 9m  |
 | Cynghordy to Rhyader             | 0h55m | 1h52m  |
@@ -58,7 +58,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Swansea to Bargoed               | 1h13m | 1h57m  |
 | Swansea to Wrexham               | 3h42m | 4h29m  |
 | Treharris to Gellideg            | 0h19m | 0h43m  |
-| Whitland to Cardigan             | 0h44m | 2h 1m  |
+| Whitland to Cardigan             | 0h44m | 2h17m  |
 
 ## Thanks
 

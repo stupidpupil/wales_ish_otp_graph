@@ -1,18 +1,18 @@
 {
-  "CreatedAt": ["2021-07-11T10:51:51+0000"],
+  "CreatedAt": ["2021-07-12T05:44:09+0000"],
   "CreatedWithCommand": ["java --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED -Xmx8g -jar data-raw/otp.jar --buildStreet output"],
   "CreatedWithOpenTripPlannerVersion": ["2.1.0-SNAPSHOT, ser.ver.id: 8, commit: 6aebf2927b11be1f005c8db1041e66a2d8e884ec, branch: dev-2.x"],
   "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
   "DerivedFrom": {
     "Filename": ["wales_ish.osm.pbf"],
-    "SizeBytes": [204346808],
-    "CreatedAt": ["2021-07-11T10:45:16+0000"],
+    "SizeBytes": [204547141],
+    "CreatedAt": ["2021-07-12T05:34:46+0000"],
     "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
     "DerivedFrom": {
       "Filename": ["great-britain-latest.osm.pbf"],
-      "SizeBytes": [1358939464],
+      "SizeBytes": [1360037627],
       "SourceUrl": ["https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"],
-      "SourceDownloadedAt": ["2021-07-11T10:43:26+0000"],
+      "SourceDownloadedAt": ["2021-07-12T05:33:00+0000"],
       "SourceLicence": ["ODbL-1.0"],
       "SourceAttribution": ["OpenStreetMap contributors"]
     }
