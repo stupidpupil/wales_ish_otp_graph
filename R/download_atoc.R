@@ -21,6 +21,8 @@ get_atoc_download_url <- function(){
 
   atoc_download_url <- atoc_session %>% rvest::html_node("#field_timetable_file-wrapper a") %>% rvest::html_attr("href")
 
+  atoc_session %>% rvest::session_jump_to("http://data.atoc.org/user/logout?current=node/1")
+
   return(atoc_download_url)
 }
 
@@ -37,6 +39,7 @@ download_atoc <- function(retries=3L){
 
   if(actual_content_length == 0L | actual_content_length < claimed_content_length){
     print("ATOC zip was empty or didn't match content-length header. Retrying in 60 seconds…")
+    atoc_session %>% rvest::session_jump_to("http://data.atoc.org/user/logout?current=node/1")
     Sys.sleep(60L)
     if(retries > 0){
       download_atoc(retries-1L)
@@ -45,6 +48,7 @@ download_atoc <- function(retries=3L){
   }
 
   writeBin(atoc_session$response$content, "data-raw/atoc.zip")
+  atoc_session %>% rvest::session_jump_to("http://data.atoc.org/user/logout?current=node/1")
 
   toJSON(pretty = TRUE, auto_unbox = TRUE, list(
     SourceUrl = atoc_download_url,
