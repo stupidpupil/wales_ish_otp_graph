@@ -161,7 +161,7 @@ jobs:
           path: |
             output/wales.bus*
             output/ncsd.bus*
-          key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/*bound*', 'R/gtfs*') }}-v3
+          key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/*bound*', 'R/gtfs*') }}-v4
 
       - uses: r-lib/actions/setup-r@v1
         if: steps.cache_tnds.outputs.cache-hit != 'true'
