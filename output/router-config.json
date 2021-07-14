@@ -2,6 +2,7 @@
   "routingDefaults": {
     "maxTransfers": 20,
     "maxDirectStreetDurationSeconds": 43200,
+    "walkReluctance": 13,
 
     "transferSlack": 180, //seconds - 3 minutes
     "boardSlackForMode": {//seconds
