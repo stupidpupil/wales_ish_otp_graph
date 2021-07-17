@@ -159,9 +159,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            output/wales.bus*
-            output/ncsd.bus*
-          key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/*bound*', 'R/gtfs*') }}-v4
+            output/*.tnds.*
+          key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/*bound*', 'R/gtfs*') }}-v5
 
       - uses: r-lib/actions/setup-r@v1
         if: steps.cache_tnds.outputs.cache-hit != 'true'
@@ -234,8 +233,8 @@ jobs:
         id: cache_bods
         uses: actions/cache@v2
         with:
-          path: output/*.bus.*
-          key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('R/*bus*', 'R/*bound*', 'R/*gtfs*') }}
+          path: output/*.bods.*
+          key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('R/*bus*', 'R/*bound*', 'R/*gtfs*') }}-v1
 
       - uses: r-lib/actions/setup-r@v1
         if: steps.cache_bods.outputs.cache-hit != 'true'
