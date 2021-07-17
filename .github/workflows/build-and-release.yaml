@@ -210,18 +210,11 @@ jobs:
           prepare_tnds_gtfs()
         shell: Rscript {0}
 
-      - name: Upload Wales TNDS GTFS artifact
+      - name: Upload TNDS GTFS artifact
         uses: actions/upload-artifact@v2
         with:
-          name: wales.bus.walesish.gtfs.zip
-          path: output/wales.bus.walesish.gtfs.zip*
-          if-no-files-found: error
-
-      - name: Upload NCSD TNDS GTFS artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ncsd.bus.walesish.gtfs.zip
-          path: output/ncsd.bus.walesish.gtfs.zip*
+          name: tnds.walesish.gtfs.zip
+          path: output/*.tnds.walesish.gtfs.zip*
           if-no-files-found: error
 
 
@@ -277,28 +270,14 @@ jobs:
         if: steps.cache_bods.outputs.cache-hit != 'true'
         run: |
           devtools::load_all()
-          download_and_prepare_bus_gtfs()
+          download_and_prepare_bods_gtfs()
         shell: Rscript {0}
 
-      - name: Upload BODS GTFS WM artifact
+      - name: Upload BODS GTFS artifact
         uses: actions/upload-artifact@v2
         with:
-          name: west_midlands.bus.walesish.gtfs.zip
-          path: output/west_midlands.bus.walesish.gtfs.zip*
-          if-no-files-found: error
-
-      - name: Upload BODS GTFS NW artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: north_west.bus.walesish.gtfs.zip
-          path: output/north_west.bus.walesish.gtfs.zip*
-          if-no-files-found: error
-
-      - name: Upload BODS GTFS SW artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: south_west.bus.walesish.gtfs.zip
-          path: output/south_west.bus.walesish.gtfs.zip*
+          name: bods.walesish.gtfs.zip
+          path: output/*.bods.walesish.gtfs.zip*
           if-no-files-found: error
 
 
@@ -341,34 +320,16 @@ jobs:
           name: atoc.walesish.gtfs.zip
           path: output
 
-      - name: Download Wales Bus GTFS artifact
+      - name: Download TNDS GTFS artifact
         uses: actions/download-artifact@v2
         with:
-          name: wales.bus.walesish.gtfs.zip
+          name: tnds.walesish.gtfs.zip
           path: output
 
-      - name: Download NCSD Bus GTFS artifact
+      - name: Download BODS GTFS artifact
         uses: actions/download-artifact@v2
         with:
-          name: ncsd.bus.walesish.gtfs.zip
-          path: output
-
-      - name: Download NW Bus GTFS artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: north_west.bus.walesish.gtfs.zip
-          path: output
-
-      - name: Download SW Bus GTFS artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: south_west.bus.walesish.gtfs.zip
-          path: output
-
-      - name: Download WM Bus GTFS artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: west_midlands.bus.walesish.gtfs.zip
+          name: bods.walesish.gtfs.zip
           path: output
 
       - name: Prepare map
@@ -506,34 +467,16 @@ jobs:
           name: atoc.walesish.gtfs.zip
           path: output
 
-      - name: Download Wales Bus GTFS artifact
+      - name: Download TNDS GTFS artifact
         uses: actions/download-artifact@v2
         with:
-          name: wales.bus.walesish.gtfs.zip
+          name: tnds.walesish.gtfs.zip
           path: output
 
-      - name: Download NCSD Bus GTFS artifact
+      - name: Download BODS GTFS artifact
         uses: actions/download-artifact@v2
         with:
-          name: ncsd.bus.walesish.gtfs.zip
-          path: output
-
-      - name: Download NW Bus GTFS artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: north_west.bus.walesish.gtfs.zip
-          path: output
-
-      - name: Download SW Bus GTFS artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: south_west.bus.walesish.gtfs.zip
-          path: output
-
-      - name: Download WM Bus GTFS artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: west_midlands.bus.walesish.gtfs.zip
+          name: bods.walesish.gtfs.zip
           path: output
 
       - name: Download street graph artifact

@@ -3,14 +3,14 @@ prepare_tnds_gtfs <- function(){
     path_in = "data-raw/wales.bus.tnds.zip", ncores= (parallel::detectCores()-1), 
     try_mode=TRUE, scotland="no")
   gtfs <- gtfs %>% gtfs_wales_ish_ify()
-  gtfs %>% gtfs_write(folder="output", name="wales.bus.walesish.gtfs")
+  gtfs %>% gtfs_write(folder="output", name="wales.tnds.walesish.gtfs")
 
   list(
     CreatedAt = now() %>% format_ISO8601(usetz=TRUE),
     MaxSpatialExtent = wales_ish_bounding_box_string,
     DerivedFrom = I(describe_file("data-raw/wales.bus.tnds.zip"))
   ) %>% toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
-  write(paste0("output/wales.bus.walesish.gtfs.zip.meta.json"))
+  write(paste0("output/wales.tnds.walesish.gtfs.zip.meta.json"))
 
   # NCSD TXC stuff is buried within the zip
   unlink("data-raw/ncsd.bus.tnds", recursive=TRUE)
@@ -22,7 +22,7 @@ prepare_tnds_gtfs <- function(){
 
   gtfs <- gtfs %>% gtfs_wales_ish_ify()
   gtfs$routes$route_type = 202
-  gtfs %>% gtfs_write(folder="output", name="ncsd.bus.walesish.gtfs")
+  gtfs %>% gtfs_write(folder="output", name="ncsd.tnds.walesish.gtfs")
   unlink("data-raw/ncsd.bus.tnds", recursive=TRUE)
 
   list(
@@ -30,7 +30,7 @@ prepare_tnds_gtfs <- function(){
     MaxSpatialExtent = wales_ish_bounding_box_string,
     DerivedFrom = I(describe_file("data-raw/ncsd.bus.tnds.zip"))
   ) %>% toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
-  write(paste0("output/ncsd.bus.walesish.gtfs.zip.meta.json"))
+  write(paste0("output/ncsd.tnds.walesish.gtfs.zip.meta.json"))
 
 }
 
