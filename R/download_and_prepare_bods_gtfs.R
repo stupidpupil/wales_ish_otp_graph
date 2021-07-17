@@ -1,4 +1,4 @@
-download_and_prepare_bus_gtfs <- function(){
+download_and_prepare_bods_gtfs <- function(){
 
   english_regions <- c('west_midlands', 'north_west', 'south_west')
   base_bus_url <- "https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/"
