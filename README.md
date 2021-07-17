@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 17:48 BST on 14 July 2021. (The graph should update weekly.)
+The graph file was last updated at 10:38 BST on 17 July 2021. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download both the *otp.jar* and *graph.obj* files and put them in same place.
 
@@ -39,26 +39,26 @@ A small number of journeys, departing on Tuesday morning the following week, are
 
 | Description                      | Car   | Public |
 | :------------------------------- | :---- | :----- |
-| Abergavenny to Pontypridd        | 0h43m | 1h42m  |
-| Bala to Cardiff                  | 3h46m | 5h17m  |
-| Bangor Pier to Great Orme        | 0h50m | 1h25m  |
-| Caerphilly to Cwmafan            | 0h48m | 1h49m  |
-| Cardiff to Bala                  | 3h46m | 5h11m  |
+| Abergavenny to Pontypridd        | 0h44m | 1h42m  |
+| Bala to Cardiff                  | 3h58m | 5h17m  |
+| Bangor Pier to Great Orme        | 0h51m | 1h26m  |
+| Caerphilly to Cwmafan            | 0h51m | 1h47m  |
+| Cardiff to Bala                  | 3h58m | 5h11m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
-| Cardigan to Trawsfynydd          | 3h 2m | 4h33m  |
+| Cardigan to Trawsfynydd          | 3h 7m | 4h33m  |
 | Chirk to Walton                  | 1h29m | 3h32m  |
 | CP2 to Secret Garden Cafe        | 0h21m | 0h 9m  |
 | Cynghordy to Rhyader             | 0h55m | 1h53m  |
-| Grangetown Library to UHW A\&E   | 0h21m | 0h38m  |
+| Grangetown Library to UHW A\&E   | 0h21m | 0h35m  |
 | Lampeter to Llandovery           | 0h33m | 2h42m  |
 | Llangollen to Ruthin             | 0h29m | 1h11m  |
-| Merthyr to Cardiff               | 0h46m | 1h13m  |
+| Merthyr to Cardiff               | 0h46m | 1h18m  |
 | Pontsticill to the Naughty Stone | 0h28m | 1h10m  |
 | Rhosllanerchrugog to Denbigh     | 1h 2m | 1h55m  |
 | Swansea to Bargoed               | 1h13m | 1h58m  |
-| Swansea to Wrexham               | 3h42m | 4h31m  |
+| Swansea to Wrexham               | 3h43m | 4h38m  |
 | Treharris to Gellideg            | 0h19m | 0h42m  |
-| Whitland to Cardigan             | 0h44m | 2h 8m  |
+| Whitland to Cardigan             | 0h45m | 2h27m  |
 
 ## Thanks
 
