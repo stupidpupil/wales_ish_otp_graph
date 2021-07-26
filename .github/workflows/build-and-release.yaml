@@ -578,10 +578,28 @@ jobs:
           download_otp()
         shell: Rscript {0}
 
-      - name: Download meta jsons artifact
+      - name: Download OSM artifact
         uses: actions/download-artifact@v2
         with:
-          name: meta.jsons
+          name: wales_ish.osm.pbf
+          path: output
+
+      - name: Download ATOC GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: atoc.walesish.gtfs.zip
+          path: output
+
+      - name: Download TNDS GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: tnds.walesish.gtfs.zip
+          path: output
+
+      - name: Download BODS GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: bods.walesish.gtfs.zip
           path: output
 
       - name: Download transport graph artifact
@@ -616,6 +634,22 @@ jobs:
           prepare_readme()
         shell: Rscript {0}
 
+      - name: Prepare otp_and_graph.zip release asset
+        run: |
+          mkdir -p assets/otp_and_graph/graph
+          cp data-raw/otp.jar assets/otp_and_graph/
+          cp data-raw/run-otp.bat assets/otp_and_graph/
+          curl https://raw.githubusercontent.com/opentripplanner/OpenTripPlanner/dev-2.x/LICENSE -o assets/otp_and_graph/OTP_LICENSE
+          cp output/graph.obj assets/otp_and_graph/graph/
+          zip -9 -r assets/otp_and_graph.zip assets/otp_and_graph/
+
+      - name: Prepare gtfs_and_osm.zip release asset
+        run: |
+          mkdir -p assets/gtfs_and_osm
+          cp output/*.gtfs.* assets/gtfs_and_osm/
+          cp output/*.osm.* assets/gtfs_and_osm/
+          zip -9 -r assets/gtfs_and_osm.zip assets/gtfs_and_osm/
+
       - name: Checkout graph-releases branch
         uses: actions/checkout@v2
         with:
@@ -648,7 +682,7 @@ jobs:
       - name: Release new graph
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "data-raw/otp.jar,output/graph.obj"
+          artifacts: "assets/gtfs_and_osm.zip,assets/otp_and_graph.zip"
           bodyFile: "output/release_body.md"
           token: ${{ secrets.GITHUB_TOKEN }}
           commit: graph-releases
