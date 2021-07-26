@@ -642,7 +642,9 @@ jobs:
           curl https://raw.githubusercontent.com/opentripplanner/OpenTripPlanner/dev-2.x/LICENSE -o assets/otp_and_graph/OTP_LICENSE
           cp output/graph.obj* assets/otp_and_graph/graph/
           cp output/router-config.json assets/otp_and_graph/graph/
-          zip -9 -r assets/otp_and_graph.zip assets/otp_and_graph/
+          cd assets
+          zip -9 -r otp_and_graph.zip otp_and_graph/
+          cd ..
 
       - name: Prepare gtfs_and_osm.zip release asset
         run: |
@@ -650,7 +652,9 @@ jobs:
           cp output/*.gtfs.* assets/gtfs_and_osm/
           cp output/*.osm.* assets/gtfs_and_osm/
           cp output/build-config.json assets/gtfs_and_osm/
-          zip -9 -r assets/gtfs_and_osm.zip assets/gtfs_and_osm/
+          cd assets
+          zip -9 -r gtfs_and_osm.zip gtfs_and_osm/
+          cd ..
 
       - name: Checkout graph-releases branch
         uses: actions/checkout@v2
