@@ -521,7 +521,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: graph.obj
-          path: output/graph.obj
+          path: output/graph.obj*
           if-no-files-found: error
 
       - name: Upload meta jsons artifact
@@ -640,7 +640,7 @@ jobs:
           cp data-raw/otp.jar assets/otp_and_graph/
           cp data-raw/run-otp.bat assets/otp_and_graph/
           curl https://raw.githubusercontent.com/opentripplanner/OpenTripPlanner/dev-2.x/LICENSE -o assets/otp_and_graph/OTP_LICENSE
-          cp output/graph.obj assets/otp_and_graph/graph/
+          cp output/graph.obj* assets/otp_and_graph/graph/
           zip -9 -r assets/otp_and_graph.zip assets/otp_and_graph/
 
       - name: Prepare gtfs_and_osm.zip release asset
