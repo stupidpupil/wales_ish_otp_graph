@@ -1,11 +1,11 @@
 {
-  "CreatedAt": "2021-07-17T08:47:07+0000",
+  "CreatedAt": "2021-07-26T05:39:24+0000",
   "MaxSpatialExtent": "-5.4672,51.3431,-2.1742,53.4761",
   "DerivedFrom": {
     "Filename": "ncsd.bus.tnds.zip",
-    "SizeBytes": 655519,
+    "SizeBytes": 710247,
     "SourceUrl": "ftp://ftp.tnds.basemap.co.uk/NCSD.zip",
-    "SourceDownloadedAt": "2021-07-17T08:41:12+0000",
+    "SourceDownloadedAt": "2021-07-26T05:33:16+0000",
     "SourceLicence": "OGL-UK-3.0",
     "SourceAttribution": "Traveline"
   }
