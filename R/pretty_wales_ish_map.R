@@ -72,7 +72,7 @@ pretty_wales_ish_map <- function(){
       colour = '#9c3636', alpha=0.8
     ) +
     geom_path(data = crude_routes %>%
-        filter(filename %>% str_detect("wales.bus")) %>%
+        filter(filename %>% str_detect("^wales.(tnds|bus)")) %>%
         filter(route_short_name %>% str_detect("^T")),
       colour = '#58823D', size=0.6
     ) + 
