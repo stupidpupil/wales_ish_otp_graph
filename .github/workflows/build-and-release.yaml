@@ -531,6 +531,92 @@ jobs:
           path: output/*.meta.json
           if-no-files-found: error
 
+  prepare_r5_network.dat:
+    needs: [
+      'download_and_prepare_osm',
+      'download_and_prepare_atoc_gtfs', 
+      'download_and_prepare_bods_gtfs', 
+      'download_and_prepare_tnds_gtfs']
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@v1
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Restore R package cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install dependencies
+        run: |
+          install.packages(c("devtools"))
+          devtools::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+
+      - name: Install Java 11
+        if: steps.cache_street_graph.outputs.cache-hit != 'true'
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Download OSM artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: wales_ish.osm.pbf
+          path: output
+
+      - name: Download ATOC GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: atoc.walesish.gtfs.zip
+          path: output
+
+      - name: Download TNDS GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: tnds.walesish.gtfs.zip
+          path: output
+
+      - name: Download BODS GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: bods.walesish.gtfs.zip
+          path: output
+
+      - name: HACK Delete build-config.json
+        run: |
+          rm -f output/build-config.json
+
+      - name: Prepare r5 network.dat
+        run: |
+          options(java.parameters = '-Xmx6G')
+          install.packages(c("r5r"))
+          library(r5r)
+          setup_r5(data_path="output")
+        shell: Rscript {0}
+
+      - name: Upload r5 network.dat artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: network.dat
+          path: output/network.dat
+          if-no-files-found: error
+
   release:
     needs: [
       'prepare_pretty_map',
