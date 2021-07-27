@@ -531,7 +531,7 @@ jobs:
           path: output/*.meta.json
           if-no-files-found: error
 
-  prepare_r5_network.dat:
+  prepare_r5_network_dat:
     needs: [
       'download_and_prepare_osm',
       'download_and_prepare_atoc_gtfs', 
