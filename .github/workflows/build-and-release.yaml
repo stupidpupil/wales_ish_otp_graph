@@ -640,7 +640,7 @@ jobs:
           cp data-raw/otp.jar assets/otp_and_graph/
           cp data-raw/run-otp.bat assets/otp_and_graph/
           cp data-raw/run-otp.sh assets/otp_and_graph/
-          chmod og+x assets/otp_and_graph/run-otp.sh
+          chmod ugo+x assets/otp_and_graph/run-otp.sh
           curl https://raw.githubusercontent.com/opentripplanner/OpenTripPlanner/dev-2.x/LICENSE -o assets/otp_and_graph/OTP_LICENSE
           cp output/graph.obj* assets/otp_and_graph/graph/
           cp output/router-config.json assets/otp_and_graph/graph/
