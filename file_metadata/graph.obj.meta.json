@@ -1,5 +1,5 @@
 {
-  "CreatedAt": ["2021-07-26T18:12:49+0000"],
+  "CreatedAt": ["2021-07-30T11:23:48+0000"],
   "CreatedWithCommand": ["java --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED -Xmx8g -jar data-raw/otp.jar --loadStreet --save output"],
   "CreatedWithOpenTripPlannerVersion": ["2.1.0-SNAPSHOT, ser.ver.id: 8, commit: 6aebf2927b11be1f005c8db1041e66a2d8e884ec, branch: dev-2.x"],
   "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
@@ -20,63 +20,63 @@
     },
     {
       "Filename": ["ncsd.tnds.walesish.gtfs.zip"],
-      "SizeBytes": [27394],
-      "CreatedAt": ["2021-07-26T05:39:24+0000"],
+      "SizeBytes": [30019],
+      "CreatedAt": ["2021-07-30T11:09:39+0000"],
       "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
       "DerivedFrom": {
         "Filename": ["ncsd.bus.tnds.zip"],
-        "SizeBytes": [710247],
+        "SizeBytes": [807899],
         "SourceUrl": ["ftp://ftp.tnds.basemap.co.uk/NCSD.zip"],
-        "SourceDownloadedAt": ["2021-07-26T05:33:16+0000"],
+        "SourceDownloadedAt": ["2021-07-30T11:02:59+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["Traveline"]
       }
     },
     {
       "Filename": ["north_west.bods.walesish.gtfs.zip"],
-      "SizeBytes": [14926857],
-      "CreatedAt": ["2021-07-26T18:00:39+0000"],
+      "SizeBytes": [14741029],
+      "CreatedAt": ["2021-07-30T11:03:11+0000"],
       "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
       "DerivedFrom": {
         "Filename": ["north_west.bods.gtfs.zip"],
-        "SizeBytes": [54297056],
+        "SizeBytes": [52672075],
         "SourceUrl": ["https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/north_west/"],
-        "SourceDownloadedAt": ["2021-07-26T17:59:52+0000"],
+        "SourceDownloadedAt": ["2021-07-30T11:02:25+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["UK Department for Transport"]
       }
     },
     {
       "Filename": ["south_west.bods.walesish.gtfs.zip"],
-      "SizeBytes": [8522723],
-      "CreatedAt": ["2021-07-26T18:01:28+0000"],
+      "SizeBytes": [8529098],
+      "CreatedAt": ["2021-07-30T11:03:53+0000"],
       "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
       "DerivedFrom": {
         "Filename": ["south_west.bods.gtfs.zip"],
-        "SizeBytes": [89090522],
+        "SizeBytes": [98484335],
         "SourceUrl": ["https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/south_west/"],
-        "SourceDownloadedAt": ["2021-07-26T18:00:54+0000"],
+        "SourceDownloadedAt": ["2021-07-30T11:03:17+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["UK Department for Transport"]
       }
     },
     {
       "Filename": ["streetGraph.obj"],
-      "SizeBytes": [240410116],
-      "CreatedAt": ["2021-07-26T05:44:06+0000"],
+      "SizeBytes": [241208839],
+      "CreatedAt": ["2021-07-30T11:13:09+0000"],
       "CreatedWithCommand": ["java --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED -Xmx8g -jar data-raw/otp.jar --buildStreet output"],
       "CreatedWithOpenTripPlannerVersion": ["2.1.0-SNAPSHOT, ser.ver.id: 8, commit: 6aebf2927b11be1f005c8db1041e66a2d8e884ec, branch: dev-2.x"],
       "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
       "DerivedFrom": {
         "Filename": ["wales_ish.osm.pbf"],
-        "SizeBytes": [205523336],
-        "CreatedAt": ["2021-07-26T05:37:54+0000"],
+        "SizeBytes": [205892867],
+        "CreatedAt": ["2021-07-30T11:06:28+0000"],
         "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
         "DerivedFrom": {
           "Filename": ["great-britain-latest.osm.pbf"],
-          "SizeBytes": [1367262244],
+          "SizeBytes": [1369622215],
           "SourceUrl": ["https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"],
-          "SourceDownloadedAt": ["2021-07-26T05:36:00+0000"],
+          "SourceDownloadedAt": ["2021-07-30T11:04:48+0000"],
           "SourceLicence": ["ODbL-1.0"],
           "SourceAttribution": ["OpenStreetMap contributors"]
         }
@@ -84,28 +84,28 @@
     },
     {
       "Filename": ["wales.tnds.walesish.gtfs.zip"],
-      "SizeBytes": [7917420],
-      "CreatedAt": ["2021-07-26T05:37:56+0000"],
+      "SizeBytes": [8005731],
+      "CreatedAt": ["2021-07-30T11:08:17+0000"],
       "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
       "DerivedFrom": {
         "Filename": ["wales.bus.tnds.zip"],
-        "SizeBytes": [7657913],
+        "SizeBytes": [7772321],
         "SourceUrl": ["ftp://ftp.tnds.basemap.co.uk/W.zip"],
-        "SourceDownloadedAt": ["2021-07-26T05:33:15+0000"],
+        "SourceDownloadedAt": ["2021-07-30T11:02:59+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["Traveline"]
       }
     },
     {
       "Filename": ["west_midlands.bods.walesish.gtfs.zip"],
-      "SizeBytes": [3464406],
-      "CreatedAt": ["2021-07-26T17:59:45+0000"],
+      "SizeBytes": [3459226],
+      "CreatedAt": ["2021-07-30T11:02:21+0000"],
       "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
       "DerivedFrom": {
         "Filename": ["west_midlands.bods.gtfs.zip"],
-        "SizeBytes": [45097840],
+        "SizeBytes": [45155755],
         "SourceUrl": ["https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/west_midlands/"],
-        "SourceDownloadedAt": ["2021-07-26T17:59:24+0000"],
+        "SourceDownloadedAt": ["2021-07-30T11:02:03+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["UK Department for Transport"]
       }

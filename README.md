@@ -6,14 +6,13 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 21:51 BST on 26 July 2021. (The graph should update weekly.)
+The graph file was last updated at 12:44 BST on 30 July 2021. (The graph should update weekly.)
 
-[Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download both the *otp.jar* and *graph.obj* files and put them in same place.
+[Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp\_and\_graph.zip* asset.
 
-You can then start OpenTripPlanner with the following command:
-`java --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED -Xmx8g -jar otp.jar --load .` Eventually it’ll print “Started listener bound to \[0.0.0.0:8080\]” and you’ll be able to access the planner at `http://localhost:8080` .
+You can then start OpenTripPlanner using *run-otp.bat* (under Windows) or *run-otp.sh* (under Linux or macOS). Eventually it’ll print “Started listener bound to \[0.0.0.0:8080\]” and you’ll be able to access the planner at `http://localhost:8080` .
 
-(You’ll need [Java 11 or later](https://adoptopenjdk.net/). See the [OTP documentation](http://docs.opentripplanner.org/en/latest/) for more information.)
+(You’ll need [Java 11](https://adoptopenjdk.net/). See the [OTP documentation](http://docs.opentripplanner.org/en/latest/) for more information.)
 
 You can [see the code used to download source data and generate this graph here](https://github.com/stupidpupil/wales_ish_otp_graph).
 
@@ -46,10 +45,10 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Cardiff to Bala                  | 3h58m | 5h11m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
 | Cardigan to Trawsfynydd          | 3h 7m | 4h33m  |
-| Chirk to Walton                  | 1h29m | 3h32m  |
+| Chirk to Walton                  | 1h30m | 3h32m  |
 | CP2 to Secret Garden Cafe        | 0h21m | 0h 9m  |
 | Cynghordy to Rhayader            | 0h55m | 1h53m  |
-| Grangetown Library to UHW A\&E   | 0h21m | 0h36m  |
+| Grangetown Library to UHW A\&E   | 0h25m | 0h36m  |
 | Lampeter to Llandovery           | 0h33m | 2h42m  |
 | Llangollen to Ruthin             | 0h29m | 1h 1m  |
 | Merthyr to Cardiff               | 0h46m | 1h18m  |
