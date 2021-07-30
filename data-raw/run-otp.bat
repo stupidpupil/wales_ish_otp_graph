@@ -9,7 +9,7 @@ for /f tokens^=2-5^ delims^=.-_^" %%j in ('java -fullversion 2^>^&1') do set "JA
 
 if %JAVA_MAJOR_VERSION% LSS 11 (
   echo It looks like you need a newer version of Java.
-  echo Try installing JDK11 from https://adoptopenjdk.net/ !
+  echo Try installing OpenJDK 11 from https://adoptopenjdk.net/ !
   pause
   exit
 )
