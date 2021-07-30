@@ -604,16 +604,14 @@ jobs:
 
       - name: Prepare r5 network.dat
         run: |
-          options(java.parameters = '-Xmx6G')
-          install.packages(c("r5r"))
-          library(r5r)
-          setup_r5(data_path="output")
+          devtools::load_all()
+          prepare_r5_network_dat()
         shell: Rscript {0}
 
       - name: Upload r5 network.dat artifact
         uses: actions/upload-artifact@v2
         with:
-          name: network.dat
+          name: network.dat*
           path: output/network.dat
           if-no-files-found: error
 
@@ -694,6 +692,12 @@ jobs:
           name: graph.obj
           path: output
 
+      - name: Download network.dat artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: network.dat
+          path: output
+
       - name: Download pretty map artifact
         uses: actions/download-artifact@v2
         with:
@@ -744,6 +748,14 @@ jobs:
           zip -9 -r gtfs_and_osm.zip gtfs_and_osm/
           cd ..
 
+      - name: Prepare r5r_network_dat.zip release asset
+        run: |
+          mkdir -p assets/r5r_network_dat
+          cp output/network.dat* assets/r5r_network_dat/
+          cd assets
+          zip -9 -r r5r_network_dat.zip r5r_network_dat/
+          cd ..
+
       - name: Checkout graph-releases branch
         uses: actions/checkout@v2
         with:
@@ -776,7 +788,7 @@ jobs:
       - name: Release new graph
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "assets/gtfs_and_osm.zip,assets/otp_and_graph.zip"
+          artifacts: "assets/gtfs_and_osm.zip,assets/otp_and_graph.zip,assets/r5r_network_dat.zip"
           bodyFile: "output/release_body.md"
           token: ${{ secrets.GITHUB_TOKEN }}
           commit: graph-releases
