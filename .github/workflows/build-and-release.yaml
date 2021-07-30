@@ -602,7 +602,16 @@ jobs:
         run: |
           rm -f output/build-config.json
 
+      - name: Cache r5r network.dat
+        id: cache_network_dat
+        uses: actions/cache@v2
+        with:
+          path: |
+            output/network.dat*
+          key: ${{ hashFiles('output/*', 'R/java*', 'R/*r5r*') }}
+
       - name: Prepare r5r network.dat
+        if: steps.cache_network_dat.outputs.cache-hit != 'true'
         run: |
           devtools::load_all()
           prepare_r5r_network_dat()
