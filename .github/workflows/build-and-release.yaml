@@ -531,7 +531,7 @@ jobs:
           path: output/*.meta.json
           if-no-files-found: error
 
-  prepare_r5_network_dat:
+  prepare_r5r_network_dat:
     needs: [
       'download_and_prepare_osm',
       'download_and_prepare_atoc_gtfs', 
@@ -602,13 +602,13 @@ jobs:
         run: |
           rm -f output/build-config.json
 
-      - name: Prepare r5 network.dat
+      - name: Prepare r5r network.dat
         run: |
           devtools::load_all()
-          prepare_r5_network_dat()
+          prepare_r5r_network_dat()
         shell: Rscript {0}
 
-      - name: Upload r5 network.dat artifact
+      - name: Upload r5r network.dat artifact
         uses: actions/upload-artifact@v2
         with:
           name: network.dat*
@@ -617,6 +617,7 @@ jobs:
 
   release:
     needs: [
+      'prepare_r5r_network_dat',
       'prepare_pretty_map',
       'prepare_final_graph']
     runs-on: macOS-latest
