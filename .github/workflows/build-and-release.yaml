@@ -611,8 +611,8 @@ jobs:
       - name: Upload r5r network.dat artifact
         uses: actions/upload-artifact@v2
         with:
-          name: network.dat*
-          path: output/network.dat
+          name: network.dat
+          path: output/network.dat*
           if-no-files-found: error
 
   release:
