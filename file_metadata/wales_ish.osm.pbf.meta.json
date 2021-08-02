@@ -1,11 +1,11 @@
 {
-  "CreatedAt": "2021-07-30T11:06:28+0000",
+  "CreatedAt": "2021-08-02T05:38:25+0000",
   "MaxSpatialExtent": "-5.4672,51.3431,-2.1742,53.4761",
   "DerivedFrom": {
     "Filename": "great-britain-latest.osm.pbf",
-    "SizeBytes": 1369622215,
+    "SizeBytes": 1370970903,
     "SourceUrl": "https://download.geofabrik.de/europe/great-britain-latest.osm.pbf",
-    "SourceDownloadedAt": "2021-07-30T11:04:48+0000",
+    "SourceDownloadedAt": "2021-08-02T05:36:35+0000",
     "SourceLicence": "ODbL-1.0",
     "SourceAttribution": "OpenStreetMap contributors"
   }
