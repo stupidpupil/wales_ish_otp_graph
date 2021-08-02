@@ -8,9 +8,9 @@ output:
     pandoc_args: ["--wrap=preserve"]
 ---
 
-You can [read more about this OpenTripPlanner graph here](https://stupidpupil.github.io/wales_ish_otp_graph).
+You can [read more about this OpenTripPlanner network graph here](https://stupidpupil.github.io/wales_ish_otp_graph).
 
-You can [see the scripts used to download source data and generate this graph here](https://github.com/stupidpupil/wales_ish_otp_graph).
+You can [see the scripts used to download source data and generate it here](https://github.com/stupidpupil/wales_ish_otp_graph).
 
 ## License
 The *graph.obj* graph file is made available under the [ODbL v1.0](https://opendatacommons.org/licenses/odbl/1-0/) by Adam Watkins as part of the [Wales-ish OTP graph project](https://stupidpupil.github.io/wales_ish_otp_graph).
@@ -26,3 +26,15 @@ The graph file is provided without any warranty of any kind and without any endo
 If you provide a routing service or similar using the graph file you should make sure that the above attributions are stated clearly. If you produce a set of routing instructions using such a routing service, these likely form a "derived database" and should also be provided under the [ODbL v1.0](https://opendatacommons.org/licenses/odbl/1-0/), again with the attributions above attached.
 
 *otp.jar* is a copy of the version of [OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner) used to generate the graph file; it is released under the [LGPL v3.0 (or later)](https://github.com/opentripplanner/OpenTripPlanner/blob/dev-2.x/LICENSE). Again, it is provided without any warranty of any kind and without any endorsement, for any purpose.
+
+## Guide to release assets
+
+### otp_and_graph.zip
+
+A copy of [OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner) and a pre-generated network 'graph' for use with it. Use this to get going quickly with your own instance of OpenTripPlanner. 
+
+You will need to [install Java 11](https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot) to run OpenTripPlanner.
+
+### gtfs_and_osm.zip
+
+Public transport and map data in the commonly used [GTFS](https://en.wikipedia.org/wiki/General_Transit_Feed_Specification) and [OSM PBF](https://wiki.openstreetmap.org/wiki/PBF_Format) formats. Many trip planning and transport analysis programs will accept these files. Use this if you want to analyse the timetables yourself or alter them and generate your own network graph.
