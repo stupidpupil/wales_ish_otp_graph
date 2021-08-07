@@ -6,13 +6,13 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 07:03 BST on 02 August 2021. (The graph should update weekly.)
+The graph file was last updated at 18:10 BST on 07 August 2021. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp\_and\_graph.zip* asset.
 
 You can then start OpenTripPlanner using *run-otp.bat* (under Windows) or *run-otp.sh* (under Linux or macOS). Eventually it’ll print “Started listener bound to \[0.0.0.0:8080\]” and you’ll be able to access the planner at `http://localhost:8080` .
 
-(You’ll need [Java 11](https://adoptopenjdk.net/). See the [OTP documentation](http://docs.opentripplanner.org/en/latest/) for more information.)
+(You’ll need [Java 11](https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot). See the [OTP documentation](http://docs.opentripplanner.org/en/latest/) for more information.)
 
 You can [see the code used to download source data and generate this graph here](https://github.com/stupidpupil/wales_ish_otp_graph).
 
@@ -38,26 +38,26 @@ A small number of journeys, departing on Tuesday morning the following week, are
 
 | Description                      | Car   | Public |
 | :------------------------------- | :---- | :----- |
-| Abergavenny to Pontypridd        | 0h44m | 1h42m  |
-| Bala to Cardiff                  | 3h58m | 5h24m  |
-| Bangor Pier to Great Orme        | 0h51m | 1h26m  |
-| Caerphilly to Cwmafan            | 0h52m | 1h47m  |
-| Cardiff to Bala                  | 3h58m | 5h11m  |
+| Abergavenny to Pontypridd        | 0h43m | 1h45m  |
+| Bala to Cardiff                  | 3h47m | 5h25m  |
+| Bangor Pier to Great Orme        | 0h50m | 1h30m  |
+| Caerphilly to Cwmafan            | 0h50m | 1h49m  |
+| Cardiff to Bala                  | 3h47m | 5h14m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
-| Cardigan to Trawsfynydd          | 3h 7m | 4h33m  |
-| Chirk to Walton                  | 1h30m | 3h32m  |
-| CP2 to Secret Garden Cafe        | 0h21m | 0h 9m  |
-| Cynghordy to Rhayader            | 0h55m | 1h53m  |
-| Grangetown Library to UHW A\&E   | 0h25m | 0h36m  |
+| Cardigan to Trawsfynydd          | 3h 2m | 4h33m  |
+| Chirk to Walton                  | 1h30m | 4h17m  |
+| CP2 to Secret Garden Cafe        | 0h22m | 0h 9m  |
+| Cynghordy to Rhayader            | 0h59m | 2h42m  |
+| Grangetown Library to UHW A\&E   | 0h21m | 0h36m  |
 | Lampeter to Llandovery           | 0h33m | 2h42m  |
 | Llangollen to Ruthin             | 0h29m | 1h 1m  |
-| Merthyr to Cardiff               | 0h46m | 1h18m  |
+| Merthyr to Cardiff               | 0h46m | 1h24m  |
 | Pontsticill to the Naughty Stone | 0h28m | 1h10m  |
 | Rhosllanerchrugog to Denbigh     | 1h 2m | 1h55m  |
-| Swansea to Bargoed               | 1h13m | 1h58m  |
-| Swansea to Wrexham               | 3h43m | 4h38m  |
+| Swansea to Bargoed               | 1h15m | 2h 6m  |
+| Swansea to Wrexham               | 3h44m | 4h53m  |
 | Treharris to Gellideg            | 0h19m | 0h42m  |
-| Whitland to Cardigan             | 0h45m | 2h27m  |
+| Whitland to Cardigan             | 0h44m | 2h27m  |
 
 ## Thanks
 
