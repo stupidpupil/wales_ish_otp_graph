@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 06:56 BST on 09 August 2021. (The graph should update weekly.)
+The graph file was last updated at 07:05 BST on 16 August 2021. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp\_and\_graph.zip* asset.
 
@@ -55,7 +55,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Pontsticill to the Naughty Stone | 0h28m | 1h10m  |
 | Rhosllanerchrugog to Denbigh     | 1h 2m | 1h55m  |
 | Swansea to Bargoed               | 1h15m | 2h 6m  |
-| Swansea to Wrexham               | 3h44m | 4h59m  |
+| Swansea to Wrexham               | 3h44m | 4h53m  |
 | Treharris to Gellideg            | 0h19m | 0h42m  |
 | Whitland to Cardigan             | 0h44m | 2h27m  |
 
