@@ -1,11 +1,11 @@
 {
-  "CreatedAt": "2021-08-16T05:37:41+0000",
+  "CreatedAt": "2021-08-23T05:36:45+0000",
   "MaxSpatialExtent": "-5.4672,51.3431,-2.1742,53.4761",
   "DerivedFrom": {
     "Filename": "wales.bus.tnds.zip",
-    "SizeBytes": 7810412,
+    "SizeBytes": 7792190,
     "SourceUrl": "ftp://ftp.tnds.basemap.co.uk/W.zip",
-    "SourceDownloadedAt": "2021-08-16T05:32:44+0000",
+    "SourceDownloadedAt": "2021-08-23T05:31:33+0000",
     "SourceLicence": "OGL-UK-3.0",
     "SourceAttribution": "Traveline"
   }
