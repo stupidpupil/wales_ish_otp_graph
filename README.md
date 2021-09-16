@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 07:07 BST on 13 September 2021. (The graph should update weekly.)
+The graph file was last updated at 16:30 BST on 16 September 2021. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp\_and\_graph.zip* asset.
 
@@ -40,7 +40,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | :------------------------------- | :---- | :----- |
 | Abergavenny to Pontypridd        | 0h43m | 1h45m  |
 | Bala to Cardiff                  | 3h47m | 4h40m  |
-| Bangor Pier to Great Orme        | 0h50m | 1h30m  |
+| Bangor Pier to Great Orme        | 0h50m | 1h39m  |
 | Caerphilly to Cwmafan            | 0h50m | 2h12m  |
 | Cardiff to Bala                  | 3h47m | 5h14m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
@@ -50,10 +50,10 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Cynghordy to Rhayader            | 0h59m | 2h42m  |
 | Grangetown Library to UHW A\&E   | 0h21m | 0h37m  |
 | Lampeter to Llandovery           | 0h33m | 2h42m  |
-| Llangollen to Ruthin             | 0h29m | 1h 1m  |
+| Llangollen to Ruthin             | 0h29m | 1h11m  |
 | Merthyr to Cardiff               | 0h46m | 1h19m  |
 | Pontsticill to the Naughty Stone | 0h28m | 1h10m  |
-| Rhosllanerchrugog to Denbigh     | 1h 2m | 1h55m  |
+| Rhosllanerchrugog to Denbigh     | 1h 2m | 1h48m  |
 | Swansea to Bargoed               | 1h15m | 2h13m  |
 | Swansea to Wrexham               | 3h44m | 4h53m  |
 | Treharris to Gellideg            | 0h19m | 0h42m  |
