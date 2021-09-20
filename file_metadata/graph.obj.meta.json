@@ -1,5 +1,5 @@
 {
-  "CreatedAt": ["2021-09-20T09:55:03+0000"],
+  "CreatedAt": ["2021-09-20T18:51:46+0000"],
   "CreatedWithCommand": ["java --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED -Xmx8g -jar data-raw/otp.jar --loadStreet --save output"],
   "CreatedWithOpenTripPlannerVersion": ["2.1.0-SNAPSHOT, ser.ver.id: 8, commit: 1d9b475613d67e37cae390b1f259440395a7743b, branch: dev-2.x"],
   "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
@@ -21,13 +21,13 @@
     {
       "Filename": ["ncsd.tnds.walesish.gtfs.zip"],
       "SizeBytes": [46360],
-      "CreatedAt": ["2021-09-20T05:39:22+0000"],
+      "CreatedAt": ["2021-09-20T18:43:34+0000"],
       "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
       "DerivedFrom": {
         "Filename": ["ncsd.bus.tnds.zip"],
         "SizeBytes": [1083716],
         "SourceUrl": ["ftp://ftp.tnds.basemap.co.uk/NCSD.zip"],
-        "SourceDownloadedAt": ["2021-09-20T05:30:46+0000"],
+        "SourceDownloadedAt": ["2021-09-20T18:35:55+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["Traveline"]
       }
@@ -84,14 +84,14 @@
     },
     {
       "Filename": ["wales.tnds.walesish.gtfs.zip"],
-      "SizeBytes": [7912675],
-      "CreatedAt": ["2021-09-20T05:36:42+0000"],
+      "SizeBytes": [7922185],
+      "CreatedAt": ["2021-09-20T18:41:21+0000"],
       "MaxSpatialExtent": ["-5.4672,51.3431,-2.1742,53.4761"],
       "DerivedFrom": {
         "Filename": ["wales.bus.tnds.zip"],
         "SizeBytes": [7807199],
         "SourceUrl": ["ftp://ftp.tnds.basemap.co.uk/W.zip"],
-        "SourceDownloadedAt": ["2021-09-20T05:30:45+0000"],
+        "SourceDownloadedAt": ["2021-09-20T18:35:53+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["Traveline"]
       }
