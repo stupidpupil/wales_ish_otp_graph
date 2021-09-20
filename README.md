@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 16:30 BST on 16 September 2021. (The graph should update weekly.)
+The graph file was last updated at 07:04 BST on 20 September 2021. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp\_and\_graph.zip* asset.
 
@@ -38,14 +38,14 @@ A small number of journeys, departing on Tuesday morning the following week, are
 
 | Description                      | Car   | Public |
 | :------------------------------- | :---- | :----- |
-| Abergavenny to Pontypridd        | 0h43m | 1h45m  |
+| Abergavenny to Pontypridd        | 0h43m | 1h56m  |
 | Bala to Cardiff                  | 3h47m | 4h40m  |
 | Bangor Pier to Great Orme        | 0h50m | 1h39m  |
 | Caerphilly to Cwmafan            | 0h50m | 2h12m  |
-| Cardiff to Bala                  | 3h47m | 5h14m  |
+| Cardiff to Bala                  | 3h53m | 5h24m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
 | Cardigan to Trawsfynydd          | 3h 3m | 4h33m  |
-| Chirk to Walton                  | 1h30m | 4h20m  |
+| Chirk to Walton                  | 1h30m | 3h44m  |
 | CP2 to Secret Garden Cafe        | 0h21m | 0h 9m  |
 | Cynghordy to Rhayader            | 0h59m | 2h42m  |
 | Grangetown Library to UHW A\&E   | 0h21m | 0h37m  |
@@ -55,7 +55,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Pontsticill to the Naughty Stone | 0h28m | 1h10m  |
 | Rhosllanerchrugog to Denbigh     | 1h 2m | 1h48m  |
 | Swansea to Bargoed               | 1h15m | 2h13m  |
-| Swansea to Wrexham               | 3h44m | 4h53m  |
+| Swansea to Wrexham               | 3h40m | 4h53m  |
 | Treharris to Gellideg            | 0h19m | 0h42m  |
 | Whitland to Cardigan             | 0h44m | 2h27m  |
 
