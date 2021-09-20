@@ -160,7 +160,7 @@ jobs:
         with:
           path: |
             output/*.tnds.*
-          key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/*bound*', 'R/gtfs*') }}-v5
+          key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/*bound*', 'R/gtfs*') }}-v6
 
       - uses: r-lib/actions/setup-r@v1
         if: steps.cache_tnds.outputs.cache-hit != 'true'
