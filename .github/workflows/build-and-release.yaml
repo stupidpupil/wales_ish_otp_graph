@@ -60,7 +60,7 @@ jobs:
         if: steps.cache_osm.outputs.cache-hit != 'true'
         run: |
           devtools::load_all()
-          options(timeout=240)
+          options(timeout=600)
           download_and_prepare_osm()
         shell: Rscript {0}
 
