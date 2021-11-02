@@ -1,12 +1,5 @@
 prepare_r5r_network_dat <- function(){
   options(java.parameters = java_args())
-
-  # HACK
-  if(!require('r5r', character.only = TRUE)){
-    install.packages('r5r', dependencies = TRUE)
-    library('r5r', character.only = TRUE)
-  }
-
   setup_r5(data_path="output")
 
   list(

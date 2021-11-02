@@ -16,6 +16,7 @@ Depends:
   rmarkdown,
   processx,
   jsonlite,
-  lubridate
+  lubridate,
+  r5r
 Remotes:
   stupidpupil/UK2GTFS
