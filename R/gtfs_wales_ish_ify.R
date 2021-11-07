@@ -20,10 +20,10 @@ gtfs_wales_ish_ify <- function(gtfs){
   filter_end_date <- filter_start_date + lubridate::days(29)
 
   gtfs$calendar <- gtfs$calendar %>%
-    filter(end_date >= filter_start_date, start_date <= filter_end_date)
+    filter(lubridate::ymd(end_date) >= filter_start_date, lubridate::ymd(start_date) <= filter_end_date)
 
   gtfs$calendar_dates <- gtfs$calendar_dates %>%
-    filter(date >= filter_start_date, date <= filter_end_date)
+    filter(lubridate::ymd(date) >= filter_start_date, lubridate::ymd(date) <= filter_end_date)
 
   gtfs$trips <- gtfs$trips %>% 
     filter(
