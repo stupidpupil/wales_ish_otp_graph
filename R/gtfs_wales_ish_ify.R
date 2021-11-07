@@ -18,16 +18,25 @@ gtfs_wales_ish_ify <- function(gtfs){
 
   filter_start_date <- lubridate::today() - lubridate::days(1)
   filter_end_date <- filter_start_date + lubridate::days(29)
+  filter_services_ids <- c()
 
-  gtfs$calendar <- gtfs$calendar %>%
-    filter(lubridate::ymd(end_date) >= filter_start_date, lubridate::ymd(start_date) <= filter_end_date)
+  if(all(c('start_date', 'end_date') %in% colnames(gtfs$calendar))){
+    gtfs$calendar <- gtfs$calendar %>%
+      filter(lubridate::ymd(end_date) >= filter_start_date, lubridate::ymd(start_date) <= filter_end_date)
 
-  gtfs$calendar_dates <- gtfs$calendar_dates %>%
-    filter(lubridate::ymd(date) >= filter_start_date, lubridate::ymd(date) <= filter_end_date)
+    filter_services_ids <- c(filter_services_ids, gtfs$calendar$service_id %>% unique())
+  }
+
+  if('date' %in% colnames(gtfs$calendar_dates)){
+    gtfs$calendar_dates <- gtfs$calendar_dates %>%
+      filter(lubridate::ymd(date) >= filter_start_date, lubridate::ymd(date) <= filter_end_date)
+
+    filter_services_ids <- c(filter_services_ids, gtfs$calendar_dates$service_id %>% unique())
+  }
 
   gtfs$trips <- gtfs$trips %>% 
     filter(
-      service_id %in% c(gtfs$calendar$service_id, gtfs$calendar_dates$service_id)
+      service_id %in% filter_services_ids
       )
 
   gtfs$stop_times <- gtfs$stop_times %>% filter(
