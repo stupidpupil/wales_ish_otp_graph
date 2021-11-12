@@ -2,3 +2,4 @@ config.yml
 tmp/*
 assets
 assets/*
+data-raw/regions_and_nations/*
