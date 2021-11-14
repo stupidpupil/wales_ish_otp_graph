@@ -6,7 +6,6 @@ prepare_atoc_gtfs <- function(){
 
   list(
     CreatedAt = now() %>% format_ISO8601(usetz=TRUE),
-    MaxSpatialExtent = wales_ish_bounding_box_string,
     DerivedFrom = I(describe_file("data-raw/atoc.zip"))
   ) %>% toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
   write("output/atoc.walesish.gtfs.zip.meta.json")

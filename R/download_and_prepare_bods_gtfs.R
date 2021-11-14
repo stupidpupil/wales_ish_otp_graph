@@ -1,9 +1,9 @@
 download_and_prepare_bods_gtfs <- function(){
 
-  english_regions <- c('west_midlands', 'north_west', 'south_west')
+  bods_files <- intersecting_regions_and_nations() %>% pull(bods_itm_code) %>% na.omit()
   base_bus_url <- "https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/"
 
-  for (r in english_regions) {
+  for (r in bods_files) {
     print(paste0("Downloading bus data for ", r, "…"))
     bus_url <- paste0(base_bus_url, r, '/')
     dest_path <- paste0("data-raw/", r, ".bods.gtfs.zip")
@@ -23,7 +23,6 @@ download_and_prepare_bods_gtfs <- function(){
 
     list(
       CreatedAt = now() %>% format_ISO8601(usetz=TRUE),
-      MaxSpatialExtent = wales_ish_bounding_box_string,
       DerivedFrom = I(describe_file(dest_path))
     ) %>% toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
     write(paste0("output/", r, ".bods.walesish.gtfs.zip.meta.json"))

@@ -1,24 +1,19 @@
 download_tnds <- function(){
-  download.file(
-    paste0("ftp://",config::get()$tnds_username,":",config::get()$tnds_password,"@ftp.tnds.basemap.co.uk/W.zip"),
-     "data-raw/wales.bus.tnds.zip")
 
-  toJSON(pretty = TRUE, auto_unbox = TRUE, list(
-    SourceUrl = "ftp://ftp.tnds.basemap.co.uk/W.zip",
-    SourceDownloadedAt = now() %>% format_ISO8601(usetz=TRUE),
-    SourceLicence = "OGL-UK-3.0",
-    SourceAttribution = "Traveline"
-  )) %>% write("data-raw/wales.bus.tnds.zip.meta.json")
+  tnds_files <- intersecting_regions_and_nations() %>% pull(tnds_code) %>% na.omit()
+  tnds_files <- c(tnds_files, 'NCSD')
 
-  download.file(
-    paste0("ftp://",config::get()$tnds_username,":",config::get()$tnds_password,"@ftp.tnds.basemap.co.uk/NCSD.zip"),
-     "data-raw/ncsd.bus.tnds.zip")
+  for(r in tnds_files){
+    download.file(
+      paste0("ftp://",config::get()$tnds_username,":",config::get()$tnds_password,"@ftp.tnds.basemap.co.uk/", r, ".zip"),
+       paste0("data-raw/", r, ".bus.tnds.zip"))
 
-  toJSON(pretty = TRUE, auto_unbox = TRUE, list(
-    SourceUrl = "ftp://ftp.tnds.basemap.co.uk/NCSD.zip",
-    SourceDownloadedAt = now() %>% format_ISO8601(usetz=TRUE),
-    SourceLicence = "OGL-UK-3.0",
-    SourceAttribution = "Traveline"
-  )) %>% write("data-raw/ncsd.bus.tnds.zip.meta.json")
+    toJSON(pretty = TRUE, auto_unbox = TRUE, list(
+      SourceUrl = paste0("ftp://ftp.tnds.basemap.co.uk/",r,".zip"),
+      SourceDownloadedAt = now() %>% format_ISO8601(usetz=TRUE),
+      SourceLicence = "OGL-UK-3.0",
+      SourceAttribution = "Traveline"
+    )) %>% write(paste0("data-raw/",r,".bus.tnds.zip.meta.json"))
+  }
 
 }
