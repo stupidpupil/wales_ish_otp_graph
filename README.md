@@ -17,8 +17,6 @@ download_and_prepare_bods_gtfs()
 download_and_prepare_osm()
 prepare_street_graph()
 prepare_transport_graph()
-prepare_test_journeys()
-check_test_journeys()
 # output/ should now contain graph.obj
 ```
 ## Licence of outputs
