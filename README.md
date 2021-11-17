@@ -6,7 +6,7 @@ You need [osmium-tool](https://osmcode.org/osmium-tool/) installed and in your P
 
 ## How-to
 
-Download the *autoregion* branch.
+Download the *autoregion* branch. Everything else _should_ be covered in the DESCRIPTION file…
 
 ```R
 devtools::load_all()
