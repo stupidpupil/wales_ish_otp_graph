@@ -3,6 +3,7 @@
 ## Requirements
 You need [osmium-tool](https://osmcode.org/osmium-tool/) installed and in your PATH.
 
+You need [JDK 11](https://adoptium.net/?variant=openjdk11) installed and setup.
 
 ## How-to
 
