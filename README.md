@@ -1,37 +1,18 @@
-# Wales-ish OTP Graph Generator
-
-This is a bunch to scripts to help assemble OpenTripPlanner graphs that are useable for planning trips, by car or public transport, between places in Wales - including where these trips involve a short journey entirely within England. (It likely also works well enough for planning trips between places in Wales and a small number of English towns just the other side of the border.)
-
-[See the GitHub page for this repository for releases of graphs produced by this script](https://stupidpupil.github.io/wales_ish_otp_graph/).
-
-## Features and Anti-Features
-
-- Downloads OpenStreetMap data from geofabrik.de
-- Downloads Welsh bus etc. data from Traveline (requires registration)
-- Download heavy rail CIF from data.atoc.org (requires registration)
-- Downloads English bus etc. open data from DfT GOV.UK
-- Does some basic checking of a small number of test journeys
-- Includes a Github Actions workflow with parallelisation and caching
-
-### Default Coverage
-- Creates extracts of street and public transport data covering Wales and a strip of the borders
-- Covers Chester, Crewe, Liverpool, Shrewsbury, Hereford, Bristol, Gloucester
-- Doesn't cover Wolverhampton, Birmingham or most of Manchester
+# Wales-ish OTP Graph Generator - Autoregion Branch
 
 ## Requirements
-- R
-- UK2GTFS R package
-- osmium
+You need [osmium-tool](https://osmcode.org/osmium-tool/) installed and in your PATH.
+
 
 ## How-to
 
+Download the *autoregion* branch.
+
 ```R
 devtools::load_all()
-# Complete config.yml
+# Complete config.yml - see config.yml.example
 download_atoc()
 prepare_atoc_gtfs()
-download_tnds()
-prepare_tnds_gtfs()
 download_and_prepare_bods_gtfs()
 download_and_prepare_osm()
 prepare_street_graph()
