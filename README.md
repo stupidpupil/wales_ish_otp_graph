@@ -16,9 +16,12 @@ download_atoc()
 prepare_atoc_gtfs()
 download_and_prepare_bods_gtfs()
 download_and_prepare_osm()
+download_otp()
 prepare_street_graph()
 prepare_transport_graph()
 # output/ should now contain graph.obj
+# and you can start OpenTripPlanner with
+# java -Xmx4g -jar data-raw/otp.jar --load output
 ```
 ## Licence of outputs
 
