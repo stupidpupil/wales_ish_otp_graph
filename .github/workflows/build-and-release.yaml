@@ -77,6 +77,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
       ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@v1
@@ -109,6 +110,7 @@ jobs:
             default:
               atoc_username: !expr Sys.getenv("ATOC_USERNAME")
               atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+              bounds: !expr Sys.getenv("BOUNDS")
 
       - name: Get ATOC URL
         id: atoc_url
@@ -146,6 +148,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
       TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
     steps:
       - uses: actions/checkout@v2
 
@@ -200,7 +203,8 @@ jobs:
             default:
               tnds_username: !expr Sys.getenv("TNDS_USERNAME")
               tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            
+              bounds: !expr Sys.getenv("BOUNDS")
+
       - name: Download and prepare TNDS GTFS
         if: steps.cache_tnds.outputs.cache-hit != 'true'
         run: |
@@ -221,6 +225,8 @@ jobs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+
     steps:
       - uses: actions/checkout@v2
 
@@ -228,6 +234,15 @@ jobs:
         id: bods_index_page_hash
         run : |
           echo "::set-output name=hash::$(curl "https://data.bus-data.dft.gov.uk/timetable/download/" | md5)"
+
+      - name: Write config.yml
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+              bounds: !expr Sys.getenv("BOUNDS")
 
       - name: Cache BODS
         id: cache_bods
@@ -350,6 +365,7 @@ jobs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      BOUNDS: ${{ secrets.BOUNDS }}
     steps:
       - uses: actions/checkout@v2
 
@@ -376,6 +392,15 @@ jobs:
           install.packages(c("devtools"))
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}
+
+      - name: Write config.yml
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+              bounds: !expr Sys.getenv("BOUNDS")
 
       - name: Download OTP
         run: |
