@@ -822,6 +822,7 @@ jobs:
 
       - name: Release new graph
         uses: ncipollo/release-action@v1
+        if: github.ref == 'refs/heads/main' 
         with:
           artifacts: "assets/otp_and_graph.zip,assets/gtfs_and_osm.zip,assets/r5r_network_dat.zip"
           bodyFile: "output/release_body.md"
