@@ -5,7 +5,7 @@ bounds <- function(){
     sf::st_crs(bounds) <- 4326
   }
 
-  bounds <- st_make_valid(bounds)
+  bounds <- sf::st_make_valid(bounds)
 
   return(bounds)
 }
