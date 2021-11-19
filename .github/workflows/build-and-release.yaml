@@ -10,6 +10,7 @@ jobs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      BOUNDS: ${{ secrets.BOUNDS }}
     steps:
       - uses: actions/checkout@v2
 
@@ -17,6 +18,15 @@ jobs:
         id: geofabrik_etag
         run : |
           echo "::set-output name=etag::$(curl -I "https://download.geofabrik.de/europe/great-britain-latest.osm.pbf" | grep "ETag")"
+
+      - name: Write config.yml
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+              bounds: !expr Sys.getenv("BOUNDS")
 
       - name: Cache OSM
         id: cache_osm
@@ -365,7 +375,6 @@ jobs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      BOUNDS: ${{ secrets.BOUNDS }}
     steps:
       - uses: actions/checkout@v2
 
@@ -392,15 +401,6 @@ jobs:
           install.packages(c("devtools"))
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}
-
-      - name: Write config.yml
-        if: steps.cache_tnds.outputs.cache-hit != 'true'
-        uses: DamianReeves/write-file-action@v1.0
-        with:
-          path: ${{ github.workspace }}/config.yml
-          contents: |
-            default:
-              bounds: !expr Sys.getenv("BOUNDS")
 
       - name: Download OTP
         run: |
