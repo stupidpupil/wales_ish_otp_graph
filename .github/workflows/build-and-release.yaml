@@ -34,7 +34,7 @@ jobs:
         with:
           path: |
             output/*osm*
-          key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('R/*osm*', 'R/*bound*') }}
+          key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('R/*osm*', 'config.yml') }}
 
       - uses: r-lib/actions/setup-r@v1
         if: steps.cache_osm.outputs.cache-hit != 'true'
@@ -135,7 +135,7 @@ jobs:
         with:
           path: |
             output/*atoc*gtfs*
-          key: ${{ steps.atoc_url.outputs.url }}-${{ hashFiles('R/*atoc*', 'R/*bound*', 'R/gtfs*') }}-v3
+          key: ${{ steps.atoc_url.outputs.url }}-${{ hashFiles('R/*atoc*', 'R/gtfs*', 'config.yml') }}-v3
 
       - name: Download and prepare ATOC GTFS
         if: steps.cache_atoc.outputs.cache-hit != 'true'
@@ -167,13 +167,24 @@ jobs:
         run : |
           echo "::set-output name=hash::$(curl ftp://$TNDS_USERNAME:$TNDS_PASSWORD@ftp.tnds.basemap.co.uk | md5)"
 
+      - name: Write config.yml
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+              tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+              tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+              bounds: !expr Sys.getenv("BOUNDS")
+
       - name: Cache TNDS
         id: cache_tnds
         uses: actions/cache@v2
         with:
           path: |
             output/*.tnds.*
-          key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/*bound*', 'R/gtfs*') }}-v8
+          key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/gtfs*', 'config.yml') }}-v8
 
       - uses: r-lib/actions/setup-r@v1
         if: steps.cache_tnds.outputs.cache-hit != 'true'
@@ -203,17 +214,6 @@ jobs:
           install.packages(c("devtools"))
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}
-
-      - name: Write config.yml
-        if: steps.cache_tnds.outputs.cache-hit != 'true'
-        uses: DamianReeves/write-file-action@v1.0
-        with:
-          path: ${{ github.workspace }}/config.yml
-          contents: |
-            default:
-              tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-              tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-              bounds: !expr Sys.getenv("BOUNDS")
 
       - name: Download and prepare TNDS GTFS
         if: steps.cache_tnds.outputs.cache-hit != 'true'
@@ -259,7 +259,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: output/*.bods.*
-          key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('R/*bus*', 'R/*bound*', 'R/*gtfs*') }}-v2
+          key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('R/*bus*', 'R/*gtfs*', 'config.yml') }}-v2
 
       - uses: r-lib/actions/setup-r@v1
         if: steps.cache_bods.outputs.cache-hit != 'true'
