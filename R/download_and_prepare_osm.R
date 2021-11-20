@@ -12,9 +12,12 @@ download_and_prepare_osm <- function(){
     SourceAttribution = "OpenStreetMap contributors"
   )) %>% write(paste0(dest_path, ".meta.json"))
 
+  unlink("output/bounds.geojson")
+  bounds() %>% sf::st_write("output/bounds.geojson")
+
   osmium_command = paste0(
-    "osmium extract -b ",
-    wales_ish_bounding_box_string,
+    "osmium extract -p ",
+    "output/bounds.geojson",
     " -s smart ",
     dest_path,
     " -o output/wales_ish.osm.pbf"
@@ -24,7 +27,6 @@ download_and_prepare_osm <- function(){
 
   list(
     CreatedAt = now() %>% format_ISO8601(usetz=TRUE),
-    MaxSpatialExtent = wales_ish_bounding_box_string,
     DerivedFrom = I(describe_file(dest_path))
   ) %>% toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
   write(paste0("output/wales_ish.osm.pbf.meta.json"))

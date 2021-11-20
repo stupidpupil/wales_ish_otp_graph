@@ -10,6 +10,7 @@ jobs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      BOUNDS: ${{ secrets.BOUNDS }}
     steps:
       - uses: actions/checkout@v2
 
@@ -18,13 +19,22 @@ jobs:
         run : |
           echo "::set-output name=etag::$(curl -I "https://download.geofabrik.de/europe/great-britain-latest.osm.pbf" | grep "ETag")"
 
+      - name: Write config.yml
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+              bounds: !expr Sys.getenv("BOUNDS")
+
       - name: Cache OSM
         id: cache_osm
         uses: actions/cache@v2
         with:
           path: |
             output/*osm*
-          key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('R/*osm*', 'R/*bound*') }}
+          key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('R/*osm*', 'config.yml') }}-v2
 
       - uses: r-lib/actions/setup-r@v1
         if: steps.cache_osm.outputs.cache-hit != 'true'
@@ -77,6 +87,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
       ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
     steps:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@v1
@@ -109,6 +120,7 @@ jobs:
             default:
               atoc_username: !expr Sys.getenv("ATOC_USERNAME")
               atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+              bounds: !expr Sys.getenv("BOUNDS")
 
       - name: Get ATOC URL
         id: atoc_url
@@ -123,7 +135,7 @@ jobs:
         with:
           path: |
             output/*atoc*gtfs*
-          key: ${{ steps.atoc_url.outputs.url }}-${{ hashFiles('R/*atoc*', 'R/*bound*', 'R/gtfs*') }}-v3
+          key: ${{ steps.atoc_url.outputs.url }}-${{ hashFiles('R/*atoc*', 'R/gtfs*', 'config.yml') }}-v4
 
       - name: Download and prepare ATOC GTFS
         if: steps.cache_atoc.outputs.cache-hit != 'true'
@@ -146,6 +158,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
       TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
     steps:
       - uses: actions/checkout@v2
 
@@ -154,13 +167,24 @@ jobs:
         run : |
           echo "::set-output name=hash::$(curl ftp://$TNDS_USERNAME:$TNDS_PASSWORD@ftp.tnds.basemap.co.uk | md5)"
 
+      - name: Write config.yml
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+              tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+              tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+              bounds: !expr Sys.getenv("BOUNDS")
+
       - name: Cache TNDS
         id: cache_tnds
         uses: actions/cache@v2
         with:
           path: |
             output/*.tnds.*
-          key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/*bound*', 'R/gtfs*') }}-v8
+          key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/gtfs*', 'config.yml') }}-v9
 
       - uses: r-lib/actions/setup-r@v1
         if: steps.cache_tnds.outputs.cache-hit != 'true'
@@ -191,16 +215,6 @@ jobs:
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
-      - name: Write config.yml
-        if: steps.cache_tnds.outputs.cache-hit != 'true'
-        uses: DamianReeves/write-file-action@v1.0
-        with:
-          path: ${{ github.workspace }}/config.yml
-          contents: |
-            default:
-              tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-              tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            
       - name: Download and prepare TNDS GTFS
         if: steps.cache_tnds.outputs.cache-hit != 'true'
         run: |
@@ -221,6 +235,8 @@ jobs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+
     steps:
       - uses: actions/checkout@v2
 
@@ -229,12 +245,21 @@ jobs:
         run : |
           echo "::set-output name=hash::$(curl "https://data.bus-data.dft.gov.uk/timetable/download/" | md5)"
 
+      - name: Write config.yml
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+              bounds: !expr Sys.getenv("BOUNDS")
+
       - name: Cache BODS
         id: cache_bods
         uses: actions/cache@v2
         with:
           path: output/*.bods.*
-          key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('R/*bus*', 'R/*bound*', 'R/*gtfs*') }}-v2
+          key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('R/*bus*', 'R/*gtfs*', 'config.yml') }}-v3
 
       - uses: r-lib/actions/setup-r@v1
         if: steps.cache_bods.outputs.cache-hit != 'true'
@@ -773,6 +798,7 @@ jobs:
           path: graph-releases
 
       - name: Copy READMEs and Commit
+        if: github.ref == 'refs/heads/main' 
         run: |
           cd graph-releases
           rm -rf file_metadata
