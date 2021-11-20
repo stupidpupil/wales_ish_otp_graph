@@ -798,6 +798,7 @@ jobs:
           path: graph-releases
 
       - name: Copy READMEs and Commit
+        if: github.ref == 'refs/heads/main' 
         run: |
           cd graph-releases
           rm -rf file_metadata
