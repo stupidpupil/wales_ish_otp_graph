@@ -1,27 +1,44 @@
-# Wales-ish OTP Graph Generator - Autoregion Branch
+# Wales-ish OTP Graph Generator
+
+This is a bunch to scripts to help assemble OpenTripPlanner graphs that are useable for planning trips, by car or public transport, between places in Wales - including where these trips involve a short journey entirely within England. (It likely also works well enough for planning trips between places in Wales and a small number of English towns just the other side of the border.)
+
+[See the GitHub page for this repository for releases of graphs produced by this script](https://stupidpupil.github.io/wales_ish_otp_graph/).
+
+## Features and Anti-Features
+
+- Downloads OpenStreetMap data from geofabrik.de
+- Downloads Welsh bus etc. data from Traveline (requires registration)
+- Download heavy rail CIF from data.atoc.org (requires registration)
+- Downloads English bus etc. open data from DfT GOV.UK
+- Does some basic checking of a small number of test journeys
+- Includes a Github Actions workflow with parallelisation and caching
+
+### Default Coverage
+- Creates extracts of street and public transport data covering Wales and a strip of the borders
+- Covers Chester, Crewe, Liverpool, Shrewsbury, Hereford, Bristol, Gloucester
+- Doesn't cover Wolverhampton, Birmingham or most of Manchester
 
 ## Requirements
-You need [osmium-tool](https://osmcode.org/osmium-tool/) installed and in your PATH.
-
-You need [JDK 11](https://adoptium.net/?variant=openjdk11) installed and setup.
+- R
+- UK2GTFS R package
+- osmium
 
 ## How-to
 
-Download the *autoregion* branch. Everything else _should_ be covered in the DESCRIPTION file…
-
 ```R
 devtools::load_all()
-# Complete config.yml - see config.yml.example
+# Complete config.yml
 download_atoc()
 prepare_atoc_gtfs()
+download_tnds()
+prepare_tnds_gtfs()
 download_and_prepare_bods_gtfs()
 download_and_prepare_osm()
-download_otp()
 prepare_street_graph()
 prepare_transport_graph()
+prepare_test_journeys()
+check_test_journeys()
 # output/ should now contain graph.obj
-# and you can start OpenTripPlanner with
-# java -Xmx4g -jar data-raw/otp.jar --load output
 ```
 ## Licence of outputs
 
