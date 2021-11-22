@@ -4,7 +4,6 @@ check_test_journeys <- function(){
 
   test_journeys <- read_csv("output/test_journeys.csv")
 
-
   next_test <- tibble(
     Description = "Cardiff to Sheffield can't be routed",
     Passed = TRUE
@@ -23,6 +22,13 @@ check_test_journeys <- function(){
 
   if(test_journeys %>% filter(Description != "Cardiff to Sheffield") %>% pull(durationSeconds) %>% is.na() %>% any()){
     next_test$Passed = FALSE
+
+    cat("Couldn't route:\n")
+    cat(test_journeys %>% 
+      filter(Description != "Cardiff to Sheffield", is.na(durationSeconds)) %>% 
+      mutate(BigDesc = paste0(Description, " - ", ifelse(public, "Public", "Driving"))) %>%
+      pull(BigDesc) %>% paste0(collapse="\n"))
+    cat("\n\n")
   }
 
   tests <- tests %>% bind_rows(next_test)
@@ -42,7 +48,9 @@ check_test_journeys <- function(){
   tests <- tests %>% bind_rows(next_test)
 
   if(any(!tests$Passed)){
+    cat("Failed tests:\n")
     cat(tests %>% filter(!Passed) %>% pull(Description) %>% paste0(collapse="\n"))
+    cat("\n")
     stop("Some checks on test journeys failed!")
   }
 
