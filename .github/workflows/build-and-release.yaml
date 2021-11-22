@@ -184,7 +184,7 @@ jobs:
         with:
           path: |
             output/*.tnds.*
-          key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/gtfs*', 'config.yml') }}-v9
+          key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/gtfs*', 'data-raw/regions_and_nations*', 'config.yml') }}-v10
 
       - uses: r-lib/actions/setup-r@v1
         if: steps.cache_tnds.outputs.cache-hit != 'true'
@@ -259,7 +259,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: output/*.bods.*
-          key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('R/*bus*', 'R/*gtfs*', 'config.yml') }}-v3
+          key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('R/*bus*', 'R/*gtfs*', 'data-raw/regions_and_nations*', 'config.yml') }}-v4
 
       - uses: r-lib/actions/setup-r@v1
         if: steps.cache_bods.outputs.cache-hit != 'true'
