@@ -1,7 +1,7 @@
 code,name,bods_itm_code,tnds_code
 N92000002,Northern Ireland,,
-S92000003,Scotland,scotland,
-W92000004,Wales,wales,
+S92000003,Scotland,,S
+W92000004,Wales,,W
 E92000001,England,,
 E12000001,North East,north_east,
 E12000002,North West,north_west,
