@@ -1,10 +1,10 @@
 {
-  "CreatedAt": "2021-12-06T05:35:27+0000",
+  "CreatedAt": "2021-12-14T09:41:01+0000",
   "DerivedFrom": {
     "Filename": "south_west.bods.gtfs.zip",
-    "SizeBytes": 86685459,
+    "SizeBytes": 94096719,
     "SourceUrl": "https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/south_west/",
-    "SourceDownloadedAt": "2021-12-06T05:34:50+0000",
+    "SourceDownloadedAt": "2021-12-14T09:40:24+0000",
     "SourceLicence": "OGL-UK-3.0",
     "SourceAttribution": "UK Department for Transport"
   }
