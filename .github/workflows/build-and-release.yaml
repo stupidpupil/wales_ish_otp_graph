@@ -36,7 +36,7 @@ jobs:
             output/*osm*
           key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('R/*osm*', 'config.yml') }}-v2
 
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v2
         if: steps.cache_osm.outputs.cache-hit != 'true'
 
       - name: Query dependencies
@@ -90,7 +90,7 @@ jobs:
       BOUNDS: ${{ secrets.BOUNDS }}
     steps:
       - uses: actions/checkout@v2
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v2
 
       - name: Query dependencies
         run: |
@@ -186,7 +186,7 @@ jobs:
             output/*.tnds.*
           key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/gtfs*', 'data-raw/regions_and_nations*', 'config.yml') }}-v10
 
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v2
         if: steps.cache_tnds.outputs.cache-hit != 'true'
 
       - uses: r-lib/actions/setup-pandoc@v1
@@ -261,7 +261,7 @@ jobs:
           path: output/*.bods.*
           key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('R/*bus*', 'R/*gtfs*', 'data-raw/regions_and_nations*', 'config.yml') }}-v4
 
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v2
         if: steps.cache_bods.outputs.cache-hit != 'true'
 
       - uses: r-lib/actions/setup-pandoc@v1
@@ -315,7 +315,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v2
       - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Query dependencies
@@ -378,7 +378,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v2
 
       - uses: r-lib/actions/setup-pandoc@v1
 
@@ -455,7 +455,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v2
 
       - uses: r-lib/actions/setup-pandoc@v1
 
@@ -568,7 +568,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v2
 
       - uses: r-lib/actions/setup-pandoc@v1
 
@@ -660,7 +660,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v2
 
       - uses: r-lib/actions/setup-pandoc@v1
 
