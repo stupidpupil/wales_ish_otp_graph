@@ -38,3 +38,7 @@ You will need to [install Java 11](https://adoptopenjdk.net/?variant=openjdk11&j
 ### gtfs_and_osm.zip
 
 Public transport and map data in the commonly used [GTFS](https://en.wikipedia.org/wiki/General_Transit_Feed_Specification) and [OSM PBF](https://wiki.openstreetmap.org/wiki/PBF_Format) formats. Many trip planning and transport analysis programs will accept these files. Use this if you want to analyse the timetables yourself or alter them and generate your own network graph.
+
+### r5r_network_dat.zip
+
+A network 'graph' for use with the *[{r5r}](https://github.com/ipeaGIT/r5r)* R package. See [this gist for an example of how to get started with this](https://gist.github.com/stupidpupil/cb60575c5add1b28f0146ff2802424c1). *{r5r}* is usually a better choice than OpenTripPlanner for analyses involving large numbers of journeys.
