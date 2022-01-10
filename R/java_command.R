@@ -1,5 +1,5 @@
 java_args = function(){
-  c("--add-opens", "java.base/java.io=ALL-UNNAMED", "--add-opens", "java.base/java.util=ALL-UNNAMED", "-Xmx8g")
+  c("-Xmx8g")
 }
 
 java_command = function(){
