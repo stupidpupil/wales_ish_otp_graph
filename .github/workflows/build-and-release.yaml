@@ -623,10 +623,6 @@ jobs:
           name: bods.walesish.gtfs.zip
           path: output
 
-      - name: HACK Delete build-config.json
-        run: |
-          rm -f output/build-config.json
-
       - name: Cache r5r network.dat
         id: cache_network_dat
         uses: actions/cache@v2
