@@ -1,6 +1,8 @@
 prepare_street_graph <- function(){
 
-  cmd <- paste0(java_command(), " -jar data-raw/otp.jar --buildStreet output")
+  prepare_osm_config()
+
+  cmd <- paste0(java_command(), " -jar ", dir_working("otp.jar"), " --buildStreet ", dir_output())
 
   system(cmd)
 
@@ -8,8 +10,8 @@ prepare_street_graph <- function(){
     CreatedAt = now() %>% format_ISO8601(usetz=TRUE),
     CreatedWithCommand = cmd,
     CreatedWithOpenTripPlannerVersion = otp_version(),
-    DerivedFrom = I(describe_file("output/wales_ish.osm.pbf"))
+    DerivedFrom = I(describe_file(dir_output("wales_ish.osm.pbf")))
   ) %>% toJSON(pretty = TRUE) %>%
-  write("output/streetGraph.obj.meta.json")
+  write(dir_output("streetGraph.obj.meta.json"))
 
 }

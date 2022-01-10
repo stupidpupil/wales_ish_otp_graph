@@ -18,7 +18,7 @@ prepare_test_journeys <- function(){
     }
 
     px <- start_program(
-      "java", c(java_args(), "-jar","data-raw/otp.jar", "--load", "output"), 
+      "java", c(java_args(), "-jar", dir_working("otp.jar"), "--load", dir_output()), 
       "Started listener bound to \\[0.0.0.0:8080\\]", timeout=240)
 
     close(px$get_output_connection())
@@ -46,7 +46,8 @@ prepare_test_journeys <- function(){
     # Tuesday, next week
     when = lubridate::now() %>% (function(x){x + lubridate::days(9 - lubridate::wday(x, week_start = 1))}) %>% update(hour=11, minute=0, second = 0)
 
-    read_csv("data-raw/test_journeys.csv") %>%
+    # FIXME - Really test journeys need to be extracted from the package
+    read_csv(dir_working("test_journeys.csv")) %>%
       crossing(expand_grid(when=when, public=c(T,F))) %>%
       mutate(requestUrl = otp_route_request_url(fromLat, fromLon, toLat, toLon, when, public))
   }
@@ -80,5 +81,5 @@ prepare_test_journeys <- function(){
       durationSeconds = try_to_get_duration(otpResponseJson),
       otpResponseJson = NULL) %>% ungroup()
 
-  journeys %>% write_csv("output/test_journeys.csv")
+  journeys %>% write_csv(dir_output("test_journeys.csv"))
 }

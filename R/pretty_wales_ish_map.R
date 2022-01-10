@@ -6,8 +6,8 @@ pretty_wales_ish_map <- function(){
   agencies <- tibble()
   routes <- tibble()
 
-  for(fn in list.files("output", "\\.gtfs\\.zip$")){
-    gtfs <- better_gtfs_read(paste0("output/", fn))
+  for(fn in list.files(dir_output(), "\\.gtfs\\.zip$")){
+    gtfs <- better_gtfs_read(dir_output(fn))
 
     stops <- stops %>% bind_rows(
       gtfs$stops %>% select(stop_id, stop_lat, stop_lon) %>%
@@ -90,7 +90,7 @@ pretty_wales_ish_map <- function(){
 }
 
 prepare_pretty_wales_ish_map <- function(){
-  ggsave(plot=pretty_wales_ish_map(), filename="output/map.png", width=440/72, height=490/72, units="in", dpi=72)
-  ggsave(plot=pretty_wales_ish_map(), filename="output/map.2x.png", width=440/72, height=490/72, units="in", dpi=144)
-  ggsave(plot=pretty_wales_ish_map(), filename="output/map.4x.png", width=440/72, height=490/72, units="in", dpi=288)
+  ggsave(plot=pretty_wales_ish_map(), filename=dir_output("map.png"), width=440/72, height=490/72, units="in", dpi=72)
+  ggsave(plot=pretty_wales_ish_map(), filename=dir_output("map.2x.png"), width=440/72, height=490/72, units="in", dpi=144)
+  ggsave(plot=pretty_wales_ish_map(), filename=dir_output("map.4x.png"), width=440/72, height=490/72, units="in", dpi=288)
 }

@@ -1,7 +1,7 @@
 download_and_prepare_osm <- function(){
 
   gb_osm_url <- "https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"
-  dest_path <- "data-raw/great-britain-latest.osm.pbf"
+  dest_path <- dir_working("great-britain-latest.osm.pbf")
 
   download.file(gb_osm_url, dest_path)
 
@@ -12,15 +12,18 @@ download_and_prepare_osm <- function(){
     SourceAttribution = "OpenStreetMap contributors"
   )) %>% write(paste0(dest_path, ".meta.json"))
 
-  unlink("output/bounds.geojson")
-  bounds() %>% sf::st_write("output/bounds.geojson")
+
+  bounds_geojson_path <- dir_output("bounds.geojson")
+  unlink(bounds_geojson_path)
+  bounds() %>% sf::st_write(bounds_geojson_path)
 
   osmium_command = paste0(
     "osmium extract -p ",
-    "output/bounds.geojson",
+    bounds_geojson_path,
     " -s smart ",
     dest_path,
-    " -o output/wales_ish.osm.pbf"
+    " -o ", 
+    dir_output("wales_ish.osm.pbf")
   )
 
   system(osmium_command)
@@ -29,7 +32,7 @@ download_and_prepare_osm <- function(){
     CreatedAt = now() %>% format_ISO8601(usetz=TRUE),
     DerivedFrom = I(describe_file(dest_path))
   ) %>% toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
-  write(paste0("output/wales_ish.osm.pbf.meta.json"))
+  write(dir_output("wales_ish.osm.pbf.meta.json"))
 
 }
 

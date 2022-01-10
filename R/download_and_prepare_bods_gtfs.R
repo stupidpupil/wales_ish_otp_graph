@@ -6,7 +6,7 @@ download_and_prepare_bods_gtfs <- function(){
   for (r in bods_files) {
     print(paste0("Downloading bus data for ", r, "…"))
     bus_url <- paste0(base_bus_url, r, '/')
-    dest_path <- paste0("data-raw/", r, ".bods.gtfs.zip")
+    dest_path <- dir_working(paste0(r, ".bods.gtfs.zip"))
     download.file(bus_url, dest_path)
 
     toJSON(pretty = TRUE, auto_unbox = TRUE, list(
@@ -19,13 +19,13 @@ download_and_prepare_bods_gtfs <- function(){
     print(paste0("Preparing bus data for ", r, "…"))
     gtfs <- better_gtfs_read(dest_path)
     gtfs <- gtfs %>% gtfs_wales_ish_ify()
-    gtfs %>% gtfs_write(folder="output", name=paste0(r, ".bods.walesish.gtfs"))
+    gtfs %>% gtfs_write(folder=dir_output(), name=paste0(r, ".bods.walesish.gtfs"))
 
     list(
       CreatedAt = now() %>% format_ISO8601(usetz=TRUE),
       DerivedFrom = I(describe_file(dest_path))
     ) %>% toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
-    write(paste0("output/", r, ".bods.walesish.gtfs.zip.meta.json"))
+    write(dir_output(paste0(r, ".bods.walesish.gtfs.zip.meta.json")))
 
   }
 

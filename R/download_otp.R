@@ -2,7 +2,7 @@ download_otp <- function(){
 
   
   otp_url <- "https://github.com/stupidpupil/OpenTripPlanner/releases/download/v2021-08-06/otp-2.1.0-20210806.150542-3-shaded.jar"
-  dest_path <- "data-raw/otp.jar"
+  dest_path <- dir_working("otp.jar")
   download.file(otp_url, dest_path)
 
   toJSON(pretty = TRUE, auto_unbox = TRUE, list(
@@ -15,5 +15,5 @@ download_otp <- function(){
 }
 
 otp_version <- function(){
-  system(paste0(java_command(), " -jar data-raw/otp.jar --version"), intern=TRUE) %>% str_replace("^OpenTripPlanner version: ", "")
+  system(paste0(java_command(), " -jar ", dir_working("otp.jar")," --version"), intern=TRUE) %>% str_replace("^OpenTripPlanner version: ", "")
 }
