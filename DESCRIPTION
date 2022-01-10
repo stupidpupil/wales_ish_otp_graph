@@ -10,13 +10,20 @@ Encoding: UTF-8
 Depends: 
   R (>= 2.10),
   tidyverse,
-  UK2GTFS,
+  magrittr,
+  dplyr,
+  UK2GTFS
+Imports:
+  config,
+  checkmate,
+  sf,
+  jsonlite,
+  r5r,
+  processx,
+  lubridate,
+  rmarkdown,
   config,
   rvest,
-  rmarkdown,
-  processx,
-  jsonlite,
-  lubridate,
-  r5r
+  readr
 Remotes:
   stupidpupil/UK2GTFS

@@ -5,9 +5,9 @@ download_and_prepare_osm <- function(){
 
   download.file(gb_osm_url, dest_path)
 
-  toJSON(pretty = TRUE, auto_unbox = TRUE, list(
+  jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE, list(
     SourceUrl = gb_osm_url,
-    SourceDownloadedAt = now() %>% format_ISO8601(usetz=TRUE),
+    SourceDownloadedAt = now_as_iso8601(),
     SourceLicence = "ODbL-1.0",
     SourceAttribution = "OpenStreetMap contributors"
   )) %>% write(paste0(dest_path, ".meta.json"))
@@ -29,9 +29,9 @@ download_and_prepare_osm <- function(){
   system(osmium_command)
 
   list(
-    CreatedAt = now() %>% format_ISO8601(usetz=TRUE),
+    CreatedAt = now_as_iso8601(),
     DerivedFrom = I(describe_file(dest_path))
-  ) %>% toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
+  ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
   write(dir_output("wales_ish.osm.pbf.meta.json"))
 
 }

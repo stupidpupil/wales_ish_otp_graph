@@ -2,7 +2,7 @@ check_test_journeys <- function(){
 
   tests <- tibble(Description = character(0), Passed = logical(0))
 
-  test_journeys <- read_csv(dir_output("test_journeys.csv"))
+  test_journeys <- readr::read_csv(dir_output("test_journeys.csv"))
 
   next_test <- tibble(
     Description = "Cardiff to Sheffield can't be routed",

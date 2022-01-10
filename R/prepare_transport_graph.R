@@ -7,11 +7,11 @@ prepare_transport_graph <- function(){
   system(cmd)
 
   list(
-    CreatedAt = now() %>% format_ISO8601(usetz=TRUE),
+    CreatedAt = now_as_iso8601(),
     CreatedWithCommand = cmd,
     CreatedWithOpenTripPlannerVersion = otp_version(),
     DerivedFrom = list.files(dir_output(), "(streetGraph.obj|\\.gtfs\\.zip)$", full.names=TRUE) %>% sapply(describe_file, USE.NAMES=F)
-  ) %>% toJSON(pretty = TRUE) %>%
+  ) %>% jsonlite::toJSON(pretty = TRUE) %>%
   write(dir_output("graph.obj.meta.json"))
 
 }

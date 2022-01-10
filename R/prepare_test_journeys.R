@@ -17,7 +17,7 @@ prepare_test_journeys <- function(){
       stop("Cannot start ", command)
     }
 
-    px <- start_program(
+    px <- processx::start_program(
       "java", c(java_args(), "-jar", dir_working("otp.jar"), "--load", dir_output()), 
       "Started listener bound to \\[0.0.0.0:8080\\]", timeout=240)
 
@@ -47,7 +47,7 @@ prepare_test_journeys <- function(){
     when = lubridate::now() %>% (function(x){x + lubridate::days(9 - lubridate::wday(x, week_start = 1))}) %>% update(hour=11, minute=0, second = 0)
 
     # FIXME - Really test journeys need to be extracted from the package
-    read_csv(dir_working("test_journeys.csv")) %>%
+    readr::read_csv(dir_working("test_journeys.csv")) %>%
       crossing(expand_grid(when=when, public=c(T,F))) %>%
       mutate(requestUrl = otp_route_request_url(fromLat, fromLon, toLat, toLon, when, public))
   }

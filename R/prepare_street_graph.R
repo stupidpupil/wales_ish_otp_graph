@@ -7,11 +7,11 @@ prepare_street_graph <- function(){
   system(cmd)
 
   list(
-    CreatedAt = now() %>% format_ISO8601(usetz=TRUE),
+    CreatedAt = now_as_iso8601(),
     CreatedWithCommand = cmd,
     CreatedWithOpenTripPlannerVersion = otp_version(),
     DerivedFrom = I(describe_file(dir_output("wales_ish.osm.pbf")))
-  ) %>% toJSON(pretty = TRUE) %>%
+  ) %>% jsonlite::toJSON(pretty = TRUE) %>%
   write(dir_output("streetGraph.obj.meta.json"))
 
 }

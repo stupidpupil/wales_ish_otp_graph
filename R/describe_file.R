@@ -7,7 +7,7 @@ describe_file <- function(path){
   meta_path <- paste0(path, ".meta.json")
 
   if(file.exists(meta_path)){
-    ret <- ret %>% append(fromJSON(meta_path))
+    ret <- ret %>% append(jsonlite::fromJSON(meta_path))
   }
 
   return(ret)

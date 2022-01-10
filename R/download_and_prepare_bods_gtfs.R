@@ -9,9 +9,9 @@ download_and_prepare_bods_gtfs <- function(){
     dest_path <- dir_working(paste0(r, ".bods.gtfs.zip"))
     download.file(bus_url, dest_path)
 
-    toJSON(pretty = TRUE, auto_unbox = TRUE, list(
+    jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE, list(
       SourceUrl = bus_url,
-      SourceDownloadedAt = now() %>% format_ISO8601(usetz=TRUE),
+      SourceDownloadedAt = now_as_iso8601(),
       SourceLicence = "OGL-UK-3.0",
       SourceAttribution = "UK Department for Transport"
     )) %>% write(paste0(dest_path, ".meta.json"))
@@ -19,15 +19,14 @@ download_and_prepare_bods_gtfs <- function(){
     print(paste0("Preparing bus data for ", r, "…"))
     gtfs <- better_gtfs_read(dest_path)
     gtfs <- gtfs %>% gtfs_wales_ish_ify()
-    gtfs %>% gtfs_write(folder=dir_output(), name=paste0(r, ".bods.walesish.gtfs"))
+    gtfs %>% UK2GTFS::gtfs_write(folder=dir_output(), name=paste0(r, ".bods.walesish.gtfs"))
 
     list(
-      CreatedAt = now() %>% format_ISO8601(usetz=TRUE),
+      CreatedAt = now_as_iso8601(),
       DerivedFrom = I(describe_file(dest_path))
-    ) %>% toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
+    ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
     write(dir_output(paste0(r, ".bods.walesish.gtfs.zip.meta.json")))
 
   }
 
 }
-

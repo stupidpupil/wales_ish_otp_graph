@@ -5,9 +5,9 @@ download_otp <- function(){
   dest_path <- dir_working("otp.jar")
   download.file(otp_url, dest_path)
 
-  toJSON(pretty = TRUE, auto_unbox = TRUE, list(
+  jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE, list(
     SourceUrl = otp_url,
-    SourceDownloadedAt = now() %>% format_ISO8601(usetz=TRUE),
+    SourceDownloadedAt = now_as_iso8601(),
     SourceLicence = "LGPL-3.0-or-later",
     SourceAttribution = "OpenTripPlanner"
   )) %>% write(paste0(dest_path, "meta.json"))
