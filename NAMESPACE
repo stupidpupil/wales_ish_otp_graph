@@ -5,7 +5,7 @@ importFrom("dplyr",
   left_join, bind_rows,
   group_by, rowwise, ungroup,
   arrange,
-  pull, if_else
+  pull, n, if_else
   )
 importFrom("tidyr",
   expand_grid, crossing
