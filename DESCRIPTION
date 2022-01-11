@@ -8,17 +8,19 @@ Description: Wales
 License: MT
 Encoding: UTF-8
 Depends: 
-  R (>= 2.10),
-  tidyverse,
-  magrittr,
-  dplyr,
-  UK2GTFS
+  R (>= 2.10)
 Imports:
+  magrittr,
+  tibble,
+  dplyr,
+  tidyr,
+  stringr,
+  UK2GTFS,
+  r5r,
   config,
   checkmate,
   sf,
   jsonlite,
-  r5r,
   processx,
   lubridate,
   rmarkdown,

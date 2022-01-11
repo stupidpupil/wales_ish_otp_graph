@@ -81,5 +81,5 @@ prepare_test_journeys <- function(){
       durationSeconds = try_to_get_duration(otpResponseJson),
       otpResponseJson = NULL) %>% ungroup()
 
-  journeys %>% write_csv(dir_output("test_journeys.csv"))
+  journeys %>% readr::write_csv(dir_output("test_journeys.csv"))
 }
