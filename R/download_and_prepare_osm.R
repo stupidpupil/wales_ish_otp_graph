@@ -1,5 +1,5 @@
 download_osm <- function(){
-  old_opts <- options(timeout=600)
+  old_opts <- options(timeout=max(options()$timeout,600))
   on.exit(options(old_opts))
 
   gb_osm_url <- "https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"
