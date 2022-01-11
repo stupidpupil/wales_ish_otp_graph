@@ -1,6 +1,6 @@
 prepare_r5r_network_dat <- function(){
 
-  r5r::prepare_r5r_config()
+  prepare_r5r_config()
 
   options(java.parameters = java_args())
   r5r::setup_r5(data_path="output")

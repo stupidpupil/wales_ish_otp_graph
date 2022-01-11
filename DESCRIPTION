@@ -16,6 +16,7 @@ Imports:
   dplyr,
   tidyr,
   stringr,
+  ggplot2,
   r5r,
   config,
   checkmate,
