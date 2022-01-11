@@ -16,9 +16,9 @@ download_osm <- function(){
 }
 
 prepare_osm <- function(){
-  dest_path <- dir_working("great-britain-latest.osm.pbf")
+  src_path <- dir_working("great-britain-latest.osm.pbf")
  
-  bounds_geojson_path <- dir_output(paste0(output_affix(), "bounds.geojson"))
+  bounds_geojson_path <- dir_output(paste0(output_affix(), ".bounds.geojson"))
   unlink(bounds_geojson_path)
   bounds() %>% sf::st_write(bounds_geojson_path)
 
@@ -26,7 +26,7 @@ prepare_osm <- function(){
     "osmium extract -p ",
     bounds_geojson_path,
     " -s smart ",
-    dest_path,
+    src_path,
     " -o ", 
     dir_output(paste0(output_affix(), ".osm.pbf"))
   )
@@ -35,7 +35,7 @@ prepare_osm <- function(){
 
   list(
     CreatedAt = now_as_iso8601(),
-    DerivedFrom = I(describe_file(dest_path))
+    DerivedFrom = I(describe_file(src_path))
   ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
   write(dir_output(paste0(output_affix(), ".osm.pbf.meta.json")))
 }
