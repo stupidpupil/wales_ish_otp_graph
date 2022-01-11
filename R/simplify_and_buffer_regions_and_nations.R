@@ -7,10 +7,10 @@ simplify_and_buffer_regions_and_nations <- function(){
   }
 
   regions <- sf::read_sf(dir_support("regions_and_nations/Regions_(December_2020)_EN_BFE.geojson")) %>%
-    sf::simplify_and_buffer()
+    simplify_and_buffer()
 
   countries <- sf::read_sf(dir_support("regions_and_nations/Countries_(December_2020)_UK_BFE.geojson")) %>%
-    sf::simplify_and_buffer()
+    simplify_and_buffer()
 
   countries %>% rename(code = CTRY20CD, name=CTRY20NM) %>% select(code, name) %>% 
     rbind(regions %>% rename(code = RGN20CD, name=RGN20NM) %>% select(code, name)) %>% 

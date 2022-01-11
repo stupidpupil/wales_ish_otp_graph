@@ -13,6 +13,9 @@ importFrom("tidyr",
 importFrom("stringr", 
   str_length, str_split, str_detect, str_replace)
 
+importFrom("stats", na.omit, update)
+importFrom("utils", download.file, unzip)
+
 exportPattern("^download_")
 exportPattern("^prepare_")
 export("pretty_wales_ish_map")
