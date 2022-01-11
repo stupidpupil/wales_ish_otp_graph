@@ -17,7 +17,7 @@ prepare_test_journeys <- function(){
       stop("Cannot start ", command)
     }
 
-    px <- processx::start_program(
+    px <- start_program(
       "java", c(java_args(), "-jar", dir_working("otp.jar"), "--load", dir_output()), 
       "Started listener bound to \\[0.0.0.0:8080\\]", timeout=240)
 
@@ -55,7 +55,7 @@ prepare_test_journeys <- function(){
   px <- launch_otp()
 
   journeys <- initialise_test_journeys_tibble()
-  journeys <- journeys %>% rowwise() %>% mutate(otpResponse = read_file(requestUrl)) %>% ungroup()
+  journeys <- journeys %>% rowwise() %>% mutate(otpResponse = readr::read_file(requestUrl)) %>% ungroup()
   px$kill()
 
   try_to_get_duration <- function(otp_response_json){
