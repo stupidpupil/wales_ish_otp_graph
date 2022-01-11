@@ -21,7 +21,11 @@ better_gtfs_read <- function(path){
 
   if(checkmate::test_file_exists(file.path(tmp_folder,"stops.txt"))){
     gtfs$stops <- readr::read_csv(file.path(tmp_folder,"stops.txt"),
-                                  col_types = readr::cols(platform_code = readr::col_character()))
+                                  col_types = readr::cols(
+                                    platform_code = readr::col_character(),
+                                    stop_lon = readr::col_double(),
+                                    stop_lat = readr::col_double()
+                                    ))
   } else {
     warning("Unable to find required file: stops.txt")
   }
@@ -29,7 +33,9 @@ better_gtfs_read <- function(path){
   if(checkmate::test_file_exists(file.path(tmp_folder,"routes.txt"))){
     gtfs$routes <- readr::read_csv(file.path(tmp_folder,"routes.txt"),
                                    col_types = readr::cols(route_id = readr::col_character(),
-                                                           route_short_name = readr::col_character()))
+                                                           route_short_name = readr::col_character(),
+                                                           route_type = readr::col_character()
+                                                           ))
   } else {
     warning("Unable to find required file: routes.txt")
   }
@@ -47,6 +53,7 @@ better_gtfs_read <- function(path){
   if(checkmate::test_file_exists(file.path(tmp_folder,"stop_times.txt"))){
     gtfs$stop_times <- readr::read_csv(file.path(tmp_folder,"stop_times.txt"),
                                        col_types = readr::cols(trip_id = readr::col_character(),
+                                                               stop_sequence = readr::col_integer(),
                                                                departure_time = readr::col_character(),
                                                                arrival_time = readr::col_character(),
                                                                stop_headsign = readr::col_character(),
