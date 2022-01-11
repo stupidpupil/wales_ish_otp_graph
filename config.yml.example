@@ -4,7 +4,6 @@ default:
   atoc_password: P@55w0rd
   
   # https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset/
-  # (Only needed if you overlap Wales or Scotland)
   tnds_username: my_tnds_username@example.org
   tnds_password: P@55w0rd
   
