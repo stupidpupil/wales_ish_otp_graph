@@ -1,6 +1,6 @@
 *.zip
 *.jar
 *.pbf
-*.json
+*.meta.json
 gtfs_temp
 gtfs_temp/*
