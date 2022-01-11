@@ -4,6 +4,9 @@ prepare_r5r_network_dat <- function(){
   old_opts <- options(java.parameters = java_args())
   on.exit(options(old_opts))
 
+  # Remove any existing 'network.dat' file, as previous failures
+  # can result in malformed examples that confuse r5r
+  unlink(dir_output("network.dat"))
   r5r::setup_r5(data_path="output")
 
   list(
