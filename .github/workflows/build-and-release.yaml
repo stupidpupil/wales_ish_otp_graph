@@ -401,6 +401,13 @@ jobs:
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
+      - name: Write config.yml
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+
       - name: Download OTP
         run: |
           devtools::load_all()
@@ -508,6 +515,13 @@ jobs:
           name: streetGraph.obj
           path: output
 
+      - name: Write config.yml
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+
       - name: Display structure of output dir
         run: ls -R
         working-directory: output
@@ -590,6 +604,13 @@ jobs:
           install.packages(c("devtools"))
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}
+
+      - name: Write config.yml
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
 
       - name: Install Java 11
         if: steps.cache_street_graph.outputs.cache-hit != 'true'
@@ -678,6 +699,13 @@ jobs:
           install.packages(c("devtools"))
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}
+
+      - name: Write config.yml
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
 
       - name: Install Java 11
         if: steps.cache_street_graph.outputs.cache-hit != 'true'
