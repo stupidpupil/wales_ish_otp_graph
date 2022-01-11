@@ -1,6 +1,6 @@
 prepare_street_graph <- function(){
 
-  prepare_osm_config()
+  prepare_otp_config()
 
   cmd <- paste0(java_command(), " -jar ", dir_working("otp.jar"), " --buildStreet ", dir_output())
 

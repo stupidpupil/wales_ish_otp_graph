@@ -1,6 +1,6 @@
 prepare_transport_graph <- function(){
 
-  prepare_osm_config()
+  prepare_otp_config()
 
   cmd <- paste0(java_command(), " -jar ", dir_working("otp.jar"), " --loadStreet --save ", dir_output())
   
