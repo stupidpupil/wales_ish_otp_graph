@@ -56,7 +56,7 @@ gtfs_wales_ish_ify <- function(gtfs){
 
   # Create new agencies if we have to
   gtfs$agency <- gtfs$agency %>% bind_rows(tibble(
-    agency_id = setdiff(gtfs$routes$agency_id, gtfs$agency$agency_id)
+    agency_id = setdiff(gtfs$routes$agency_id, gtfs$agency$agency_id) %>% as.character()
   ))
 
   # We don't need to risk any optional agency fields

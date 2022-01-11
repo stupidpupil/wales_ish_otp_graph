@@ -30,7 +30,11 @@ prepare_tnds_gtfs <- function(){
     try_mode=TRUE, scotland="no")
 
   gtfs <- gtfs %>% gtfs_wales_ish_ify()
-  gtfs$routes$route_type = 202
+
+  if(gtfs$routes %>% nrow() > 0){
+    gtfs$routes$route_type = 202
+  }
+  
   gtfs %>% UK2GTFS::gtfs_write(folder=dir_output(), name=paste0("NCSD.tnds.", output_affix(), ".gtfs"))
   unlink(dir_working("NCSD.bus.tnds"), recursive=TRUE)
 
