@@ -11,13 +11,13 @@ prepare_tnds_gtfs <- function(){
       path_in = src_path, ncores= (parallel::detectCores()-1), 
       try_mode=TRUE, scotland=ifelse(r == "S", "yes", "no"))
     gtfs <- gtfs %>% gtfs_wales_ish_ify()
-    gtfs %>% UK2GTFS::gtfs_write(folder=dir_output(), name=paste0(r,".tnds.walesish.gtfs"))
+    gtfs %>% UK2GTFS::gtfs_write(folder=dir_output(), name=paste0(r,".tnds.", output_affix(), ".gtfs"))
 
     list(
       CreatedAt = now_as_iso8601(),
       DerivedFrom = I(describe_file(src_path))
     ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
-    write(dir_output(paste0(r,".tnds.walesish.gtfs.zip.meta.json")))
+    write(dir_output(paste0(r,".tnds.", output_affix(), ".gtfs.zip.meta.json")))
   }
 
   # NCSD TXC stuff is buried within the zip
@@ -31,13 +31,13 @@ prepare_tnds_gtfs <- function(){
 
   gtfs <- gtfs %>% gtfs_wales_ish_ify()
   gtfs$routes$route_type = 202
-  gtfs %>% UK2GTFS::gtfs_write(folder=dir_output(), name="NCSD.tnds.walesish.gtfs")
+  gtfs %>% UK2GTFS::gtfs_write(folder=dir_output(), name=paste0("NCSD.tnds.", output_affix(), ".gtfs"))
   unlink(dir_working("NCSD.bus.tnds"), recursive=TRUE)
 
   list(
     CreatedAt = now_as_iso8601(),
     DerivedFrom = I(describe_file(dir_working("NCSD.bus.tnds.zip")))
   ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
-  write(dir_output("NCSD.tnds.walesish.gtfs.zip.meta.json"))
+  write(dir_output(paste0("NCSD.tnds.", output_affix(), ".gtfs.zip.meta.json")))
 
 }

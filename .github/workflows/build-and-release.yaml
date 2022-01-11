@@ -76,8 +76,8 @@ jobs:
       - name: Upload OSM artifact
         uses: actions/upload-artifact@v2
         with:
-          name: wales_ish.osm.pbf
-          path: output/wales_ish.osm.pbf*
+          name: walesish.osm.pbf
+          path: output/walesish.osm.pbf*
           if-no-files-found: error
 
   download_and_prepare_atoc_gtfs:
@@ -426,7 +426,7 @@ jobs:
       - name: Download OSM artifact
         uses: actions/download-artifact@v2
         with:
-          name: wales_ish.osm.pbf
+          name: walesish.osm.pbf
           path: output
 
       - name: Cache street graph
@@ -434,7 +434,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: output/streetGraph.obj*
-          key: ${{ hashFiles('data-raw/*.jar', 'output/wales_ish.osm*', 'R/java*', 'R/*street_graph*') }}-v1
+          key: ${{ hashFiles('data-raw/*.jar', 'output/walesish.osm*', 'R/java*', 'R/*street_graph*') }}-v1
 
       - name: Install Java 11
         if: steps.cache_street_graph.outputs.cache-hit != 'true'
@@ -497,7 +497,7 @@ jobs:
       - name: Download OSM artifact
         uses: actions/download-artifact@v2
         with:
-          name: wales_ish.osm.pbf
+          name: walesish.osm.pbf
           path: output
 
       - name: Download ATOC GTFS artifact
@@ -633,7 +633,7 @@ jobs:
       - name: Download OSM artifact
         uses: actions/download-artifact@v2
         with:
-          name: wales_ish.osm.pbf
+          name: walesish.osm.pbf
           path: output
 
       - name: Download ATOC GTFS artifact
@@ -735,7 +735,7 @@ jobs:
       - name: Download OSM artifact
         uses: actions/download-artifact@v2
         with:
-          name: wales_ish.osm.pbf
+          name: walesish.osm.pbf
           path: output
 
       - name: Download ATOC GTFS artifact

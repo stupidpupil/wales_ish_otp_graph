@@ -10,7 +10,7 @@ download_otp <- function(){
     SourceDownloadedAt = now_as_iso8601(),
     SourceLicence = "LGPL-3.0-or-later",
     SourceAttribution = "OpenTripPlanner"
-  )) %>% write(paste0(dest_path, "meta.json"))
+  )) %>% write(paste0(dest_path, ".meta.json"))
 
 }
 
