@@ -434,7 +434,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: output/streetGraph.obj*
-          key: ${{ hashFiles('data-raw/*.jar', 'output/wales_ish.osm*', 'R/java*', 'R/*street_graph*') }}
+          key: ${{ hashFiles('data-raw/*.jar', 'output/wales_ish.osm*', 'R/java*', 'R/*street_graph*') }}-v1
 
       - name: Install Java 11
         if: steps.cache_street_graph.outputs.cache-hit != 'true'
@@ -556,7 +556,7 @@ jobs:
           path: |
             output/graph.obj*
             output/*.meta.json
-          key: ${{ hashFiles('output/*', 'data-raw/*.jar', 'R/java*', 'R/*transport_graph*') }}
+          key: ${{ hashFiles('output/*', 'data-raw/*.jar', 'R/java*', 'R/*transport_graph*') }}-v1
 
       - name: Prepare transport graph
         if: steps.cache_transport_graph.outputs.cache-hit != 'true'
