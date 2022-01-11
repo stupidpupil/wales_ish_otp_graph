@@ -1,5 +1,7 @@
 prepare_atoc_gtfs <- function(){
-  gtfs <- UK2GTFS::atoc2gtfs(path_in = dir_working("atoc.zip"), ncores = (parallel::detectCores()-1))
+  gtfs <- UK2GTFS::atoc2gtfs(
+    path_in = dir_working("atoc.zip"),
+    ncores = (parallel::detectCores()-1))
   gtfs <- gtfs %>% gtfs_wales_ish_ify()
   gtfs %>% UK2GTFS::gtfs_write(folder=dir_output(), name="atoc.walesish.gtfs")
 
