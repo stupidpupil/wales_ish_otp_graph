@@ -839,6 +839,7 @@ jobs:
           cd graph-releases
           rm -rf file_metadata
           mkdir file_metadata
+          cp ../output/*.bounds.geojson bounds.geojson
           cp ../output/*.meta.json file_metadata/
           cp ../output/map.png map.png
           cp ../output/test_journeys.csv test_journeys.csv
