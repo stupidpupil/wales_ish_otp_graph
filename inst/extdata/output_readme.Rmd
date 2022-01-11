@@ -56,11 +56,11 @@ seconds_as_hhmm <- function(secs){
   ifelse(is.na(secs), "N/A", sprintf("%1ih%2im",hrs, mins))
 }
 
-read_csv("output/test_journeys.csv") %>% mutate(
+readr::read_csv("output/test_journeys.csv") %>% mutate(
     publicDescription = ifelse(public, "Public", "Car"),
     durationDescription = seconds_as_hhmm(durationSeconds)) %>%
     select(Description, publicDescription, durationDescription) %>%
-  pivot_wider(Description, names_from=publicDescription, values_from=durationDescription) %>%
+  tidyr::pivot_wider(Description, names_from=publicDescription, values_from=durationDescription) %>%
   arrange(Description) %>%
   (knitr::kable)
 
