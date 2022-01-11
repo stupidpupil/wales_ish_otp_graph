@@ -337,6 +337,14 @@ jobs:
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
+      - name: Write config.yml
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+              nothing: nothing
+
       - name: Download ATOC GTFS artifact
         uses: actions/download-artifact@v2
         with:
@@ -407,6 +415,7 @@ jobs:
           path: ${{ github.workspace }}/config.yml
           contents: |
             default:
+              nothing: nothing
 
       - name: Download OTP
         run: |
@@ -521,6 +530,7 @@ jobs:
           path: ${{ github.workspace }}/config.yml
           contents: |
             default:
+              nothing: nothing
 
       - name: Display structure of output dir
         run: ls -R
@@ -611,6 +621,7 @@ jobs:
           path: ${{ github.workspace }}/config.yml
           contents: |
             default:
+              nothing: nothing
 
       - name: Install Java 11
         if: steps.cache_street_graph.outputs.cache-hit != 'true'
@@ -706,6 +717,7 @@ jobs:
           path: ${{ github.workspace }}/config.yml
           contents: |
             default:
+              nothing: nothing
 
       - name: Install Java 11
         if: steps.cache_street_graph.outputs.cache-hit != 'true'
