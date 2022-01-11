@@ -777,6 +777,7 @@ jobs:
       - name: Prepare test journeys
         run: |
           devtools::load_all()
+          prepare_otp_config()
           prepare_test_journeys()
         shell: Rscript {0}
 
