@@ -4,7 +4,7 @@ importFrom("dplyr",
   filter, select, mutate, 
   left_join, bind_rows,
   group_by, rowwise, ungroup,
-  arrange,
+  arrange, first,
   pull, n, if_else
   )
 importFrom("tidyr",
