@@ -1,4 +1,6 @@
 download_tnds <- function(){
+  old_opts <- options(timeout=max(options()$timeout,300))
+  on.exit(options(old_opts))
 
   tnds_files <- intersecting_regions_and_nations() %>% pull(tnds_code) %>% na.omit()
   tnds_files <- c(tnds_files, 'NCSD')
