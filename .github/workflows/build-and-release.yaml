@@ -684,6 +684,7 @@ jobs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      BOUNDS: ${{ secrets.BOUNDS }}
     steps:
       - uses: actions/checkout@v2
 
@@ -718,7 +719,6 @@ jobs:
           contents: |
             default:
               bounds: !expr Sys.getenv("BOUNDS")
-            
 
       - name: Install Java 11
         if: steps.cache_street_graph.outputs.cache-hit != 'true'
