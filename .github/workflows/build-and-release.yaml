@@ -717,7 +717,8 @@ jobs:
           path: ${{ github.workspace }}/config.yml
           contents: |
             default:
-              nothing: nothing
+              bounds: !expr Sys.getenv("BOUNDS")
+            
 
       - name: Install Java 11
         if: steps.cache_street_graph.outputs.cache-hit != 'true'
