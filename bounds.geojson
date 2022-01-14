@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "walesish-bounds",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -2.1742, 53.4761 ], [ -5.4672, 53.4761 ], [ -5.4672, 51.3431 ], [ -2.1742, 51.3431 ], [ -2.1742, 53.4761 ] ] ] } }
+]
+}
