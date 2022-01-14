@@ -793,6 +793,7 @@ jobs:
           devtools::load_all()
           check_test_journeys()
           prepare_readme()
+          prepare_bounds_geojson()
         shell: Rscript {0}
 
       - name: Prepare otp_and_graph.zip release asset

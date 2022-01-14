@@ -18,18 +18,11 @@ download_osm <- function(){
 prepare_osm <- function(){
   src_path <- dir_working("great-britain-latest.osm.pbf")
  
-  # Be aware that osmium will not like a polygon file called something like
-  # "walesish.bound.geojson" as the two dots will confuse its file ext detection
-  # resulting in the following error message:
-  # "Could not autodetect file type in '(multi)polygon' object. Add a 'file_type'."
-
-  bounds_geojson_path <- dir_output(paste0(output_affix(), "-bounds.geojson"))
-  unlink(bounds_geojson_path)
-  bounds() %>% sf::st_write(bounds_geojson_path)
+  prepare_bounds_geojson()
 
   osmium_command = paste0(
     "osmium extract -p ",
-    bounds_geojson_path,
+    path_to_bounds_geojson(),
     " -s smart ",
     src_path,
     " -o ", 
