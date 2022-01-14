@@ -43,10 +43,17 @@ gtfs_wales_ish_ify <- function(gtfs){
     trip_id %in% gtfs$trips$trip_id
     )
 
+  gtfs$stop_times <- gtfs$stop_times %>% 
+    group_by(trip_id) %>% filter(n() > 1) %>%
+    ungroup()
+
   str_is_empty <- function(x){is.na(x) | str_length(x) == 0}
 
   gtfs$trips <- gtfs$trips %>% 
     filter(trip_id %in% gtfs$stop_time$trip_id)
+
+  gtfs$stops <- gtfs$stops %>% 
+    filter(stop_id %in% gtfs$stop_time$stop_id )
 
   gtfs$routes <- gtfs$routes %>% 
     filter(route_id %in% gtfs$trips$route_id) %>% 
