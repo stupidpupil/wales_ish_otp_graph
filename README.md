@@ -20,8 +20,8 @@ This is a bunch to scripts to help assemble OpenTripPlanner graphs that are usea
 
 ## Requirements
 - R
-- UK2GTFS R package
-- osmium
+- [OpenJDK 11](https://adoptium.net/?variant=openjdk11)
+- [osmium](https://osmcode.org/osmium-tool/)
 
 ## How-to
 

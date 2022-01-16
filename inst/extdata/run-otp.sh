@@ -14,7 +14,7 @@ JAVA_MAJOR_VERSION="$(java -fullversion 2>&1 | head -1 | cut -d'"' -f2 | sed '/^
 if [ "$JAVA_MAJOR_VERSION" -lt 11 ]
 then
   echo "It looks like you need a newer version of Java."
-  echo "Try installing OpenJDK 11 from https://adoptopenjdk.net/ !"
+  echo "Try installing OpenJDK 11 from https://adoptium.net/?variant=openjdk11 !"
   echo "Press the [Enter] key to continue…"
   read
   exit

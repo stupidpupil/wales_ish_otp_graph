@@ -9,7 +9,7 @@ PATH %PATH%;%JAVA_HOME%\bin\
 WHERE /q java
 if %ERRORLEVEL% NEQ 0 (
   echo It looks like you need to install Java.
-  echo Try installing OpenJDK 11 from https://adoptopenjdk.net/ !
+  echo Try installing OpenJDK 11 from https://adoptium.net/?variant=openjdk11 !
   pause
   exit
 )
