@@ -26,18 +26,27 @@ This is a bunch to scripts to help assemble OpenTripPlanner graphs that are usea
 ## How-to
 
 ```R
-devtools::load_all()
+devtools::install_github("stupidpupil/WalesIshOTPGraph")
+library(WalesIshOTPGraph)
+
 # Complete config.yml
+check_config_and_environment()
+
 download_atoc()
 prepare_atoc_gtfs()
 download_tnds()
 prepare_tnds_gtfs()
 download_and_prepare_bods_gtfs()
 download_and_prepare_osm()
+
+# OpenTripPlanner
+download_otp()
 prepare_street_graph()
 prepare_transport_graph()
-prepare_test_journeys()
-check_test_journeys()
+
+# r5r
+prepare_r5r_network_dat()
+
 # output/ should now contain graph.obj
 ```
 ## Licence of outputs
