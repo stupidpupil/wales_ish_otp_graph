@@ -7,7 +7,9 @@ prepare_r5r_network_dat <- function(){
   # Remove any existing 'network.dat' file, as previous failures
   # can result in malformed examples that confuse r5r
   unlink(dir_output("network.dat"))
-  r5r::setup_r5(data_path="output")
+  r5r::setup_r5(data_path=dir_output())
+
+  stopifnot(dir_output("network.dat"))
 
   list(
     CreatedAt = now_as_iso8601(),
