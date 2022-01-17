@@ -1,10 +1,10 @@
 {
-  "CreatedAt": "2022-01-14T09:41:32+0000",
+  "CreatedAt": "2022-01-17T10:42:18+0000",
   "DerivedFrom": {
     "Filename": "west_midlands.bods.gtfs.zip",
-    "SizeBytes": 43342940,
+    "SizeBytes": 43166128,
     "SourceUrl": "https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/west_midlands/",
-    "SourceDownloadedAt": "2022-01-14T09:41:13+0000",
+    "SourceDownloadedAt": "2022-01-17T10:41:57+0000",
     "SourceLicence": "OGL-UK-3.0",
     "SourceAttribution": "UK Department for Transport"
   }
