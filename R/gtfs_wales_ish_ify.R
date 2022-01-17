@@ -10,11 +10,6 @@ gtfs_wales_ish_ify <- function(gtfs){
     filter(sf::st_within(geometry, bounds(), sparse=FALSE)) %>%
     sf::st_drop_geometry()
 
-  if(!is.null(gtfs$transfers)){
-    gtfs$transfers <- gtfs$transfers %>% filter((from_stop_id %in% gtfs$stops$stop_id & to_stop_id %in% gtfs$stops$stop_id))
-  }
-
-
   filter_start_date <- lubridate::today() - lubridate::days(1)
   filter_end_date <- filter_start_date + lubridate::days(29)
   filter_services_ids <- c()
@@ -54,6 +49,10 @@ gtfs_wales_ish_ify <- function(gtfs){
 
   gtfs$stops <- gtfs$stops %>% 
     filter(stop_id %in% gtfs$stop_time$stop_id )
+
+   if(!is.null(gtfs$transfers)){
+      gtfs$transfers <- gtfs$transfers %>% filter((from_stop_id %in% gtfs$stops$stop_id & to_stop_id %in% gtfs$stops$stop_id))
+    }
 
   gtfs$routes <- gtfs$routes %>% 
     filter(route_id %in% gtfs$trips$route_id) %>% 
