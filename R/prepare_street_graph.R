@@ -6,6 +6,8 @@ prepare_street_graph <- function(){
 
   system(cmd)
 
+  stopifnot(file.exists(dir_output("streetGraph.obj")))
+
   list(
     CreatedAt = now_as_iso8601(),
     CreatedWithCommand = cmd,

@@ -6,6 +6,8 @@ prepare_transport_graph <- function(){
   
   system(cmd)
 
+  stopifnot(file.exists(dir_output("graph.obj")))
+
   list(
     CreatedAt = now_as_iso8601(),
     CreatedWithCommand = cmd,
