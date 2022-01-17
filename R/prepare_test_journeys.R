@@ -6,14 +6,18 @@ prepare_test_journeys <- function(){
       timeout <- as.difftime(timeout, units = "secs")
       deadline <- Sys.time() + timeout
       px <- processx::process$new(command, args, stdout = "|", ...)
+      all_lines <- c()
+
       while (px$is_alive() && (now <- Sys.time()) < deadline) {
         poll_time <- as.double(deadline - now, units = "secs") * 1000
         px$poll_io(as.integer(poll_time))
         lines <- px$read_output_lines()
+        all_lines <- c(all_lines, lines)
         if (any(grepl(message, lines))) return(px)
       }
 
-      px$kill()
+      print(args)
+      print(all_lines)
       stop("Cannot start ", command)
     }
 
