@@ -9,7 +9,7 @@ prepare_r5r_network_dat <- function(){
   unlink(dir_output("network.dat"))
   r5r::setup_r5(data_path=dir_output())
 
-  stopifnot(dir_output("network.dat"))
+  stopifnot(file.exists(dir_output("network.dat")))
 
   list(
     CreatedAt = now_as_iso8601(),
