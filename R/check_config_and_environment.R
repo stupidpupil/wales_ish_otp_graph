@@ -100,7 +100,7 @@ check_config_and_environment <- function(){
 			return("Osmium Tool is not well-supported under Windows.\nConsider using Windows Subsystem for Linux (WSL): https://docs.microsoft.com/en-us/windows/wsl/install")
 		}
 
-		return(NULL)
+		return("See https://osmcode.org/osmium-tool/")
 	}
 
 	check(
