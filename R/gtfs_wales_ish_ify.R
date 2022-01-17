@@ -39,7 +39,7 @@ gtfs_wales_ish_ify <- function(gtfs){
     )
 
   gtfs$stop_times <- gtfs$stop_times %>% 
-    group_by(trip_id) %>% filter(n() > 1) %>%
+    group_by(trip_id) %>% filter(dplyr::n_distinct(stop_id) > 1) %>%
     ungroup()
 
   str_is_empty <- function(x){is.na(x) | str_length(x) == 0}
