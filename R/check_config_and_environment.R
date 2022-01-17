@@ -77,7 +77,7 @@ check_config_and_environment <- function(){
 				}
 
 				if(id_like_str %>% stringr::str_detect("\\b(rhel|fedora)\\b")){
-					return("Try: sudo dn install osmium-tool")
+					return("Try: sudo dnf install osmium-tool")
 				}
 			}
 
