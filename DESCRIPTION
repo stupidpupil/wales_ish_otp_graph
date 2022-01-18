@@ -28,6 +28,7 @@ Imports:
   rmarkdown,
   httr,
   rvest,
-  readr
+  readr,
+  crayon
 Remotes:
   stupidpupil/UK2GTFS

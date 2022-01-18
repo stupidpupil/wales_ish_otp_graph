@@ -8,23 +8,26 @@ check_config_and_environment <- function(){
 			return(FALSE)
 		}
 
-		result <- purrr::quietly(purrr::possibly(check_func, otherwise = FALSE))()$result
+		wrapped_check_func <- purrr::quietly(purrr::possibly(check_func, otherwise = FALSE))
+
+		message(crayon::blurred(title %>% stringr::str_pad(45, side = 'right', pad=".")), appendLF=FALSE)
+    	flush.console()
+
+		result <- wrapped_check_func()$result
 
 		if(is.na(result)){
 			result <- FALSE
 		}
 
-		message(title %>% stringr::str_pad(45, side = 'right', pad="."), appendLF=FALSE)
-
 		all_results_true <- all_results_true & result
 
 		if(result){
-			message("[ \u2713 ] ")
+			message("[ ", crayon::green("\u2713"), " ] ")
 		}else{
-			message("[ x ]")
+			message("[ ", crayon::bold$red("x"), " ]")
 
 			if(!is.null(advice_on_failure)){
-				message("   ", advice_on_failure)
+				message("   ", advice_on_failure, "\n")
 			}
 
 		}
@@ -32,36 +35,45 @@ check_config_and_environment <- function(){
 		return(result)
 	}
 
-
+	check(
+		title = "bounds is set",
+		check_func = function(){!is.null(config::get()$bounds)},
+		advice_on_failure	= "Try: https://clydedacruz.github.io/openstreetmap-wkt-playground/"
+		) %>%
 	check(
 		title = "bounds are a valid WKT polygon", 
 		check_func = function(){bounds(); return(TRUE)},
-		advice_on_failure	= "Ensure that bounds is a valid WKT Polygon!"
+		advice_on_failure	= "Try: https://clydedacruz.github.io/openstreetmap-wkt-playground/"
 		) %>%
 	check(
 		title = "bounds include at least one region/nation", 
-		check_func = function(){(intersecting_regions_and_nations() %>% nrow()) > 0}
+		check_func = function(){(intersecting_regions_and_nations() %>% nrow()) > 0},
+		advice_on_failure	= "Try: https://clydedacruz.github.io/openstreetmap-wkt-playground/"
 		)
 
 	check(
-		title = "ATOC username and password set", 
-		check_func = function(){!is.null(config::get()$atoc_username) & !is.null(config::get()$atoc_password)}
+		title = "atoc_username and atoc_password are set", 
+		check_func = function(){!is.null(config::get()$atoc_username) & !is.null(config::get()$atoc_password)},
+		advice_on_failure = "Register for an ATOC user account at http://data.atoc.org/user/register"
 		) %>%
 	check(
-		title = "can log into ATOC", 
-		check_func = function(){get_atoc_download_url() %>% stringr::str_detect("atoc.org")}
+		title = "can log into the ATOC website", 
+		check_func = function(){get_atoc_download_url() %>% stringr::str_detect("atoc.org")},
+		advice_on_failure = "Check that you can login at http://data.atoc.org/user/login"
 		)
 
 	check(
-		title = "TNDS username and password set", 
-		check_func = function(){!is.null(config::get()$tnds_username) & !is.null(config::get()$tnds_password)}
+		title = "tnds_username and tnds_password set", 
+		check_func = function(){!is.null(config::get()$tnds_username) & !is.null(config::get()$tnds_password)},
+		advice_on_failure = "Register for a TNDS user account at https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset/"
 		) %>%
 	check(
 		title = "can log into TNDS", 
 		check_func = function(){
 			readr::read_lines(paste0("ftp://",config::get()$tnds_username,":",config::get()$tnds_password,"@ftp.tnds.basemap.co.uk/"))
 			return(TRUE)
-			}
+			},
+		advice_on_failure = "Check that you can login to the TNDS FTP server"
 		)
 
 	osmium_install_advice <- function(){
