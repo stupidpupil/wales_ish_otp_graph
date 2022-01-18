@@ -35,22 +35,30 @@ check_config_and_environment <- function(){
 		return(result)
 	}
 
+	config_yaml_exists <- check(
+		title = "config.yml can be read",
+		check_func = function(){config::get();TRUE},
+		advice_on_failure = "Create a config.yml as described at https://cran.r-project.org/web/packages/config/vignettes/introduction.html"
+		)
+
+	config_yaml_exists %>%
 	check(
 		title = "bounds is set",
 		check_func = function(){!is.null(config::get()$bounds)},
-		advice_on_failure	= "Try: https://clydedacruz.github.io/openstreetmap-wkt-playground/"
+		advice_on_failure = "Try: https://clydedacruz.github.io/openstreetmap-wkt-playground/"
 		) %>%
 	check(
 		title = "bounds are a valid WKT polygon", 
 		check_func = function(){bounds(); return(TRUE)},
-		advice_on_failure	= "Try: https://clydedacruz.github.io/openstreetmap-wkt-playground/"
+		advice_on_failure = "Try: https://clydedacruz.github.io/openstreetmap-wkt-playground/"
 		) %>%
 	check(
 		title = "bounds include at least one region/nation", 
 		check_func = function(){(intersecting_regions_and_nations() %>% nrow()) > 0},
-		advice_on_failure	= "Try: https://clydedacruz.github.io/openstreetmap-wkt-playground/"
+		advice_on_failure = "Try: https://clydedacruz.github.io/openstreetmap-wkt-playground/"
 		)
 
+	config_yaml_exists %>%
 	check(
 		title = "atoc_username and atoc_password are set", 
 		check_func = function(){!is.null(config::get()$atoc_username) & !is.null(config::get()$atoc_password)},
@@ -62,6 +70,7 @@ check_config_and_environment <- function(){
 		advice_on_failure = "Check that you can login at http://data.atoc.org/user/login"
 		)
 
+	config_yaml_exists %>%
 	check(
 		title = "tnds_username and tnds_password set", 
 		check_func = function(){!is.null(config::get()$tnds_username) & !is.null(config::get()$tnds_password)},
