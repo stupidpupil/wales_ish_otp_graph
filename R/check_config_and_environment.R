@@ -93,12 +93,21 @@ check_config_and_environment <- function(){
 				id_str <-  Filter(function(x){stringr::str_detect(x, "^ID=")}, readr::read_lines("/etc/os-release"))[[1]]
 
 				# Debian/Ubuntu-sh
-				if(id_like_str %>% stringr::str_detect("\\bdebian\\b")){
+				if(id_str %>% stringr::str_detect("\\bdebian\\b") | 
+				   id_like_str %>% stringr::str_detect("\\bdebian\\b")){
 					return("Try: sudo apt install osmium-tool")
 				}
 
-				if(id_like_str %>% stringr::str_detect("\\b(rhel|fedora)\\b")){
+				# Fedora/Red Hat
+				if(id_str %>% stringr::str_detect("\\b(rhel|fedora)\\b") | 
+				   id_like_str %>% stringr::str_detect("\\b(rhel|fedora)\\b")){
 					return("Try: sudo dnf install osmium-tool")
+				}
+
+				# Arch
+				if(id_str %>% string::str_detect("\barch\b") | 
+				   id_like_str %>% string::str_detect("\barch\b")){
+					return("Try: sudo pacman -S osmium-tool")
 				}
 			}
 
