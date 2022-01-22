@@ -10,7 +10,14 @@ get_logged_in_atoc_session <- function(){
 
   atoc_session <- atoc_session %>% rvest::session_submit(atoc_login_form)
 
- return(atoc_session) 
+  error_message_el <- atoc_session %>% rvest::html_node(".error")
+
+  if(!is.null(error_message_el)){
+    error_message <- error_message_el %>% rvest::html_text()
+    stop("ATOC login failed with the following error: ", error_message)
+  }
+
+  return(atoc_session)
 }
 
 get_atoc_download_url <- function(){
