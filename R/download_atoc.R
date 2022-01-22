@@ -12,7 +12,7 @@ get_logged_in_atoc_session <- function(){
 
   error_message_el <- atoc_session %>% rvest::html_node(".error")
 
-  if(!is.null(error_message_el)){
+  if(!inherits(error_message_el, "xml_missing")){
     error_message <- error_message_el %>% rvest::html_text()
     stop("ATOC login failed with the following error: ", error_message)
   }
