@@ -1,6 +1,6 @@
 check_config_and_environment <- function(){
 
-	all_results_true <- TRUE
+	error_count <- 0
 
 	check <- function(prev_result = TRUE, title, check_func, advice_on_failure = NULL){
 
@@ -19,17 +19,15 @@ check_config_and_environment <- function(){
 			result <- FALSE
 		}
 
-		all_results_true <- all_results_true & result
-
 		if(result){
 			message("[ ", crayon::green("\u2713"), " ] ")
 		}else{
 			message("[ ", crayon::bold$red("x"), " ]")
+			error_count <<- error_count + 1
 
 			if(!is.null(advice_on_failure)){
 				message("   ", advice_on_failure, "\n")
 			}
-
 		}
 
 		return(result)
@@ -140,4 +138,10 @@ check_config_and_environment <- function(){
 		)
 
 	message()
+
+	if(error_count > 0){
+		stop("Problems were found with your config.yml or environment")
+	}
+
+	return(invisible(TRUE))
 }
