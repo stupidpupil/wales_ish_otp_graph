@@ -7,7 +7,10 @@ gtfs_wales_ish_ify <- function(gtfs){
     ) %>%
     filter(!is.na(stop_lon), !is.na(stop_lat)) %>%
     sf::st_as_sf(coords = c('stop_lon', 'stop_lat'), crs=4326, remove=FALSE) %>%
-    filter(sf::st_within(geometry, bounds(), sparse=FALSE)) %>%
+    filter(
+      sf::st_within(geometry, bounds(), sparse=FALSE) |
+      stop_id %in% config::get()$additional_stop_ids
+      ) %>%
     sf::st_drop_geometry()
 
   filter_start_date <- lubridate::today() - lubridate::days(1)
