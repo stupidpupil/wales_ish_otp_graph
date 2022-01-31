@@ -1,10 +1,10 @@
 {
-  "CreatedAt": "2022-01-24T10:04:22+0000",
+  "CreatedAt": "2022-01-31T05:41:21+0000",
   "DerivedFrom": {
     "Filename": "W.bus.tnds.zip",
-    "SizeBytes": 10087440,
+    "SizeBytes": 9827296,
     "SourceUrl": "ftp://ftp.tnds.basemap.co.uk/W.zip",
-    "SourceDownloadedAt": "2022-01-24T09:58:07+0000",
+    "SourceDownloadedAt": "2022-01-31T05:34:37+0000",
     "SourceLicence": "OGL-UK-3.0",
     "SourceAttribution": "Traveline"
   }
