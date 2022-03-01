@@ -103,8 +103,8 @@ check_config_and_environment <- function(){
 				}
 
 				# Arch
-				if(id_str %>% string::str_detect("\barch\b") | 
-				   id_like_str %>% string::str_detect("\barch\b")){
+				if(id_str %>% stringr::str_detect("\barch\b") | 
+				   id_like_str %>% stringr::str_detect("\barch\b")){
 					return("Try: sudo pacman -S osmium-tool")
 				}
 			}
