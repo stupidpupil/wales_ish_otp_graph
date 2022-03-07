@@ -1,28 +1,28 @@
 {
-  "CreatedAt": ["2022-02-28T06:20:35+0000"],
+  "CreatedAt": ["2022-03-07T06:23:28+0000"],
   "DerivedFrom": [
     {
       "Filename": ["atoc.walesish.gtfs.zip"],
-      "SizeBytes": [1439523],
-      "CreatedAt": ["2022-02-28T06:09:37+0000"],
+      "SizeBytes": [1444572],
+      "CreatedAt": ["2022-03-07T06:11:33+0000"],
       "DerivedFrom": {
         "Filename": ["atoc.zip"],
-        "SizeBytes": [50817867],
-        "SourceUrl": ["http://data.atoc.org/system/files/ttis292.zip"],
-        "SourceDownloadedAt": ["2022-02-28T05:31:49+0000"],
+        "SizeBytes": [51646537],
+        "SourceUrl": ["http://data.atoc.org/system/files/ttis299.zip"],
+        "SourceDownloadedAt": ["2022-03-07T05:31:36+0000"],
         "SourceLicence": ["CC-BY-2.0"],
         "SourceAttribution": ["RSP Limited (Rail Delivery Group)"]
       }
     },
     {
       "Filename": ["NCSD.tnds.walesish.gtfs.zip"],
-      "SizeBytes": [23765],
-      "CreatedAt": ["2022-02-28T05:39:42+0000"],
+      "SizeBytes": [30209],
+      "CreatedAt": ["2022-03-07T05:46:44+0000"],
       "DerivedFrom": {
         "Filename": ["NCSD.bus.tnds.zip"],
-        "SizeBytes": [1135947],
+        "SizeBytes": [1187624],
         "SourceUrl": ["ftp://ftp.tnds.basemap.co.uk/NCSD.zip"],
-        "SourceDownloadedAt": ["2022-02-28T05:31:13+0000"],
+        "SourceDownloadedAt": ["2022-03-07T05:32:36+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["Traveline"]
       }
@@ -55,26 +55,26 @@
     },
     {
       "Filename": ["W.tnds.walesish.gtfs.zip"],
-      "SizeBytes": [7805981],
-      "CreatedAt": ["2022-02-28T05:37:29+0000"],
+      "SizeBytes": [7862905],
+      "CreatedAt": ["2022-03-07T05:42:38+0000"],
       "DerivedFrom": {
         "Filename": ["W.bus.tnds.zip"],
-        "SizeBytes": [10129764],
+        "SizeBytes": [9046048],
         "SourceUrl": ["ftp://ftp.tnds.basemap.co.uk/W.zip"],
-        "SourceDownloadedAt": ["2022-02-28T05:31:12+0000"],
+        "SourceDownloadedAt": ["2022-03-07T05:32:35+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["Traveline"]
       }
     },
     {
       "Filename": ["walesish.osm.pbf"],
-      "SizeBytes": [222837158],
-      "CreatedAt": ["2022-02-28T05:35:01+0000"],
+      "SizeBytes": [223369879],
+      "CreatedAt": ["2022-03-07T05:36:37+0000"],
       "DerivedFrom": {
         "Filename": ["great-britain-latest.osm.pbf"],
-        "SizeBytes": [1464530755],
+        "SizeBytes": [1467374382],
         "SourceUrl": ["https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"],
-        "SourceDownloadedAt": ["2022-02-28T05:33:18+0000"],
+        "SourceDownloadedAt": ["2022-03-07T05:34:28+0000"],
         "SourceLicence": ["ODbL-1.0"],
         "SourceAttribution": ["OpenStreetMap contributors"]
       }
