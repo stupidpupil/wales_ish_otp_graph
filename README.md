@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 06:31 GMT on 07 March 2022. (The graph should update weekly.)
+The graph file was last updated at 06:53 GMT on 14 March 2022. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp\_and\_graph.zip* asset.
 
@@ -44,7 +44,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Caerphilly to Cwmafan            | 0h51m | 1h52m  |
 | Cardiff to Bala                  | 3h43m | 5h15m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
-| Cardigan to Trawsfynydd          | 3h 3m | 4h43m  |
+| Cardigan to Trawsfynydd          | 3h 4m | 4h43m  |
 | Chirk to Walton                  | 1h32m | 4h17m  |
 | CP2 to Secret Garden Cafe        | 0h23m | 0h 9m  |
 | Grangetown Library to UHW A\&E   | 0h21m | 0h47m  |
