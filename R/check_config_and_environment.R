@@ -8,12 +8,15 @@ check_config_and_environment <- function(){
 			return(FALSE)
 		}
 
-		wrapped_check_func <- purrr::quietly(purrr::possibly(check_func, otherwise = FALSE))
-
 		message(crayon::blurred(title %>% stringr::str_pad(45, side = 'right', pad=".")), appendLF=FALSE)
     	flush.console()
 
+		wrapped_check_func <- purrr::quietly(purrr::possibly(check_func, otherwise = FALSE))
+
 		result <- wrapped_check_func()$result
+
+		message("\r", crayon::blurred(title %>% stringr::str_pad(45, side = 'right', pad=".")), appendLF=FALSE)
+    	flush.console()
 
 		if(is.na(result)){
 			result <- FALSE
@@ -29,6 +32,8 @@ check_config_and_environment <- function(){
 				message("   ", advice_on_failure, "\n")
 			}
 		}
+
+    	flush.console()
 
 		return(result)
 	}
