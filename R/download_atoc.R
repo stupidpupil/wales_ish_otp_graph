@@ -3,7 +3,7 @@ atoc_user_agent <- function(){
 }
 
 get_logged_in_atoc_session <- function(){
-  atoc_session <- rvest::session("http://data.atoc.org/user/login", atoc_user_agent())
+  atoc_session <- rvest::session("https://data.atoc.org/user/login", atoc_user_agent())
 
   atoc_login_form <- atoc_session %>% rvest::html_node("#user-login") %>% rvest::html_form() %>%
     rvest::html_form_set(name=config::get()$atoc_username, pass=config::get()$atoc_password)
@@ -24,11 +24,11 @@ get_atoc_download_url <- function(){
 
   atoc_session <- get_logged_in_atoc_session()
 
-  atoc_session <- atoc_session %>% rvest::session_jump_to("http://data.atoc.org/data-download")
+  atoc_session <- atoc_session %>% rvest::session_jump_to("https://data.atoc.org/data-download")
 
   atoc_download_url <- atoc_session %>% rvest::html_node("#field_timetable_file-wrapper a") %>% rvest::html_attr("href")
 
-  atoc_session %>% rvest::session_jump_to("http://data.atoc.org/user/logout?current=node/1")
+  atoc_session %>% rvest::session_jump_to("https://data.atoc.org/user/logout?current=node/1")
 
   return(atoc_download_url)
 }
@@ -38,7 +38,7 @@ download_atoc <- function(retries=3L){
   atoc_download_url <- get_atoc_download_url()
   atoc_session <- get_logged_in_atoc_session()
 
-  #atoc_session <- atoc_session %>% rvest::session_jump_to("http://data.atoc.org/data-download")
+  #atoc_session <- atoc_session %>% rvest::session_jump_to("https://data.atoc.org/data-download")
   atoc_session <- atoc_session %>% rvest::session_jump_to(atoc_download_url, atoc_user_agent())
 
   actual_content_length <- atoc_session$response$content %>% length()
@@ -46,7 +46,7 @@ download_atoc <- function(retries=3L){
 
   if(actual_content_length == 0L | actual_content_length < claimed_content_length){
     print("ATOC zip was empty or didn't match content-length header. Retrying in 60 seconds…")
-    atoc_session %>% rvest::session_jump_to("http://data.atoc.org/user/logout?current=node/1")
+    atoc_session %>% rvest::session_jump_to("https://data.atoc.org/user/logout?current=node/1")
     Sys.sleep(60L)
     if(retries > 0){
       download_atoc(retries-1L)
@@ -55,7 +55,7 @@ download_atoc <- function(retries=3L){
   }
 
   writeBin(atoc_session$response$content, dir_working("atoc.zip"))
-  atoc_session %>% rvest::session_jump_to("http://data.atoc.org/user/logout?current=node/1")
+  atoc_session %>% rvest::session_jump_to("https://data.atoc.org/user/logout?current=node/1")
 
   jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE, list(
     SourceUrl = atoc_download_url,
