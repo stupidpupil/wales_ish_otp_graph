@@ -32,7 +32,7 @@ prepare_test_journeys <- function(){
 
   otp_route_request_url <- function(fromLat, fromLon, toLat, toLon, when, public){
 
-    mode <- ifelse(public, "TRANSIT%2CWALK", "CAR")
+    mode <- ifelse(public, "TRANSIT%2CWALK", "CAR_DROPOFF%2CWALK")
 
     paste0("http://localhost:8080/otp/routers/default/plan?",
       "fromPlace=", fromLat, "%2C", fromLon,
