@@ -1,10 +1,10 @@
 {
-  "CreatedAt": "2022-03-28T05:41:09+0000",
+  "CreatedAt": "2022-04-04T05:45:46+0000",
   "DerivedFrom": {
     "Filename": "NCSD.bus.tnds.zip",
-    "SizeBytes": 1244648,
+    "SizeBytes": 1145251,
     "SourceUrl": "ftp://ftp.tnds.basemap.co.uk/NCSD.zip",
-    "SourceDownloadedAt": "2022-03-28T05:32:03+0000",
+    "SourceDownloadedAt": "2022-04-04T05:33:43+0000",
     "SourceLicence": "OGL-UK-3.0",
     "SourceAttribution": "Traveline"
   }
