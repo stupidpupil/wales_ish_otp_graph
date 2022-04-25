@@ -1,10 +1,10 @@
 {
-  "CreatedAt": "2022-04-18T06:09:14+0000",
+  "CreatedAt": "2022-04-25T06:16:18+0000",
   "DerivedFrom": {
     "Filename": "atoc.zip",
-    "SizeBytes": 48670061,
-    "SourceUrl": "https://data.atoc.org/system/files/ttis341.zip",
-    "SourceDownloadedAt": "2022-04-18T05:34:25+0000",
+    "SizeBytes": 45479897,
+    "SourceUrl": "https://data.atoc.org/system/files/ttis348.zip",
+    "SourceDownloadedAt": "2022-04-25T05:42:10+0000",
     "SourceLicence": "CC-BY-2.0",
     "SourceAttribution": "RSP Limited (Rail Delivery Group)"
   }
