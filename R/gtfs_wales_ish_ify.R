@@ -3,7 +3,8 @@ gtfs_wales_ish_ify <- function(gtfs){
   gtfs$stops <- gtfs$stops %>% 
     mutate(
       stop_lat = as.numeric(stop_lat),
-      stop_lon = as.numeric(stop_lon)
+      stop_lon = as.numeric(stop_lon),
+      parent_station = if_else(parent_station == "", NA_character_, parent_station)
     ) %>%
     filter((!is.na(stop_lon) & !is.na(stop_lat)) | !is.na(parent_station)) %>%
     sf::st_as_sf(coords = c('stop_lon', 'stop_lat'), crs=4326, remove=FALSE) %>%
@@ -14,13 +15,10 @@ gtfs_wales_ish_ify <- function(gtfs){
     sf::st_drop_geometry()
 
   gtfs$stops <- gtfs$stops %>%
-    filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id)
-
-  gtfs$stops <- gtfs$stops %>%
-    filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id)
-
-  gtfs$stops <- gtfs$stops %>%
-    filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id)
+    filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id) %>%
+    filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id) %>%
+    filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id) %>%
+    replace_na(list(parent_station = ""))
 
   filter_start_date <- lubridate::today() - lubridate::days(1)
   filter_end_date <- filter_start_date + lubridate::days(29)
@@ -92,6 +90,8 @@ gtfs_wales_ish_ify <- function(gtfs){
     )
 
   stopifnot(all(gtfs$routes$agency_id %in% gtfs$agency$agency_id))
+
+
 
   return(gtfs)
 }
