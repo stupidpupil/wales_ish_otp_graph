@@ -161,6 +161,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: pfaedle
+          path: pfaedle
 
       - name: Install pfaedle
         run: |
