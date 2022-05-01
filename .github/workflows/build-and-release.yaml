@@ -266,6 +266,10 @@ jobs:
           name: pfaedle
           path: pfaedle-build
 
+      - name: Make pfaedle executable
+        run: |
+          chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*
+
       - name: Add pfaedle to path
         run: |
           echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
@@ -431,6 +435,10 @@ jobs:
           name: pfaedle
           path: pfaedle-build
 
+      - name: Make pfaedle executable
+        run: |
+          chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*          
+
       - name: Add pfaedle to path
         run: |
           echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
@@ -588,6 +596,10 @@ jobs:
         with:
           name: pfaedle
           path: pfaedle-build
+
+      - name: Make pfaedle executable
+        run: |
+          chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*
 
       - name: Add pfaedle to path
         run: |
