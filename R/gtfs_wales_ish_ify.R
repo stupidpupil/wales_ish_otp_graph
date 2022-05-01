@@ -13,6 +13,15 @@ gtfs_wales_ish_ify <- function(gtfs){
       ) %>%
     sf::st_drop_geometry()
 
+  gtfs$stops <- gtfs$stops %>%
+    filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id)
+
+  gtfs$stops <- gtfs$stops %>%
+    filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id)
+
+  gtfs$stops <- gtfs$stops %>%
+    filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id)
+
   filter_start_date <- lubridate::today() - lubridate::days(1)
   filter_end_date <- filter_start_date + lubridate::days(29)
   filter_services_ids <- c()
@@ -51,16 +60,7 @@ gtfs_wales_ish_ify <- function(gtfs){
     filter(trip_id %in% gtfs$stop_time$trip_id)
 
   gtfs$stops <- gtfs$stops %>% 
-    filter(stop_id %in% gtfs$stop_time$stop_id )
-
-  gtfs$stops <- gtfs$stops %>%
-    filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id)
-
-  gtfs$stops <- gtfs$stops %>%
-    filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id)
-
-  gtfs$stops <- gtfs$stops %>%
-    filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id)
+    filter(stop_id %in% gtfs$stop_time$stop_id | stop_id %in% gtfs$stops$parent_station)
 
   if(!is.null(gtfs$transfers)){
     gtfs$transfers <- gtfs$transfers %>% filter((from_stop_id %in% gtfs$stops$stop_id & to_stop_id %in% gtfs$stops$stop_id))
