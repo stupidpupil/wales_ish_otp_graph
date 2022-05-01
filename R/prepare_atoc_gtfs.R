@@ -3,7 +3,7 @@ prepare_atoc_gtfs <- function(){
     path_in = dir_working("atoc.zip"),
     ncores = (parallel::detectCores()-1))
   gtfs <- gtfs %>% gtfs_wales_ish_ify()
-  gtfs %>% gtfstools::write_gtfs(dir_output(paste0("atoc.", output_affix(), ".gtfs.zip")))
+  gtfs %>% UK2GTFS::gtfs_write(folder=dir_output(), name=paste0("atoc.", output_affix(), ".gtfs"))
 
   list(
     CreatedAt = now_as_iso8601(),
