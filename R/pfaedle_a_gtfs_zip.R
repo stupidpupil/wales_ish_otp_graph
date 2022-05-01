@@ -11,8 +11,9 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(paste0
 
 
   pfaedle_command = paste0(
-    "pfaedle -D -x ",
-    paste0(temp_dir_path, "/temp.osm"), " ",
+    "pfaedle -D",
+    " -c ", dir_support("pfaedle.cfg"),
+    " -x ", paste0(temp_dir_path, "/temp.osm"), " ",
     temp_dir_path,
     " -o ", paste0(temp_dir_path, "/gtfs-out")
   )
