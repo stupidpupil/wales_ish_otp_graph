@@ -18,20 +18,6 @@ jobs:
           path: 'pfaedle'
           ref: 'macos-patches'
 
-      - name: Get pfaedle ref
-        id: pfaedle-ref
-        run: |
-          echo "::set-output name=ref::$(git -C pfaedle rev-parse HEAD)"
-        shell: bash
-
-      - name: Cache pfaedle/build
-        id: cache_pfaedle_build
-        uses: actions/cache@v2
-        with:
-          path: |
-            pfaedle/build
-          key: ${{ runner.os }}-${{ steps.pfaedle-ref.outputs.ref }}-v2
-
       - name: Build pfaedle
         if: steps.cache_pfaedle_build.outputs.cache-hit != 'true'
         run: |
@@ -40,14 +26,16 @@ jobs:
           cd build
           cmake ..
           make -j
+          make install DESTDIR="../../pfaedle-build"
           cd ../../
+          chmod ug+rw -R pfaedle-build/
         shell: bash
 
       - name: Upload pfaedle artefact
         uses: actions/upload-artifact@v2
         with:
           name: pfaedle
-          path: pfaedle
+          path: pfaedle-build
           if-no-files-found: error
 
 
@@ -127,7 +115,6 @@ jobs:
 
   download_and_prepare_atoc_gtfs:
     runs-on: macOS-latest
-    needs: ['build_pfaedle']
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
@@ -156,18 +143,6 @@ jobs:
           install.packages(c("devtools"))
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}
-
-      - name: Download pfaedle artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: pfaedle
-          path: pfaedle
-
-      - name: Install pfaedle
-        run: |
-          cd pfaedle/build
-          make install
-          cd ../../
 
       - name: Write config.yml
         uses: DamianReeves/write-file-action@v1.0
@@ -211,7 +186,6 @@ jobs:
 
   download_and_prepare_tnds_gtfs:
     runs-on: macOS-latest
-    needs: ['build_pfaedle']
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
@@ -291,11 +265,9 @@ jobs:
 
   download_and_prepare_bods_gtfs:
     runs-on: macOS-latest
-    needs: ['build_pfaedle']
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       BOUNDS: ${{ secrets.BOUNDS }}
-
     steps:
       - uses: actions/checkout@v2
 
@@ -362,7 +334,6 @@ jobs:
           name: bods.walesish.gtfs.zip
           path: output/*.bods.walesish.gtfs.zip*
           if-no-files-found: error
-
 
   prepare_pretty_map:
     needs: [
