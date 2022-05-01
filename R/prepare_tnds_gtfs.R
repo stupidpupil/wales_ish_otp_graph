@@ -11,7 +11,7 @@ prepare_tnds_gtfs <- function(){
       path_in = src_path, ncores= (parallel::detectCores()-1), 
       try_mode=TRUE, scotland=ifelse(r == "S", "yes", "no"), force_merge = TRUE)
     gtfs <- gtfs %>% gtfs_wales_ish_ify()
-    gtfs %>% UK2GTFS::gtfs_write(folder=dir_output(), name=paste0(r,".tnds.", output_affix(), ".gtfs"))
+    gtfs %>% gtfstools::write_gtfs(dir_output(paste0(r,".tnds.", output_affix(), ".gtfs")))
 
     list(
       CreatedAt = now_as_iso8601(),
@@ -36,7 +36,7 @@ prepare_tnds_gtfs <- function(){
     # "National Coach Service" per https://developers.google.com/transit/gtfs/reference/extended-route-types
   }
 
-  gtfs %>% UK2GTFS::gtfs_write(folder=dir_output(), name=paste0("NCSD.tnds.", output_affix(), ".gtfs"))
+  gtfs %>% gtfstools::write_gtfs(dir_output(paste0("NCSD.tnds.", output_affix(), ".gtfs")))
   unlink(dir_working("NCSD.bus.tnds"), recursive=TRUE)
 
   list(

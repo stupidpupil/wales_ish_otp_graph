@@ -345,6 +345,74 @@ jobs:
           if-no-files-found: error
 
 
+  pfaedle_tnds_gtfs:
+    needs: [
+      'download_and_prepare_tnds_gtfs',
+      'build_pfaedle',
+      'download_and_prepare_osm']
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: r-lib/actions/setup-r@v2
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: Query dependencies
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Restore R package cache
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install dependencies
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        run: |
+          install.packages(c("devtools"))
+          devtools::install_deps(dependencies = TRUE)
+        shell: Rscript {0}  
+
+      - name: Download TNDS GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: tnds.walesish.gtfs.zip
+          path: output
+
+      - name: Download pfaedle artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: pfaedle
+          path: pfaedle-build
+
+      - name: Add pfaedle to path
+        run: |
+          echo "$HOME/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Pfaedle TNDS GTFS
+        if: steps.cache_atoc.outputs.cache-hit != 'true'
+        run: |
+          devtools::load_all()
+          pfaedle_all_output_gtfs()
+        shell: Rscript {0}
+
+      - name: Upload TNDS GTFS artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: tnds.walesish.gtfs.zip
+          path: output/*.tnds.walesish.gtfs.zip*
+          if-no-files-found: error
+
   download_and_prepare_bods_gtfs:
     runs-on: macOS-latest
     env:
@@ -417,11 +485,80 @@ jobs:
           path: output/*.bods.walesish.gtfs.zip*
           if-no-files-found: error
 
+  pfaedle_bods_gtfs:
+    needs: [
+      'download_and_prepare_bods_gtfs',
+      'build_pfaedle',
+      'download_and_prepare_osm']
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: r-lib/actions/setup-r@v2
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: Query dependencies
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Restore R package cache
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install dependencies
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        run: |
+          install.packages(c("devtools"))
+          devtools::install_deps(dependencies = TRUE)
+        shell: Rscript {0}  
+
+      - name: Download BODS GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: bods.walesish.gtfs.zip
+          path: output
+
+      - name: Download pfaedle artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: pfaedle
+          path: pfaedle-build
+
+      - name: Add pfaedle to path
+        run: |
+          echo "$HOME/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Pfaedle TNDS GTFS
+        if: steps.cache_atoc.outputs.cache-hit != 'true'
+        run: |
+          devtools::load_all()
+          pfaedle_all_output_gtfs()
+        shell: Rscript {0}
+
+      - name: Upload BODS GTFS artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bods.walesish.gtfs.zip
+          path: output/*.bods.walesish.gtfs.zip*
+          if-no-files-found: error
+
+
   prepare_pretty_map:
     needs: [
       'pfaedle_atoc_gtfs', 
-      'download_and_prepare_bods_gtfs', 
-      'download_and_prepare_tnds_gtfs']
+      'pfaedle_tnds_gtfs', 
+      'pfaedle_bods_gtfs']
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -574,9 +711,9 @@ jobs:
     needs: [
       'download_and_prepare_osm',
       'prepare_street_graph', 
-      'download_and_prepare_atoc_gtfs', 
-      'download_and_prepare_bods_gtfs', 
-      'download_and_prepare_tnds_gtfs']
+      'pfaedle_atoc_gtfs', 
+      'pfaedle_tnds_gtfs', 
+      'pfaedle_bods_gtfs']
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -695,9 +832,9 @@ jobs:
   prepare_r5r_network_dat:
     needs: [
       'download_and_prepare_osm',
-      'download_and_prepare_atoc_gtfs', 
-      'download_and_prepare_bods_gtfs', 
-      'download_and_prepare_tnds_gtfs']
+      'pfaedle_atoc_gtfs', 
+      'pfaedle_tnds_gtfs', 
+      'pfaedle_bods_gtfs']
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
