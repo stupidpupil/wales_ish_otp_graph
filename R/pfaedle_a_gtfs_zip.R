@@ -1,3 +1,9 @@
+pfaedle_all_output_gtfs <- function(){
+  for(fn in list.files(dir_output(), "\\.gtfs\\.zip$", full.names=TRUE)){
+    pfaedle_a_gtfs_zip(fn)
+  }
+}
+
 pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(paste0(output_affix(), ".osm.pbf"))){
 
   # Unzip gtfs zip to a temporary folder in dir working
