@@ -184,11 +184,10 @@ jobs:
           path: output/atoc.walesish.gtfs.zip*
           if-no-files-found: error
 
-
   pfaedle_atoc_gtfs:
     needs: [
       'download_and_prepare_atoc_gtfs',
-      'build_pfaedle'
+      'build_pfaedle',
       'download_and_prepare_osm']
     runs-on: macOS-latest
     env:
@@ -252,7 +251,6 @@ jobs:
           name: atoc.walesish.gtfs.zip
           path: output/atoc.walesish.gtfs.zip*
           if-no-files-found: error
-
 
   download_and_prepare_tnds_gtfs:
     runs-on: macOS-latest
