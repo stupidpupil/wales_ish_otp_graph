@@ -1,6 +1,7 @@
 gtfs_wales_ish_ify <- function(gtfs){
 
   gtfs$stops <- gtfs$stops %>% 
+    dplyr::union_all(tibble(parent_station=character())) %>%
     mutate(
       stop_lat = as.numeric(stop_lat),
       stop_lon = as.numeric(stop_lon),
