@@ -6,6 +6,49 @@ on:
 name: build-and-release
 
 jobs:
+  build_pfaedle:
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: 'ad-freiburg/pfaedle'
+          path: 'pfaedle'
+
+      - name: Get pfaedle ref
+        id: pfaedle-ref
+        run: |
+          echo "::set-output name=ref::$(git -C pfaedle rev-parse HEAD)"
+        shell: bash
+
+      - name: Cache pfaedle/build
+        id: cache_pfaedle_build
+        uses: actions/cache@v2
+        with:
+          path: |
+            pfaedle/build
+          key: ${{ runner.os }}-${{ steps.pfaedle-ref.outputs.ref }}-v2
+
+      - name: Build pfaedle
+        if: steps.cache_pfaedle_build.outputs.cache-hit != 'true'
+        run: |
+          cd pfaedle
+          mkdir build
+          cd build
+          cmake ..
+          make -j
+          cd ../../
+        shell: bash
+
+      - name: Upload pfaedle artefact
+        uses: actions/upload-artifact@v2
+        with:
+          name: pfaedle
+          path: pfaedle
+          if-no-files-found: error
+
+
   download_and_prepare_osm:
     runs-on: macOS-latest
     env:
@@ -110,6 +153,17 @@ jobs:
           install.packages(c("devtools"))
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}
+
+      - name: Download pfaedle artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: pfaedle
+
+      - name: Install pfaedle
+        run: |
+          cd pfaedle/build
+          make install
+          cd ../../
 
       - name: Write config.yml
         uses: DamianReeves/write-file-action@v1.0
