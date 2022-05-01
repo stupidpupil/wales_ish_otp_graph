@@ -37,7 +37,7 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(paste0
     )
 
   stopifnot(file.exists(new_gtfs_zip_path))
-  stopifnot(file.size(new_gtfs_zip_path) >= file.size(path_to_gtfs_zip)) # HACK
+  #stopifnot(file.size(new_gtfs_zip_path) >= file.size(path_to_gtfs_zip)) # HACK
 
   file.copy(new_gtfs_zip_path, path_to_gtfs_zip, overwrite=TRUE)
 
