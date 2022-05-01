@@ -5,7 +5,7 @@ gtfs_wales_ish_ify <- function(gtfs){
       stop_lat = as.numeric(stop_lat),
       stop_lon = as.numeric(stop_lon)
     ) %>%
-    filter(!is.na(stop_lon), !is.na(stop_lat)) %>%
+    filter((!is.na(stop_lon) & !is.na(stop_lat)) | !is.na(parent_station)) %>%
     sf::st_as_sf(coords = c('stop_lon', 'stop_lat'), crs=4326, remove=FALSE) %>%
     filter(
       sf::st_within(geometry, bounds(), sparse=FALSE) |
@@ -52,6 +52,9 @@ gtfs_wales_ish_ify <- function(gtfs){
 
   gtfs$stops <- gtfs$stops %>% 
     filter(stop_id %in% gtfs$stop_time$stop_id )
+
+  gtfs$stops <- gtfs$stops %>%
+    filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id)
 
   if(!is.null(gtfs$transfers)){
     gtfs$transfers <- gtfs$transfers %>% filter((from_stop_id %in% gtfs$stops$stop_id & to_stop_id %in% gtfs$stops$stop_id))
