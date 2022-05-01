@@ -13,10 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          repository: 'ad-freiburg/pfaedle'
+          repository: 'stupidpupil/pfaedle'
           submodules: true
           path: 'pfaedle'
-          ref: 'ff8748ef3f1680f9176afa8355bafc0d9df0e001'
+          ref: 'macos-patches'
 
       - name: Get pfaedle ref
         id: pfaedle-ref
