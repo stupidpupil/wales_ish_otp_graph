@@ -42,7 +42,7 @@ jobs:
           make -j
           make install DESTDIR="../../pfaedle-build"
           cd ../../
-          chmod ug+rw -R pfaedle-build/
+          chmod -R ug+rw pfaedle-build/
         shell: bash
 
       - name: Upload pfaedle artefact
