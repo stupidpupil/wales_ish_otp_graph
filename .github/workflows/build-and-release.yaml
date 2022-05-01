@@ -207,6 +207,14 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Write config.yml
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+
       - uses: actions/checkout@v2
       
       - uses: r-lib/actions/setup-r@v2
@@ -354,6 +362,14 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Write config.yml
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+
       - uses: actions/checkout@v2
       
       - uses: r-lib/actions/setup-r@v2
@@ -494,6 +510,14 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Write config.yml
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+
       - uses: actions/checkout@v2
       
       - uses: r-lib/actions/setup-r@v2
