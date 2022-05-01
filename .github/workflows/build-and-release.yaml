@@ -16,7 +16,7 @@ jobs:
           repository: 'ad-freiburg/pfaedle'
           submodules: true
           path: 'pfaedle'
-          ref: 'f1822868c5addbf169ec19ec84b6db90a198db6f'
+          ref: 'ff8748ef3f1680f9176afa8355bafc0d9df0e001'
 
       - name: Get pfaedle ref
         id: pfaedle-ref
