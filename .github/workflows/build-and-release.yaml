@@ -254,6 +254,12 @@ jobs:
           name: atoc.walesish.gtfs.zip
           path: output
 
+      - name: Download OSM artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: walesish.osm.pbf
+          path: output
+
       - name: Download pfaedle artifact
         uses: actions/download-artifact@v2
         with:
@@ -407,6 +413,12 @@ jobs:
       - name: Install osmium
         run: brew install osmium-tool
 
+      - name: Download OSM artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: walesish.osm.pbf
+          path: output
+
       - name: Download TNDS GTFS artifact
         uses: actions/download-artifact@v2
         with:
@@ -558,6 +570,12 @@ jobs:
 
       - name: Install osmium
         run: brew install osmium-tool
+
+      - name: Download OSM artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: walesish.osm.pbf
+          path: output
 
       - name: Download BODS GTFS artifact
         uses: actions/download-artifact@v2
