@@ -245,6 +245,9 @@ jobs:
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}  
 
+      - name: Install osmium
+        run: brew install osmium-tool
+
       - name: Download ATOC GTFS artifact
         uses: actions/download-artifact@v2
         with:
@@ -401,6 +404,9 @@ jobs:
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}  
 
+      - name: Install osmium
+        run: brew install osmium-tool
+
       - name: Download TNDS GTFS artifact
         uses: actions/download-artifact@v2
         with:
@@ -549,6 +555,9 @@ jobs:
           install.packages(c("devtools"))
           devtools::install_deps(dependencies = TRUE)
         shell: Rscript {0}  
+
+      - name: Install osmium
+        run: brew install osmium-tool
 
       - name: Download BODS GTFS artifact
         uses: actions/download-artifact@v2
