@@ -19,7 +19,7 @@ download_and_prepare_bods_gtfs <- function(){
     print(paste0("Preparing bus data for ", r, "…"))
     gtfs <- gtfstools::read_gtfs(dest_path)
     gtfs <- gtfs %>% gtfs_wales_ish_ify()
-    gtfs %>% gtfstools::write_gtfs(dir_output(paste0(r, ".bods.", output_affix(),".gtfs")))
+    gtfs %>% gtfstools::write_gtfs(dir_output(paste0(r, ".bods.", output_affix(),".gtfs.zip")))
 
     list(
       CreatedAt = now_as_iso8601(),
