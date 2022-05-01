@@ -56,6 +56,12 @@ gtfs_wales_ish_ify <- function(gtfs){
   gtfs$stops <- gtfs$stops %>%
     filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id)
 
+  gtfs$stops <- gtfs$stops %>%
+    filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id)
+
+  gtfs$stops <- gtfs$stops %>%
+    filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id)
+
   if(!is.null(gtfs$transfers)){
     gtfs$transfers <- gtfs$transfers %>% filter((from_stop_id %in% gtfs$stops$stop_id & to_stop_id %in% gtfs$stops$stop_id))
   }
