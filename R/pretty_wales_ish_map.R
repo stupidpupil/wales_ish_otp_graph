@@ -66,7 +66,7 @@ pretty_wales_ish_map <- function(){
     ) +
     ggplot2::geom_sf(data = crude_routes %>%
         filter(filename %>% str_detect("^(W|wales).(tnds|bus|bods)")) %>%
-        filter(route_short_name %>% str_detect("^T")),
+        filter(route_short_name %>% str_detect("^T"), !(route_short_name %>% str_detect("^T49"))),
       colour = '#58823D', size=0.6
     ) + 
     ggplot2::theme_minimal() + 
