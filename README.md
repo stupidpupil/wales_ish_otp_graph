@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 07:36 BST on 02 May 2022. (The graph should update weekly.)
+The graph file was last updated at 11:48 BST on 02 May 2022. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp\_and\_graph.zip* asset.
 
@@ -48,7 +48,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Cardigan to Trawsfynydd          | 3h 4m | 4h43m  |
 | Chirk to Walton                  | 1h32m | 4h17m  |
 | CP2 to Secret Garden Cafe        | 0h 7m | 0h 9m  |
-| Grangetown Library to UHW A\&E   | 0h23m | 0h47m  |
+| Grangetown Library to UHW A\&E   | 0h23m | 0h48m  |
 | Lampeter to Llandovery           | 0h33m | 5h26m  |
 | Llangadog to Rhayader            | 1h14m | 2h30m  |
 | Llangollen to Ruthin             | 0h29m | 1h11m  |
