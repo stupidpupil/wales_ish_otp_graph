@@ -17,9 +17,9 @@ download_and_prepare_bods_gtfs <- function(){
     )) %>% write(paste0(dest_path, ".meta.json"))
 
     print(paste0("Preparing bus data for ", r, "…"))
-    gtfs <- better_gtfs_read(dest_path)
+    gtfs <- gtfstools::read_gtfs(dest_path)
     gtfs <- gtfs %>% gtfs_wales_ish_ify()
-    gtfs %>% UK2GTFS::gtfs_write(folder=dir_output(), name=paste0(r, ".bods.", output_affix(),".gtfs"))
+    gtfs %>% gtfstools::write_gtfs(dir_output(paste0(r, ".bods.", output_affix(),".gtfs.zip")))
 
     list(
       CreatedAt = now_as_iso8601(),

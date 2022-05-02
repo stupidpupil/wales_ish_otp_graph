@@ -29,6 +29,7 @@ Imports:
   httr,
   rvest,
   readr,
-  crayon
+  crayon,
+  gtfstools
 Remotes:
   stupidpupil/UK2GTFS

@@ -6,6 +6,53 @@ on:
 name: build-and-release
 
 jobs:
+  build_pfaedle:
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: 'stupidpupil/pfaedle'
+          submodules: true
+          path: 'pfaedle'
+          ref: 'macos-patches'
+
+      - name: Get pfaedle ref
+        id: pfaedle-ref
+        run: |
+          echo "::set-output name=ref::$(git -C pfaedle rev-parse HEAD)"
+        shell: bash
+
+      - name: Cache pfaedle-build
+        id: cache_pfaedle_build
+        uses: actions/cache@v2
+        with:
+          path: |
+            pfaedle-build
+          key: ${{ runner.os }}-${{ steps.pfaedle-ref.outputs.ref }}-v3
+
+      - name: Build pfaedle
+        if: steps.cache_pfaedle_build.outputs.cache-hit != 'true'
+        run: |
+          cd pfaedle
+          mkdir build
+          cd build
+          cmake ..
+          make -j
+          make install DESTDIR="../../pfaedle-build"
+          cd ../../
+          chmod -R ug+rw pfaedle-build/
+        shell: bash
+
+      - name: Upload pfaedle artefact
+        uses: actions/upload-artifact@v2
+        with:
+          name: pfaedle
+          path: pfaedle-build
+          if-no-files-found: error
+
+
   download_and_prepare_osm:
     runs-on: macOS-latest
     env:
@@ -151,6 +198,96 @@ jobs:
           path: output/atoc.walesish.gtfs.zip*
           if-no-files-found: error
 
+  pfaedle_atoc_gtfs:
+    needs: [
+      'download_and_prepare_atoc_gtfs',
+      'build_pfaedle',
+      'download_and_prepare_osm']
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Write config.yml
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+              empty: ''
+      
+      - uses: r-lib/actions/setup-r@v2
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: Query dependencies
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Restore R package cache
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install dependencies
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        run: |
+          install.packages(c("devtools"))
+          devtools::install_deps(dependencies = TRUE)
+        shell: Rscript {0}  
+
+      - name: Install osmium
+        run: brew install osmium-tool
+
+      - name: Download ATOC GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: atoc.walesish.gtfs.zip
+          path: output
+
+      - name: Download OSM artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: walesish.osm.pbf
+          path: output
+
+      - name: Download pfaedle artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: pfaedle
+          path: pfaedle-build
+
+      - name: Make pfaedle executable
+        run: |
+          chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*
+
+      - name: Add pfaedle to path
+        run: |
+          echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Pfaedle ATOC GTFS
+        if: steps.cache_atoc.outputs.cache-hit != 'true'
+        run: |
+          devtools::load_all()
+          pfaedle_all_output_gtfs()
+        shell: Rscript {0}
+
+      - name: Upload ATOC GTFS artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: atoc.walesish.gtfs.zip
+          path: output/atoc.walesish.gtfs.zip*
+          if-no-files-found: error
+
   download_and_prepare_tnds_gtfs:
     runs-on: macOS-latest
     env:
@@ -230,12 +367,101 @@ jobs:
           if-no-files-found: error
 
 
+  pfaedle_tnds_gtfs:
+    needs: [
+      'download_and_prepare_tnds_gtfs',
+      'build_pfaedle',
+      'download_and_prepare_osm']
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Write config.yml
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+              empty: ''
+      
+      - uses: r-lib/actions/setup-r@v2
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: Query dependencies
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Restore R package cache
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install dependencies
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        run: |
+          install.packages(c("devtools"))
+          devtools::install_deps(dependencies = TRUE)
+        shell: Rscript {0}  
+
+      - name: Install osmium
+        run: brew install osmium-tool
+
+      - name: Download OSM artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: walesish.osm.pbf
+          path: output
+
+      - name: Download TNDS GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: tnds.walesish.gtfs.zip
+          path: output
+
+      - name: Download pfaedle artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: pfaedle
+          path: pfaedle-build
+
+      - name: Make pfaedle executable
+        run: |
+          chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*          
+
+      - name: Add pfaedle to path
+        run: |
+          echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Pfaedle TNDS GTFS
+        if: steps.cache_atoc.outputs.cache-hit != 'true'
+        run: |
+          devtools::load_all()
+          pfaedle_all_output_gtfs()
+        shell: Rscript {0}
+
+      - name: Upload TNDS GTFS artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: tnds.walesish.gtfs.zip
+          path: output/*.tnds.walesish.gtfs.zip*
+          if-no-files-found: error
+
   download_and_prepare_bods_gtfs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       BOUNDS: ${{ secrets.BOUNDS }}
-
     steps:
       - uses: actions/checkout@v2
 
@@ -303,12 +529,102 @@ jobs:
           path: output/*.bods.walesish.gtfs.zip*
           if-no-files-found: error
 
+  pfaedle_bods_gtfs:
+    needs: [
+      'download_and_prepare_bods_gtfs',
+      'build_pfaedle',
+      'download_and_prepare_osm']
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Write config.yml
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: DamianReeves/write-file-action@v1.0
+        with:
+          path: ${{ github.workspace }}/config.yml
+          contents: |
+            default:
+              empty: ''
+      
+      - uses: r-lib/actions/setup-r@v2
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: Query dependencies
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Restore R package cache
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: Install dependencies
+        if: steps.cache_tnds.outputs.cache-hit != 'true'
+        run: |
+          install.packages(c("devtools"))
+          devtools::install_deps(dependencies = TRUE)
+        shell: Rscript {0}  
+
+      - name: Install osmium
+        run: brew install osmium-tool
+
+      - name: Download OSM artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: walesish.osm.pbf
+          path: output
+
+      - name: Download BODS GTFS artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: bods.walesish.gtfs.zip
+          path: output
+
+      - name: Download pfaedle artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: pfaedle
+          path: pfaedle-build
+
+      - name: Make pfaedle executable
+        run: |
+          chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*
+
+      - name: Add pfaedle to path
+        run: |
+          echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
+
+      - name: Pfaedle BODS GTFS
+        if: steps.cache_atoc.outputs.cache-hit != 'true'
+        run: |
+          devtools::load_all()
+          pfaedle_all_output_gtfs()
+        shell: Rscript {0}
+
+      - name: Upload BODS GTFS artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bods.walesish.gtfs.zip
+          path: output/*.bods.walesish.gtfs.zip*
+          if-no-files-found: error
+
 
   prepare_pretty_map:
     needs: [
-      'download_and_prepare_atoc_gtfs', 
-      'download_and_prepare_bods_gtfs', 
-      'download_and_prepare_tnds_gtfs']
+      'pfaedle_atoc_gtfs', 
+      'pfaedle_tnds_gtfs', 
+      'pfaedle_bods_gtfs']
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -373,7 +689,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: map.png
-          path: output/map.png*
+          path: output/map*.png*
           if-no-files-found: error
 
 
@@ -461,9 +777,9 @@ jobs:
     needs: [
       'download_and_prepare_osm',
       'prepare_street_graph', 
-      'download_and_prepare_atoc_gtfs', 
-      'download_and_prepare_bods_gtfs', 
-      'download_and_prepare_tnds_gtfs']
+      'pfaedle_atoc_gtfs', 
+      'pfaedle_tnds_gtfs', 
+      'pfaedle_bods_gtfs']
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -582,9 +898,9 @@ jobs:
   prepare_r5r_network_dat:
     needs: [
       'download_and_prepare_osm',
-      'download_and_prepare_atoc_gtfs', 
-      'download_and_prepare_bods_gtfs', 
-      'download_and_prepare_tnds_gtfs']
+      'pfaedle_atoc_gtfs', 
+      'pfaedle_tnds_gtfs', 
+      'pfaedle_bods_gtfs']
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}

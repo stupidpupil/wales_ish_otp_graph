@@ -1,21 +1,18 @@
 pretty_wales_ish_map <- function(){
 
-  stops <- tibble()
-  stop_times <- tibble()
+  geometries <- sf::st_sfc(crs=4326)
   trips <- tibble()
   agencies <- tibble()
   routes <- tibble()
 
   for(fn in list.files(dir_output(), "\\.gtfs\\.zip$")){
-    gtfs <- better_gtfs_read(dir_output(fn))
+    gtfs <- gtfstools::read_gtfs(dir_output(fn))
 
-    stops <- stops %>% bind_rows(
-      gtfs$stops %>% select(stop_id, stop_lat, stop_lon) %>%
-      mutate(filename= fn)
-    )
-
-    stop_times <- stop_times %>% bind_rows(
-      gtfs$stop_times %>% select(stop_id, trip_id, stop_sequence) %>%
+    geometries <- geometries %>% rbind(
+      gtfstools::get_trip_geometry(gtfs) %>%
+      group_by(trip_id) %>%
+      filter(n() == 1 | origin_file == 'shapes') %>%
+      ungroup() %>%
       mutate(filename= fn)
     )
 
@@ -34,44 +31,40 @@ pretty_wales_ish_map <- function(){
 
   }
 
-  crude_routes <- stops %>%
-    left_join(stop_times) %>%
+  crude_routes <- geometries %>%
     left_join(trips) %>% 
     left_join(routes) %>% 
     left_join(agencies) %>%
-    mutate(route_id = paste0(filename, "-", route_id)) %>%
-    group_by(route_id, trip_id) %>% mutate(trip_n = n()) %>% ungroup() %>%
-    arrange(route_id, -trip_n, trip_id, stop_sequence) %>% 
-    group_by(route_id) %>% filter(trip_id == first(trip_id)) %>% ungroup()
+    mutate(route_id = paste0(filename, "-", route_id))
 
-  plot_map <- ggplot2::ggplot(tibble(), ggplot2::aes(x=stop_lon, y=stop_lat, group=route_id)) + 
-    ggplot2::geom_path(data = crude_routes %>% filter(!(route_type %in% c(4, 200:299))),
+  plot_map <- ggplot2::ggplot(tibble()) + 
+    ggplot2::geom_sf(data = crude_routes %>% filter(!(route_type %in% c(4, 200:299))),
       colour = '#bbbbbb', size=0.2
     ) +
-    ggplot2::geom_path(data = crude_routes %>% filter(route_type %in% c(4, 1502, 1200:1299)),
+    ggplot2::geom_sf(data = crude_routes %>% filter(route_type %in% c(4, 1502, 1200:1299)),
       colour = '#7ebdbc', linetype=2
     ) +
-    ggplot2::geom_path(data = crude_routes %>% 
+    ggplot2::geom_sf(data = crude_routes %>% 
         filter(filename %>% str_detect("atoc")) %>% 
         filter(agency_name %>% str_detect("Western")),
       colour = '#3b524e', size=0.3, alpha=0.8
     ) +
-    ggplot2::geom_path(data = crude_routes %>% 
+    ggplot2::geom_sf(data = crude_routes %>% 
         filter(filename %>% str_detect("atoc")) %>% 
         filter(agency_name %>% str_detect("(West Coast|Virgin Trains)")),
       colour = '#bf7660', size=0.4, alpha=0.8
     ) +
-    ggplot2::geom_path(data = crude_routes %>% 
+    ggplot2::geom_sf(data = crude_routes %>% 
         filter(filename %>% str_detect("atoc")) %>% 
         filter(agency_name %>% str_detect("CrossCountry")),
       colour = '#7d5967', size=0.4, alpha=0.8
     ) +
-    ggplot2::geom_path(data = crude_routes %>% 
+    ggplot2::geom_sf(data = crude_routes %>% 
         filter(filename %>% str_detect("atoc")) %>% 
         filter(agency_name %>% str_detect("Wales")),
       colour = '#9c3636', alpha=0.8
     ) +
-    ggplot2::geom_path(data = crude_routes %>%
+    ggplot2::geom_sf(data = crude_routes %>%
         filter(filename %>% str_detect("^(W|wales).(tnds|bus|bods)")) %>%
         filter(route_short_name %>% str_detect("^T")),
       colour = '#58823D', size=0.6
@@ -83,9 +76,8 @@ pretty_wales_ish_map <- function(){
       axis.title = ggplot2::element_blank(), 
       axis.text  = ggplot2::element_blank(), 
       axis.ticks = ggplot2::element_blank()
-    ) + 
-    ggplot2::coord_fixed(ratio=1.67)
-
+    )
+    
   return(plot_map)
 }
 
