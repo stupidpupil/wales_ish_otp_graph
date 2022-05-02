@@ -689,7 +689,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: map.png
-          path: output/map.png*
+          path: output/map*.png*
           if-no-files-found: error
 
 
