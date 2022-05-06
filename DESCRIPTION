@@ -30,6 +30,7 @@ Imports:
   rvest,
   readr,
   crayon,
-  gtfstools
+  gtfstools,
+  lwgeom
 Remotes:
   stupidpupil/UK2GTFS
