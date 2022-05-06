@@ -39,7 +39,27 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(paste0
   stopifnot(file.exists(new_gtfs_zip_path))
   #stopifnot(file.size(new_gtfs_zip_path) >= file.size(path_to_gtfs_zip)) # HACK
 
-  file.copy(new_gtfs_zip_path, path_to_gtfs_zip, overwrite=TRUE)
+  new_gtfs <- gtfstools::read_gtfs(new_gtfs_zip_path)
+  trip_speeds <- gtfstools::get_trip_speed(new_gtfs) %>%
+    left_join(new_gtfs$trips, by='trip_id') %>%
+    left_join(new_gtfs$routes, by='route_id') %>%
+    select(trip_id, speed, route_type)
+
+  # Speed is in km/h and these are quite generous...
+  trips_to_strip_shape_id <- trip_speeds %>%
+    filter(
+      (route_type %in% c(2, 100:199) & speed > 300) |
+      (route_type %in% c(3, 11, 200:299, 700:799) & speed > 110) |
+      (route_type %in% c(0,1,2,5,6,7,12, 900:999) & speed > 110)
+    )
+
+  new_gtfs$trips <- new_gtfs$trips %>%
+    mutate(shape_id = if_else(trip_id %in% trips_to_strip_shape_id$trip_id, "", shape_id))
+
+  new_gtfs$shapes <- new_gtfs$shapes %>%
+    filter(shape_id %in% new_gtfs$trips$shape_id)
+
+  new_gtfs %>% gtfstools::write_gtfs(path_to_gtfs_zip)
 
   unlink(temp_dir_path, recursive = TRUE)
 }
