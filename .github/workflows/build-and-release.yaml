@@ -1,4 +1,4 @@
-on:
+'on':
   workflow_dispatch: ~
   schedule:
   - cron: 25 5 * * 1
@@ -1122,4 +1122,3 @@ jobs:
       TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.output_affix }}
- 
