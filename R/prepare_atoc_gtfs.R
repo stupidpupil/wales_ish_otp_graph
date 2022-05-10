@@ -9,5 +9,5 @@ prepare_atoc_gtfs <- function(){
     CreatedAt = now_as_iso8601(),
     DerivedFrom = I(describe_file(dir_working("atoc.zip")))
   ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
-  write(dir_output(paste0("atoc.", output_affix(), ".gtfs.zip.meta.json")))
+  write(dir_output("atoc.", output_affix(), ".gtfs.zip.meta.json"))
 }

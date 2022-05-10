@@ -26,7 +26,7 @@ prepare_osm <- function(){
     " -s smart ",
     src_path,
     " -o ", 
-    dir_output(paste0(output_affix(), ".osm.pbf"))
+    dir_output(output_affix(), ".osm.pbf")
   )
 
   system(osmium_command)
@@ -35,7 +35,7 @@ prepare_osm <- function(){
     CreatedAt = now_as_iso8601(),
     DerivedFrom = I(describe_file(src_path))
   ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
-  write(dir_output(paste0(output_affix(), ".osm.pbf.meta.json")))
+  write(dir_output(output_affix(), ".osm.pbf.meta.json"))
 }
 
 download_and_prepare_osm <- function(){

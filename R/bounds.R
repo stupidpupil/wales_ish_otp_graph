@@ -16,7 +16,7 @@ path_to_bounds_geojson <- function(){
   # resulting in the following error message:
   # "Could not autodetect file type in '(multi)polygon' object. Add a 'file_type'."
 
-  dir_output(paste0(output_affix(), "-bounds.geojson"))
+  dir_output(output_affix(), "-bounds.geojson")
 }
 
 prepare_bounds_geojson <- function(){

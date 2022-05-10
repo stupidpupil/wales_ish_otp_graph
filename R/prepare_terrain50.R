@@ -3,7 +3,7 @@ prepare_terrain50 <- function(){
 		terr50_zip_path = dir_working("terr50_gagg_gb.zip"), 
 		vrt_filename = dir_working("terr50_gagg_gb.vrt"))
 
-	dest_path <- dir_output(paste0(output_affix(), ".terr50.tif"))
+	dest_path <- dir_output(output_affix(), ".terr50.tif")
 
 	terra::crop(terrain50, bounds() %>% sf::st_transform(27700)) %>% 
 		terra::project("epsg:4326") %>%
