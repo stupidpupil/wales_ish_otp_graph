@@ -1,4 +1,6 @@
-needs: ['download_and_prepare_osm']
+needs: [
+  'download_and_prepare_terrain',
+  'download_and_prepare_osm']
 runs-on: macOS-latest
 parochial_merge:
   - env
@@ -20,12 +22,18 @@ steps:
       name: walesish.osm.pbf
       path: output
 
+  - name: Download Terrrain 50 artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: terr50.tif
+      path: output
+
   - name: Cache street graph
     id: cache_street_graph
     uses: actions/cache@v2
     with:
       path: output/streetGraph.obj*
-      key: ${{ hashFiles('data-raw/*.jar', 'output/walesish.osm*', 'R/java*', 'R/*street_graph*') }}-v1
+      key: ${{ hashFiles('data-raw/*.jar', 'output/walesish.osm*', 'output/*terr50*', 'R/java*', 'R/*street_graph*') }}-v1
 
   - parochial_replace_with: setup_java
     if: steps.cache_street_graph.outputs.cache-hit != 'true'

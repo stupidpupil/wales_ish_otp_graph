@@ -9,6 +9,9 @@ jobs:
   build_pfaedle:
     parochial_merge: jobs/build_pfaedle
 
+  download_and_prepare_terrain:
+    parochial_merge: jobs/download_and_prepare_terrain
+
   download_and_prepare_osm:
     parochial_merge: jobs/download_and_prepare_osm
 
