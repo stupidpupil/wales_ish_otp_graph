@@ -1,0 +1,1125 @@
+'on':
+  workflow_dispatch: ~
+  schedule:
+  - cron: 25 5 * * 1
+name: build-and-release
+jobs:
+  build_pfaedle:
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        repository: stupidpupil/pfaedle
+        submodules: yes
+        path: pfaedle
+        ref: macos-patches
+    - name: Get pfaedle ref
+      id: pfaedle-ref
+      run: |
+        echo "::set-output name=ref::$(git -C pfaedle rev-parse HEAD)"
+      shell: bash
+    - name: Cache pfaedle-build
+      id: cache_pfaedle_build
+      uses: actions/cache@v2
+      with:
+        path: |
+          pfaedle-build
+        key: ${{ runner.os }}-${{ steps.pfaedle-ref.outputs.ref }}-v3
+    - name: Build pfaedle
+      if: steps.cache_pfaedle_build.outputs.cache-hit != 'true'
+      run: |
+        cd pfaedle
+        mkdir build
+        cd build
+        cmake ..
+        make -j
+        make install DESTDIR="../../pfaedle-build"
+        cd ../../
+        chmod -R ug+rw pfaedle-build/
+      shell: bash
+    - name: Upload pfaedle artefact
+      uses: actions/upload-artifact@v2
+      with:
+        name: pfaedle
+        path: pfaedle-build
+        if-no-files-found: error
+  download_and_prepare_osm:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Write config.yml
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: ${{ github.workspace }}/config.yml
+        contents: |
+          default:
+            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
+            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
+            bounds: !expr Sys.getenv("BOUNDS")
+    - name: Get Geofabrik ETag
+      id: geofabrik_etag
+      run: |
+        echo "::set-output name=etag::$(curl -I "https://download.geofabrik.de/europe/great-britain-latest.osm.pbf" | grep "ETag")"
+    - name: Cache OSM
+      id: cache_osm
+      uses: actions/cache@v2
+      with:
+        path: |
+          output/*osm*
+        key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('R/*osm*', 'config.yml')
+          }}-v2
+    - uses: r-lib/actions/setup-r@v2
+      if: steps.cache_osm.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-pandoc@v1
+      if: steps.cache_osm.outputs.cache-hit != 'true'
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+      if: steps.cache_osm.outputs.cache-hit != 'true'
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+      if: steps.cache_osm.outputs.cache-hit != 'true'
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+      if: steps.cache_osm.outputs.cache-hit != 'true'
+    - name: Install osmium
+      run: brew install osmium-tool
+      if: steps.cache_osm.outputs.cache-hit != 'true'
+    - name: Download and prepare OSM
+      if: steps.cache_osm.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        download_and_prepare_osm()
+      shell: Rscript {0}
+    - name: Upload OSM artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: walesish.osm.pbf
+        path: output/walesish.osm.pbf*
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.output_affix }}
+  prepare_street_graph:
+    needs: download_and_prepare_osm
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Write config.yml
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: ${{ github.workspace }}/config.yml
+        contents: |
+          default:
+            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
+            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
+            bounds: !expr Sys.getenv("BOUNDS")
+    - uses: r-lib/actions/setup-r@v2
+    - uses: r-lib/actions/setup-pandoc@v1
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+    - name: Download OTP
+      run: |
+        devtools::load_all()
+        download_otp()
+      shell: Rscript {0}
+    - name: Download OSM artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: walesish.osm.pbf
+        path: output
+    - name: Cache street graph
+      id: cache_street_graph
+      uses: actions/cache@v2
+      with:
+        path: output/streetGraph.obj*
+        key: ${{ hashFiles('data-raw/*.jar', 'output/walesish.osm*', 'R/java*', 'R/*street_graph*')
+          }}-v1
+    - name: Install Java 11
+      uses: actions/setup-java@v2
+      with:
+        distribution: adopt
+        java-version: '11'
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    - name: Prepare street graph
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        prepare_street_graph()
+      shell: Rscript {0}
+    - name: Upload street graph artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: streetGraph.obj
+        path: output/streetGraph.obj*
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.output_affix }}
+  download_and_prepare_atoc:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Write config.yml
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: ${{ github.workspace }}/config.yml
+        contents: |
+          default:
+            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
+            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
+            bounds: !expr Sys.getenv("BOUNDS")
+    - uses: r-lib/actions/setup-r@v2
+    - uses: r-lib/actions/setup-pandoc@v1
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+    - name: Get ATOC URL
+      id: atoc_url
+      run: |
+        devtools::load_all()
+        cat(paste0("::set-output name=url::", get_atoc_download_url(),"\n"))
+      shell: Rscript {0}
+    - name: Cache ATOC
+      id: cache_atoc
+      uses: actions/cache@v2
+      with:
+        path: |
+          output/*atoc*gtfs*
+        key: ${{ steps.atoc_url.outputs.url }}-${{ hashFiles('R/*atoc*', 'R/gtfs*',
+          'config.yml') }}-v4
+    - name: Download and prepare ATOC GTFS
+      if: steps.cache_atoc.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        download_atoc()
+        prepare_atoc_gtfs()
+      shell: Rscript {0}
+    - name: Upload ATOC GTFS artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: atoc.walesish.gtfs.zip
+        path: output/atoc.walesish.gtfs.zip*
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.output_affix }}
+  pfaedle_atoc:
+    needs:
+    - download_and_prepare_atoc
+    - build_pfaedle
+    - download_and_prepare_osm
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Write config.yml
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: ${{ github.workspace }}/config.yml
+        contents: |
+          default:
+            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
+            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
+            bounds: !expr Sys.getenv("BOUNDS")
+    - uses: r-lib/actions/setup-r@v2
+    - uses: r-lib/actions/setup-pandoc@v1
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+    - name: Install osmium
+      run: brew install osmium-tool
+    - name: Download pfaedle artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: pfaedle
+        path: pfaedle-build
+    - name: Make pfaedle executable
+      run: |
+        chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*
+    - name: Add pfaedle to path
+      run: echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
+    - name: Download ATOC GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: atoc.walesish.gtfs.zip
+        path: output
+    - name: Download OSM artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: walesish.osm.pbf
+        path: output
+    - name: Pfaedle ATOC GTFS
+      run: |
+        devtools::load_all()
+        pfaedle_all_output_gtfs()
+      shell: Rscript {0}
+    - name: Upload ATOC GTFS artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: atoc.walesish.gtfs.zip
+        path: output/atoc.walesish.gtfs.zip*
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.output_affix }}
+  download_and_prepare_tnds:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Write config.yml
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: ${{ github.workspace }}/config.yml
+        contents: |
+          default:
+            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
+            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
+            bounds: !expr Sys.getenv("BOUNDS")
+    - name: Get TNDS directory listing hash
+      id: tnds_dir_list_hash
+      run: |
+        echo "::set-output name=hash::$(curl ftp://$TNDS_USERNAME:$TNDS_PASSWORD@ftp.tnds.basemap.co.uk | md5)"
+    - name: Cache TNDS
+      id: cache_tnds
+      uses: actions/cache@v2
+      with:
+        path: |
+          output/*.tnds.*
+        key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*',
+          'R/gtfs*', 'data-raw/regions_and_nations*', 'config.yml') }}-v10
+    - uses: r-lib/actions/setup-r@v2
+      if: steps.cache_tnds.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-pandoc@v1
+      if: steps.cache_tnds.outputs.cache-hit != 'true'
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+      if: steps.cache_tnds.outputs.cache-hit != 'true'
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+      if: steps.cache_tnds.outputs.cache-hit != 'true'
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+      if: steps.cache_tnds.outputs.cache-hit != 'true'
+    - name: Download and prepare TNDS GTFS
+      if: steps.cache_tnds.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        download_tnds()
+        prepare_tnds_gtfs()
+      shell: Rscript {0}
+    - name: Upload TNDS GTFS artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: tnds.walesish.gtfs.zip
+        path: output/*.tnds.walesish.gtfs.zip*
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.output_affix }}
+  pfaedle_tnds:
+    needs:
+    - download_and_prepare_tnds
+    - build_pfaedle
+    - download_and_prepare_osm
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Write config.yml
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: ${{ github.workspace }}/config.yml
+        contents: |
+          default:
+            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
+            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
+            bounds: !expr Sys.getenv("BOUNDS")
+    - uses: r-lib/actions/setup-r@v2
+    - uses: r-lib/actions/setup-pandoc@v1
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+    - name: Install osmium
+      run: brew install osmium-tool
+    - name: Download pfaedle artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: pfaedle
+        path: pfaedle-build
+    - name: Make pfaedle executable
+      run: |
+        chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*
+    - name: Add pfaedle to path
+      run: echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
+    - name: Download OSM artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: walesish.osm.pbf
+        path: output
+    - name: Download TNDS GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: tnds.walesish.gtfs.zip
+        path: output
+    - name: Pfaedle TNDS GTFS
+      run: |
+        devtools::load_all()
+        pfaedle_all_output_gtfs()
+      shell: Rscript {0}
+    - name: Upload TNDS GTFS artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: tnds.walesish.gtfs.zip
+        path: output/*.tnds.walesish.gtfs.zip*
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.output_affix }}
+  download_and_prepare_bods:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Write config.yml
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: ${{ github.workspace }}/config.yml
+        contents: |
+          default:
+            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
+            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
+            bounds: !expr Sys.getenv("BOUNDS")
+    - name: Get TNDS directory listing hash
+      id: tnds_dir_list_hash
+      run: |
+        echo "::set-output name=hash::$(curl ftp://$TNDS_USERNAME:$TNDS_PASSWORD@ftp.tnds.basemap.co.uk | md5)"
+    - name: Cache TNDS
+      id: cache_tnds
+      uses: actions/cache@v2
+      with:
+        path: |
+          output/*.tnds.*
+        key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*',
+          'R/gtfs*', 'data-raw/regions_and_nations*', 'config.yml') }}-v10
+    - uses: r-lib/actions/setup-r@v2
+      if: steps.cache_tnds.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-pandoc@v1
+      if: steps.cache_tnds.outputs.cache-hit != 'true'
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+      if: steps.cache_tnds.outputs.cache-hit != 'true'
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+      if: steps.cache_tnds.outputs.cache-hit != 'true'
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+      if: steps.cache_tnds.outputs.cache-hit != 'true'
+    - name: Download and prepare TNDS GTFS
+      if: steps.cache_tnds.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        download_tnds()
+        prepare_tnds_gtfs()
+      shell: Rscript {0}
+    - name: Upload TNDS GTFS artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: tnds.walesish.gtfs.zip
+        path: output/*.tnds.walesish.gtfs.zip*
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.output_affix }}
+  pfaedle_bods:
+    needs:
+    - download_and_prepare_tnds
+    - build_pfaedle
+    - download_and_prepare_osm
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Write config.yml
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: ${{ github.workspace }}/config.yml
+        contents: |
+          default:
+            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
+            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
+            bounds: !expr Sys.getenv("BOUNDS")
+    - uses: r-lib/actions/setup-r@v2
+    - uses: r-lib/actions/setup-pandoc@v1
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+    - name: Install osmium
+      run: brew install osmium-tool
+    - name: Download pfaedle artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: pfaedle
+        path: pfaedle-build
+    - name: Make pfaedle executable
+      run: |
+        chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*
+    - name: Add pfaedle to path
+      run: echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
+    - name: Download OSM artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: walesish.osm.pbf
+        path: output
+    - name: Download TNDS GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: tnds.walesish.gtfs.zip
+        path: output
+    - name: Pfaedle TNDS GTFS
+      run: |
+        devtools::load_all()
+        pfaedle_all_output_gtfs()
+      shell: Rscript {0}
+    - name: Upload TNDS GTFS artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: tnds.walesish.gtfs.zip
+        path: output/*.tnds.walesish.gtfs.zip*
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.output_affix }}
+  prepare_pretty_map:
+    needs:
+    - pfaedle_atoc
+    - pfaedle_tnds
+    - pfaedle_bods
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Write config.yml
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: ${{ github.workspace }}/config.yml
+        contents: |
+          default:
+            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
+            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
+            bounds: !expr Sys.getenv("BOUNDS")
+    - uses: r-lib/actions/setup-r@v2
+    - uses: r-lib/actions/setup-pandoc@v1
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+    - name: Download ATOC GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: atoc.walesish.gtfs.zip
+        path: output
+    - name: Download TNDS GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: tnds.walesish.gtfs.zip
+        path: output
+    - name: Download BODS GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: bods.walesish.gtfs.zip
+        path: output
+    - name: Prepare map
+      run: |
+        devtools::load_all()
+        prepare_pretty_wales_ish_map()
+      shell: Rscript {0}
+    - name: Upload map artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: map.png
+        path: output/map*.png*
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.output_affix }}
+  prepare_final_graph:
+    needs:
+    - download_and_prepare_osm
+    - prepare_street_graph
+    - pfaedle_atoc
+    - pfaedle_tnds
+    - pfaedle_bods
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Write config.yml
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: ${{ github.workspace }}/config.yml
+        contents: |
+          default:
+            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
+            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
+            bounds: !expr Sys.getenv("BOUNDS")
+    - uses: r-lib/actions/setup-r@v2
+    - uses: r-lib/actions/setup-pandoc@v1
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+    - name: Download OSM artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: walesish.osm.pbf
+        path: output
+    - name: Download ATOC GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: atoc.walesish.gtfs.zip
+        path: output
+    - name: Download TNDS GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: tnds.walesish.gtfs.zip
+        path: output
+    - name: Download BODS GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: bods.walesish.gtfs.zip
+        path: output
+    - name: Download street graph artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: streetGraph.obj
+        path: output
+    - name: Download OTP
+      run: |
+        devtools::load_all()
+        download_otp()
+      shell: Rscript {0}
+    - name: Cache transport graph
+      id: cache_transport_graph
+      uses: actions/cache@v2
+      with:
+        path: |
+          output/graph.obj*
+          output/*.meta.json
+        key: ${{ hashFiles('output/*', 'data-raw/*.jar', 'R/java*', 'R/*transport_graph*')
+          }}-v1
+    - name: Install Java 11
+      uses: actions/setup-java@v2
+      with:
+        distribution: adopt
+        java-version: '11'
+      if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+    - name: Prepare transport graph
+      if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        prepare_transport_graph()
+      shell: Rscript {0}
+    - name: Upload transport graph artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: graph.obj
+        path: output/graph.obj*
+        if-no-files-found: error
+    - name: Upload meta jsons artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: meta.jsons
+        path: output/*.meta.json
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.output_affix }}
+  prepare_r5r_network_dat:
+    needs:
+    - download_and_prepare_osm
+    - pfaedle_atoc
+    - pfaedle_tnds
+    - pfaedle_bods
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Write config.yml
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: ${{ github.workspace }}/config.yml
+        contents: |
+          default:
+            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
+            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
+            bounds: !expr Sys.getenv("BOUNDS")
+    - uses: r-lib/actions/setup-r@v2
+    - uses: r-lib/actions/setup-pandoc@v1
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+    - name: Download OSM artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: walesish.osm.pbf
+        path: output
+    - name: Download ATOC GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: atoc.walesish.gtfs.zip
+        path: output
+    - name: Download TNDS GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: tnds.walesish.gtfs.zip
+        path: output
+    - name: Download BODS GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: bods.walesish.gtfs.zip
+        path: output
+    - name: Cache r5r network.dat
+      id: cache_network_dat
+      uses: actions/cache@v2
+      with:
+        path: |
+          output/network.dat*
+        key: ${{ hashFiles('output/*', 'R/java*', 'R/*r5r*') }}
+    - name: Install Java 11
+      uses: actions/setup-java@v2
+      with:
+        distribution: adopt
+        java-version: '11'
+      if: steps.cache_network_dat.outputs.cache-hit != 'true'
+    - name: Prepare r5r network.dat
+      if: steps.cache_network_dat.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        prepare_r5r_network_dat()
+      shell: Rscript {0}
+    - name: Upload r5r network.dat artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: network.dat
+        path: output/network.dat*
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.output_affix }}
+  release:
+    needs:
+    - prepare_r5r_network_dat
+    - prepare_pretty_map
+    - prepare_final_graph
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Write config.yml
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: ${{ github.workspace }}/config.yml
+        contents: |
+          default:
+            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
+            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
+            bounds: !expr Sys.getenv("BOUNDS")
+    - uses: r-lib/actions/setup-r@v2
+    - uses: r-lib/actions/setup-pandoc@v1
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+    - name: Install Java 11
+      uses: actions/setup-java@v2
+      with:
+        distribution: adopt
+        java-version: '11'
+    - name: Download OTP
+      run: |
+        devtools::load_all()
+        download_otp()
+      shell: Rscript {0}
+    - name: Download OSM artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: walesish.osm.pbf
+        path: output
+    - name: Download ATOC GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: atoc.walesish.gtfs.zip
+        path: output
+    - name: Download TNDS GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: tnds.walesish.gtfs.zip
+        path: output
+    - name: Download BODS GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: bods.walesish.gtfs.zip
+        path: output
+    - name: Download transport graph artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: graph.obj
+        path: output
+    - name: Download network.dat artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: network.dat
+        path: output
+    - name: Download pretty map artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: map.png
+        path: output
+    - name: Prepare test journeys
+      run: |
+        devtools::load_all()
+        prepare_otp_config()
+        prepare_test_journeys()
+      shell: Rscript {0}
+    - name: Upload test journeys artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: test_journeys.csv
+        path: output/test_journeys.csv
+        if-no-files-found: error
+    - name: Check test journeys and prepare README
+      run: |
+        devtools::load_all()
+        check_test_journeys()
+        prepare_readme()
+        prepare_bounds_geojson()
+      shell: Rscript {0}
+    - name: Prepare otp_and_graph.zip release asset
+      run: |
+        mkdir -p assets/otp_and_graph/graph
+        cp data-raw/otp.jar assets/otp_and_graph/
+        cp inst/extdata/run-otp.bat assets/otp_and_graph/
+        cp inst/extdata/run-otp.sh assets/otp_and_graph/
+        chmod ugo+x assets/otp_and_graph/run-otp.sh
+        curl https://raw.githubusercontent.com/opentripplanner/OpenTripPlanner/dev-2.x/LICENSE -o assets/otp_and_graph/OTP_LICENSE
+        cp output/graph.obj* assets/otp_and_graph/graph/
+        cp output/router-config.json assets/otp_and_graph/graph/
+        cd assets
+        zip -9 -r otp_and_graph.zip otp_and_graph/
+        cd ..
+    - name: Prepare gtfs_and_osm.zip release asset
+      run: |
+        mkdir -p assets/gtfs_and_osm
+        cp output/*.gtfs.* assets/gtfs_and_osm/
+        cp output/*.osm.* assets/gtfs_and_osm/
+        cp output/build-config.json assets/gtfs_and_osm/
+        cd assets
+        zip -9 -r gtfs_and_osm.zip gtfs_and_osm/
+        cd ..
+    - name: Prepare r5r_network_dat.zip release asset
+      run: |
+        mkdir -p assets/r5r_network_dat
+        cp output/network.dat* assets/r5r_network_dat/
+        cd assets
+        zip -9 -r r5r_network_dat.zip r5r_network_dat/
+        cd ..
+    - name: Checkout graph-releases branch
+      uses: actions/checkout@v2
+      with:
+        ref: graph-releases
+        path: graph-releases
+    - name: Get timestamp for release
+      id: timestamp
+      env:
+        TZ: Europe/London
+      run: echo "::set-output name=timestamp::$(date +'%Y-%m-%dT%H-%M-%S')"
+    - name: Copy READMEs and Commit
+      if: github.ref == 'refs/heads/main'
+      run: |
+        cd graph-releases
+        rm -rf file_metadata
+        mkdir file_metadata
+        cp ../output/*-bounds.geojson bounds.geojson
+        cp ../output/*.meta.json file_metadata/
+        cp ../output/map.png map.png
+        cp ../output/test_journeys.csv test_journeys.csv
+        cp ../output/output_readme.html index.html
+        cp ../output/output_readme.md README.md
+        git config user.name "Graph Release Bot"
+        git config user.email "<>"
+        git add .
+        git commit -m "Updated for new release"
+        git push origin graph-releases
+        cd ..
+    - name: Release new graph
+      uses: ncipollo/release-action@v1
+      if: github.ref == 'refs/heads/main'
+      with:
+        artifacts: assets/otp_and_graph.zip,assets/gtfs_and_osm.zip,assets/r5r_network_dat.zip
+        bodyFile: output/release_body.md
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit: graph-releases
+        tag: ${{ steps.timestamp.outputs.timestamp }}
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.output_affix }}
+ 

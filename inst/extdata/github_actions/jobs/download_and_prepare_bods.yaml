@@ -1,0 +1,36 @@
+runs-on: macOS-latest
+parochial_merge:
+  - env
+
+steps:
+  - uses: actions/checkout@v2
+  - parochial_replace_with: write_config
+
+  - name: Get BODS index page hash
+    id: bods_index_page_hash
+    run : |
+      echo "::set-output name=hash::$(curl "https://data.bus-data.dft.gov.uk/timetable/download/" | md5)"
+
+  - name: Cache BODS
+    id: cache_bods
+    uses: actions/cache@v2
+    with:
+      path: output/*.bods.*
+      key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('R/*bus*', 'R/*gtfs*', 'data-raw/regions_and_nations*', 'config.yml') }}-v4
+
+  - parochial_replace_with: setup_r
+    if: steps.cache_bods.outputs.cache-hit != 'true'
+
+  - name: Download and prepare BODS GTFS
+    if: steps.cache_bods.outputs.cache-hit != 'true'
+    run: |
+      devtools::load_all()
+      download_and_prepare_bods_gtfs()
+    shell: Rscript {0}
+
+  - name: Upload BODS GTFS artifact
+    uses: actions/upload-artifact@v2
+    with:
+      name: bods.walesish.gtfs.zip
+      path: output/*.bods.walesish.gtfs.zip*
+      if-no-files-found: error

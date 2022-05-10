@@ -1,0 +1,156 @@
+needs: [
+  'prepare_r5r_network_dat',
+  'prepare_pretty_map',
+  'prepare_final_graph']
+runs-on: macOS-latest
+parochial_merge:
+  - env
+
+steps:
+  - uses: actions/checkout@v2
+  - parochial_replace_with: write_config
+  - parochial_replace_with: setup_r
+  - parochial_replace_with: setup_java
+
+  - name: Download OTP
+    run: |
+      devtools::load_all()
+      download_otp()
+    shell: Rscript {0}
+
+  - name: Download OSM artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: walesish.osm.pbf
+      path: output
+
+  - name: Download ATOC GTFS artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: atoc.walesish.gtfs.zip
+      path: output
+
+  - name: Download TNDS GTFS artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: tnds.walesish.gtfs.zip
+      path: output
+
+  - name: Download BODS GTFS artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: bods.walesish.gtfs.zip
+      path: output
+
+  - name: Download transport graph artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: graph.obj
+      path: output
+
+  - name: Download network.dat artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: network.dat
+      path: output
+
+  - name: Download pretty map artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: map.png
+      path: output
+
+  - name: Prepare test journeys
+    run: |
+      devtools::load_all()
+      prepare_otp_config()
+      prepare_test_journeys()
+    shell: Rscript {0}
+
+  - name: Upload test journeys artifact
+    uses: actions/upload-artifact@v2
+    with:
+      name: test_journeys.csv
+      path: output/test_journeys.csv
+      if-no-files-found: error
+
+  - name: Check test journeys and prepare README
+    run: |
+      devtools::load_all()
+      check_test_journeys()
+      prepare_readme()
+      prepare_bounds_geojson()
+    shell: Rscript {0}
+
+  - name: Prepare otp_and_graph.zip release asset
+    run: |
+      mkdir -p assets/otp_and_graph/graph
+      cp data-raw/otp.jar assets/otp_and_graph/
+      cp inst/extdata/run-otp.bat assets/otp_and_graph/
+      cp inst/extdata/run-otp.sh assets/otp_and_graph/
+      chmod ugo+x assets/otp_and_graph/run-otp.sh
+      curl https://raw.githubusercontent.com/opentripplanner/OpenTripPlanner/dev-2.x/LICENSE -o assets/otp_and_graph/OTP_LICENSE
+      cp output/graph.obj* assets/otp_and_graph/graph/
+      cp output/router-config.json assets/otp_and_graph/graph/
+      cd assets
+      zip -9 -r otp_and_graph.zip otp_and_graph/
+      cd ..
+
+  - name: Prepare gtfs_and_osm.zip release asset
+    run: |
+      mkdir -p assets/gtfs_and_osm
+      cp output/*.gtfs.* assets/gtfs_and_osm/
+      cp output/*.osm.* assets/gtfs_and_osm/
+      cp output/build-config.json assets/gtfs_and_osm/
+      cd assets
+      zip -9 -r gtfs_and_osm.zip gtfs_and_osm/
+      cd ..
+
+  - name: Prepare r5r_network_dat.zip release asset
+    run: |
+      mkdir -p assets/r5r_network_dat
+      cp output/network.dat* assets/r5r_network_dat/
+      cd assets
+      zip -9 -r r5r_network_dat.zip r5r_network_dat/
+      cd ..
+
+  - name: Checkout graph-releases branch
+    uses: actions/checkout@v2
+    with:
+      ref: graph-releases
+      path: graph-releases
+
+  - name: Get timestamp for release
+    id: timestamp
+    env:
+      TZ: Europe/London
+    run: echo "::set-output name=timestamp::$(date +'%Y-%m-%dT%H-%M-%S')"
+
+  - name: Copy READMEs and Commit
+    if: github.ref == 'refs/heads/main' 
+    run: |
+      cd graph-releases
+      rm -rf file_metadata
+      mkdir file_metadata
+      cp ../output/*-bounds.geojson bounds.geojson
+      cp ../output/*.meta.json file_metadata/
+      cp ../output/map.png map.png
+      cp ../output/test_journeys.csv test_journeys.csv
+      cp ../output/output_readme.html index.html
+      cp ../output/output_readme.md README.md
+      git config user.name "Graph Release Bot"
+      git config user.email "<>"
+      git add .
+      git commit -m "Updated for new release"
+      git push origin graph-releases
+      cd ..
+
+  - name: Release new graph
+    uses: ncipollo/release-action@v1
+    if: github.ref == 'refs/heads/main' 
+    with:
+      artifacts: "assets/otp_and_graph.zip,assets/gtfs_and_osm.zip,assets/r5r_network_dat.zip"
+      bodyFile: "output/release_body.md"
+      token: ${{ secrets.GITHUB_TOKEN }}
+      commit: graph-releases
+      tag: ${{ steps.timestamp.outputs.timestamp }}

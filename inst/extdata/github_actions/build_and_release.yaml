@@ -1,0 +1,47 @@
+'on': 
+  workflow_dispatch:
+  schedule:
+    - cron: 25 5 * * 1
+
+name: build-and-release
+
+jobs:
+  build_pfaedle:
+    parochial_merge: jobs/build_pfaedle
+
+  download_and_prepare_osm:
+    parochial_merge: jobs/download_and_prepare_osm
+
+  prepare_street_graph:
+    parochial_merge: jobs/prepare_street_graph
+
+  download_and_prepare_atoc:
+    parochial_merge: jobs/download_and_prepare_atoc
+
+  pfaedle_atoc:
+    parochial_merge: jobs/pfaedle_atoc
+
+  download_and_prepare_tnds:
+    parochial_merge: jobs/download_and_prepare_tnds
+
+  pfaedle_tnds:
+    parochial_merge: jobs/pfaedle_tnds
+
+  download_and_prepare_bods:
+    parochial_merge: jobs/download_and_prepare_tnds
+
+  pfaedle_bods:
+    parochial_merge: jobs/pfaedle_tnds
+
+  prepare_pretty_map:
+    parochial_merge: jobs/prepare_pretty_map
+
+  prepare_final_graph:
+    parochial_merge: jobs/prepare_final_graph
+
+  prepare_r5r_network_dat:
+    parochial_merge: jobs/prepare_r5r_network_dat
+
+  release:
+    parochial_merge: jobs/release
+
