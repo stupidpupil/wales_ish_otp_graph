@@ -1,0 +1,38 @@
+runs-on: macOS-latest
+parochial_merge:
+  - env
+
+steps:
+  - uses: actions/checkout@v2
+  - parochial_replace_with: write_config
+
+  - name: Get TNDS directory listing hash
+    id: tnds_dir_list_hash
+    run : |
+      echo "::set-output name=hash::$(curl ftp://$TNDS_USERNAME:$TNDS_PASSWORD@ftp.tnds.basemap.co.uk | md5)"
+
+  - name: Cache TNDS
+    id: cache_tnds
+    uses: actions/cache@v2
+    with:
+      path: |
+        output/*.tnds.*
+      key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/gtfs*', 'data-raw/regions_and_nations*', 'config.yml') }}-v10
+
+  - parochial_replace_with: setup_r
+    if: steps.cache_tnds.outputs.cache-hit != 'true'
+
+  - name: Download and prepare TNDS GTFS
+    if: steps.cache_tnds.outputs.cache-hit != 'true'
+    run: |
+      devtools::load_all()
+      download_tnds()
+      prepare_tnds_gtfs()
+    shell: Rscript {0}
+
+  - name: Upload TNDS GTFS artifact
+    uses: actions/upload-artifact@v2
+    with:
+      name: tnds.walesish.gtfs.zip
+      path: output/*.tnds.walesish.gtfs.zip*
+      if-no-files-found: error

@@ -1,0 +1,38 @@
+runs-on: macOS-latest
+parochial_merge:
+  - env
+
+steps:
+  - uses: actions/checkout@v2
+  - parochial_replace_with: write_config
+  - parochial_replace_with: setup_r
+
+  - name: Get ATOC URL
+    id: atoc_url
+    run: |
+      devtools::load_all()
+      cat(paste0("::set-output name=url::", get_atoc_download_url(),"\n"))
+    shell: Rscript {0}
+
+  - name: Cache ATOC
+    id: cache_atoc
+    uses: actions/cache@v2
+    with:
+      path: |
+        output/*atoc*gtfs*
+      key: ${{ steps.atoc_url.outputs.url }}-${{ hashFiles('R/*atoc*', 'R/gtfs*', 'config.yml') }}-v4
+
+  - name: Download and prepare ATOC GTFS
+    if: steps.cache_atoc.outputs.cache-hit != 'true'
+    run: |
+      devtools::load_all()
+      download_atoc()
+      prepare_atoc_gtfs()
+    shell: Rscript {0}
+
+  - name: Upload ATOC GTFS artifact
+    uses: actions/upload-artifact@v2
+    with:
+      name: atoc.walesish.gtfs.zip
+      path: output/atoc.walesish.gtfs.zip*
+      if-no-files-found: error

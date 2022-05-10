@@ -1,0 +1,39 @@
+needs: [
+  'download_and_prepare_bods',
+  'build_pfaedle',
+  'download_and_prepare_osm']
+runs-on: macOS-latest
+parochial_merge:
+  - env
+
+steps:
+  - uses: actions/checkout@v2
+  - parochial_replace_with: write_config
+  - parochial_replace_with: setup_r
+  - parochial_replace_with: setup_osmium
+  - parochial_replace_with: setup_pfaedle
+
+  - name: Download OSM artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: walesish.osm.pbf
+      path: output
+
+  - name: Download BODS GTFS artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: bods.walesish.gtfs.zip
+      path: output
+
+  - name: Pfaedle BODS GTFS
+    run: |
+      devtools::load_all()
+      pfaedle_all_output_gtfs()
+    shell: Rscript {0}
+
+  - name: Upload BODS GTFS artifact
+    uses: actions/upload-artifact@v2
+    with:
+      name: bods.walesish.gtfs.zip
+      path: output/*.bods.walesish.gtfs.zip*
+      if-no-files-found: error

@@ -1,0 +1,45 @@
+needs: ['download_and_prepare_osm']
+runs-on: macOS-latest
+parochial_merge:
+  - env
+
+steps:
+  - uses: actions/checkout@v2
+  - parochial_replace_with: write_config
+  - parochial_replace_with: setup_r
+
+  - name: Download OTP
+    run: |
+      devtools::load_all()
+      download_otp()
+    shell: Rscript {0}
+
+  - name: Download OSM artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: walesish.osm.pbf
+      path: output
+
+  - name: Cache street graph
+    id: cache_street_graph
+    uses: actions/cache@v2
+    with:
+      path: output/streetGraph.obj*
+      key: ${{ hashFiles('data-raw/*.jar', 'output/walesish.osm*', 'R/java*', 'R/*street_graph*') }}-v1
+
+  - parochial_replace_with: setup_java
+    if: steps.cache_street_graph.outputs.cache-hit != 'true'
+
+  - name: Prepare street graph
+    if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    run: |
+      devtools::load_all()
+      prepare_street_graph()
+    shell: Rscript {0}
+
+  - name: Upload street graph artifact
+    uses: actions/upload-artifact@v2
+    with:
+      name: streetGraph.obj
+      path: output/streetGraph.obj*
+      if-no-files-found: error

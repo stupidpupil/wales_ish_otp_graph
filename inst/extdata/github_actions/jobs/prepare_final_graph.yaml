@@ -1,0 +1,84 @@
+needs: [
+  'download_and_prepare_osm',
+  'prepare_street_graph', 
+  'pfaedle_atoc', 
+  'pfaedle_tnds', 
+  'pfaedle_bods']
+
+runs-on: macOS-latest
+parochial_merge:
+  - env
+
+steps:
+  - uses: actions/checkout@v2
+  - parochial_replace_with: write_config
+  - parochial_replace_with: setup_r
+
+  - name: Download OSM artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: walesish.osm.pbf
+      path: output
+
+  - name: Download ATOC GTFS artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: atoc.walesish.gtfs.zip
+      path: output
+
+  - name: Download TNDS GTFS artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: tnds.walesish.gtfs.zip
+      path: output
+
+  - name: Download BODS GTFS artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: bods.walesish.gtfs.zip
+      path: output
+
+  - name: Download street graph artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: streetGraph.obj
+      path: output
+
+  - name: Download OTP
+    run: |
+      devtools::load_all()
+      download_otp()
+    shell: Rscript {0}
+
+  - name: Cache transport graph
+    id: cache_transport_graph
+    uses: actions/cache@v2
+    with:
+      path: |
+        output/graph.obj*
+        output/*.meta.json
+      key: ${{ hashFiles('output/*', 'data-raw/*.jar', 'R/java*', 'R/*transport_graph*') }}-v1
+
+  - parochial_replace_with: setup_java
+    if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+  
+  - name: Prepare transport graph
+    if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+    run: |
+      devtools::load_all()
+      prepare_transport_graph()
+    shell: Rscript {0}
+
+  - name: Upload transport graph artifact
+    uses: actions/upload-artifact@v2
+    with:
+      name: graph.obj
+      path: output/graph.obj*
+      if-no-files-found: error
+
+  - name: Upload meta jsons artifact
+    uses: actions/upload-artifact@v2
+    with:
+      name: meta.jsons
+      path: output/*.meta.json
+      if-no-files-found: error

@@ -1,0 +1,43 @@
+needs: [
+  'pfaedle_atoc', 
+  'pfaedle_tnds', 
+  'pfaedle_bods']
+runs-on: macOS-latest
+parochial_merge:
+  - env
+
+steps:
+  - uses: actions/checkout@v2
+  - parochial_replace_with: write_config
+  - parochial_replace_with: setup_r
+
+  - name: Download ATOC GTFS artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: atoc.walesish.gtfs.zip
+      path: output
+
+  - name: Download TNDS GTFS artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: tnds.walesish.gtfs.zip
+      path: output
+
+  - name: Download BODS GTFS artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: bods.walesish.gtfs.zip
+      path: output
+
+  - name: Prepare map
+    run: |
+      devtools::load_all()
+      prepare_pretty_wales_ish_map()
+    shell: Rscript {0}
+
+  - name: Upload map artifact
+    uses: actions/upload-artifact@v2
+    with:
+      name: map.png
+      path: output/map*.png*
+      if-no-files-found: error
