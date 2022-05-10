@@ -582,7 +582,7 @@ jobs:
       OUTPUT_AFFIX: ${{ secrets.output_affix }}
   pfaedle_bods:
     needs:
-    - download_and_prepare_tnds
+    - download_and_prepare_bods
     - build_pfaedle
     - download_and_prepare_osm
     runs-on: macOS-latest
@@ -637,21 +637,21 @@ jobs:
       with:
         name: walesish.osm.pbf
         path: output
-    - name: Download TNDS GTFS artifact
+    - name: Download BODS GTFS artifact
       uses: actions/download-artifact@v2
       with:
-        name: tnds.walesish.gtfs.zip
+        name: bods.walesish.gtfs.zip
         path: output
-    - name: Pfaedle TNDS GTFS
+    - name: Pfaedle BODS GTFS
       run: |
         devtools::load_all()
         pfaedle_all_output_gtfs()
       shell: Rscript {0}
-    - name: Upload TNDS GTFS artifact
+    - name: Upload BODS GTFS artifact
       uses: actions/upload-artifact@v2
       with:
-        name: tnds.walesish.gtfs.zip
-        path: output/*.tnds.walesish.gtfs.zip*
+        name: bods.walesish.gtfs.zip
+        path: output/*.bods.walesish.gtfs.zip*
         if-no-files-found: error
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}

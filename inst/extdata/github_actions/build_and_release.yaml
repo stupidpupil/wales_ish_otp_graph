@@ -31,7 +31,7 @@ jobs:
     parochial_merge: jobs/download_and_prepare_bods
 
   pfaedle_bods:
-    parochial_merge: jobs/pfaedle_tnds
+    parochial_merge: jobs/pfaedle_bods
 
   prepare_pretty_map:
     parochial_merge: jobs/prepare_pretty_map
