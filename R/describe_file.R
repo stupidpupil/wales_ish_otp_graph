@@ -1,4 +1,17 @@
-describe_file <- function(path){
+describe_file <- function(...){
+
+  paths <- Sys.glob(c(...))
+
+  if(length(paths) == 0){
+    return(NULL)
+  }
+
+  if(length(paths) > 1){
+    return(lapply(paths, describe_file))
+  }
+
+  path <- paths
+
   ret <- list(
     Filename = basename(path),
     SizeBytes = file.size(path)

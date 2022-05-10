@@ -12,7 +12,7 @@ prepare_street_graph <- function(){
     CreatedAt = now_as_iso8601(),
     CreatedWithCommand = cmd,
     CreatedWithOpenTripPlannerVersion = otp_version(),
-    DerivedFrom = I(describe_file(dir_output(output_affix(), ".osm.pbf")))
+    DerivedFrom = describe_file(dir_output("*.osm.pbf"), dir_output("*terr50.tif"))
   ) %>% jsonlite::toJSON(pretty = TRUE) %>%
   write(dir_output("streetGraph.obj.meta.json"))
 

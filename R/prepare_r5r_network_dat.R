@@ -15,7 +15,7 @@ prepare_r5r_network_dat <- function(){
     CreatedAt = now_as_iso8601(),
     CreatedWithR5rVersion = packageVersion("r5r") %>% as.character(),
     CreatedWithR5Version = formals(r5r::setup_r5)$version %>% as.character(),
-    DerivedFrom = list.files(dir_output(), "(\\.osm.pbf|\\.gtfs\\.zip)$", full.names=TRUE) %>% lapply(describe_file)
+    DerivedFrom = describe_file(dir_output("*osm.pbf"), dir_output("*.gtfs.zip"))
   ) %>% jsonlite::toJSON(pretty = TRUE) %>%
   write(dir_output("network.dat.meta.json"))
 }
