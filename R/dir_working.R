@@ -1,5 +1,10 @@
-dir_working <- function(fn){
-  ret <-config::get()$dir_working
+dir_working <- function(...){
+
+  ret <- NULL
+
+  try({
+    ret <- config::get()$dir_working
+  }, silent=TRUE)
 
   if(is.null(ret)){
     ret <- "data-raw"
@@ -9,8 +14,8 @@ dir_working <- function(fn){
     dir.create(ret)
   }
 
-  if(!missing(fn)){
-    ret <- paste0(ret, "/", fn)
+  if(length(list(...)) > 0){
+    ret <- paste0(ret, "/", paste0(...))
   }
 
   return(ret)

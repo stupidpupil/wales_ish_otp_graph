@@ -1,4 +1,4 @@
-dir_support <- function(fn){
+dir_support <- function(...){
 
   ret <- NULL
 
@@ -10,8 +10,8 @@ dir_support <- function(fn){
     ret <- system.file("extdata", package=package_name())
   }
 
-  if(!missing(fn)){
-    ret <- paste0(ret, "/", fn)
+  if(length(list(...)) > 0){
+    ret <- paste0(ret, "/", paste0(...))
   }
 
   return(ret)
