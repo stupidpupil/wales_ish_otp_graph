@@ -26,7 +26,7 @@ prepare_github_workflow <- function() {
 
       if(inherits(child_node, 'character')){
         node[[i]] <- child_node %>%
-          str_replace_all("<%(.+?)%>", function(x){ eval(parse(text=str_sub(x, 3,-3))) })
+          stringr::str_replace_all("<%(.+?)%>", function(x){ eval(parse(text=str_sub(x, 3,-3))) })
       }
 
       if("parochial_replace_with" %in% names(child_node)){
