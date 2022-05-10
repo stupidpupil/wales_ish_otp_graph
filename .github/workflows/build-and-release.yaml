@@ -414,7 +414,15 @@ jobs:
       with:
         name: walesish.osm.pbf
         path: output
+    - name: Cache pfaedled ATOC GTFS
+      id: cache_pfaedled_atoc_gtfs
+      uses: actions/cache@v2
+      with:
+        path: |
+          output/atoc.walesish.gtfs.zip*
+        key: ${{ hashFiles('output/*.osm.pbf', 'output/*.gtfs.zip') }}
     - name: Pfaedle ATOC GTFS
+      if: steps.cache_pfaedled_atoc_gtfs.outputs.cache-hit != 'true'
       run: |
         devtools::load_all()
         pfaedle_all_output_gtfs()
@@ -559,17 +567,25 @@ jobs:
         chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*
     - name: Add pfaedle to path
       run: echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
-    - name: Download OSM artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: walesish.osm.pbf
-        path: output
     - name: Download TNDS GTFS artifact
       uses: actions/download-artifact@v2
       with:
         name: tnds.walesish.gtfs.zip
         path: output
+    - name: Download OSM artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: walesish.osm.pbf
+        path: output
+    - name: Cache pfaedled TNDS GTFS
+      id: cache_pfaedled_tnds_gtfs
+      uses: actions/cache@v2
+      with:
+        path: |
+          output/*.tnds.walesish.gtfs.zip*
+        key: ${{ hashFiles('output/*.osm.pbf', 'output/*.gtfs.zip') }}
     - name: Pfaedle TNDS GTFS
+      if: steps.cache_pfaedled_tnds_gtfs.outputs.cache-hit != 'true'
       run: |
         devtools::load_all()
         pfaedle_all_output_gtfs()
@@ -712,17 +728,25 @@ jobs:
         chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*
     - name: Add pfaedle to path
       run: echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
-    - name: Download OSM artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: walesish.osm.pbf
-        path: output
     - name: Download BODS GTFS artifact
       uses: actions/download-artifact@v2
       with:
         name: bods.walesish.gtfs.zip
         path: output
+    - name: Download OSM artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: walesish.osm.pbf
+        path: output
+    - name: Cache pfaedled BODS GTFS
+      id: cache_pfaedled_bods_gtfs
+      uses: actions/cache@v2
+      with:
+        path: |
+          output/*.bods.walesish.gtfs.zip*
+        key: ${{ hashFiles('output/*.osm.pbf', 'output/*.gtfs.zip') }}
     - name: Pfaedle BODS GTFS
+      if: steps.cache_pfaedled_bods_gtfs.outputs.cache-hit != 'true'
       run: |
         devtools::load_all()
         pfaedle_all_output_gtfs()

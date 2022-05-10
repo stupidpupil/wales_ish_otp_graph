@@ -25,7 +25,16 @@ steps:
       name: walesish.osm.pbf
       path: output
 
+  - name: Cache pfaedled ATOC GTFS
+    id: cache_pfaedled_atoc_gtfs
+    uses: actions/cache@v2
+    with:
+      path: |
+        output/atoc.walesish.gtfs.zip*
+      key: ${{ hashFiles('output/*.osm.pbf', 'output/*.gtfs.zip') }}
+
   - name: Pfaedle ATOC GTFS
+    if: steps.cache_pfaedled_atoc_gtfs.outputs.cache-hit != 'true'
     run: |
       devtools::load_all()
       pfaedle_all_output_gtfs()

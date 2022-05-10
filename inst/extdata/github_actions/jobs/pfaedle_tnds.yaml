@@ -13,19 +13,28 @@ steps:
   - parochial_replace_with: setup_osmium
   - parochial_replace_with: setup_pfaedle
 
-  - name: Download OSM artifact
-    uses: actions/download-artifact@v2
-    with:
-      name: walesish.osm.pbf
-      path: output
-
   - name: Download TNDS GTFS artifact
     uses: actions/download-artifact@v2
     with:
       name: tnds.walesish.gtfs.zip
       path: output
 
+  - name: Download OSM artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: walesish.osm.pbf
+      path: output
+
+  - name: Cache pfaedled TNDS GTFS
+    id: cache_pfaedled_tnds_gtfs
+    uses: actions/cache@v2
+    with:
+      path: |
+        output/*.tnds.walesish.gtfs.zip*
+      key: ${{ hashFiles('output/*.osm.pbf', 'output/*.gtfs.zip') }}
+
   - name: Pfaedle TNDS GTFS
+    if: steps.cache_pfaedled_tnds_gtfs.outputs.cache-hit != 'true'
     run: |
       devtools::load_all()
       pfaedle_all_output_gtfs()
