@@ -58,5 +58,5 @@ prepare_github_workflow <- function() {
 
   ret %>%
     yaml::as.yaml() %>%
-    writeChar(".github/workflows/build-and-release.yaml")
+    writeChar(".github/workflows/build-and-release.yaml", eos=NULL)
 }

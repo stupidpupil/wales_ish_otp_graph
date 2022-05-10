@@ -524,29 +524,28 @@ jobs:
             tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
             output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
             bounds: !expr Sys.getenv("BOUNDS")
-    - name: Get TNDS directory listing hash
-      id: tnds_dir_list_hash
+    - name: Get BODS index page hash
+      id: bods_index_page_hash
       run: |
-        echo "::set-output name=hash::$(curl ftp://$TNDS_USERNAME:$TNDS_PASSWORD@ftp.tnds.basemap.co.uk | md5)"
-    - name: Cache TNDS
-      id: cache_tnds
+        echo "::set-output name=hash::$(curl "https://data.bus-data.dft.gov.uk/timetable/download/" | md5)"
+    - name: Cache BODS
+      id: cache_bods
       uses: actions/cache@v2
       with:
-        path: |
-          output/*.tnds.*
-        key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*',
-          'R/gtfs*', 'data-raw/regions_and_nations*', 'config.yml') }}-v10
+        path: output/*.bods.*
+        key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('R/*bus*',
+          'R/*gtfs*', 'data-raw/regions_and_nations*', 'config.yml') }}-v4
     - uses: r-lib/actions/setup-r@v2
-      if: steps.cache_tnds.outputs.cache-hit != 'true'
+      if: steps.cache_bods.outputs.cache-hit != 'true'
     - uses: r-lib/actions/setup-pandoc@v1
-      if: steps.cache_tnds.outputs.cache-hit != 'true'
+      if: steps.cache_bods.outputs.cache-hit != 'true'
     - name: Query dependencies
       run: |
         install.packages('remotes')
         saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
       shell: Rscript {0}
-      if: steps.cache_tnds.outputs.cache-hit != 'true'
+      if: steps.cache_bods.outputs.cache-hit != 'true'
     - name: Restore R package cache
       uses: actions/cache@v2
       with:
@@ -554,25 +553,24 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
           }}
         restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
-      if: steps.cache_tnds.outputs.cache-hit != 'true'
+      if: steps.cache_bods.outputs.cache-hit != 'true'
     - name: Install dependencies
       run: |
         install.packages(c("devtools"))
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
-      if: steps.cache_tnds.outputs.cache-hit != 'true'
-    - name: Download and prepare TNDS GTFS
-      if: steps.cache_tnds.outputs.cache-hit != 'true'
+      if: steps.cache_bods.outputs.cache-hit != 'true'
+    - name: Download and prepare BODS GTFS
+      if: steps.cache_bods.outputs.cache-hit != 'true'
       run: |
         devtools::load_all()
-        download_tnds()
-        prepare_tnds_gtfs()
+        download_and_prepare_bods_gtfs()
       shell: Rscript {0}
-    - name: Upload TNDS GTFS artifact
+    - name: Upload BODS GTFS artifact
       uses: actions/upload-artifact@v2
       with:
-        name: tnds.walesish.gtfs.zip
-        path: output/*.tnds.walesish.gtfs.zip*
+        name: bods.walesish.gtfs.zip
+        path: output/*.bods.walesish.gtfs.zip*
         if-no-files-found: error
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
