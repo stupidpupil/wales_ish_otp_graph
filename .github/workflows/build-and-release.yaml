@@ -117,8 +117,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
       ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
-      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
-      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.output_affix }}
   prepare_street_graph:
@@ -197,8 +197,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
       ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
-      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
-      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.output_affix }}
   download_and_prepare_atoc:
@@ -268,8 +268,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
       ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
-      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
-      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.output_affix }}
   pfaedle_atoc:
@@ -349,8 +349,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
       ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
-      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
-      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.output_affix }}
   download_and_prepare_tnds:
@@ -423,8 +423,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
       ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
-      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
-      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.output_affix }}
   pfaedle_tnds:
@@ -504,8 +504,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
       ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
-      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
-      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.output_affix }}
   download_and_prepare_bods:
@@ -576,8 +576,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
       ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
-      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
-      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.output_affix }}
   pfaedle_bods:
@@ -657,8 +657,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
       ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
-      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
-      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.output_affix }}
   prepare_pretty_map:
@@ -731,8 +731,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
       ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
-      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
-      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.output_affix }}
   prepare_final_graph:
@@ -844,8 +844,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
       ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
-      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
-      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.output_affix }}
   prepare_r5r_network_dat:
@@ -938,8 +938,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
       ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
-      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
-      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.output_affix }}
   release:
@@ -1116,7 +1116,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
       ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
-      TNDS_USERNAME: ${{ secrets.ATOC_USERNAME }}
-      TNDS_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.output_affix }}
