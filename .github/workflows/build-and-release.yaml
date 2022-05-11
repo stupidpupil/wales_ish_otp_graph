@@ -577,7 +577,7 @@ jobs:
         path: output
     - name: Merge GTFS
       run: |
-        $(go env GOPATH)/bin/gtfstidy -ARPICOsScdT output/*.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
+        $(go env GOPATH)/bin/gtfstidy -ARPICOsScdT --max-headway 65534 output/*.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
         rm output/*.gtfs.zip*
         mv data-raw/merged.walesish.gtfs.zip output/merged.walesish.gtfs.zip
     - name: Upload Merged GTFS artifact
@@ -593,7 +593,7 @@ jobs:
       shell: Rscript {0}
     - name: Compress GTFS
       run: |
-        $(go env GOPATH)/bin/gtfstidy -ARPICOsScdT output/merged.walesish.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
+        $(go env GOPATH)/bin/gtfstidy -ARPICOsScdT --max-headway 65534 output/merged.walesish.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
         rm output/*.gtfs.zip*
         mv data-raw/merged.walesish.gtfs.zip output/merged.walesish.gtfs.zip
     - name: Upload Merged GTFS artifact
