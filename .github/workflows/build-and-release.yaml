@@ -580,6 +580,12 @@ jobs:
         $(go env GOPATH)/bin/gtfstidy -ARPICOsScdT output/*.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
         rm output/*.gtfs.zip*
         mv data-raw/merged.walesish.gtfs.zip output/merged.walesish.gtfs.zip
+    - name: Upload Merged GTFS artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: merged.walesish.gtfs.zip
+        path: output/merged.*.gtfs.zip*
+        if-no-files-found: error
     - name: Pfaedle Merged GTFS
       run: |
         devtools::load_all()
