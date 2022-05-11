@@ -1,7 +1,7 @@
 download_otp <- function(){
 
   
-  otp_url <- "https://github.com/stupidpupil/OpenTripPlanner/releases/download/v2021-08-06/otp-2.1.0-20210806.150542-3-shaded.jar"
+  otp_url <- "https://github.com/opentripplanner/OpenTripPlanner/releases/download/v2.1.0/otp-2.1.0-shaded.jar"
   dest_path <- dir_working("otp.jar")
   download.file(otp_url, dest_path)
 
