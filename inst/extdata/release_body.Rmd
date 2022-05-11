@@ -34,7 +34,7 @@ If you provide a routing service or similar using either graph file you should m
 
 A copy of [OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner) and a pre-generated network 'graph' for use with it. Use this to get going quickly with your own instance of OpenTripPlanner. 
 
-You will need to [install Java 11](https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot) to run OpenTripPlanner.
+You will need to [install Java 17](https://adoptium.net) to run OpenTripPlanner.
 
 ### gtfs_and_osm.zip
 
