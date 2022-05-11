@@ -41,7 +41,7 @@ steps:
 
   - name: Merge GTFS
     run: |
-      gtfstidy -ARPICOsScdT output/*.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
+      $(go env GOPATH)/bin/gtfstidy -ARPICOsScdT output/*.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
       rm output/*.gtfs.zip*
       mv data-raw/merged.walesish.gtfs.zip output/merged.walesish.gtfs.zip
 
@@ -53,7 +53,7 @@ steps:
 
   - name: Compress GTFS
     run: |
-      gtfstidy -ARPICOsScdT output/merged.walesish.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
+      $(go env GOPATH)/bin/gtfstidy -ARPICOsScdT output/merged.walesish.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
       rm output/*.gtfs.zip*
       mv data-raw/merged.walesish.gtfs.zip output/merged.walesish.gtfs.zip
 
