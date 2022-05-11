@@ -540,6 +540,8 @@ jobs:
         install.packages(c("devtools"))
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
+    - name: Install osmium
+      run: brew install osmium-tool
     - name: Download pfaedle artifact
       uses: actions/download-artifact@v2
       with:

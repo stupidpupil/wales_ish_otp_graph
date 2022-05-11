@@ -12,6 +12,7 @@ steps:
   - uses: actions/checkout@v2
   - parochial_replace_with: write_config
   - parochial_replace_with: setup_r
+  - parochial_replace_with: setup_osmium
   - parochial_replace_with: setup_pfaedle
   - parochial_replace_with: setup_gtfstidy
 
