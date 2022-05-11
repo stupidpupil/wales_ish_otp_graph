@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 07:23 BST on 09 May 2022. (The graph should update weekly.)
+The graph file was last updated at 17:22 BST on 11 May 2022. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp\_and\_graph.zip* asset.
 
@@ -25,6 +25,7 @@ The graph file contains:
   - street map information obtained from [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), via [Geofabrik.de](https://download.geofabrik.de/europe/great-britain.html), under the [ODbL v1.0](https://opendatacommons.org/licenses/odbl/1-0/),
   - heavy rail timetable information obtained from [RSP Limited (Rail Delivery Group)](http://data.atoc.org/) under the [CC-BY v2.0](https://creativecommons.org/licenses/by/2.0/uk/legalcode), and
   - bus and other public transport services timetable information obtained from [Traveline](https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset/) and the [UK Department for Transport](https://data.bus-data.dft.gov.uk/) under the [OGL v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
+  - [*Terrain 50* topology data](https://www.ordnancesurvey.co.uk/business-government/products/terrain-50) obtained from Ordnance Survey under the [OGL v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) (Contains OS data © Crown copyright and database right 2022).
 
 The graph file is provided without any warranty of any kind and without any endorsement by any of the individuals or organisations named above, for any purpose.
 
@@ -38,27 +39,27 @@ A small number of journeys, departing on Tuesday morning the following week, are
 
 | Description                      | Car   | Public |
 | :------------------------------- | :---- | :----- |
-| Abergavenny to Pontypridd        | 0h41m | 1h56m  |
-| Bala to Cardiff                  | 3h43m | 4h35m  |
-| Bangor Pier to Great Orme        | 0h46m | 1h38m  |
-| Blaengarw to Bridgend            | 0h34m | 0h39m  |
-| Caerphilly to Cwmafan            | 0h51m | 1h51m  |
-| Cardiff to Bala                  | 3h43m | 5h14m  |
+| Abergavenny to Pontypridd        | 0h39m | 2h33m  |
+| Bala to Cardiff                  | 3h37m | 4h43m  |
+| Bangor Pier to Great Orme        | 0h46m | 1h41m  |
+| Blaengarw to Bridgend            | 0h32m | 0h42m  |
+| Caerphilly to Cwmafan            | 0h50m | 2h30m  |
+| Cardiff to Bala                  | 3h35m | 5h23m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
-| Cardigan to Trawsfynydd          | 3h 4m | 4h43m  |
-| Chirk to Walton                  | 1h32m | 4h17m  |
+| Cardigan to Trawsfynydd          | 2h46m | 4h45m  |
+| Chirk to Walton                  | 1h30m | 4h23m  |
 | CP2 to Secret Garden Cafe        | 0h 7m | 0h 9m  |
-| Grangetown Library to UHW A\&E   | 0h23m | 0h48m  |
-| Lampeter to Llandovery           | 0h33m | 2h43m  |
-| Llangadog to Rhayader            | 1h14m | 2h30m  |
-| Llangollen to Ruthin             | 0h29m | 1h11m  |
-| Merthyr to Cardiff               | 0h48m | 1h26m  |
-| Pontsticill to the Naughty Stone | 0h29m | 1h10m  |
-| Rhosllanerchrugog to Denbigh     | 1h 2m | 1h48m  |
-| Swansea to Bargoed               | 1h16m | 2h17m  |
-| Swansea to Wrexham               | 3h48m | 4h59m  |
-| Treharris to Gellideg            | 0h21m | 0h43m  |
-| Whitland to Cardigan             | 0h44m | 2h 8m  |
+| Grangetown Library to UHW A\&E   | 0h23m | 0h35m  |
+| Lampeter to Llandovery           | 0h29m | 2h45m  |
+| Llangadog to Rhayader            | 1h10m | 2h32m  |
+| Llangollen to Ruthin             | 0h27m | 1h13m  |
+| Merthyr to Cardiff               | 0h48m | 1h18m  |
+| Pontsticill to the Naughty Stone | 0h29m | 1h24m  |
+| Rhosllanerchrugog to Denbigh     | 0h58m | 1h52m  |
+| Swansea to Bargoed               | 1h18m | 2h49m  |
+| Swansea to Wrexham               | 3h33m | 4h50m  |
+| Treharris to Gellideg            | 0h20m | 0h46m  |
+| Whitland to Cardigan             | 0h43m | 2h 2m  |
 
 ## Thanks
 
