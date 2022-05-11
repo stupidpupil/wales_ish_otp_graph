@@ -1,4 +1,5 @@
 {
   "osmWayPropertySet": "uk",
-  "platformEntriesLinking": true
+  "platformEntriesLinking": true,
+  "transitServiceEnd": "P4W"
 }
