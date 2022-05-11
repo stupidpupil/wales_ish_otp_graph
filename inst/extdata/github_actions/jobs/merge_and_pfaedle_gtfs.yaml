@@ -42,16 +42,10 @@ steps:
 
   - name: Merge GTFS
     run: |
-      $(go env GOPATH)/bin/gtfstidy -ARPICOsScd --max-headway 65534 output/*.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
+      $(go env GOPATH)/bin/gtfstidy -ARPICOScd --drop-shapes --max-headway 65534 output/*.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
       rm output/*.gtfs.zip*
       mv data-raw/merged.walesish.gtfs.zip output/merged.walesish.gtfs.zip
-
-  - name: Upload Merged GTFS artifact
-    uses: actions/upload-artifact@v2
-    with:
-      name: merged.walesish.gtfs.zip
-      path: output/merged.*.gtfs.zip*
-      if-no-files-found: error
+      rm data-raw/merged.walesish.gtfs.zip
 
   - name: Pfaedle Merged GTFS
     run: |
@@ -61,7 +55,7 @@ steps:
 
   - name: Compress GTFS
     run: |
-      $(go env GOPATH)/bin/gtfstidy -ARPICOsScd --max-headway 65534 output/merged.walesish.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
+      $(go env GOPATH)/bin/gtfstidy -ARPICOScd --min-shapes --max-headway 65534 output/merged.walesish.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
       rm output/*.gtfs.zip*
       mv data-raw/merged.walesish.gtfs.zip output/merged.walesish.gtfs.zip
 
