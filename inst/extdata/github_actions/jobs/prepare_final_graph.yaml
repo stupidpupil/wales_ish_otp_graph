@@ -43,7 +43,7 @@ steps:
       path: |
         output/graph.obj*
         output/*.meta.json
-      key: ${{ hashFiles('output/*', 'data-raw/*.jar', 'R/java*', 'R/*transport_graph*') }}-v1
+      key: ${{ hashFiles('output/*', 'data-raw/*.jar', 'R/java*', 'R/*transport_graph*') }}-v2
 
   - parochial_replace_with: setup_java
     if: steps.cache_transport_graph.outputs.cache-hit != 'true'
