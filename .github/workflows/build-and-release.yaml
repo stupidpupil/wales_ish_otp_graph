@@ -352,95 +352,6 @@ jobs:
       TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
-  pfaedle_atoc:
-    needs:
-    - download_and_prepare_atoc
-    - build_pfaedle
-    - download_and_prepare_osm
-    runs-on: macOS-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Write config.yml
-      uses: DamianReeves/write-file-action@v1.0
-      with:
-        path: ${{ github.workspace }}/config.yml
-        contents: |
-          default:
-            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
-            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
-            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
-            bounds: !expr Sys.getenv("BOUNDS")
-    - uses: r-lib/actions/setup-r@v2
-    - uses: r-lib/actions/setup-pandoc@v1
-    - name: Query dependencies
-      run: |
-        install.packages('remotes')
-        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-      shell: Rscript {0}
-    - name: Restore R package cache
-      uses: actions/cache@v2
-      with:
-        path: ${{ env.R_LIBS_USER }}
-        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
-          }}
-        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
-    - name: Install dependencies
-      run: |
-        install.packages(c("devtools"))
-        devtools::install_deps(dependencies = TRUE)
-      shell: Rscript {0}
-    - name: Install osmium
-      run: brew install osmium-tool
-    - name: Download pfaedle artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: pfaedle
-        path: pfaedle-build
-    - name: Make pfaedle executable
-      run: |
-        chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*
-    - name: Add pfaedle to path
-      run: echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
-    - name: Download ATOC GTFS artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: atoc.walesish.gtfs.zip
-        path: output
-    - name: Download OSM artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: walesish.osm.pbf
-        path: output
-    - name: Cache pfaedled ATOC GTFS
-      id: cache_pfaedled_atoc_gtfs
-      uses: actions/cache@v2
-      with:
-        path: |
-          output/atoc.walesish.gtfs.zip*
-        key: ${{ hashFiles('output/*.osm.pbf', 'output/*.gtfs.zip') }}
-    - name: Pfaedle ATOC GTFS
-      if: steps.cache_pfaedled_atoc_gtfs.outputs.cache-hit != 'true'
-      run: |
-        devtools::load_all()
-        pfaedle_all_output_gtfs()
-      shell: Rscript {0}
-    - name: Upload ATOC GTFS artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: atoc.walesish.gtfs.zip
-        path: output/atoc.walesish.gtfs.zip*
-        if-no-files-found: error
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
-      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
-      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
-      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
-      BOUNDS: ${{ secrets.BOUNDS }}
-      OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
   download_and_prepare_tnds:
     runs-on: macOS-latest
     steps:
@@ -500,95 +411,6 @@ jobs:
         devtools::load_all()
         download_tnds()
         prepare_tnds_gtfs()
-      shell: Rscript {0}
-    - name: Upload TNDS GTFS artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: tnds.walesish.gtfs.zip
-        path: output/*.tnds.walesish.gtfs.zip*
-        if-no-files-found: error
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
-      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
-      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
-      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
-      BOUNDS: ${{ secrets.BOUNDS }}
-      OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
-  pfaedle_tnds:
-    needs:
-    - download_and_prepare_tnds
-    - build_pfaedle
-    - download_and_prepare_osm
-    runs-on: macOS-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Write config.yml
-      uses: DamianReeves/write-file-action@v1.0
-      with:
-        path: ${{ github.workspace }}/config.yml
-        contents: |
-          default:
-            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
-            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
-            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
-            bounds: !expr Sys.getenv("BOUNDS")
-    - uses: r-lib/actions/setup-r@v2
-    - uses: r-lib/actions/setup-pandoc@v1
-    - name: Query dependencies
-      run: |
-        install.packages('remotes')
-        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-      shell: Rscript {0}
-    - name: Restore R package cache
-      uses: actions/cache@v2
-      with:
-        path: ${{ env.R_LIBS_USER }}
-        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
-          }}
-        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
-    - name: Install dependencies
-      run: |
-        install.packages(c("devtools"))
-        devtools::install_deps(dependencies = TRUE)
-      shell: Rscript {0}
-    - name: Install osmium
-      run: brew install osmium-tool
-    - name: Download pfaedle artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: pfaedle
-        path: pfaedle-build
-    - name: Make pfaedle executable
-      run: |
-        chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*
-    - name: Add pfaedle to path
-      run: echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
-    - name: Download TNDS GTFS artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: tnds.walesish.gtfs.zip
-        path: output
-    - name: Download OSM artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: walesish.osm.pbf
-        path: output
-    - name: Cache pfaedled TNDS GTFS
-      id: cache_pfaedled_tnds_gtfs
-      uses: actions/cache@v2
-      with:
-        path: |
-          output/*.tnds.walesish.gtfs.zip*
-        key: ${{ hashFiles('output/*.osm.pbf', 'output/*.gtfs.zip') }}
-    - name: Pfaedle TNDS GTFS
-      if: steps.cache_pfaedled_tnds_gtfs.outputs.cache-hit != 'true'
-      run: |
-        devtools::load_all()
-        pfaedle_all_output_gtfs()
       shell: Rscript {0}
     - name: Upload TNDS GTFS artifact
       uses: actions/upload-artifact@v2
@@ -676,11 +498,13 @@ jobs:
       TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
-  pfaedle_bods:
+  merge_and_pfaedle_gtfs:
     needs:
+    - download_and_prepare_atoc
+    - download_and_prepare_tnds
     - download_and_prepare_bods
-    - build_pfaedle
     - download_and_prepare_osm
+    - build_pfaedle
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
@@ -716,8 +540,6 @@ jobs:
         install.packages(c("devtools"))
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
-    - name: Install osmium
-      run: brew install osmium-tool
     - name: Download pfaedle artifact
       uses: actions/download-artifact@v2
       with:
@@ -728,6 +550,19 @@ jobs:
         chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*
     - name: Add pfaedle to path
       run: echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
+    - uses: actions/setup-go@v3
+    - name: Get gtfstidy
+      run: go get github.com/patrickbr/gtfstidy
+    - name: Download ATOC GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: atoc.walesish.gtfs.zip
+        path: output
+    - name: Download TNDS GTFS artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: tnds.walesish.gtfs.zip
+        path: output
     - name: Download BODS GTFS artifact
       uses: actions/download-artifact@v2
       with:
@@ -738,24 +573,21 @@ jobs:
       with:
         name: walesish.osm.pbf
         path: output
-    - name: Cache pfaedled BODS GTFS
-      id: cache_pfaedled_bods_gtfs
-      uses: actions/cache@v2
-      with:
-        path: |
-          output/*.bods.walesish.gtfs.zip*
-        key: ${{ hashFiles('output/*.osm.pbf', 'output/*.gtfs.zip') }}
-    - name: Pfaedle BODS GTFS
-      if: steps.cache_pfaedled_bods_gtfs.outputs.cache-hit != 'true'
+    - name: Merge GTFS
+      run: |
+        gtfstidy -ARPICOsScdT output/*.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
+        rm output/*.gtfs.zip
+        mv data-raw/merged.walesish.gtfs.zip output/merged.walesish.gtfs.zip
+    - name: Pfaedle Merged GTFS
       run: |
         devtools::load_all()
         pfaedle_all_output_gtfs()
       shell: Rscript {0}
-    - name: Upload BODS GTFS artifact
+    - name: Upload Merged GTFS artifact
       uses: actions/upload-artifact@v2
       with:
-        name: bods.walesish.gtfs.zip
-        path: output/*.bods.walesish.gtfs.zip*
+        name: merged.walesish.gtfs.zip
+        path: output/merged.*.gtfs.zip*
         if-no-files-found: error
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -766,10 +598,7 @@ jobs:
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
   prepare_pretty_map:
-    needs:
-    - pfaedle_atoc
-    - pfaedle_tnds
-    - pfaedle_bods
+    needs: merge_and_pfaedle_gtfs
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
@@ -843,9 +672,7 @@ jobs:
     needs:
     - download_and_prepare_osm
     - prepare_street_graph
-    - pfaedle_atoc
-    - pfaedle_tnds
-    - pfaedle_bods
+    - merge_and_pfaedle_gtfs
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
@@ -886,20 +713,10 @@ jobs:
       with:
         name: walesish.osm.pbf
         path: output
-    - name: Download ATOC GTFS artifact
+    - name: Download Merged GTFS artifact
       uses: actions/download-artifact@v2
       with:
-        name: atoc.walesish.gtfs.zip
-        path: output
-    - name: Download TNDS GTFS artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: tnds.walesish.gtfs.zip
-        path: output
-    - name: Download BODS GTFS artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: bods.walesish.gtfs.zip
+        name: merged.walesish.gtfs.zip
         path: output
     - name: Download street graph artifact
       uses: actions/download-artifact@v2
@@ -955,9 +772,7 @@ jobs:
   prepare_r5r_network_dat:
     needs:
     - download_and_prepare_osm
-    - pfaedle_atoc
-    - pfaedle_tnds
-    - pfaedle_bods
+    - merge_and_pfaedle_gtfs
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
@@ -998,20 +813,10 @@ jobs:
       with:
         name: walesish.osm.pbf
         path: output
-    - name: Download ATOC GTFS artifact
+    - name: Download Merged GTFS artifact
       uses: actions/download-artifact@v2
       with:
-        name: atoc.walesish.gtfs.zip
-        path: output
-    - name: Download TNDS GTFS artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: tnds.walesish.gtfs.zip
-        path: output
-    - name: Download BODS GTFS artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: bods.walesish.gtfs.zip
+        name: merged.walesish.gtfs.zip
         path: output
     - name: Cache r5r network.dat
       id: cache_network_dat
@@ -1101,20 +906,10 @@ jobs:
       with:
         name: walesish.osm.pbf
         path: output
-    - name: Download ATOC GTFS artifact
+    - name: Download Merged GTFS artifact
       uses: actions/download-artifact@v2
       with:
-        name: atoc.walesish.gtfs.zip
-        path: output
-    - name: Download TNDS GTFS artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: tnds.walesish.gtfs.zip
-        path: output
-    - name: Download BODS GTFS artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: bods.walesish.gtfs.zip
+        name: merged.walesish.gtfs.zip
         path: output
     - name: Download transport graph artifact
       uses: actions/download-artifact@v2

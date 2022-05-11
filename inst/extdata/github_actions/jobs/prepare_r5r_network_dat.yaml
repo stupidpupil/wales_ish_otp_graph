@@ -1,8 +1,6 @@
 needs: [
   'download_and_prepare_osm',
-  'pfaedle_atoc', 
-  'pfaedle_tnds', 
-  'pfaedle_bods']
+  'merge_and_pfaedle_gtfs']
 runs-on: macOS-latest
 parochial_merge:
   - env
@@ -18,22 +16,10 @@ steps:
       name: walesish.osm.pbf
       path: output
 
-  - name: Download ATOC GTFS artifact
+  - name: Download Merged GTFS artifact
     uses: actions/download-artifact@v2
     with:
-      name: atoc.walesish.gtfs.zip
-      path: output
-
-  - name: Download TNDS GTFS artifact
-    uses: actions/download-artifact@v2
-    with:
-      name: tnds.walesish.gtfs.zip
-      path: output
-
-  - name: Download BODS GTFS artifact
-    uses: actions/download-artifact@v2
-    with:
-      name: bods.walesish.gtfs.zip
+      name: merged.walesish.gtfs.zip
       path: output
 
   - name: Cache r5r network.dat

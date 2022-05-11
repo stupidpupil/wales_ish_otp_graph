@@ -1,7 +1,5 @@
 needs: [
-  'pfaedle_atoc', 
-  'pfaedle_tnds', 
-  'pfaedle_bods']
+  'merge_and_pfaedle_gtfs']
 runs-on: macOS-latest
 parochial_merge:
   - env

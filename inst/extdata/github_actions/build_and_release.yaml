@@ -21,20 +21,14 @@ jobs:
   download_and_prepare_atoc:
     parochial_merge: jobs/download_and_prepare_atoc
 
-  pfaedle_atoc:
-    parochial_merge: jobs/pfaedle_atoc
-
   download_and_prepare_tnds:
     parochial_merge: jobs/download_and_prepare_tnds
-
-  pfaedle_tnds:
-    parochial_merge: jobs/pfaedle_tnds
 
   download_and_prepare_bods:
     parochial_merge: jobs/download_and_prepare_bods
 
-  pfaedle_bods:
-    parochial_merge: jobs/pfaedle_bods
+  merge_and_pfaedle_gtfs:
+    parochial_merge: jobs/merge_and_pfaedle_gtfs
 
   prepare_pretty_map:
     parochial_merge: jobs/prepare_pretty_map

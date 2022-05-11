@@ -1,0 +1,60 @@
+needs: [
+  'download_and_prepare_atoc', 
+  'download_and_prepare_tnds', 
+  'download_and_prepare_bods',
+  'download_and_prepare_osm',
+  'build_pfaedle']
+runs-on: macOS-latest
+parochial_merge:
+  - env
+
+steps:
+  - uses: actions/checkout@v2
+  - parochial_replace_with: write_config
+  - parochial_replace_with: setup_r
+  - parochial_replace_with: setup_pfaedle
+  - parochial_replace_with: setup_gtfstidy
+
+  - name: Download ATOC GTFS artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: atoc.walesish.gtfs.zip
+      path: output
+
+  - name: Download TNDS GTFS artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: tnds.walesish.gtfs.zip
+      path: output
+
+  - name: Download BODS GTFS artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: bods.walesish.gtfs.zip
+      path: output
+
+  - name: Download OSM artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: walesish.osm.pbf
+      path: output
+
+  - name: Merge GTFS
+    run: |
+      gtfstidy -ARPICOsScdT output/*.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
+      rm output/*.gtfs.zip
+      mv data-raw/merged.walesish.gtfs.zip output/merged.walesish.gtfs.zip
+
+  - name: Pfaedle Merged GTFS
+    run: |
+      devtools::load_all()
+      pfaedle_all_output_gtfs()
+    shell: Rscript {0}
+
+  - name: Upload Merged GTFS artifact
+    uses: actions/upload-artifact@v2
+    with:
+      name: merged.walesish.gtfs.zip
+      path: output/merged.*.gtfs.zip*
+      if-no-files-found: error
+
