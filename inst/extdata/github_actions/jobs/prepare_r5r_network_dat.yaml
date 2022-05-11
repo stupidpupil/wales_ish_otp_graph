@@ -30,8 +30,11 @@ steps:
         output/network.dat*
       key: ${{ hashFiles('output/*', 'R/java*', 'R/*r5r*') }}-v1
 
-  - parochial_replace_with: setup_java
-    if: steps.cache_network_dat.outputs.cache-hit != 'true'
+  - name: Install Java 11
+    uses: actions/setup-java@v2
+    with:
+      distribution: 'adopt'
+      java-version: '11'
 
   - name: Prepare r5r network.dat
     if: steps.cache_network_dat.outputs.cache-hit != 'true'
