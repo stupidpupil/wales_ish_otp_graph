@@ -552,7 +552,7 @@ jobs:
       run: echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
     - uses: actions/setup-go@v3
     - name: Get gtfstidy
-      run: go get github.com/patrickbr/gtfstidy
+      run: go install github.com/patrickbr/gtfstidy@latest
     - name: Download ATOC GTFS artifact
       uses: actions/download-artifact@v2
       with:

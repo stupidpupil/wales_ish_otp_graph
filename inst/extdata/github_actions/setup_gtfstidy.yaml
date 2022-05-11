@@ -2,4 +2,4 @@
 
 - name: Get gtfstidy
   run: |
-    go get github.com/patrickbr/gtfstidy
+    go install github.com/patrickbr/gtfstidy@latest
