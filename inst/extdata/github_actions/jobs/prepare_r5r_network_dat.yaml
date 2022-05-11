@@ -28,7 +28,7 @@ steps:
     with:
       path: |
         output/network.dat*
-      key: ${{ hashFiles('output/*', 'R/java*', 'R/*r5r*') }}
+      key: ${{ hashFiles('output/*', 'R/java*', 'R/*r5r*') }}-v1
 
   - parochial_replace_with: setup_java
     if: steps.cache_network_dat.outputs.cache-hit != 'true'
