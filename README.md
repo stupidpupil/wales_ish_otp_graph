@@ -6,13 +6,13 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 17:22 BST on 11 May 2022. (The graph should update weekly.)
+The graph file was last updated at 19:19 BST on 12 May 2022. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp\_and\_graph.zip* asset.
 
 You can then start OpenTripPlanner using *run-otp.bat* (under Windows) or *run-otp.sh* (under Linux or macOS). Eventually it’ll print “Started listener bound to \[0.0.0.0:8080\]” and you’ll be able to access the planner at `http://localhost:8080` .
 
-(You’ll need [Java 11](https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot). See the [OTP documentation](http://docs.opentripplanner.org/en/latest/) for more information.)
+(You’ll need [install Java 17](https://adoptium.net). See the [OTP documentation](http://docs.opentripplanner.org/en/latest/) for more information.)
 
 You can [see the code used to download source data and generate this graph here](https://github.com/stupidpupil/wales_ish_otp_graph).
 
@@ -40,7 +40,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Description                      | Car   | Public |
 | :------------------------------- | :---- | :----- |
 | Abergavenny to Pontypridd        | 0h39m | 2h33m  |
-| Bala to Cardiff                  | 3h37m | 4h43m  |
+| Bala to Cardiff                  | 3h36m | 4h43m  |
 | Bangor Pier to Great Orme        | 0h46m | 1h41m  |
 | Blaengarw to Bridgend            | 0h32m | 0h42m  |
 | Caerphilly to Cwmafan            | 0h50m | 2h30m  |
@@ -57,7 +57,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Pontsticill to the Naughty Stone | 0h29m | 1h24m  |
 | Rhosllanerchrugog to Denbigh     | 0h58m | 1h52m  |
 | Swansea to Bargoed               | 1h18m | 2h49m  |
-| Swansea to Wrexham               | 3h33m | 4h50m  |
+| Swansea to Wrexham               | 3h32m | 4h50m  |
 | Treharris to Gellideg            | 0h20m | 0h46m  |
 | Whitland to Cardigan             | 0h43m | 2h 2m  |
 
