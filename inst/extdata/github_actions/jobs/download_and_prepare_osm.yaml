@@ -17,7 +17,7 @@ steps:
     with:
       path: |
         output/*osm*
-      key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('R/*osm*', 'config.yml') }}-v2
+      key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('R/*osm*', 'config.yml') }}-v3
 
   - parochial_replace_with: setup_r
     if: steps.cache_osm.outputs.cache-hit != 'true'
