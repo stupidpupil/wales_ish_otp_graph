@@ -5,7 +5,7 @@ prepare_terrain50 <- function(){
 
 	dest_path <- dir_output(output_affix(), ".terr50.tif")
 
-	terra::crop(terrain50, bounds() %>% sf::st_transform(27700)) %>% 
+	terra::crop(terrain50, bounds(buffer_by_metres = 20100) %>% sf::st_transform(27700)) %>% 
 		terra::project("epsg:4326") %>%
 		terra::writeRaster(dest_path, overwrite=TRUE)
 
