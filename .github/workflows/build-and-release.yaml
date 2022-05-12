@@ -575,7 +575,15 @@ jobs:
       with:
         name: walesish.osm.pbf
         path: output
+    - name: Cache Merged GTFS
+      id: cache_merged_gtfs
+      uses: actions/cache@v2
+      with:
+        path: |
+          output/merged.*.gtfs.zip*
+        key: ${{ hashFiles('output/*', 'config.yml') }}-v1
     - name: Merge and Pfaedle Merged GTFS
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
       run: |
         devtools::load_all()
         gtfstidy_merge_all_output_gtfs()
