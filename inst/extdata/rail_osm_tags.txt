@@ -1,0 +1,5 @@
+railway
+route=rail
+route=light_rail
+station=train
+station=light_rail
