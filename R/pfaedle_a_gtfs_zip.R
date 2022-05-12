@@ -64,7 +64,7 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(output
   meta$DerivedFrom <- c(meta$DerivedFrom, describe_file(path_to_osm))
 
   meta %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
-  write(meta_path))
+    write(meta_path)
 
   unlink(temp_dir_path, recursive = TRUE)
 }
