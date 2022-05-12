@@ -77,13 +77,23 @@ pretty_wales_ish_map <- function(){
       axis.title = ggplot2::element_blank(), 
       axis.text  = ggplot2::element_blank(), 
       axis.ticks = ggplot2::element_blank()
-    )
+    ) 
+
+  bounds_bbox <- bounds() %>% sf::st_bbox()
+
+  plot_map <- plot_map +
+    ggplot2::coord_sf(
+        xlim = c(bounds_bbox$xmin, bounds_bbox$xmax),
+        ylim = c(bounds_bbox$ymin, bounds_bbox$ymax), 
+      )
     
   return(plot_map)
 }
 
 prepare_pretty_wales_ish_map <- function(){
-  ggplot2::ggsave(plot=pretty_wales_ish_map(), filename=dir_output("map.png"),    width=440/72, height=490/72, units="in", dpi= 72)
-  ggplot2::ggsave(plot=pretty_wales_ish_map(), filename=dir_output("map.2x.png"), width=440/72, height=490/72, units="in", dpi=144)
-  ggplot2::ggsave(plot=pretty_wales_ish_map(), filename=dir_output("map.4x.png"), width=440/72, height=490/72, units="in", dpi=288)
+  plot_map <- pretty_wales_ish_map()
+
+  ggplot2::ggsave(plot=plot_map, filename=dir_output("map.png"),    width=440/72, height=490/72, units="in", dpi= 72)
+  ggplot2::ggsave(plot=plot_map, filename=dir_output("map.2x.png"), width=440/72, height=490/72, units="in", dpi=144)
+  ggplot2::ggsave(plot=plot_map, filename=dir_output("map.4x.png"), width=440/72, height=490/72, units="in", dpi=288)
 }
