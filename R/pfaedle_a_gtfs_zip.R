@@ -59,6 +59,7 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(output
   new_gtfs$shapes <- new_gtfs$shapes %>%
     filter(shape_id %in% new_gtfs$trips$shape_id)
 
+  unlink(path_to_gtfs_zip)
   new_gtfs %>% gtfstools::write_gtfs(path_to_gtfs_zip)
 
   unlink(temp_dir_path, recursive = TRUE)
