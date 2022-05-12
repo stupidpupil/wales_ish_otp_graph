@@ -43,15 +43,12 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(output
   trip_speeds <- gtfstools::get_trip_speed(new_gtfs) %>%
     left_join(new_gtfs$trips, by='trip_id') %>%
     left_join(new_gtfs$routes, by='route_id') %>%
+    left_join(gtfs_route_types()) %>%
     select(trip_id, speed, route_type)
 
   # Speed is in km/h and these are quite generous...
   trips_to_strip_shape_id <- trip_speeds %>%
-    filter(
-      (route_type %in% c(2, 100:199) & speed > 300) |
-      (route_type %in% c(3, 11, 200:299, 700:799) & speed > 110) |
-      (route_type %in% c(0,1,2,5,6,7,12, 900:999) & speed > 110)
-    )
+    filter(speed > max_speed_kmh))
 
   new_gtfs$trips <- new_gtfs$trips %>%
     mutate(shape_id = if_else(trip_id %in% trips_to_strip_shape_id$trip_id, "", shape_id))

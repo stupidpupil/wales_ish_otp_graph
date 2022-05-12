@@ -35,6 +35,7 @@ pretty_wales_ish_map <- function(){
     left_join(trips) %>% 
     left_join(routes) %>% 
     left_join(agencies) %>%
+    left_join(gtfs_route_types()) %>%
     mutate(route_id = paste0(filename, "-", route_id))
 
   plot_map <- ggplot2::ggplot(tibble()) + 
@@ -45,27 +46,27 @@ pretty_wales_ish_map <- function(){
       colour = '#7ebdbc', linetype=2
     ) +
     ggplot2::geom_sf(data = crude_routes %>% 
-        filter(filename %>% str_detect("atoc")) %>% 
+        filter(route_type_parochial_group %in% c("heavy_rail", "light_rail")) %>% 
         filter(agency_name %>% str_detect("Western")),
       colour = '#3b524e', size=0.3, alpha=0.8
     ) +
     ggplot2::geom_sf(data = crude_routes %>% 
-        filter(filename %>% str_detect("atoc")) %>% 
+        filter(route_type_parochial_group %in% c("heavy_rail", "light_rail")) %>% 
         filter(agency_name %>% str_detect("(West Coast|Virgin Trains)")),
       colour = '#bf7660', size=0.4, alpha=0.8
     ) +
     ggplot2::geom_sf(data = crude_routes %>% 
-        filter(filename %>% str_detect("atoc")) %>% 
+        filter(route_type_parochial_group %in% c("heavy_rail", "light_rail")) %>% 
         filter(agency_name %>% str_detect("CrossCountry")),
       colour = '#7d5967', size=0.4, alpha=0.8
     ) +
     ggplot2::geom_sf(data = crude_routes %>% 
-        filter(filename %>% str_detect("atoc")) %>% 
+        filter(route_type_parochial_group %in% c("heavy_rail", "light_rail")) %>% 
         filter(agency_name %>% str_detect("Wales")),
       colour = '#9c3636', alpha=0.8
     ) +
     ggplot2::geom_sf(data = crude_routes %>%
-        filter(filename %>% str_detect("^(W|wales).(tnds|bus|bods)")) %>%
+        filter(route_type_parochial_group %in% c("bus", "coach")) %>% 
         filter(route_short_name %>% str_detect("^T"), !(route_short_name %>% str_detect("^T49"))),
       colour = '#58823D', size=0.6
     ) + 

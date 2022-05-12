@@ -1,0 +1,85 @@
+route_type,route_type_description,route_type_parochial_group,max_speed_kmh
+2,Rail. Used for intercity or long-distance travel.,heavy_rail,300
+100,Railway Service,heavy_rail,300
+101,High Speed Rail Service,heavy_rail,300
+102,Long Distance Trains,heavy_rail,200
+103,Inter Regional Rail Service,heavy_rail,200
+104,Car Transport Rail Service,heavy_rail,200
+105,Sleeper Rail Service,heavy_rail,200
+106,Regional Rail Service,heavy_rail,200
+107,Tourist Railway Service,heavy_rail,200
+108,Rail Shuttle (Within Complex),heavy_rail,200
+109,Suburban Railway,heavy_rail,200
+110,Replacement Rail Service,heavy_rail,200
+111,Special Rail Service,heavy_rail,200
+112,Lorry Transport Rail Service,heavy_rail,200
+113,All Rail Services,heavy_rail,200
+114,Cross-Country Rail Service,heavy_rail,200
+115,Vehicle Transport Rail Service,heavy_rail,200
+116,Rack and Pinion Railway,heavy_rail,200
+117,Additional Rail Service,heavy_rail,200
+200,Coach Service,coach,100
+201,International Coach Service,coach,100
+202,National Coach Service,coach,100
+203,Shuttle Coach Service,coach,100
+204,Regional Coach Service,coach,100
+205,Special Coach Service,coach,100
+206,Sightseeing Coach Service,coach,100
+207,Tourist Coach Service,coach,100
+208,Commuter Coach Service,coach,100
+209,All Coach Services,coach,100
+0,"Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area.",light_rail,100
+400,Urban Railway Service,light_rail,100
+1,"Subway, Metro. Any underground rail system within a metropolitan area.",light_rail,100
+401,Metro Service,light_rail,100
+402,Underground Service,light_rail,100
+403,Urban Railway Service,light_rail,100
+404,All Urban Railway Services,light_rail,100
+12,Monorail. Railway in which the track consists of a single rail or a beam.,light_rail,100
+405,Monorail,light_rail,100
+3,Bus. Used for short- and long-distance bus routes.,bus,100
+700,Bus Service,bus,100
+701,Regional Bus Service,bus,70
+702,Express Bus Service,bus,70
+703,Stopping Bus Service,bus,70
+704,Local Bus Service,bus,70
+705,Night Bus Service,bus,70
+706,Post Bus Service,bus,70
+707,Special Needs Bus,bus,70
+708,Mobility Bus Service,bus,70
+709,Mobility Bus for Registered Disabled,bus,70
+710,Sightseeing Bus,bus,70
+711,Shuttle Bus,bus,100
+712,School Bus,bus,70
+713,School and Public Service Bus,bus,70
+714,Rail Replacement Bus Service,bus,100
+715,Demand and Response Bus Service,bus,100
+716,All Bus Services,bus,100
+11,Trolleybus. Electric buses that draw power from overhead wires using poles.,bus,70
+800,Trolleybus Service,bus,70
+5,"Cable tram. Used for street-level rail cars where the cable runs beneath the vehicle, e.g., cable car in San Francisco.",light_rail,100
+900,Tram Service,light_rail,100
+901,City Tram Service,light_rail,100
+902,Local Tram Service,light_rail,100
+903,Regional Tram Service,light_rail,100
+904,Sightseeing Tram Service,light_rail,100
+905,Shuttle Tram Service,light_rail,100
+906,All Tram Services,light_rail,100
+1000,Water Transport Service,ferry,100
+1100,Air Service,aircraft,800
+4,Ferry. Used for short- and long-distance boat service.,ferry,100
+1200,Ferry Service,ferry,100
+6,"Aerial lift, suspended cable car (e.g., gondola lift, aerial tramway). Cable transport where cabins, cars, gondolas or open chairs are suspended by means of one or more cables.",gondola,100
+1300,Aerial Lift Service,gondola,100
+7,Funicular. Any rail system designed for steep inclines.,light_rail,100
+1400,Funicular Service,light_rail,100
+1500,Taxi Service,taxi,100
+1501,Communal Taxi Service,taxi,100
+1502,Water Taxi Service,ferry,100
+1503,Rail Taxi Service,taxi,100
+1504,Bike Taxi Service,taxi,100
+1505,Licensed Taxi Service,taxi,100
+1506,Private Hire Service Vehicle,taxi,100
+1507,All Taxi Services,taxi,100
+1700,Miscellaneous Service,misc,100
+1702,Horse-drawn Carriage,misc,100
