@@ -50,6 +50,8 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(output
   trips_to_strip_shape_id <- trip_speeds %>%
     filter(speed > max_speed_kmh))
 
+  message("Dropping ", nrow(trips_to_strip_shape_id), " shapes as too fast")
+
   new_gtfs$trips <- new_gtfs$trips %>%
     mutate(shape_id = if_else(trip_id %in% trips_to_strip_shape_id$trip_id, "", shape_id))
 
