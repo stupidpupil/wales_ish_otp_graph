@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 if command -v /usr/libexec/java_home 2>&1 /dev/null
 then
   echo "Trying to set JAVA_HOME using /usr/libexec/java_home"
-  JAVA_HOME="$(/usr/libexec/java_home -v 11)"
+  JAVA_HOME="$(/usr/libexec/java_home -v 17)"
   export JAVA_HOME
 fi
 
