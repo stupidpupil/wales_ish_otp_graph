@@ -39,15 +39,27 @@ prepare_tnds_gtfs()
 download_and_prepare_bods_gtfs()
 download_and_prepare_osm()
 
+# If you want to include elevation data (e.g. for walking, cycling)
+download_terrain50()
+prepare_terrain50()
+
+# If you've got gtfstidy and pfaedle installed
+gtfstidy_merge_all_output_gtfs()
+pfaedle_all_output_gtfs()
+
 # OpenTripPlanner
+# (Requires JDK 17)
 download_otp()
 prepare_street_graph()
 prepare_transport_graph()
+# output/ should now contain graph.obj
 
 # r5r
+# (Requires JDK 11)
 prepare_r5r_network_dat()
+# output/ should now contain network.dat
 
-# output/ should now contain graph.obj
+
 ```
 ## Licence of outputs
 
