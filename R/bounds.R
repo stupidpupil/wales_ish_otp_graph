@@ -1,11 +1,18 @@
-bounds <- function(){
+bounds <- function(buffer_by_metres){
   bounds <- config::get()$bounds %>% sf::st_as_sfc()
 
   if(is.na(sf::st_crs(bounds))){
-    sf::st_crs(bounds) <- 4326
+    sf::st_crs(bounds) <- "EPSG:4326"
   }
 
   bounds <- sf::st_make_valid(bounds)
+
+  if(!missing(buffer_by_metres)){
+    bounds <- bounds %>%
+      sf::st_transform(crs = "EPSG:27700") %>%
+      sf::st_buffer(buffer_by_metres) %>%
+      sf::st_transform(crs = "EPSG:4326")
+  }
 
   return(bounds)
 }

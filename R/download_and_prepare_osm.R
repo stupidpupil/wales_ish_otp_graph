@@ -23,6 +23,8 @@ prepare_osm <- function(){
  
   prepare_bounds_geojson()
 
+  message("Extracting OSM within bounds...")
+
   bounded_temp_path <- tempfile(tmpdir = dir_working(), fileext=".osm.pbf")
 
   bounded_osmium_command <- paste0(
@@ -35,6 +37,33 @@ prepare_osm <- function(){
 
   system(bounded_osmium_command)
   stopifnot(file.exists(bounded_temp_path))
+
+  message("Extracting OSM transport-tagged entities within bounds-plus-20km buffer...")
+
+  buffered_bounds_geojson_path <- tempfile(tmpdir = dir_working(), fileext=".geojson")
+  buffered_temp_path <- tempfile(tmpdir = dir_working(), fileext=".osm.pbf")
+
+  bounds(buffer_by_metres = 20000) %>%
+    sf::st_write(buffered_bounds_geojson_path)
+
+  buffered_osmium_command <- paste0(
+    "osmium tags-filter ",
+    "--expressions ", dir_support("pfaedle_osm_tags.txt"),
+    " ", src_path, " -f pbf",
+    " | ",
+    "osmium extract -p ",
+    buffered_bounds_geojson_path,
+    " -s simple ",
+    " -F pbf ",
+    "-",
+    " -o ", buffered_temp_path
+  )
+
+  system(buffered_osmium_command)
+  stopifnot(file.exists(buffered_temp_path))
+  unlink(buffered_bounds_geojson_path)
+
+  message("Extracting OSM rail-tagged entities...")
 
   rail_temp_path <- tempfile(tmpdir = dir_working(), fileext=".osm.pbf")
 
@@ -49,9 +78,12 @@ prepare_osm <- function(){
   stopifnot(file.exists(rail_temp_path))
 
 
+  message("Merging OSM extracts...")
+
   merge_osmium_command <- paste0(
     "osmium merge",
     " ", bounded_temp_path,
+    " ", buffered_temp_path,
     " ", rail_temp_path,
     " -o ", dest_path
   )
@@ -61,6 +93,7 @@ prepare_osm <- function(){
   stopifnot(file.exists(dest_path))
 
   unlink(bounded_temp_path)
+  unlink(buffered_temp_path)
   unlink(rail_temp_path)
 
   list(
