@@ -34,7 +34,7 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(output
   utils::zip(
     zipfile = new_gtfs_zip_path, 
     files = dir(paste0(temp_dir_path, "/gtfs-out"), pattern="\\.txt$", full.names=TRUE),
-    flags = "-rj9X"
+    flags = "-rj0X"
     )
 
   stopifnot(file.exists(new_gtfs_zip_path))
