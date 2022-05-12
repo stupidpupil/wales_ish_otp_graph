@@ -6,15 +6,18 @@ pfaedle_all_output_gtfs <- function(){
 
 pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(output_affix(), ".osm.pbf")){
 
-  # Unzip gtfs zip to a temporary folder in dir working
+
+  meta <- list()
+  meta_path <- paste0(path_to_gtfs_zip, ".meta.json")
+
+  if(file.exists(meta_path)){
+    meta <- meta %>% append(jsonlite::fromJSON(path_to_gtfs_zip))
+  }
 
   temp_dir_path <- tempfile(tmpdir = dir_working())
     unzip(path_to_gtfs_zip, exdir=temp_dir_path)
 
-  # pfaedle
-
   prepare_osm_for_pfaedle(path_to_osm, paste0(temp_dir_path, "/temp.osm"))
-
 
   pfaedle_command = paste0(
     "pfaedle -D",
@@ -26,8 +29,6 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(output
 
   system(pfaedle_command)
 
-  # Rezip gtfs zip, and do some checks that we've not corrupted it
-
   new_gtfs_zip_path <- paste0(temp_dir_path, "/", basename(path_to_gtfs_zip))
 
   utils::zip(
@@ -37,7 +38,6 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(output
     )
 
   stopifnot(file.exists(new_gtfs_zip_path))
-  #stopifnot(file.size(new_gtfs_zip_path) >= file.size(path_to_gtfs_zip)) # HACK
 
   new_gtfs <- gtfstools::read_gtfs(new_gtfs_zip_path)
   trip_speeds <- gtfstools::get_trip_speed(new_gtfs) %>%
@@ -60,6 +60,11 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(output
 
   unlink(path_to_gtfs_zip)
   new_gtfs %>% gtfstools::write_gtfs(path_to_gtfs_zip)
+
+  meta$DerivedFrom <- c(meta$DerivedFrom, describe_file(path_to_osm))
+
+  meta %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
+  write(meta_path))
 
   unlink(temp_dir_path, recursive = TRUE)
 }
