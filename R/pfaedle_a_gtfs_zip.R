@@ -67,6 +67,11 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(output
     write(meta_path)
 
   unlink(temp_dir_path, recursive = TRUE)
+
+  if(gtfstidy_is_available()){
+    gtfstidy_simplify_shapes(path_to_gtfs_zip)
+  }
+
 }
 
 prepare_osm_for_pfaedle <- function(in_osm_path, out_osm_path) {

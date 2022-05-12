@@ -581,11 +581,6 @@ jobs:
         gtfstidy_merge_all_output_gtfs()
         pfaedle_all_output_gtfs()
       shell: Rscript {0}
-    - name: Compress GTFS
-      run: |
-        $(go env GOPATH)/bin/gtfstidy -ARPICOScd --min-shapes --max-headway 65534 output/merged.walesish.gtfs.zip -o data-raw/merged.walesish.gtfs.zip
-        rm output/*.gtfs.zip*
-        mv data-raw/merged.walesish.gtfs.zip output/merged.walesish.gtfs.zip
     - name: Upload Merged GTFS artifact
       uses: actions/upload-artifact@v2
       with:
