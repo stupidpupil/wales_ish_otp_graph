@@ -641,20 +641,10 @@ jobs:
         install.packages(c("devtools"))
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
-    - name: Download ATOC GTFS artifact
+    - name: Download Merged GTFS artifact
       uses: actions/download-artifact@v2
       with:
-        name: atoc.walesish.gtfs.zip
-        path: output
-    - name: Download TNDS GTFS artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: tnds.walesish.gtfs.zip
-        path: output
-    - name: Download BODS GTFS artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: bods.walesish.gtfs.zip
+        name: merged.walesish.gtfs.zip
         path: output
     - name: Prepare map
       run: |
