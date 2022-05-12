@@ -11,6 +11,8 @@ gtfstidy_simplify_shapes <- function(path_to_gtfs_zip) {
     " -o ", working_filename
   )
 
+  system(gtfstidy_command)
+
   stopifnot(file.exists(working_filename))
 
   unlink(path_to_gtfs_zip)

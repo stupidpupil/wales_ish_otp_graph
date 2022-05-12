@@ -11,7 +11,7 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(output
   meta_path <- paste0(path_to_gtfs_zip, ".meta.json")
 
   if(file.exists(meta_path)){
-    meta <- meta %>% append(jsonlite::fromJSON(path_to_gtfs_zip))
+    meta <- meta %>% append(jsonlite::fromJSON(meta_path))
   }
 
   temp_dir_path <- tempfile(tmpdir = dir_working())
