@@ -1,8 +1,8 @@
 @echo off
 
-if exist "C:\Progra~1\AdoptOpenJDK\jdk-11.0.11.9-hotspot\release" (
-  set JAVA_HOME "C:\Progra~1\AdoptOpenJDK\jdk-11.0.11.9-hotspot"
-)
+::if exist "C:\Progra~1\AdoptOpenJDK\jdk-11.0.11.9-hotspot\release" (
+::  set JAVA_HOME "C:\Progra~1\AdoptOpenJDK\jdk-11.0.11.9-hotspot"
+::)
 
 PATH %PATH%;%JAVA_HOME%\bin\
 
