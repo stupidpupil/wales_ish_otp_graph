@@ -5,5 +5,5 @@ prepare_otp_config <- function(){
   stopifnot(file.exists(dir_output("build-config.json")))
   stopifnot(file.exists(dir_output("router-config.json")))
 
-  TRUE
+  return(TRUE)
 }

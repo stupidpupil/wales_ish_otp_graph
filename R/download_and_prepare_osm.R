@@ -13,6 +13,8 @@ download_osm <- function(){
     SourceLicence = "ODbL-1.0",
     SourceAttribution = "OpenStreetMap contributors"
   )) %>% write(paste0(dest_path, ".meta.json"))
+
+  return(dest_path)
 }
 
 prepare_osm <- function(){
@@ -101,9 +103,13 @@ prepare_osm <- function(){
     DerivedFrom = I(describe_file(src_path))
   ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
   write(paste0(dest_path, ".meta.json"))
+
+  return(dest_path)
 }
 
 download_and_prepare_osm <- function(){
   download_osm()
-  prepare_osm()
+  dest_path <- prepare_osm()
+
+  return(dest_path)
 }

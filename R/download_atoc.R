@@ -49,12 +49,14 @@ download_atoc <- function(retries=3L){
     atoc_session %>% rvest::session_jump_to("https://data.atoc.org/user/logout?current=node/1")
     Sys.sleep(60L)
     if(retries > 0){
-      download_atoc(retries-1L)
+      return(download_atoc(retries-1L))
     }
-    return()
+    stop("Downloading ATOC zip failed!")
   }
 
-  writeBin(atoc_session$response$content, dir_working("atoc.zip"))
+  dest_path <- dir_working("atoc.zip")
+
+  writeBin(atoc_session$response$content, dest_path)
   atoc_session %>% rvest::session_jump_to("https://data.atoc.org/user/logout?current=node/1")
 
   jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE, list(
@@ -62,6 +64,7 @@ download_atoc <- function(retries=3L){
     SourceDownloadedAt = now_as_iso8601(),
     SourceLicence = "CC-BY-2.0",
     SourceAttribution = "RSP Limited (Rail Delivery Group)"
-  )) %>% write(dir_working("atoc.zip.meta.json"))
+  )) %>% write(paste0(dest_path, ".meta.json"))
 
+  return(dest_path)
 }

@@ -16,4 +16,5 @@ prepare_street_graph <- function(){
   ) %>% jsonlite::toJSON(pretty = TRUE) %>%
   write(dir_output("streetGraph.obj.meta.json"))
 
+  return(dir_output("streetGraph.obj"))
 }

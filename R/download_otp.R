@@ -1,6 +1,5 @@
 download_otp <- function(){
 
-  
   otp_url <- "https://github.com/stupidpupil/OpenTripPlanner/releases/download/v2022-05-11/otp-2.2.0-20220511.140318-1-shaded.jar"
   dest_path <- dir_working("otp.jar")
   download.file(otp_url, dest_path)
@@ -12,6 +11,7 @@ download_otp <- function(){
     SourceAttribution = "OpenTripPlanner"
   )) %>% write(paste0(dest_path, ".meta.json"))
 
+  return(dest_path)
 }
 
 otp_version <- function(){

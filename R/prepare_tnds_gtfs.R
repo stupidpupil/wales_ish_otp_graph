@@ -1,11 +1,11 @@
 prepare_tnds_gtfs <- function(){
 
-
   tnds_files <- intersecting_regions_and_nations() %>% pull(tnds_code) %>% na.omit()
+
+  dest_paths <- c()
 
   for(r in tnds_files){
     src_path <- dir_working(r, ".bus.tnds.zip")
-
 
     gtfs <- UK2GTFS::transxchange2gtfs(
       path_in = src_path, ncores= (parallel::detectCores()-1), 
@@ -19,6 +19,8 @@ prepare_tnds_gtfs <- function(){
       DerivedFrom = I(describe_file(src_path))
     ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
     write(dir_output(r,".tnds.", output_affix(), ".gtfs.zip.meta.json"))
+
+    dest_paths <- c(dest_paths, dir_output(r,".tnds.", output_affix(), ".gtfs.zip"))
   }
 
   # NCSD TXC stuff is buried within the zip
@@ -47,4 +49,7 @@ prepare_tnds_gtfs <- function(){
   ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
   write(dir_output("NCSD.tnds.", output_affix(), ".gtfs.zip.meta.json"))
 
+  dest_paths <- c(dest_paths, dir_output("NCSD.tnds.", output_affix(), ".gtfs.zip"))
+
+  return(dest_paths)
 }

@@ -16,4 +16,6 @@ prepare_transport_graph <- function(){
   ) %>% jsonlite::toJSON(pretty = TRUE) %>%
   write(dir_output("graph.obj.meta.json"))
 
+
+  return(dir_output("graph.obj"))
 }

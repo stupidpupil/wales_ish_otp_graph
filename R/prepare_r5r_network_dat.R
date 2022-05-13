@@ -18,4 +18,6 @@ prepare_r5r_network_dat <- function(){
     DerivedFrom = describe_file(dir_output("*osm.pbf"), dir_output("*.gtfs.zip"))
   ) %>% jsonlite::toJSON(pretty = TRUE) %>%
   write(dir_output("network.dat.meta.json"))
+
+  return(dir_output("network.dat"))
 }

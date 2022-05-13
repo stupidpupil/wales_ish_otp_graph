@@ -61,7 +61,11 @@ prepare_github_workflow <- function() {
 
   setwd(old_wd)
 
+  dest_path <- ".github/workflows/build-and-release.yaml"
+
   ret %>%
     yaml::as.yaml() %>%
-    writeChar(".github/workflows/build-and-release.yaml", eos=NULL)
+    writeChar(dest_path, eos=NULL)
+
+  return(".github/workflows/build-and-release.yaml")
 }

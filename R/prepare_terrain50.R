@@ -15,4 +15,5 @@ prepare_terrain50 <- function(){
   ) %>% jsonlite::toJSON(pretty = TRUE) %>%
   write(paste0(dest_path, ".meta.json"))
 
+  return(dest_path)
 }

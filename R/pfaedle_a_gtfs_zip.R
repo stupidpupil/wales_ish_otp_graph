@@ -1,11 +1,15 @@
 pfaedle_all_output_gtfs <- function(){
-  for(fn in list.files(dir_output(), "\\.gtfs\\.zip$", full.names=TRUE)){
+
+  all_output_gtfs <- list.files(dir_output(), "\\.gtfs\\.zip$", full.names=TRUE)
+  
+  for(fn in all_output_gtfs){
     pfaedle_a_gtfs_zip(fn)
   }
+
+  return(all_output_gtfs)
 }
 
 pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(output_affix(), ".osm.pbf")){
-
 
   meta <- list()
   meta_path <- paste0(path_to_gtfs_zip, ".meta.json")
@@ -72,6 +76,7 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(output
     gtfstidy_simplify_shapes(path_to_gtfs_zip)
   }
 
+  return(path_to_gtfs_zip)
 }
 
 prepare_osm_for_pfaedle <- function(in_osm_path, out_osm_path) {
@@ -86,4 +91,6 @@ prepare_osm_for_pfaedle <- function(in_osm_path, out_osm_path) {
 
   system(osmium_command)
   stopifnot(file.exists(out_osm_path))
+
+  return(out_osm_path)
 }

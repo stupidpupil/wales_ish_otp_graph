@@ -43,4 +43,6 @@ gtfstidy_merge_all_output_gtfs <- function(){
 
   meta %>% jsonlite::toJSON(pretty = TRUE) %>%
     write(dir_output(merged_filename, ".meta.json"))
+
+  return(dir_output(merged_filename))  
 }

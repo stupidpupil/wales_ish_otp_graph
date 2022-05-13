@@ -11,4 +11,5 @@ download_terrain50 <- function(){
     SourceAttribution = "Contains OS data © Crown copyright and database right 2022"
   )) %>% write(paste0(dest_path, ".meta.json"))
 
+  return(dest_path)
 }

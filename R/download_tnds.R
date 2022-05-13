@@ -5,8 +5,11 @@ download_tnds <- function(){
   tnds_files <- intersecting_regions_and_nations() %>% pull(tnds_code) %>% na.omit()
   tnds_files <- c(tnds_files, 'NCSD')
 
+  dest_paths <- c()
+
   for(r in tnds_files){
     dest_path <- dir_working(r, ".bus.tnds.zip")
+    dest_paths <- c(dest_paths, dest_path)
 
     download.file(
       paste0("ftp://",config::get()$tnds_username,":",config::get()$tnds_password,"@ftp.tnds.basemap.co.uk/", r, ".zip"),
@@ -20,4 +23,5 @@ download_tnds <- function(){
     )) %>% write(paste0(dest_path, ".meta.json"))
   }
 
+  return(dest_path)
 }

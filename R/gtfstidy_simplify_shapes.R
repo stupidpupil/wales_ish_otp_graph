@@ -18,4 +18,6 @@ gtfstidy_simplify_shapes <- function(path_to_gtfs_zip) {
   unlink(path_to_gtfs_zip)
   file.copy(working_filename, path_to_gtfs_zip)
   unlink(working_filename)
+
+  return(path_to_gtfs_zip)
 }
