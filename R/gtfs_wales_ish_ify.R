@@ -8,7 +8,7 @@ gtfs_wales_ish_ify <- function(gtfs){
       parent_station = if_else(parent_station == "", NA_character_, parent_station)
     ) %>%
     filter((!is.na(stop_lon) & !is.na(stop_lat)) | !is.na(parent_station)) %>%
-    sf::st_as_sf(coords = c('stop_lon', 'stop_lat'), crs=4326, remove=FALSE) %>%
+    sf::st_as_sf(coords = c('stop_lon', 'stop_lat'), crs="EPSG:4326", remove=FALSE) %>%
     filter(
       sf::st_within(geometry, bounds(), sparse=FALSE) |
       stop_id %in% config::get()$additional_stop_ids

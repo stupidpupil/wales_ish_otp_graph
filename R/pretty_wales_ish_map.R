@@ -1,6 +1,6 @@
 pretty_wales_ish_map <- function(){
 
-  geometries <- sf::st_sfc(crs=4326)
+  geometries <- sf::st_sfc(crs="EPSG:4326")
   trips <- tibble()
   agencies <- tibble()
   routes <- tibble()

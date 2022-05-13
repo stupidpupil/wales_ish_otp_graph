@@ -65,7 +65,7 @@ vrt_for_terrain50_zip <- function(terr50_zip_path = "terr50_gagg_gb.zip", vrt_fi
     vrt_text <- paste0(
       "<VRTDataset rasterXSize=\"", RasterXSize ,
                "\" rasterYSize=\"", RasterYSize , "\">\n",
-      "  <SRS dataAxisToSRSAxisMapping=\"1,2\">", sf::st_crs(27700)$wkt, "</SRS>\n",
+      "  <SRS dataAxisToSRSAxisMapping=\"1,2\">", sf::st_crs("EPSG:27700")$wkt, "</SRS>\n",
         "  <GeoTransform> ", 
           sources_tibble %>% pull(XMin) %>% min(), ",  ", XResolution, ",  0.0, ", 
           sources_tibble %>% pull(YMax) %>% max() + (YResolution * sources_tibble$YSize[[1]]),",  0.0, ", -YResolution, "</GeoTransform>\n",
