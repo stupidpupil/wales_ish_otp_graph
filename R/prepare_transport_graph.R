@@ -1,5 +1,8 @@
 prepare_transport_graph <- function(){
 
+  # TODO: Tolerate missing streetGraph.obj
+  checkmate::assert_file_exists(dir_output("streetGraph.obj"), access="r")
+
   prepare_otp_config()
 
   cmd <- paste0(java_command(), " -jar ", dir_working("otp.jar"), " --loadStreet --save ", dir_output())

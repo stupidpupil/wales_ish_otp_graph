@@ -7,6 +7,8 @@ prepare_tnds_gtfs <- function(){
   for(r in tnds_files){
     src_path <- dir_working(r, ".bus.tnds.zip")
 
+    checkmate::assert_file_exists(src_path, access="r", extension=".zip")
+
     gtfs <- UK2GTFS::transxchange2gtfs(
       path_in = src_path, ncores= (parallel::detectCores()-1), 
       try_mode=TRUE, scotland=ifelse(r == "S", "yes", "no"), force_merge = TRUE)
@@ -24,6 +26,8 @@ prepare_tnds_gtfs <- function(){
   }
 
   # NCSD TXC stuff is buried within the zip
+  checkmate::assert_file_exists(dir_working("NCSD.bus.tnds.zip"), access="r", extension=".zip")
+
   unlink(dir_working("NCSD.bus.tnds"), recursive=TRUE)
   unzip(dir_working("NCSD.bus.tnds.zip"), exdir=dir_working("NCSD.bus.tnds"))
 

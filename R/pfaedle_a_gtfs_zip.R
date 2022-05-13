@@ -11,6 +11,9 @@ pfaedle_all_output_gtfs <- function(){
 
 pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(output_affix(), ".osm.pbf")){
 
+  checkmate::assert_file_exists(path_to_gtfs_zip, access="r", extension=".zip")
+  checkmate::assert_file_exists(path_to_osm, access="r", extension=c(".pbf", ".osm"))
+
   meta <- list()
   meta_path <- paste0(path_to_gtfs_zip, ".meta.json")
 
