@@ -8,6 +8,8 @@ prepare_terrain50 <- function(terr50_zip_path = dir_working("terr50_gagg_gb.zip"
 
 	dest_path <- dir_output(output_affix(), ".terr50.tif")
 
+	message("Cropping and reprojecting Terrain 50...")
+
 	terra::crop(terrain50, bounds(buffer_by_metres = 20100) %>% sf::st_transform(crs="EPSG:27700")) %>% 
 		terra::project("EPSG:4326") %>%
 		terra::writeRaster(dest_path, overwrite=TRUE)

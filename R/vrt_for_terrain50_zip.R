@@ -92,16 +92,16 @@ vrt_for_terrain50_zip <- function(terr50_zip_path = "terr50_gagg_gb.zip", vrt_fi
 
   vsizip_paths <- paste0("/vsizip//vsizip/", terr50_zip_path, "/", input_zips, "/",  grid_refs, ".asc")
 
-  message("Found ", length(vsizip_paths), " input zips")
+  message("Found ", length(vsizip_paths), " tile zips in ", terr50_zip_path, " ...")
 
   sources_tibble <- vrt_sources_from_paths(vsizip_paths)
-
   vrt_text <- vrt_sources_to_vrt_xml_string(sources_tibble, "OS Terrain 50 DTM")
+
+  message("Writing ", vrt_filename, " ...")
 
   unlink(vrt_filename)
   vrt_text %>% write(vrt_filename)
 
-  message("VRT written")
-
+  message("Loading ", vrt_filename, " ...")
   terra::rast(vrt_filename)
 }

@@ -5,6 +5,8 @@ atoc_user_agent <- function(){
 get_logged_in_atoc_session <- function(){
   atoc_session <- rvest::session("https://data.atoc.org/user/login", atoc_user_agent())
 
+  message("Logging into ATOD/RDG data portal...")
+
   atoc_login_form <- atoc_session %>% rvest::html_node("#user-login") %>% rvest::html_form() %>%
     rvest::html_form_set(name=config::get()$atoc_username, pass=config::get()$atoc_password)
 
@@ -27,6 +29,8 @@ get_atoc_download_url <- function(){
   atoc_session <- atoc_session %>% rvest::session_jump_to("https://data.atoc.org/data-download")
 
   atoc_download_url <- atoc_session %>% rvest::html_node("#field_timetable_file-wrapper a") %>% rvest::html_attr("href")
+
+  message("Got URL for ATOC data:\n", atoc_download_url)
 
   atoc_session %>% rvest::session_jump_to("https://data.atoc.org/user/logout?current=node/1")
 
