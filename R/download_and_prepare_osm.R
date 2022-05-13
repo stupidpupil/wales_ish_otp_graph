@@ -3,7 +3,14 @@ download_osm <- function(){
   on.exit(options(old_opts))
 
   gb_osm_url <- "https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"
+  cache_key <- cache_key_for_osm_url(gb_osm_url)
+
   dest_path <- dir_working("great-britain-latest.osm.pbf")
+
+  if(cache_key == cache_key_for_file(dest_path)){
+    message("Cache hit for ", dest_path)
+    return(dest_path)
+  }
 
   download.file(gb_osm_url, dest_path)
 
@@ -11,7 +18,8 @@ download_osm <- function(){
     SourceUrl = gb_osm_url,
     SourceDownloadedAt = now_as_iso8601(),
     SourceLicence = "ODbL-1.0",
-    SourceAttribution = "OpenStreetMap contributors"
+    SourceAttribution = "OpenStreetMap contributors",
+    ParochialCacheKey = cache_key
   )) %>% write(paste0(dest_path, ".meta.json"))
 
   return(dest_path)

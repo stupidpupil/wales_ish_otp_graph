@@ -40,6 +40,16 @@ get_atoc_download_url <- function(){
 download_atoc <- function(retries=3L){
 
   atoc_download_url <- get_atoc_download_url()
+
+  cache_key <- cache_key_for_atoc_url(atoc_download_url)
+
+  dest_path <- dir_working("atoc.zip")
+
+  if(cache_key == cache_key_for_file(dest_path)){
+    message("Cache hit for ", dest_path)
+    return(dest_path)
+  }
+
   atoc_session <- get_logged_in_atoc_session()
 
   #atoc_session <- atoc_session %>% rvest::session_jump_to("https://data.atoc.org/data-download")
@@ -58,8 +68,6 @@ download_atoc <- function(retries=3L){
     stop("Downloading ATOC zip failed!")
   }
 
-  dest_path <- dir_working("atoc.zip")
-
   writeBin(atoc_session$response$content, dest_path)
   atoc_session %>% rvest::session_jump_to("https://data.atoc.org/user/logout?current=node/1")
 
@@ -67,7 +75,8 @@ download_atoc <- function(retries=3L){
     SourceUrl = atoc_download_url,
     SourceDownloadedAt = now_as_iso8601(),
     SourceLicence = "CC-BY-2.0",
-    SourceAttribution = "RSP Limited (Rail Delivery Group)"
+    SourceAttribution = "RSP Limited (Rail Delivery Group)",
+    ParochialCacheKey = cache_key
   )) %>% write(paste0(dest_path, ".meta.json"))
 
   return(dest_path)

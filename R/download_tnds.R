@@ -11,9 +11,9 @@ download_tnds <- function(){
     dest_path <- dir_working(r, ".bus.tnds.zip")
     dest_paths <- c(dest_paths, dest_path)
 
-    download.file(
-      paste0("ftp://",config::get()$tnds_username,":",config::get()$tnds_password,"@ftp.tnds.basemap.co.uk/", r, ".zip"),
-      dest_path)
+    src_url = paste0("ftp://",config::get()$tnds_username,":",config::get()$tnds_password,"@ftp.tnds.basemap.co.uk/", r, ".zip")
+
+    download.file(src_url, dest_path)
 
     jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE, list(
       SourceUrl = paste0("ftp://ftp.tnds.basemap.co.uk/",r,".zip"),

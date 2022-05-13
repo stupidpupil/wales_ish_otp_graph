@@ -13,14 +13,22 @@ download_and_prepare_bods_gtfs <- function(){
 
     output_paths <- c(output_paths, output_path)
 
-    download.file(bus_url, work_path)
+    cache_key <- cache_key_for_bods_url(bus_url)
 
-    jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE, list(
-      SourceUrl = bus_url,
-      SourceDownloadedAt = now_as_iso8601(),
-      SourceLicence = "OGL-UK-3.0",
-      SourceAttribution = "UK Department for Transport"
-    )) %>% write(paste0(work_path, ".meta.json"))
+    if(cache_key != cache_key_for_file(work_path)){
+      download.file(bus_url, work_path)
+
+      jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE, list(
+        SourceUrl = bus_url,
+        SourceDownloadedAt = now_as_iso8601(),
+        SourceLicence = "OGL-UK-3.0",
+        SourceAttribution = "UK Department for Transport",
+        ParochialCacheKey = cache_key
+      )) %>% write(paste0(work_path, ".meta.json"))
+
+    }else{
+      message("Cache hit for ", work_path)
+    }
 
     print(paste0("Preparing bus data for ", r, "…"))
     gtfs <- gtfstools::read_gtfs(work_path)
