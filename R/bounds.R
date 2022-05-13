@@ -27,6 +27,8 @@ path_to_bounds_geojson <- function(){
 }
 
 prepare_bounds_geojson <- function(){
-  unlink(path_to_bounds_geojson())
-  bounds() %>% sf::st_write(path_to_bounds_geojson())
+  dest_path <- path_to_bounds_geojson()
+  unlink(dest_path)
+  bounds() %>% sf::st_write(dest_path)
+  return(dest_path)
 }
