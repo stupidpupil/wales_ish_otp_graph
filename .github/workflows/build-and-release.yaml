@@ -248,6 +248,11 @@ jobs:
       with:
         name: terr50.tif
         path: output
+    - name: Cache OTP elevation lookups
+      uses: actions/cache@v2
+      width:
+        path: data-raw/otp_cache/*
+        key: ${{ hashFiles('output/*terr50*') }}
     - name: Cache street graph
       id: cache_street_graph
       uses: actions/cache@v2

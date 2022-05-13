@@ -2,7 +2,12 @@ prepare_street_graph <- function(){
 
   prepare_otp_config()
 
-  cmd <- paste0(java_command(), " -jar ", dir_working("otp.jar"), " --buildStreet ", dir_output())
+  cmd <- paste0(
+    java_command(), 
+    " -jar ", dir_working("otp.jar"), 
+    " --cache ", dir_working("otp_cache"), 
+    " --buildStreet ", dir_output()
+    )
 
   system(cmd)
 

@@ -1,5 +1,6 @@
 {
   "osmWayPropertySet": "uk",
   "platformEntriesLinking": true,
-  "transitServiceEnd": "P4W"
+  "transitServiceEnd": "P4W",
+  "writeCachedElevations": true
 }
