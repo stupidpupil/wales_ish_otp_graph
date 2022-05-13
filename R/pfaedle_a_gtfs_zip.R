@@ -68,6 +68,7 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output(output
   unlink(path_to_gtfs_zip)
   new_gtfs %>% gtfstools::write_gtfs(path_to_gtfs_zip)
 
+  meta$ParochialCacheKey <- NULL
   meta$DerivedFrom <- c(meta$DerivedFrom, describe_file(path_to_osm))
 
   meta %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
