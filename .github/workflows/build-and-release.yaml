@@ -250,7 +250,7 @@ jobs:
         path: output
     - name: Cache OTP elevation lookups
       uses: actions/cache@v2
-      width:
+      with:
         path: data-raw/otp_cache/*
         key: ${{ hashFiles('output/*terr50*') }}
     - name: Cache street graph
