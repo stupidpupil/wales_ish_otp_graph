@@ -32,6 +32,7 @@ Imports:
   crayon,
   gtfstools,
   lwgeom,
-  terra
+  terra,
+  RCurl
 Remotes:
   stupidpupil/UK2GTFS
