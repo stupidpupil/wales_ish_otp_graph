@@ -33,6 +33,7 @@ Imports:
   gtfstools,
   lwgeom,
   terra,
-  RCurl
+  RCurl,
+  openssl
 Remotes:
   stupidpupil/UK2GTFS

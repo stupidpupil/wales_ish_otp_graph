@@ -1,4 +1,10 @@
 cache_key_for_file <- function(path) {
+
+  if(length(path) == 0){
+    return(FALSE)
+  }
+
+
   if(!file.exists(path)){
     return(FALSE)
   }
