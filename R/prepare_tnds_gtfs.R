@@ -13,6 +13,7 @@ prepare_tnds_gtfs <- function(){
       cache_key_for_file(src_path),
       packageVersion("UK2GTFS"),
       bounds() %>% sf::st_as_text(),
+      temporal_bounds_as_character(),
       "v1"
     )) %>% as.character()
 
@@ -52,6 +53,7 @@ prepare_tnds_gtfs <- function(){
     cache_key_for_file(dir_working("NCSD.bus.tnds.zip")),
     packageVersion("UK2GTFS"),
     bounds() %>% sf::st_as_text(),
+    temporal_bounds_as_character(),
     "v1"
   )) %>% as.character()
 

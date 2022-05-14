@@ -21,8 +21,8 @@ gtfs_wales_ish_ify <- function(gtfs){
     filter(is.na(parent_station) | parent_station %in% gtfs$stops$stop_id) %>%
     tidyr::replace_na(list(parent_station = ""))
 
-  filter_start_date <- lubridate::today() - lubridate::days(1)
-  filter_end_date <- filter_start_date + lubridate::days(29)
+  filter_start_date <- temporal_bounds()[[1]]
+  filter_end_date <- temporal_bounds()[[2]]
   filter_services_ids <- c()
 
   if(all(c('start_date', 'end_date') %in% colnames(gtfs$calendar))){
