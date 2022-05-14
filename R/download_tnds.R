@@ -23,5 +23,5 @@ download_tnds <- function(){
     )) %>% write(paste0(dest_path, ".meta.json"))
   }
 
-  return(dest_path)
+  return(dest_paths)
 }
