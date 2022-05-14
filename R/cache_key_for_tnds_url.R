@@ -1,6 +1,6 @@
 cache_key_for_tnds_url <- function(tnds_url){
 
-  assert_character(tnds_url, len=1, pattern="^ftp://(.+)/(.+)$")
+  checkmate::assert_character(tnds_url, len=1, pattern="^ftp://(.+)/(.+)$")
 
   tnds_url_components <- tnds_url %>%
     stringr::str_match("^(.+/)([^/]*)$")
