@@ -1,18 +1,32 @@
 prepare_terrain50 <- function(terr50_zip_path = dir_working("terr50_gagg_gb.zip")){
-	
+  
   checkmate::assert_file_exists(terr50_zip_path, access="r", extension=".zip")
 
-	terrain50 <- vrt_for_terrain50_zip(
-		terr50_zip_path = terr50_zip_path, 
-		vrt_filename = dir_working("terr50_gagg_gb.vrt"))
+  vrt_filename <- dir_working("terr50_gagg_gb.vrt")
 
-	dest_path <- dir_output(output_affix(), ".terr50.tif")
+  if(cache_key_for_file(terr50_zip_path) == cache_key_for_file(vrt_filename)){
+    message("Cache hit for ", vrt_filename)
+    terrain50 <- terra::rast(vrt_filename)
+  }else{
+    terrain50 <- vrt_for_terrain50_zip(
+      terr50_zip_path = terr50_zip_path, 
+      vrt_filename = vrt_filename)
 
-	message("Cropping and reprojecting Terrain 50...")
+    list(
+      CreatedAt = now_as_iso8601(),
+      DerivedFrom = I(describe_file(dir_working("terr50_gagg_gb.zip"))),
+      ParochialCacheKey = cache_key_for_file(terr50_zip_path)
+    ) %>% jsonlite::toJSON(pretty = TRUE) %>%
+    write(paste0(vrt_filename, ".meta.json"))
+  }
 
-	terra::crop(terrain50, bounds(buffer_by_metres = 20100) %>% sf::st_transform(crs="EPSG:27700")) %>% 
-		terra::project("EPSG:4326") %>%
-		terra::writeRaster(dest_path, overwrite=TRUE)
+  dest_path <- dir_output(output_affix(), ".terr50.tif")
+
+  message("Cropping and reprojecting Terrain 50...")
+
+  terra::crop(terrain50, bounds(buffer_by_metres = 20100) %>% sf::st_transform(crs="EPSG:27700")) %>% 
+    terra::project("EPSG:4326") %>%
+    terra::writeRaster(dest_path, overwrite=TRUE)
 
   list(
     CreatedAt = now_as_iso8601(),
