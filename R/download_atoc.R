@@ -5,7 +5,7 @@ atoc_user_agent <- function(){
 get_logged_in_atoc_session <- function(){
   atoc_session <- rvest::session("https://data.atoc.org/user/login", atoc_user_agent())
 
-  message("Logging into ATOD/RDG data portal...")
+  message("Logging into ATOC/RDG data portal...")
 
   atoc_login_form <- atoc_session %>% rvest::html_node("#user-login") %>% rvest::html_form() %>%
     rvest::html_form_set(name=config::get()$atoc_username, pass=config::get()$atoc_password)
@@ -59,7 +59,7 @@ download_atoc <- function(retries=3L){
   claimed_content_length <- as.integer(atoc_session$response$headers$`content-length`)
 
   if(actual_content_length == 0L | actual_content_length < claimed_content_length){
-    print("ATOC zip was empty or didn't match content-length header. Retrying in 60 seconds…")
+    warning("ATOC zip was empty or didn't match content-length header. Retrying in 60 seconds...")
     atoc_session %>% rvest::session_jump_to("https://data.atoc.org/user/logout?current=node/1")
     Sys.sleep(60L)
     if(retries > 0){

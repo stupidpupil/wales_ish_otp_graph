@@ -6,7 +6,7 @@ download_and_prepare_bods_gtfs <- function(){
   output_paths <- c()
 
   for (r in bods_files) {
-    print(paste0("Downloading bus data for ", r, "…"))
+    message("Downloading BODS data for ", r, "...")
     bus_url <- paste0(base_bus_url, r, '/')
     work_path <- dir_working(r, ".bods.gtfs.zip")
     output_path <- dir_output(r, ".bods.", output_affix(),".gtfs.zip")
@@ -30,7 +30,7 @@ download_and_prepare_bods_gtfs <- function(){
       message("Cache hit for ", work_path)
     }
 
-    print(paste0("Preparing bus data for ", r, "…"))
+    message("Preparing BODS data for ", r, "...")
     gtfs <- gtfstools::read_gtfs(work_path)
     gtfs <- gtfs %>% gtfs_wales_ish_ify()
     gtfs %>% gtfstools::write_gtfs(output_path)
