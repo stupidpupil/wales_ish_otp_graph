@@ -4,6 +4,9 @@ cache_key_for_file <- function(path) {
     return(FALSE)
   }
 
+  if(length(path) > 1){
+    return(vapply(path, cache_key_for_file, character(1)))
+  }
 
   if(!file.exists(path)){
     return(FALSE)
@@ -31,3 +34,4 @@ cache_key_for_file <- function(path) {
 
   return(sha1sum)
 }
+
