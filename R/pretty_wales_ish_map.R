@@ -6,7 +6,7 @@ pretty_wales_ish_map <- function(){
   routes <- tibble()
 
   for(fn in paths_to_active_gtfs()){
-    gtfs <- gtfstools::read_gtfs(dir_output(fn))
+    gtfs <- gtfstools::read_gtfs(fn)
 
     geometries <- geometries %>% rbind(
       gtfstools::get_trip_geometry(gtfs) %>%
