@@ -14,13 +14,6 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output("opens
   checkmate::assert_file_exists(path_to_gtfs_zip, access="r", extension=".zip")
   checkmate::assert_file_exists(path_to_osm, access="r", extension=c(".pbf", ".osm"))
 
-  meta <- list()
-  meta_path <- paste0(path_to_gtfs_zip, ".meta.json")
-
-  if(file.exists(meta_path)){
-    meta <- meta %>% append(jsonlite::fromJSON(meta_path))
-  }
-
   temp_dir_path <- tempfile(tmpdir = dir_working())
     unzip(path_to_gtfs_zip, exdir=temp_dir_path)
 
@@ -67,12 +60,6 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output("opens
 
   unlink(path_to_gtfs_zip)
   new_gtfs %>% gtfstools::write_gtfs(path_to_gtfs_zip)
-
-  meta$ParochialCacheKey <- NULL
-  meta$DerivedFrom <- c(meta$DerivedFrom, describe_file(path_to_osm))
-
-  meta %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
-    write(meta_path)
 
   unlink(temp_dir_path, recursive = TRUE)
 

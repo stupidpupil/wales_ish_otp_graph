@@ -8,6 +8,12 @@ prepare_r5r_network_dat <- function(){
     paths_to_active_gtfs()
   )
 
+  cache_key <- openssl::sha1(paste0(
+    paste0(cache_key_for_file(input_files), collapse=""),
+    packageVersion("r5r") %>% as.character()
+  )) %>% as.character()
+
+
   dest_path <- dir_output("r5r/network.dat")
   dest_dir <- dirname(dest_path)
 

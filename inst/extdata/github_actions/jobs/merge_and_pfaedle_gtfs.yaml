@@ -48,8 +48,7 @@ steps:
     if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
     run: |
       devtools::load_all()
-      gtfstidy_merge_all_output_gtfs()
-      pfaedle_all_output_gtfs()
+      prepare_merged_gtfs(should_pfaedle = TRUE)
     shell: Rscript {0}
 
   - name: Upload Merged GTFS artifact
