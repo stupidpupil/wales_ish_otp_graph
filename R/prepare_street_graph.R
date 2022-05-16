@@ -15,15 +15,12 @@ prepare_street_graph <- function(){
   dest_path <- dir_output("opentripplanner/streetGraph.obj")
   dest_dir <- dirname(dest_path)
 
-
   if(cache_key == cache_key_for_file(dest_path)){
     message("Cache hit for ", dest_path)
     return(dest_path)
   }
 
   prepare_otp_config()
-
-  fs::dir_create(dirname(dest_path), recurse=TRUE)
 
   if(fs::file_exists(dest_path)){
     fs::file_delete(dest_path)

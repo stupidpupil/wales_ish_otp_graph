@@ -31,7 +31,6 @@ prepare_osm <- function(){
 
   checkmate::assert_file_exists(src_path, access="r")
 
-  dir.create(dirname(dest_path), recursive=TRUE)
   unlink(dest_path)
  
   prepare_bounds_geojson()

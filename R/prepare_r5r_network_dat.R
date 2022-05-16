@@ -15,7 +15,7 @@ prepare_r5r_network_dat <- function(){
 
 
   dest_path <- dir_output("r5r/network.dat")
-  dest_dir <- dirname(dest_path)
+  dest_dir <- fs::dir_path(dest_path)
 
   if(cache_key == cache_key_for_file(dest_path)){
     message("Cache hit for ", dest_path)
@@ -36,8 +36,6 @@ prepare_r5r_network_dat <- function(){
   stopifnot(file.exists(dest_path))
 
   fs::link_delete(link_paths)
-
-  print(cache_key)
 
   list(
     CreatedAt = now_as_iso8601(),

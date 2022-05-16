@@ -9,12 +9,9 @@ dir_output <- function(...){
     ret <- "output"
   }
 
-  if(!dir.exists(ret)){
-    dir.create(ret)
-  }
-
   if(length(list(...)) > 0){
     ret <- paste0(ret, "/", paste0(...))
+    fs::dir_create(fs::path_dir(ret), recurse=TRUE)
   }
 
   return(ret)
