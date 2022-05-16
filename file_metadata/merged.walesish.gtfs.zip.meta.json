@@ -1,5 +1,5 @@
 {
-  "CreatedAt": "2022-05-12T17:50:51+0000",
+  "CreatedAt": "2022-05-16T06:10:26+0000",
   "DerivedFrom": {
     "Filename": [
       "NCSD.tnds.walesish.gtfs.zip",
@@ -10,79 +10,79 @@
       "west_midlands.bods.walesish.gtfs.zip"
     ],
     "SizeBytes": [
-      28362,
-      7901678,
-      1780349,
-      20058239,
-      16788310,
-      6814999
+      29187,
+      7903064,
+      1352908,
+      20090708,
+      16617106,
+      6821119
     ],
     "CreatedAt": [
-      "2022-05-12T17:24:43+0000",
-      "2022-05-12T17:22:54+0000",
-      "2022-05-12T17:41:48+0000",
-      "2022-05-12T17:13:33+0000",
-      "2022-05-12T17:14:13+0000",
-      "2022-05-12T17:13:49+0000"
+      "2022-05-16T05:48:55+0000",
+      "2022-05-16T05:47:15+0000",
+      "2022-05-16T06:05:59+0000",
+      "2022-05-16T05:41:09+0000",
+      "2022-05-16T05:41:47+0000",
+      "2022-05-16T05:41:24+0000"
     ],
     "DerivedFrom": [
       {
         "Filename": "NCSD.bus.tnds.zip",
-        "SizeBytes": 961546,
+        "SizeBytes": 973078,
         "SourceUrl": "ftp://ftp.tnds.basemap.co.uk/NCSD.zip",
-        "SourceDownloadedAt": "2022-05-12T17:15:36+0000",
+        "SourceDownloadedAt": "2022-05-16T05:41:11+0000",
         "SourceLicence": "OGL-UK-3.0",
         "SourceAttribution": "Traveline"
       },
       {
         "Filename": "W.bus.tnds.zip",
-        "SizeBytes": 10159686,
+        "SizeBytes": 8977136,
         "SourceUrl": "ftp://ftp.tnds.basemap.co.uk/W.zip",
-        "SourceDownloadedAt": "2022-05-12T17:15:36+0000",
+        "SourceDownloadedAt": "2022-05-16T05:41:11+0000",
         "SourceLicence": "OGL-UK-3.0",
         "SourceAttribution": "Traveline"
       },
       {
         "Filename": "atoc.zip",
-        "SizeBytes": 43548887,
-        "SourceUrl": "https://data.atoc.org/system/files/ttis362.zip",
-        "SourceDownloadedAt": "2022-05-12T17:16:32+0000",
+        "SizeBytes": 39762855,
+        "SourceUrl": "https://data.atoc.org/system/files/ttis369.zip",
+        "SourceDownloadedAt": "2022-05-16T05:44:25+0000",
         "SourceLicence": "CC-BY-2.0",
         "SourceAttribution": "RSP Limited (Rail Delivery Group)"
       },
       {
         "Filename": "north_west.bods.gtfs.zip",
-        "SizeBytes": 49754256,
+        "SizeBytes": 49238124,
         "SourceUrl": "https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/north_west/",
-        "SourceDownloadedAt": "2022-05-12T17:13:01+0000",
+        "SourceDownloadedAt": "2022-05-16T05:40:44+0000",
         "SourceLicence": "OGL-UK-3.0",
         "SourceAttribution": "UK Department for Transport"
       },
       {
         "Filename": "south_west.bods.gtfs.zip",
-        "SizeBytes": 89906605,
+        "SizeBytes": 90765119,
         "SourceUrl": "https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/south_west/",
-        "SourceDownloadedAt": "2022-05-12T17:13:54+0000",
+        "SourceDownloadedAt": "2022-05-16T05:41:28+0000",
         "SourceLicence": "OGL-UK-3.0",
         "SourceAttribution": "UK Department for Transport"
       },
       {
         "Filename": "west_midlands.bods.gtfs.zip",
-        "SizeBytes": 46753262,
+        "SizeBytes": 46771171,
         "SourceUrl": "https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/west_midlands/",
-        "SourceDownloadedAt": "2022-05-12T17:13:36+0000",
+        "SourceDownloadedAt": "2022-05-16T05:41:12+0000",
         "SourceLicence": "OGL-UK-3.0",
         "SourceAttribution": "UK Department for Transport"
       }
     ],
     "Filename.1": "walesish.osm.pbf",
-    "SizeBytes.1": 272281068,
-    "CreatedAt.1": "2022-05-12T17:24:12+0000",
+    "SizeBytes.1": 271480517,
+    "CreatedAt.1": "2022-05-16T05:49:38+0000",
     "DerivedFrom.1": {
       "Filename": "great-britain-latest.osm.pbf",
-      "SizeBytes": 1493791351,
+      "SizeBytes": 1494406728,
       "SourceUrl": "https://download.geofabrik.de/europe/great-britain-latest.osm.pbf",
-      "SourceDownloadedAt": "2022-05-12T17:17:30+0000",
+      "SourceDownloadedAt": "2022-05-16T05:43:42+0000",
       "SourceLicence": "ODbL-1.0",
       "SourceAttribution": "OpenStreetMap contributors"
     }
