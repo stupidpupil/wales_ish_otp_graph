@@ -12,19 +12,15 @@ steps:
 
   - parochial_replace_with: download_artefact_osm
 
-  - name: Download Merged GTFS artifact
-    uses: actions/download-artifact@v2
-    with:
-      name: merged.walesish.gtfs.zip
-      path: output
+  - parochial_replace_with: download_artefact_merged_gtfs
 
   - name: Cache r5r network.dat
     id: cache_network_dat
     uses: actions/cache@v2
     with:
       path: |
-        output/network.dat*
-      key: ${{ hashFiles('output/*', 'R/java*', 'R/*r5r*') }}-v1
+        output/r5r/network.dat*
+      key: ${{ hashFiles('output/gtfs/*', 'output/openstreetmap/*') }}-r5r-v1
 
   - name: Install Java 11
     uses: actions/setup-java@v2
@@ -43,5 +39,5 @@ steps:
     uses: actions/upload-artifact@v2
     with:
       name: network.dat
-      path: output/network.dat*
+      path: output/r5r/network.dat*
       if-no-files-found: error

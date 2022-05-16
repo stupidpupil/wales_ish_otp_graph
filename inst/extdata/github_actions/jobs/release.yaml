@@ -20,23 +20,19 @@ steps:
 
   - parochial_replace_with: download_artefact_osm
 
-  - name: Download Merged GTFS artifact
-    uses: actions/download-artifact@v2
-    with:
-      name: merged.walesish.gtfs.zip
-      path: output
+  - parochial_replace_with: download_artefact_merged_gtfs
 
   - name: Download transport graph artifact
     uses: actions/download-artifact@v2
     with:
       name: graph.obj
-      path: output
+      path: output/opentripplanner
 
   - name: Download network.dat artifact
     uses: actions/download-artifact@v2
     with:
       name: network.dat
-      path: output
+      path: output/r5r
 
   - name: Download pretty map artifact
     uses: actions/download-artifact@v2
@@ -74,7 +70,7 @@ steps:
       cp inst/extdata/run-otp.sh assets/otp_and_graph/
       chmod ugo+x assets/otp_and_graph/run-otp.sh
       curl https://raw.githubusercontent.com/opentripplanner/OpenTripPlanner/dev-2.x/LICENSE -o assets/otp_and_graph/OTP_LICENSE
-      cp output/graph.obj* assets/otp_and_graph/graph/
+      cp output/opentripplanner/graph.obj* assets/otp_and_graph/graph/
       cp output/router-config.json assets/otp_and_graph/graph/
       cd assets
       zip -9 -r otp_and_graph.zip otp_and_graph/
@@ -83,8 +79,8 @@ steps:
   - name: Prepare gtfs_and_osm.zip release asset
     run: |
       mkdir -p assets/gtfs_and_osm
-      cp output/*.gtfs.* assets/gtfs_and_osm/
-      cp output/*.osm.* assets/gtfs_and_osm/
+      cp output/gtfs/* assets/gtfs_and_osm/
+      cp output/openstreetmap/* assets/gtfs_and_osm/
       cp output/build-config.json assets/gtfs_and_osm/
       cd assets
       zip -9 -r gtfs_and_osm.zip gtfs_and_osm/
@@ -93,7 +89,7 @@ steps:
   - name: Prepare r5r_network_dat.zip release asset
     run: |
       mkdir -p assets/r5r_network_dat
-      cp output/network.dat* assets/r5r_network_dat/
+      cp output/r5r/* assets/r5r_network_dat/
       cd assets
       zip -9 -r r5r_network_dat.zip r5r_network_dat/
       cd ..

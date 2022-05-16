@@ -15,8 +15,8 @@ steps:
     id: cache_bods
     uses: actions/cache@v2
     with:
-      path: output/*.bods.*
-      key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('R/*bus*', 'R/*gtfs*', 'data-raw/regions_and_nations*', 'config.yml') }}-v4
+      path: output/gtfs/bods.*.gtfs.zip*
+      key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('config.yml') }}-bods.gtfs-v1
 
   - parochial_replace_with: setup_r
     if: steps.cache_bods.outputs.cache-hit != 'true'
@@ -31,6 +31,6 @@ steps:
   - name: Upload BODS GTFS artifact
     uses: actions/upload-artifact@v2
     with:
-      name: bods.walesish.gtfs.zip
-      path: output/*.bods.walesish.gtfs.zip*
+      name: bods.gtfs.zip
+      path: output/gtfs/bods.*.gtfs.zip*
       if-no-files-found: error

@@ -9,11 +9,7 @@ steps:
   - parochial_replace_with: write_config
   - parochial_replace_with: setup_r
 
-  - name: Download Merged GTFS artifact
-    uses: actions/download-artifact@v2
-    with:
-      name: merged.walesish.gtfs.zip
-      path: output
+  - parochial_replace_with: download_artefact_merged_gtfs
 
   - name: Prepare map
     run: |

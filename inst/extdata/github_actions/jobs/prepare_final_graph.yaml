@@ -14,17 +14,13 @@ steps:
 
   - parochial_replace_with: download_artefact_osm
 
-  - name: Download Merged GTFS artifact
-    uses: actions/download-artifact@v2
-    with:
-      name: merged.walesish.gtfs.zip
-      path: output
+  - parochial_replace_with: download_artefact_merged_gtfs
 
   - name: Download street graph artifact
     uses: actions/download-artifact@v2
     with:
       name: streetGraph.obj
-      path: output
+      path: output/opentripplanner
 
   - name: Download OTP
     run: |
@@ -37,9 +33,9 @@ steps:
     uses: actions/cache@v2
     with:
       path: |
-        output/graph.obj*
-        output/*.meta.json
-      key: ${{ hashFiles('output/*', 'data-raw/*.jar', 'R/java*', 'R/*transport_graph*') }}-v2
+        output/opentripplanner/graph.obj*
+        output/**/*.meta.json
+      key: ${{ hashFiles('output/gtfs/*', 'output/openstreetmap/*', 'output/opentripplanner/*', 'data-raw/*.jar') }}-otp.final-v1
 
   - parochial_replace_with: setup_java
     if: steps.cache_transport_graph.outputs.cache-hit != 'true'
@@ -55,12 +51,12 @@ steps:
     uses: actions/upload-artifact@v2
     with:
       name: graph.obj
-      path: output/graph.obj*
+      path: output/opentripplanner/graph.obj*
       if-no-files-found: error
 
   - name: Upload meta jsons artifact
     uses: actions/upload-artifact@v2
     with:
       name: meta.jsons
-      path: output/*.meta.json
+      path: output/**/*.meta.json
       if-no-files-found: error

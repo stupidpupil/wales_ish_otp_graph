@@ -34,8 +34,8 @@ steps:
     id: cache_street_graph
     uses: actions/cache@v2
     with:
-      path: output/streetGraph.obj*
-      key: ${{ hashFiles('data-raw/*.jar', 'output/walesish.osm*', 'output/*terr50*', 'R/java*', 'R/*street_graph*') }}-v1
+      path: output/opentripplanner/streetGraph.obj*
+      key: ${{ hashFiles('data-raw/*.jar', 'output/openstreetmap/*', 'output/*terr50*') }}-otp.street-v1
 
   - parochial_replace_with: setup_java
     if: steps.cache_street_graph.outputs.cache-hit != 'true'
@@ -51,5 +51,5 @@ steps:
     uses: actions/upload-artifact@v2
     with:
       name: streetGraph.obj
-      path: output/streetGraph.obj*
+      path: output/opentripplanner/streetGraph.obj*
       if-no-files-found: error

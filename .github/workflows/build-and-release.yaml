@@ -71,7 +71,7 @@ jobs:
       with:
         path: |
           output/*terr50*
-        key: ${{ steps.terrain50_md5.outputs.md5 }}-${{ hashFiles('config.yml') }}-v3
+        key: ${{ steps.terrain50_md5.outputs.md5 }}-${{ hashFiles('config.yml') }}-terr50-v1
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_terrain50.outputs.cache-hit != 'true'
     - uses: r-lib/actions/setup-pandoc@v1
@@ -144,8 +144,8 @@ jobs:
       with:
         path: |
           output/openstreetmap/*
-        key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('R/*osm*', 'config.yml')
-          }}-v3
+        key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('config.yml')
+          }}-osm-v1
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_osm.outputs.cache-hit != 'true'
     - uses: r-lib/actions/setup-pandoc@v1
@@ -257,9 +257,9 @@ jobs:
       id: cache_street_graph
       uses: actions/cache@v2
       with:
-        path: output/streetGraph.obj*
-        key: ${{ hashFiles('data-raw/*.jar', 'output/walesish.osm*', 'output/*terr50*',
-          'R/java*', 'R/*street_graph*') }}-v1
+        path: output/opentripplanner/streetGraph.obj*
+        key: ${{ hashFiles('data-raw/*.jar', 'output/openstreetmap/*', 'output/*terr50*')
+          }}-otp.street-v1
     - name: Install Java 17
       uses: actions/setup-java@v2
       with:
@@ -276,7 +276,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: streetGraph.obj
-        path: output/streetGraph.obj*
+        path: output/opentripplanner/streetGraph.obj*
         if-no-files-found: error
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -333,9 +333,8 @@ jobs:
       uses: actions/cache@v2
       with:
         path: |
-          output/*atoc*gtfs*
-        key: ${{ steps.atoc_url.outputs.url }}-${{ hashFiles('R/*atoc*', 'R/gtfs*',
-          'config.yml') }}-v4
+          output/gtfs/atoc.*.gtfs.zip*
+        key: ${{ steps.atoc_url.outputs.url }}-${{ hashFiles('config.yml') }}-atoc.gtfs-v1
     - name: Download and prepare ATOC GTFS
       if: steps.cache_atoc.outputs.cache-hit != 'true'
       run: |
@@ -346,8 +345,8 @@ jobs:
     - name: Upload ATOC GTFS artifact
       uses: actions/upload-artifact@v2
       with:
-        name: atoc.walesish.gtfs.zip
-        path: output/atoc.walesish.gtfs.zip*
+        name: atoc.gtfs.zip
+        path: output/gtfs/atoc.*.gtfs.zip*
         if-no-files-found: error
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -382,9 +381,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: |
-          output/*.tnds.*
-        key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*',
-          'R/gtfs*', 'data-raw/regions_and_nations*', 'config.yml') }}-v10
+          output/gtfs/tnds.*.gtfs.zip*
+        key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('config.yml')
+          }}-tnds.gtfs-v1
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_tnds.outputs.cache-hit != 'true'
     - uses: r-lib/actions/setup-pandoc@v1
@@ -420,8 +419,8 @@ jobs:
     - name: Upload TNDS GTFS artifact
       uses: actions/upload-artifact@v2
       with:
-        name: tnds.walesish.gtfs.zip
-        path: output/*.tnds.walesish.gtfs.zip*
+        name: tnds.gtfs.zip
+        path: output/gtfs/tnds.*.gtfs.zip*
         if-no-files-found: error
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -455,9 +454,9 @@ jobs:
       id: cache_bods
       uses: actions/cache@v2
       with:
-        path: output/*.bods.*
-        key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('R/*bus*',
-          'R/*gtfs*', 'data-raw/regions_and_nations*', 'config.yml') }}-v4
+        path: output/gtfs/bods.*.gtfs.zip*
+        key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('config.yml')
+          }}-bods.gtfs-v1
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_bods.outputs.cache-hit != 'true'
     - uses: r-lib/actions/setup-pandoc@v1
@@ -492,8 +491,8 @@ jobs:
     - name: Upload BODS GTFS artifact
       uses: actions/upload-artifact@v2
       with:
-        name: bods.walesish.gtfs.zip
-        path: output/*.bods.walesish.gtfs.zip*
+        name: bods.gtfs.zip
+        path: output/gtfs/bods.*.gtfs.zip*
         if-no-files-found: error
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -563,18 +562,18 @@ jobs:
     - name: Download ATOC GTFS artifact
       uses: actions/download-artifact@v2
       with:
-        name: atoc.walesish.gtfs.zip
-        path: output
+        name: atoc.gtfs.zip
+        path: output/gtfs
     - name: Download TNDS GTFS artifact
       uses: actions/download-artifact@v2
       with:
-        name: tnds.walesish.gtfs.zip
-        path: output
+        name: tnds.gtfs.zip
+        path: output/gtfs
     - name: Download BODS GTFS artifact
       uses: actions/download-artifact@v2
       with:
-        name: bods.walesish.gtfs.zip
-        path: output
+        name: bods.gtfs.zip
+        path: output/gtfs
     - name: Download OpenStreetMap artifact
       uses: actions/download-artifact@v2
       with:
@@ -585,8 +584,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: |
-          output/merged.*.gtfs.zip*
-        key: ${{ hashFiles('output/*', 'config.yml') }}-v1
+          output/gtfs/merged.*.gtfs.zip*
+        key: ${{ hashFiles('output/gtfs/*', 'output/openstreetmap/*' , 'config.yml')
+          }}-merged.gtfs-v1
     - name: Merge and Pfaedle Merged GTFS
       if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
       run: |
@@ -597,8 +597,8 @@ jobs:
     - name: Upload Merged GTFS artifact
       uses: actions/upload-artifact@v2
       with:
-        name: merged.walesish.gtfs.zip
-        path: output/merged.*.gtfs.zip*
+        name: merged.gtfs.zip
+        path: output/gtfs/merged.*.gtfs.zip*
         if-no-files-found: error
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -648,8 +648,8 @@ jobs:
     - name: Download Merged GTFS artifact
       uses: actions/download-artifact@v2
       with:
-        name: merged.walesish.gtfs.zip
-        path: output
+        name: merged.gtfs.zip
+        path: output/gtfs
     - name: Prepare map
       run: |
         devtools::load_all()
@@ -717,13 +717,13 @@ jobs:
     - name: Download Merged GTFS artifact
       uses: actions/download-artifact@v2
       with:
-        name: merged.walesish.gtfs.zip
-        path: output
+        name: merged.gtfs.zip
+        path: output/gtfs
     - name: Download street graph artifact
       uses: actions/download-artifact@v2
       with:
         name: streetGraph.obj
-        path: output
+        path: output/opentripplanner
     - name: Download OTP
       run: |
         devtools::load_all()
@@ -734,10 +734,10 @@ jobs:
       uses: actions/cache@v2
       with:
         path: |
-          output/graph.obj*
-          output/*.meta.json
-        key: ${{ hashFiles('output/*', 'data-raw/*.jar', 'R/java*', 'R/*transport_graph*')
-          }}-v2
+          output/opentripplanner/graph.obj*
+          output/**/*.meta.json
+        key: ${{ hashFiles('output/gtfs/*', 'output/openstreetmap/*', 'output/opentripplanner/*',
+          'data-raw/*.jar') }}-otp.final-v1
     - name: Install Java 17
       uses: actions/setup-java@v2
       with:
@@ -754,13 +754,13 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: graph.obj
-        path: output/graph.obj*
+        path: output/opentripplanner/graph.obj*
         if-no-files-found: error
     - name: Upload meta jsons artifact
       uses: actions/upload-artifact@v2
       with:
         name: meta.jsons
-        path: output/*.meta.json
+        path: output/**/*.meta.json
         if-no-files-found: error
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -817,15 +817,15 @@ jobs:
     - name: Download Merged GTFS artifact
       uses: actions/download-artifact@v2
       with:
-        name: merged.walesish.gtfs.zip
-        path: output
+        name: merged.gtfs.zip
+        path: output/gtfs
     - name: Cache r5r network.dat
       id: cache_network_dat
       uses: actions/cache@v2
       with:
         path: |
-          output/network.dat*
-        key: ${{ hashFiles('output/*', 'R/java*', 'R/*r5r*') }}-v1
+          output/r5r/network.dat*
+        key: ${{ hashFiles('output/gtfs/*', 'output/openstreetmap/*') }}-r5r-v1
     - name: Install Java 11
       uses: actions/setup-java@v2
       with:
@@ -841,7 +841,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: network.dat
-        path: output/network.dat*
+        path: output/r5r/network.dat*
         if-no-files-found: error
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}

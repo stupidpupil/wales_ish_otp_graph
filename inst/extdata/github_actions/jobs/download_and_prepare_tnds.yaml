@@ -16,8 +16,8 @@ steps:
     uses: actions/cache@v2
     with:
       path: |
-        output/*.tnds.*
-      key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('R/*tnds*', 'R/gtfs*', 'data-raw/regions_and_nations*', 'config.yml') }}-v10
+        output/gtfs/tnds.*.gtfs.zip*
+      key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('config.yml') }}-tnds.gtfs-v1
 
   - parochial_replace_with: setup_r
     if: steps.cache_tnds.outputs.cache-hit != 'true'
@@ -33,6 +33,6 @@ steps:
   - name: Upload TNDS GTFS artifact
     uses: actions/upload-artifact@v2
     with:
-      name: tnds.walesish.gtfs.zip
-      path: output/*.tnds.walesish.gtfs.zip*
+      name: tnds.gtfs.zip
+      path: output/gtfs/tnds.*.gtfs.zip*
       if-no-files-found: error

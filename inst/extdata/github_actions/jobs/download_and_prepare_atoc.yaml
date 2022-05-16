@@ -19,8 +19,8 @@ steps:
     uses: actions/cache@v2
     with:
       path: |
-        output/*atoc*gtfs*
-      key: ${{ steps.atoc_url.outputs.url }}-${{ hashFiles('R/*atoc*', 'R/gtfs*', 'config.yml') }}-v4
+        output/gtfs/atoc.*.gtfs.zip*
+      key: ${{ steps.atoc_url.outputs.url }}-${{ hashFiles('config.yml') }}-atoc.gtfs-v1
 
   - name: Download and prepare ATOC GTFS
     if: steps.cache_atoc.outputs.cache-hit != 'true'
@@ -33,6 +33,6 @@ steps:
   - name: Upload ATOC GTFS artifact
     uses: actions/upload-artifact@v2
     with:
-      name: atoc.walesish.gtfs.zip
-      path: output/atoc.walesish.gtfs.zip*
+      name: atoc.gtfs.zip
+      path: output/gtfs/atoc.*.gtfs.zip*
       if-no-files-found: error

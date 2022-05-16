@@ -19,20 +19,20 @@ steps:
   - name: Download ATOC GTFS artifact
     uses: actions/download-artifact@v2
     with:
-      name: atoc.walesish.gtfs.zip
-      path: output
+      name: atoc.gtfs.zip
+      path: output/gtfs
 
   - name: Download TNDS GTFS artifact
     uses: actions/download-artifact@v2
     with:
-      name: tnds.walesish.gtfs.zip
-      path: output
+      name: tnds.gtfs.zip
+      path: output/gtfs
 
   - name: Download BODS GTFS artifact
     uses: actions/download-artifact@v2
     with:
-      name: bods.walesish.gtfs.zip
-      path: output
+      name: bods.gtfs.zip
+      path: output/gtfs
 
   - parochial_replace_with: download_artefact_osm
 
@@ -41,8 +41,8 @@ steps:
     uses: actions/cache@v2
     with:
       path: |
-        output/merged.*.gtfs.zip*
-      key: ${{ hashFiles('output/*', 'config.yml') }}-v1
+        output/gtfs/merged.*.gtfs.zip*
+      key: ${{ hashFiles('output/gtfs/*', 'output/openstreetmap/*' , 'config.yml') }}-merged.gtfs-v1
 
   - name: Merge and Pfaedle Merged GTFS
     if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
@@ -55,7 +55,7 @@ steps:
   - name: Upload Merged GTFS artifact
     uses: actions/upload-artifact@v2
     with:
-      name: merged.walesish.gtfs.zip
-      path: output/merged.*.gtfs.zip*
+      name: merged.gtfs.zip
+      path: output/gtfs/merged.*.gtfs.zip*
       if-no-files-found: error
 

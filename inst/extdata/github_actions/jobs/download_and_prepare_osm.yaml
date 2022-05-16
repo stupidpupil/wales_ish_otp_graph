@@ -17,7 +17,7 @@ steps:
     with:
       path: |
         output/openstreetmap/*
-      key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('R/*osm*', 'config.yml') }}-v3
+      key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('config.yml') }}-osm-v1
 
   - parochial_replace_with: setup_r
     if: steps.cache_osm.outputs.cache-hit != 'true'
