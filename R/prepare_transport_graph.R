@@ -53,5 +53,5 @@ prepare_transport_graph <- function(){
   write(paste0(dest_path, ".meta.json"))
 
 
-  return(dir_output(dest_path))
+  return(dest_path)
 }
