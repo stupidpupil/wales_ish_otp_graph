@@ -16,11 +16,7 @@ steps:
       download_otp()
     shell: Rscript {0}
 
-  - name: Download OSM artifact
-    uses: actions/download-artifact@v2
-    with:
-      name: walesish.osm.pbf
-      path: output
+  - parochial_replace_with: download_artefact_osm
 
   - name: Download Terrrain 50 artifact
     uses: actions/download-artifact@v2

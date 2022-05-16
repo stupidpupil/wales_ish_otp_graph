@@ -12,11 +12,7 @@ steps:
   - parochial_replace_with: write_config
   - parochial_replace_with: setup_r
 
-  - name: Download OSM artifact
-    uses: actions/download-artifact@v2
-    with:
-      name: walesish.osm.pbf
-      path: output
+  - parochial_replace_with: download_artefact_osm
 
   - name: Download Merged GTFS artifact
     uses: actions/download-artifact@v2

@@ -16,7 +16,7 @@ steps:
     uses: actions/cache@v2
     with:
       path: |
-        output/*osm*
+        output/openstreetmap/*
       key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('R/*osm*', 'config.yml') }}-v3
 
   - parochial_replace_with: setup_r
@@ -32,9 +32,9 @@ steps:
       download_and_prepare_osm()
     shell: Rscript {0}
 
-  - name: Upload OSM artifact
+  - name: Upload OpenStreetMap artifact
     uses: actions/upload-artifact@v2
     with:
-      name: walesish.osm.pbf
-      path: output/walesish.osm.pbf*
+      name: openstreetmap
+      path: output/openstreetmap/*
       if-no-files-found: error

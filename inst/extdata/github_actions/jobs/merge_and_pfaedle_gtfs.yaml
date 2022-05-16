@@ -34,11 +34,7 @@ steps:
       name: bods.walesish.gtfs.zip
       path: output
 
-  - name: Download OSM artifact
-    uses: actions/download-artifact@v2
-    with:
-      name: walesish.osm.pbf
-      path: output
+  - parochial_replace_with: download_artefact_osm
 
   - name: Cache Merged GTFS
     id: cache_merged_gtfs

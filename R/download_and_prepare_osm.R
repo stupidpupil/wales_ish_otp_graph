@@ -27,10 +27,11 @@ download_osm <- function(){
 
 prepare_osm <- function(){
   src_path <- dir_working("great-britain-latest.osm.pbf")
-  dest_path <- dir_output(output_affix(), ".osm.pbf")
+  dest_path <- dir_output("openstreetmap/", output_affix(), ".osm.pbf")
 
   checkmate::assert_file_exists(src_path, access="r")
 
+  dir.create(dirname(dest_path), recursive=TRUE)
   unlink(dest_path)
  
   prepare_bounds_geojson()
