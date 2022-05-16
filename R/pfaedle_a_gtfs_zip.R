@@ -1,14 +1,3 @@
-pfaedle_active_gtfs <- function(){
-
-  active_gtfs <- paths_to_active_gtfs()
-  
-  for(fn in active_gtfs){
-    pfaedle_a_gtfs_zip(fn)
-  }
-
-  return(active_gtfs)
-}
-
 pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output("openstreetmap/", output_affix(), ".osm.pbf")){
 
   checkmate::assert_file_exists(path_to_gtfs_zip, access="r", extension=".zip")
