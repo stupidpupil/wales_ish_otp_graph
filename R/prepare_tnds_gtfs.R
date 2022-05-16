@@ -19,7 +19,7 @@ prepare_tnds_gtfs <- function(){
 
     class(cache_key) <- "character"
 
-    dest_path <- dir_output(r,".tnds.", output_affix(), ".gtfs.zip")
+    dest_path <- dir_output("gtfs/", r,".tnds.", output_affix(), ".gtfs.zip")
     dest_paths <- c(dest_paths, dest_path)
 
     if(cache_key == cache_key_for_file(dest_path)){
@@ -32,7 +32,9 @@ prepare_tnds_gtfs <- function(){
       try_mode=TRUE, scotland=ifelse(r == "S", "yes", "no"), force_merge = TRUE)
     gtfs <- gtfs %>% gtfs_wales_ish_ify()
 
-    gtfs %>% UK2GTFS::gtfs_write(folder=dir_output(), name=paste0(r,".tnds.", output_affix(), ".gtfs"))
+    gtfs %>% UK2GTFS::gtfs_write(
+      folder = fs::path_dir(dest_path), 
+      name = fs::path_ext_remove(fs::path_file(dest_path)))
 
     list(
       CreatedAt = now_as_iso8601(),
@@ -46,7 +48,7 @@ prepare_tnds_gtfs <- function(){
   # NCSD TXC stuff is buried within the zip
   checkmate::assert_file_exists(dir_working("NCSD.bus.tnds.zip"), access="r", extension=".zip")
 
-  dest_path <- dir_output("NCSD.tnds.", output_affix(), ".gtfs.zip")
+  dest_path <- dir_output("gtfs/", "NCSD.tnds.", output_affix(), ".gtfs.zip")
   dest_paths <- c(dest_paths, dest_path)
 
   cache_key <- openssl::sha1(paste0(
@@ -75,8 +77,10 @@ prepare_tnds_gtfs <- function(){
       # "National Coach Service" per https://developers.google.com/transit/gtfs/reference/extended-route-types
     }
 
-    gtfs %>% UK2GTFS::gtfs_write(folder=dir_output(), name=paste0("NCSD.tnds.", output_affix(), ".gtfs"))
-
+    gtfs %>% UK2GTFS::gtfs_write(
+      folder = fs::path_dir(dest_path), 
+      name = fs::path_ext_remove(fs::path_file(dest_path)))
+    
     unlink(dir_working("NCSD.bus.tnds"), recursive=TRUE)
 
     list(

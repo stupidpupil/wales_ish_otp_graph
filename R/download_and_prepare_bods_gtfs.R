@@ -9,7 +9,7 @@ download_and_prepare_bods_gtfs <- function(){
     message("Downloading BODS data for ", r, "...")
     bus_url <- paste0(base_bus_url, r, '/')
     work_path <- dir_working(r, ".bods.gtfs.zip")
-    output_path <- dir_output(r, ".bods.", output_affix(),".gtfs.zip")
+    output_path <- dir_output("gtfs/", r, ".bods.", output_affix(),".gtfs.zip")
 
     output_paths <- c(output_paths, output_path)
 

@@ -22,7 +22,7 @@ prepare_test_journeys <- function(){
     }
 
     px <- start_program(
-      "java", c(java_args(), "-jar", dir_working("otp.jar"), "--load", dir_output()), 
+      "java", c(java_args(), "-jar", dir_working("otp.jar"), "--load", dir_output("opentripplanner")), 
       "Started listener bound to \\[0.0.0.0:8080\\]", timeout=240)
 
     close(px$get_output_connection())

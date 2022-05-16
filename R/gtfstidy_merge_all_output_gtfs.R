@@ -3,6 +3,8 @@ gtfstidy_merge_all_output_gtfs <- function(){
   merged_filename <- paste0("merged.", output_affix(), ".gtfs.zip")
 
   unlink(dir_working(merged_filename))
+  unlink(dir_output("gtfs/", merged_filename))
+
 
   gtfstidy_command = paste0(
     "$(go env GOPATH)/bin/gtfstidy",
@@ -22,7 +24,7 @@ gtfstidy_merge_all_output_gtfs <- function(){
     # https://github.com/ad-freiburg/pfaedle/issues/36
 
     " --max-headway 65534", 
-    " ", dir_output("*.gtfs.zip"),
+    " ", dir_output("gtfs/*.gtfs.zip"),
     " -o ", dir_working(merged_filename)
   )
 
@@ -32,17 +34,14 @@ gtfstidy_merge_all_output_gtfs <- function(){
 
   meta <- list(
     CreatedAt = now_as_iso8601(),
-    DerivedFrom = describe_file(dir_output("*.gtfs.zip"))
+    DerivedFrom = describe_file(dir_output("gtfs/*.gtfs.zip"))
   ) 
 
-  unlink(dir_output("*.gtfs.zip"))
-  unlink(dir_output("*.gtfs.zip.meta.json"))
-
-  file.copy(dir_working(merged_filename), dir_output(merged_filename))
+  file.copy(dir_working(merged_filename), dir_output("gtfs/", merged_filename))
   unlink(dir_working(merged_filename))
 
   meta %>% jsonlite::toJSON(pretty = TRUE) %>%
-    write(dir_output(merged_filename, ".meta.json"))
+    write(dir_output("gtfs/", merged_filename, ".meta.json"))
 
-  return(dir_output(merged_filename))  
+  return(dir_output("gtfs/", merged_filename))  
 }

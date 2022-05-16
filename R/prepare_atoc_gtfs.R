@@ -12,7 +12,7 @@ prepare_atoc_gtfs <- function(src_path = dir_working("atoc.zip")){
 
   class(cache_key) <- "character"
 
-  dest_path <- dir_output("atoc.", output_affix(), ".gtfs.zip")
+  dest_path <- dir_output("gtfs/", "atoc.", output_affix(), ".gtfs.zip")
 
   if(cache_key == cache_key_for_file(dest_path)){
     message("Cache hit for ", dest_path)
@@ -23,7 +23,10 @@ prepare_atoc_gtfs <- function(src_path = dir_working("atoc.zip")){
     path_in = src_path,
     ncores = (parallel::detectCores()-1))
   gtfs <- gtfs %>% gtfs_wales_ish_ify()
-  gtfs %>% UK2GTFS::gtfs_write(folder=dir_output(), name=paste0("atoc.", output_affix(), ".gtfs"))
+
+  gtfs %>% UK2GTFS::gtfs_write(
+    folder = fs::path_dir(dest_path), 
+    name = fs::path_ext_remove(fs::path_file(dest_path)))
 
   list(
     CreatedAt = now_as_iso8601(),
