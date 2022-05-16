@@ -16,7 +16,7 @@ steps:
     uses: actions/cache@v2
     with:
       path: |
-        output/gtfs/tnds.*.gtfs.zip*
+        output/gtfs/*.tnds.*.gtfs.zip*
       key: ${{ steps.tnds_dir_list_hash.outputs.hash }}-${{ hashFiles('config.yml') }}-tnds.gtfs-v1
 
   - parochial_replace_with: setup_r
@@ -34,5 +34,5 @@ steps:
     uses: actions/upload-artifact@v2
     with:
       name: tnds.gtfs.zip
-      path: output/gtfs/tnds.*.gtfs.zip*
+      path: output/gtfs/*.tnds.*.gtfs.zip*
       if-no-files-found: error

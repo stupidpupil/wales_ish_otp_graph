@@ -15,7 +15,7 @@ steps:
     id: cache_bods
     uses: actions/cache@v2
     with:
-      path: output/gtfs/bods.*.gtfs.zip*
+      path: output/gtfs/*.bods.*.gtfs.zip*
       key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('config.yml') }}-bods.gtfs-v1
 
   - parochial_replace_with: setup_r
@@ -32,5 +32,5 @@ steps:
     uses: actions/upload-artifact@v2
     with:
       name: bods.gtfs.zip
-      path: output/gtfs/bods.*.gtfs.zip*
+      path: output/gtfs/*.bods.*.gtfs.zip*
       if-no-files-found: error
