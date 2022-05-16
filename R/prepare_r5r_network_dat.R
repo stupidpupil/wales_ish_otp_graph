@@ -17,6 +17,11 @@ prepare_r5r_network_dat <- function(){
   dest_path <- dir_output("r5r/network.dat")
   dest_dir <- dirname(dest_path)
 
+  if(cache_key == cache_key_for_file(dest_path)){
+    message("Cache hit for ", dest_path)
+    return(dest_path)
+  }
+
   # Remove any existing 'network.dat' file, as previous failures
   # can result in malformed examples that confuse r5r
   if(fs::file_exists(dest_path)){
@@ -25,19 +30,23 @@ prepare_r5r_network_dat <- function(){
 
   link_paths <- link_create_with_dir(input_files, dest_dir)
 
-  r5r::setup_r5(data_path = dest_dir)
+  r5r::setup_r5(data_path = dest_dir) %>%
+    r5r::stop_r5()
 
   stopifnot(file.exists(dest_path))
 
   fs::link_delete(link_paths)
 
+  print(cache_key)
+
   list(
     CreatedAt = now_as_iso8601(),
     CreatedWithR5rVersion = packageVersion("r5r") %>% as.character(),
     CreatedWithR5Version = formals(r5r::setup_r5)$version %>% as.character(),
-    DerivedFrom = describe_file(input_files)
+    DerivedFrom = describe_file(input_files),
+    ParochialCacheKey = cache_key
   ) %>% jsonlite::toJSON(pretty = TRUE) %>%
-  write(dir_output("network.dat.meta.json"))
+  write(paste0(dest_path, ".meta.json"))
 
-  return(dir_output("network.dat"))
+  return(dest_path)
 }

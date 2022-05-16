@@ -90,7 +90,7 @@ prepare_tnds_gtfs <- function(){
       DerivedFrom = I(describe_file(dir_working("NCSD.bus.tnds.zip"))),
       ParochialCacheKey = cache_key
     ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
-    write(dir_output("NCSD.tnds.", output_affix(), ".gtfs.zip.meta.json"))
+    write(paste0(dest_path, ".meta.json"))
 
 
     delete_merged_gtfs()
