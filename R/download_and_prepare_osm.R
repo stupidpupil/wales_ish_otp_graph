@@ -30,10 +30,19 @@ prepare_osm <- function(){
   dest_path <- dir_output("openstreetmap/", output_affix(), ".osm.pbf")
 
   checkmate::assert_file_exists(src_path, access="r")
-
-  unlink(dest_path)
  
   prepare_bounds_geojson()
+
+  cache_key <- openssl::sha1(paste0(
+    cache_key_for_file(src_path),
+    bounds() %>% sf::st_as_text()
+    )) %>% as.character()
+
+
+  if(cache_key == cache_key_for_file(dest_path)){
+    message("Cache hit for ", dest_path)
+    return(dest_path)
+  }
 
   message("Extracting OSM within bounds...")
 
@@ -92,6 +101,10 @@ prepare_osm <- function(){
 
   message("Merging OSM extracts...")
 
+  if(fs::file_exists(dest_path)){
+    fs::file_delete(dest_path)
+  }
+
   merge_osmium_command <- paste0(
     "osmium merge",
     " ", bounded_temp_path,
@@ -110,7 +123,8 @@ prepare_osm <- function(){
 
   list(
     CreatedAt = now_as_iso8601(),
-    DerivedFrom = I(describe_file(src_path))
+    DerivedFrom = I(describe_file(src_path)),
+    ParochialCacheKey = cache_key
   ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
   write(paste0(dest_path, ".meta.json"))
 
