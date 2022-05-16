@@ -43,6 +43,8 @@ prepare_tnds_gtfs <- function(){
     ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
     write(paste0(dest_path, ".meta.json"))
 
+    delete_merged_gtfs()
+
   }
 
   # NCSD TXC stuff is buried within the zip
@@ -89,6 +91,9 @@ prepare_tnds_gtfs <- function(){
       ParochialCacheKey = cache_key
     ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
     write(dir_output("NCSD.tnds.", output_affix(), ".gtfs.zip.meta.json"))
+
+
+    delete_merged_gtfs()
   }
 
   return(dest_paths)

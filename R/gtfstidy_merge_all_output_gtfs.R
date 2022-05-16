@@ -3,8 +3,7 @@ gtfstidy_merge_all_output_gtfs <- function(){
   merged_filename <- paste0("merged.", output_affix(), ".gtfs.zip")
 
   unlink(dir_working(merged_filename))
-  unlink(dir_output("gtfs/", merged_filename))
-
+  delete_merged_gtfs()
 
   gtfstidy_command = paste0(
     "$(go env GOPATH)/bin/gtfstidy",

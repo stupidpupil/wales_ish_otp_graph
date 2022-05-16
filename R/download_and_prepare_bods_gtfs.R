@@ -41,6 +41,8 @@ download_and_prepare_bods_gtfs <- function(){
     ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
     write(paste0(output_path, ".meta.json"))
 
+    delete_merged_gtfs()
+
   }
 
   return(output_paths)

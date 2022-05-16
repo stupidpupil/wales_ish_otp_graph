@@ -35,5 +35,7 @@ prepare_atoc_gtfs <- function(src_path = dir_working("atoc.zip")){
   ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
   write(paste0(dest_path, ".meta.json"))
 
+  delete_merged_gtfs()
+
   return(dest_path)
 }
