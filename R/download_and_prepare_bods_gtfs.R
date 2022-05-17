@@ -32,7 +32,7 @@ download_and_prepare_bods_gtfs <- function(){
 
     message("Preparing BODS data for ", r, "...")
     gtfs <- gtfstools::read_gtfs(work_path)
-    gtfs <- gtfs %>% gtfs_wales_ish_ify()
+    gtfs <- gtfs %>% gtfs_parochialise()
     gtfs %>% gtfstools::write_gtfs(output_path)
 
     list(

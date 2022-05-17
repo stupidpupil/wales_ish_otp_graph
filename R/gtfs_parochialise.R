@@ -1,4 +1,4 @@
-gtfs_wales_ish_ify <- function(gtfs){
+gtfs_parochialise <- function(gtfs){
 
   gtfs$stops <- gtfs$stops %>% 
     dplyr::union_all(tibble(parent_station=character())) %>%

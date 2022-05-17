@@ -22,7 +22,8 @@ prepare_atoc_gtfs <- function(src_path = dir_working("atoc.zip")){
   gtfs <- UK2GTFS::atoc2gtfs(
     path_in = src_path,
     ncores = (parallel::detectCores()-1))
-  gtfs <- gtfs %>% gtfs_wales_ish_ify()
+  
+  gtfs <- gtfs %>% gtfs_parochialise()
 
   gtfs %>% UK2GTFS::gtfs_write(
     folder = fs::path_dir(dest_path), 

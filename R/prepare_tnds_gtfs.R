@@ -30,7 +30,7 @@ prepare_tnds_gtfs <- function(){
     gtfs <- UK2GTFS::transxchange2gtfs(
       path_in = src_path, ncores= (parallel::detectCores()-1), 
       try_mode=TRUE, scotland=ifelse(r == "S", "yes", "no"), force_merge = TRUE)
-    gtfs <- gtfs %>% gtfs_wales_ish_ify()
+    gtfs <- gtfs %>% gtfs_parochialise()
 
     gtfs %>% UK2GTFS::gtfs_write(
       folder = fs::path_dir(dest_path), 
@@ -72,7 +72,7 @@ prepare_tnds_gtfs <- function(){
       path_in = ncsd_files, ncores= (parallel::detectCores()-1), 
       try_mode=TRUE, scotland="no", force_merge = TRUE)
 
-    gtfs <- gtfs %>% gtfs_wales_ish_ify()
+    gtfs <- gtfs %>% gtfs_parochialise()
 
     if(gtfs$routes %>% nrow() > 0){
       gtfs$routes$route_type <- 202 
