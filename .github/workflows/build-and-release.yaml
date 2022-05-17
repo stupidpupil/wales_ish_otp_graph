@@ -1005,7 +1005,7 @@ jobs:
         chmod ugo+x assets/otp_and_graph/run-otp.sh
         curl https://raw.githubusercontent.com/opentripplanner/OpenTripPlanner/dev-2.x/LICENSE -o assets/otp_and_graph/OTP_LICENSE
         cp output/opentripplanner/graph.obj* assets/otp_and_graph/graph/
-        cp output/router-config.json assets/otp_and_graph/graph/
+        cp output/opentripplanner/router-config.json assets/otp_and_graph/graph/
         cd assets
         zip -9 -r otp_and_graph.zip otp_and_graph/
         cd ..
@@ -1014,7 +1014,10 @@ jobs:
         mkdir -p assets/gtfs_and_osm
         cp output/gtfs/* assets/gtfs_and_osm/
         cp output/openstreetmap/* assets/gtfs_and_osm/
-        cp output/build-config.json assets/gtfs_and_osm/
+
+        mkdir -p assets/gtfs_and_osm/opentripplanner
+        cp output/opentripplanner/build-config.json assets/gtfs_and_osm/opentripplanner/
+
         cd assets
         zip -9 -r gtfs_and_osm.zip gtfs_and_osm/
         cd ..
@@ -1035,24 +1038,23 @@ jobs:
       env:
         TZ: Europe/London
       run: echo "::set-output name=timestamp::$(date +'%Y-%m-%dT%H-%M-%S')"
-    - name: Copy READMEs and Commit
-      if: github.ref == 'refs/heads/main'
+    - name: Copy READMEs and other files
       run: |
         cd graph-releases
         rm -rf file_metadata
         mkdir file_metadata
         cp ../output/*-bounds.geojson bounds.geojson
         cp ../output/*.meta.json file_metadata/
+        cp ../output/*/*.meta.json file_metadata/
         cp ../output/map.png map.png
         cp ../output/test_journeys.csv test_journeys.csv
         cp ../output/output_readme.html index.html
         cp ../output/output_readme.md README.md
-        git config user.name "Graph Release Bot"
-        git config user.email "<>"
-        git add .
-        git commit -m "Updated for new release"
-        git push origin graph-releases
         cd ..
+    - name: Commit new graph-release
+      if: github.ref == 'refs/heads/main' cd graph-releases git config user.name "Graph
+        Release Bot" git config user.email "<>" git add . git commit -m "Updated for
+        new release" git push origin graph-releases cd ..
     - name: Release new graph
       uses: ncipollo/release-action@v1
       if: github.ref == 'refs/heads/main'
