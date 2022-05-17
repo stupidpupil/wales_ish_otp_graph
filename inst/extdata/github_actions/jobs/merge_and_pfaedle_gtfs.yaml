@@ -40,7 +40,7 @@ steps:
     with:
       path: |
         output/gtfs/merged.*.gtfs.zip*
-      key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash }}-merged.gtfs-v1
+      key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash }}-merged.gtfs-nocache
 
   - parochial_replace_with: setup_r
     if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
@@ -66,5 +66,13 @@ steps:
     with:
       name: merged.gtfs.zip
       path: output/gtfs/merged.*.gtfs.zip*
+      if-no-files-found: error
+
+
+  - name: Upload Pfaedle stats.json
+    uses: actions/upload-artifact@v2
+    with:
+      name: stats.json
+      path: stats.json
       if-no-files-found: error
 
