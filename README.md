@@ -52,12 +52,12 @@ pfaedle_all_output_gtfs()
 download_otp()
 prepare_street_graph()
 prepare_transport_graph()
-# output/ should now contain graph.obj
+# output/opentripplanner/ should now contain graph.obj
 
 # r5r
 # (Requires JDK 11)
 prepare_r5r_network_dat()
-# output/ should now contain network.dat
+# output/r5r/ should now contain network.dat
 
 
 ```
