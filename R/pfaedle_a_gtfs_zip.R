@@ -8,15 +8,15 @@ pfaedle_a_gtfs_zip <- function(path_to_gtfs_zip, path_to_osm = dir_output("opens
 
   prepare_osm_for_pfaedle(path_to_osm, paste0(temp_dir_path, "/temp.osm"))
 
-  pfaedle_command = paste0(
-    "pfaedle -D",
-    " -c ", dir_support("pfaedle.cfg"),
-    " -x ", paste0(temp_dir_path, "/temp.osm"), " ",
+  pfaedle_args = c(
+    "-D",
+    "-c", dir_support("pfaedle.cfg"),
+    "-x", paste0(temp_dir_path, "/temp.osm"),
     temp_dir_path,
-    " -o ", paste0(temp_dir_path, "/gtfs-out")
+    "-o", paste0(temp_dir_path, "/gtfs-out")
   )
 
-  system(pfaedle_command)
+  processx::run("pfaedle", pfaedle_args)
 
   new_gtfs_zip_path <- paste0(temp_dir_path, "/", basename(path_to_gtfs_zip))
 
@@ -63,15 +63,16 @@ prepare_osm_for_pfaedle <- function(in_osm_path, out_osm_path) {
 
   message("Writing filtered OSM in XML format for pfaedle...")
 
-  osmium_command = paste0(
-    "osmium tags-filter ",
-    "--expressions ", dir_support("pfaedle_osm_tags.txt"),
-    " ", in_osm_path,
-    " -o ", out_osm_path,
-    " -f osm,add_metadata=false --overwrite"
+  osmium_args = c(
+    "tags-filter",
+    "--expressions", dir_support("pfaedle_osm_tags.txt"),
+    in_osm_path,
+    "-o", out_osm_path,
+    "-f", "osm,add_metadata=false", 
+    "--overwrite"
   )
 
-  system(osmium_command)
+  processx::run("osmium", osmium_args)
   stopifnot(file.exists(out_osm_path))
 
   return(out_osm_path)

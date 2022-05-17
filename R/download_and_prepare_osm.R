@@ -48,15 +48,15 @@ prepare_osm <- function(){
 
   bounded_temp_path <- tempfile(tmpdir = dir_working(), fileext=".osm.pbf")
 
-  bounded_osmium_command <- paste0(
-    "osmium extract -p ",
-    path_to_bounds_geojson(),
-    " -s smart ",
+  bounded_osmium_args <- c(
+    "extract",
+    "-p", path_to_bounds_geojson(),
+    "-s", "smart",
     src_path,
-    " -o ", bounded_temp_path
+    "-o", bounded_temp_path
   )
 
-  system(bounded_osmium_command)
+  processx::run("osmium", bounded_osmium_args)
   stopifnot(file.exists(bounded_temp_path))
 
   message("Extracting OSM transport-tagged entities within bounds-plus-20km buffer...")
@@ -67,17 +67,19 @@ prepare_osm <- function(){
   bounds(buffer_by_metres = 20000) %>%
     sf::st_write(buffered_bounds_geojson_path)
 
+  # TODO - replace with processx::run()
+  # More complicated because of the use of a pipe
   buffered_osmium_command <- paste0(
     "osmium tags-filter ",
-    "--expressions ", dir_support("pfaedle_osm_tags.txt"),
-    " ", src_path, " -f pbf",
+    "--expressions \"", dir_support("pfaedle_osm_tags.txt"), "\"", 
+    " \"", src_path, "\" -f pbf",
     " | ",
     "osmium extract -p ",
-    buffered_bounds_geojson_path,
+    "\"", buffered_bounds_geojson_path, "\"",
     " -s simple ",
     " -F pbf ",
     "-",
-    " -o ", buffered_temp_path
+    " -o \"", buffered_temp_path, "\""
   )
 
   system(buffered_osmium_command)
@@ -88,14 +90,14 @@ prepare_osm <- function(){
 
   rail_temp_path <- tempfile(tmpdir = dir_working(), fileext=".osm.pbf")
 
-  rail_osmium_command <- paste0(
-    "osmium tags-filter ",
-    "--expressions ", dir_support("rail_osm_tags.txt"),
-    " ", src_path,
-    " -o ", rail_temp_path
+  rail_osmium_args <- c(
+    "tags-filter",
+    "--expressions", dir_support("rail_osm_tags.txt"),
+    src_path,
+    "-o", rail_temp_path
   )
 
-  system(rail_osmium_command)
+  processx::run("osmium", rail_osmium_args)
   stopifnot(file.exists(rail_temp_path))
 
 
@@ -105,15 +107,15 @@ prepare_osm <- function(){
     fs::file_delete(dest_path)
   }
 
-  merge_osmium_command <- paste0(
-    "osmium merge",
-    " ", bounded_temp_path,
-    " ", buffered_temp_path,
-    " ", rail_temp_path,
-    " -o ", dest_path
+  merge_osmium_args <- c(
+    "merge",
+    bounded_temp_path,
+    buffered_temp_path,
+    rail_temp_path,
+    "-o", dest_path
   )
 
-  system(merge_osmium_command)
+  processx::run("osmium", merge_osmium_args)
 
   stopifnot(file.exists(dest_path))
 

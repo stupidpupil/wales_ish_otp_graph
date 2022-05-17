@@ -2,17 +2,15 @@ gtfstidy_simplify_shapes <- function(path_to_gtfs_zip) {
 
   working_filename <- tempfile(tmpdir = dir_working(), fileext=".gtfs.zip")
 
-  gtfstidy_command = paste0(
-    "$(go env GOPATH)/bin/gtfstidy",
-    " --min-shapes",
-    " --remove-red-shapes",
-    " --remeasure-shapes",
-    " ", path_to_gtfs_zip,
-    " -o ", working_filename
+  gtfstidy_args = c(
+    "--min-shapes",
+    "--remove-red-shapes",
+    "--remeasure-shapes",
+    path_to_gtfs_zip,
+    "-o", working_filename
   )
 
-  system(gtfstidy_command)
-
+  processx::run(gtfstidy_path(), gtfstidy_args)
   stopifnot(file.exists(working_filename))
 
   unlink(path_to_gtfs_zip)
