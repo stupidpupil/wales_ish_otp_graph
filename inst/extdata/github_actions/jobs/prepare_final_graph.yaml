@@ -56,10 +56,3 @@ steps:
       name: graph.obj
       path: output/opentripplanner/graph.obj*
       if-no-files-found: error
-
-  - name: Upload meta jsons artifact
-    uses: actions/upload-artifact@v2
-    with:
-      name: meta.jsons
-      path: output/**/*.meta.json
-      if-no-files-found: error
