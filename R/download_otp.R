@@ -15,5 +15,7 @@ download_otp <- function(){
 }
 
 otp_version <- function(){
-  system(paste0(java_command(), " -jar ", dir_working("otp.jar")," --version"), intern=TRUE) %>% str_replace("^OpenTripPlanner version: ", "")
+  processx::run("java", c(java_args(), "-jar", dir_working("otp.jar"), "--version"))$stdout %>%
+    stringr::str_trim() %>%
+    stringr::str_replace("^OpenTripPlanner version: ", "")
 }

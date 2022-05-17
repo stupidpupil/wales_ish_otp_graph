@@ -31,13 +31,13 @@ prepare_transport_graph <- function(){
 
   link_paths <- link_create_with_dir(input_files, dest_dir)
 
-  cmd <- paste0(
-    java_command(), 
-    " -jar ", dir_working("otp.jar"), 
-    " --cache ", dir_working("otp_cache"),
-    " --loadStreet --save ", dest_dir)
+  otp_args <- c(
+    "-jar", dir_working("otp.jar"), 
+    "--cache ", dir_working("otp_cache"),
+    "--loadStreet",
+    "--save", dest_dir)
   
-  system(cmd)
+  processx::run("java", c(java_args(), otp_args))
 
   stopifnot(file.exists(dest_path))
 
@@ -45,7 +45,6 @@ prepare_transport_graph <- function(){
 
   list(
     CreatedAt = now_as_iso8601(),
-    CreatedWithCommand = cmd,
     CreatedWithOpenTripPlannerVersion = otp_version(),
     DerivedFrom = describe_file(streetgraph_path, input_files),
     ParochialCacheKey = cache_key
