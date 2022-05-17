@@ -125,6 +125,7 @@ steps:
 
   - name: Commit new graph-release
     if: github.ref == 'refs/heads/main' 
+    run: |
       cd graph-releases
       git config user.name "Graph Release Bot"
       git config user.email "<>"
