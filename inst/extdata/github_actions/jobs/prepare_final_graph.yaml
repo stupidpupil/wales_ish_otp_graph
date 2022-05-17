@@ -10,9 +10,6 @@ parochial_merge:
 steps:
   - uses: actions/checkout@v2
   - parochial_replace_with: write_config
-  - parochial_replace_with: setup_r
-
-  - parochial_replace_with: download_artefact_osm
 
   - parochial_replace_with: download_artefact_merged_gtfs
 
@@ -22,11 +19,7 @@ steps:
       name: streetGraph.obj
       path: output/opentripplanner
 
-  - name: Download OTP
-    run: |
-      devtools::load_all()
-      download_otp()
-    shell: Rscript {0}
+  - parochial_replace_with: parochial_cache_keys_hash
 
   - name: Cache transport graph
     id: cache_transport_graph
@@ -35,7 +28,17 @@ steps:
       path: |
         output/opentripplanner/graph.obj*
         output/**/*.meta.json
-      key: ${{ hashFiles('output/gtfs/*', 'output/openstreetmap/*', 'output/opentripplanner/*', 'data-raw/*.jar') }}-otp.final-v1
+      key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash }}-otp.final-v1
+
+  - parochial_replace_with: setup_r
+    if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+
+  - name: Download OTP
+    if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+    run: |
+      devtools::load_all()
+      download_otp()
+    shell: Rscript {0}
 
   - parochial_replace_with: setup_java
     if: steps.cache_transport_graph.outputs.cache-hit != 'true'

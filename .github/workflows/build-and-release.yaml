@@ -213,31 +213,6 @@ jobs:
             tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
             output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
             bounds: !expr Sys.getenv("BOUNDS")
-    - uses: r-lib/actions/setup-r@v2
-    - uses: r-lib/actions/setup-pandoc@v1
-    - name: Query dependencies
-      run: |
-        install.packages('remotes')
-        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-      shell: Rscript {0}
-    - name: Restore R package cache
-      uses: actions/cache@v2
-      with:
-        path: ${{ env.R_LIBS_USER }}
-        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
-          }}
-        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
-    - name: Install dependencies
-      run: |
-        install.packages(c("devtools"))
-        devtools::install_deps(dependencies = TRUE)
-      shell: Rscript {0}
-    - name: Download OTP
-      run: |
-        devtools::load_all()
-        download_otp()
-      shell: Rscript {0}
     - name: Download OpenStreetMap artifact
       uses: actions/download-artifact@v2
       with:
@@ -248,18 +223,56 @@ jobs:
       with:
         name: terr50.tif
         path: output
-    - name: Cache OTP elevation lookups
-      uses: actions/cache@v2
-      with:
-        path: data-raw/otp_cache/*
-        key: ${{ hashFiles('output/*terr50*') }}
+    - name: Derive hash from ParochialCacheKeys
+      id: parochial_cache_keys
+      run: |-
+        echo "::set-output name=hash::$(
+          ls output/*/*.meta.json output/*.meta.json | sort | xargs  jq \".ParochialCacheKey\" | shasum -a 1
+        )"
     - name: Cache street graph
       id: cache_street_graph
       uses: actions/cache@v2
       with:
         path: output/opentripplanner/streetGraph.obj*
-        key: ${{ hashFiles('data-raw/*.jar', 'output/openstreetmap/*', 'output/*terr50*')
+        key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash
           }}-otp.street-v1
+    - uses: r-lib/actions/setup-r@v2
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-pandoc@v1
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    - name: Download OTP
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        download_otp()
+      shell: Rscript {0}
+    - name: Cache OTP elevation lookups
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+      uses: actions/cache@v2
+      with:
+        path: data-raw/otp_cache/*
+        key: ${{ hashFiles('output/*terr50*') }}
     - name: Install Java 17
       uses: actions/setup-java@v2
       with:
@@ -524,41 +537,6 @@ jobs:
             tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
             output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
             bounds: !expr Sys.getenv("BOUNDS")
-    - uses: r-lib/actions/setup-r@v2
-    - uses: r-lib/actions/setup-pandoc@v1
-    - name: Query dependencies
-      run: |
-        install.packages('remotes')
-        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-      shell: Rscript {0}
-    - name: Restore R package cache
-      uses: actions/cache@v2
-      with:
-        path: ${{ env.R_LIBS_USER }}
-        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
-          }}
-        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
-    - name: Install dependencies
-      run: |
-        install.packages(c("devtools"))
-        devtools::install_deps(dependencies = TRUE)
-      shell: Rscript {0}
-    - name: Install osmium
-      run: brew install osmium-tool
-    - name: Download pfaedle artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: pfaedle
-        path: pfaedle-build
-    - name: Make pfaedle executable
-      run: |
-        chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*
-    - name: Add pfaedle to path
-      run: echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
-    - uses: actions/setup-go@v3
-    - name: Get gtfstidy
-      run: go install github.com/patrickbr/gtfstidy@latest
     - name: Download ATOC GTFS artifact
       uses: actions/download-artifact@v2
       with:
@@ -579,14 +557,66 @@ jobs:
       with:
         name: openstreetmap
         path: output/openstreetmap/
+    - name: Derive hash from ParochialCacheKeys
+      id: parochial_cache_keys
+      run: |-
+        echo "::set-output name=hash::$(
+          ls output/*/*.meta.json output/*.meta.json | sort | xargs  jq \".ParochialCacheKey\" | shasum -a 1
+        )"
     - name: Cache Merged GTFS
       id: cache_merged_gtfs
       uses: actions/cache@v2
       with:
         path: |
           output/gtfs/merged.*.gtfs.zip*
-        key: ${{ hashFiles('output/gtfs/*', 'output/openstreetmap/*' , 'config.yml')
+        key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash
           }}-merged.gtfs-v1
+    - uses: r-lib/actions/setup-r@v2
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-pandoc@v1
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - name: Install osmium
+      run: brew install osmium-tool
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - name: Download pfaedle artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: pfaedle
+        path: pfaedle-build
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - name: Make pfaedle executable
+      run: |
+        chmod ug+x $GITHUB_WORKSPACE/pfaedle-build/usr/local/bin/*
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - name: Add pfaedle to path
+      run: echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - uses: actions/setup-go@v3
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - name: Get gtfstidy
+      run: go install github.com/patrickbr/gtfstidy@latest
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
     - name: Merge and Pfaedle Merged GTFS
       if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
       run: |
@@ -688,31 +718,6 @@ jobs:
             tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
             output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
             bounds: !expr Sys.getenv("BOUNDS")
-    - uses: r-lib/actions/setup-r@v2
-    - uses: r-lib/actions/setup-pandoc@v1
-    - name: Query dependencies
-      run: |
-        install.packages('remotes')
-        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-      shell: Rscript {0}
-    - name: Restore R package cache
-      uses: actions/cache@v2
-      with:
-        path: ${{ env.R_LIBS_USER }}
-        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
-          }}
-        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
-    - name: Install dependencies
-      run: |
-        install.packages(c("devtools"))
-        devtools::install_deps(dependencies = TRUE)
-      shell: Rscript {0}
-    - name: Download OpenStreetMap artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: openstreetmap
-        path: output/openstreetmap/
     - name: Download Merged GTFS artifact
       uses: actions/download-artifact@v2
       with:
@@ -723,11 +728,12 @@ jobs:
       with:
         name: streetGraph.obj
         path: output/opentripplanner
-    - name: Download OTP
-      run: |
-        devtools::load_all()
-        download_otp()
-      shell: Rscript {0}
+    - name: Derive hash from ParochialCacheKeys
+      id: parochial_cache_keys
+      run: |-
+        echo "::set-output name=hash::$(
+          ls output/*/*.meta.json output/*.meta.json | sort | xargs  jq \".ParochialCacheKey\" | shasum -a 1
+        )"
     - name: Cache transport graph
       id: cache_transport_graph
       uses: actions/cache@v2
@@ -735,8 +741,39 @@ jobs:
         path: |
           output/opentripplanner/graph.obj*
           output/**/*.meta.json
-        key: ${{ hashFiles('output/gtfs/*', 'output/openstreetmap/*', 'output/opentripplanner/*',
-          'data-raw/*.jar') }}-otp.final-v1
+        key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash
+          }}-otp.final-v1
+    - uses: r-lib/actions/setup-r@v2
+      if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-pandoc@v1
+      if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+      if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+      if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+      if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+    - name: Download OTP
+      if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        download_otp()
+      shell: Rscript {0}
     - name: Install Java 17
       uses: actions/setup-java@v2
       with:
@@ -788,26 +825,6 @@ jobs:
             tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
             output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
             bounds: !expr Sys.getenv("BOUNDS")
-    - uses: r-lib/actions/setup-r@v2
-    - uses: r-lib/actions/setup-pandoc@v1
-    - name: Query dependencies
-      run: |
-        install.packages('remotes')
-        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-      shell: Rscript {0}
-    - name: Restore R package cache
-      uses: actions/cache@v2
-      with:
-        path: ${{ env.R_LIBS_USER }}
-        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
-          }}
-        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
-    - name: Install dependencies
-      run: |
-        install.packages(c("devtools"))
-        devtools::install_deps(dependencies = TRUE)
-      shell: Rscript {0}
     - name: Download OpenStreetMap artifact
       uses: actions/download-artifact@v2
       with:
@@ -818,14 +835,47 @@ jobs:
       with:
         name: merged.gtfs.zip
         path: output/gtfs
+    - name: Derive hash from ParochialCacheKeys
+      id: parochial_cache_keys
+      run: |-
+        echo "::set-output name=hash::$(
+          ls output/*/*.meta.json output/*.meta.json | sort | xargs  jq \".ParochialCacheKey\" | shasum -a 1
+        )"
     - name: Cache r5r network.dat
       id: cache_network_dat
       uses: actions/cache@v2
       with:
         path: |
           output/r5r/network.dat*
-        key: ${{ hashFiles('output/gtfs/*', 'output/openstreetmap/*') }}-r5r-v1
+        key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash
+          }}-r5r-v1
+    - uses: r-lib/actions/setup-r@v2
+      if: steps.cache_network_dat.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-pandoc@v1
+      if: steps.cache_network_dat.outputs.cache-hit != 'true'
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+      if: steps.cache_network_dat.outputs.cache-hit != 'true'
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+      if: steps.cache_network_dat.outputs.cache-hit != 'true'
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+      if: steps.cache_network_dat.outputs.cache-hit != 'true'
     - name: Install Java 11
+      if: steps.cache_network_dat.outputs.cache-hit != 'true'
       uses: actions/setup-java@v2
       with:
         distribution: adopt

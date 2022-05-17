@@ -11,10 +11,6 @@ parochial_merge:
 steps:
   - uses: actions/checkout@v2
   - parochial_replace_with: write_config
-  - parochial_replace_with: setup_r
-  - parochial_replace_with: setup_osmium
-  - parochial_replace_with: setup_pfaedle
-  - parochial_replace_with: setup_gtfstidy
 
   - name: Download ATOC GTFS artifact
     uses: actions/download-artifact@v2
@@ -36,13 +32,27 @@ steps:
 
   - parochial_replace_with: download_artefact_osm
 
+  - parochial_replace_with: parochial_cache_keys_hash
+
   - name: Cache Merged GTFS
     id: cache_merged_gtfs
     uses: actions/cache@v2
     with:
       path: |
         output/gtfs/merged.*.gtfs.zip*
-      key: ${{ hashFiles('output/gtfs/*', 'output/openstreetmap/*' , 'config.yml') }}-merged.gtfs-v1
+      key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash }}-merged.gtfs-v1
+
+  - parochial_replace_with: setup_r
+    if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+
+  - parochial_replace_with: setup_osmium
+    if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+
+  - parochial_replace_with: setup_pfaedle
+    if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+
+  - parochial_replace_with: setup_gtfstidy
+    if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
 
   - name: Merge and Pfaedle Merged GTFS
     if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
