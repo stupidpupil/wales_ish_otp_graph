@@ -44,8 +44,9 @@ download_terrain50()
 prepare_terrain50()
 
 # If you've got gtfstidy and pfaedle installed
-gtfstidy_merge_all_output_gtfs()
-pfaedle_all_output_gtfs()
+if(gtfstidy_is_available() & pfaedle_is_available()){
+  prepare_merged_gtfs()
+}
 
 # OpenTripPlanner
 # (Requires JDK 17)
