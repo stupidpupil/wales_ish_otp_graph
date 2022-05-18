@@ -6,7 +6,7 @@ prepare_atoc_gtfs <- function(src_path = dir_working("atoc.zip")){
     cache_key_for_file(src_path),
     packageVersion("UK2GTFS"),
     bounds() %>% sf::st_as_text(),
-    temporal_bounds_as_character(),
+    parochial_temporal_bounds_as_character(),
     "v1"
   )) %>% as.character()
 
