@@ -1,6 +1,6 @@
 gtfs_parochialise <- function(
   gtfs, 
-  spatial_bounds = bounds(),
+  spatial_bounds = bounds(buffer_by_metres = 5000),
   additional_stop_ids = config::get()$additional_stop_ids,
   temporal_bounds = parochial_temporal_bounds()){
 
