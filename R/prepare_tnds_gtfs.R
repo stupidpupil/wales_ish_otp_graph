@@ -27,6 +27,8 @@ prepare_tnds_gtfs <- function(){
       next
     }
 
+    message("Preparing GTFS from \'", r,"\' TNDS timetables...")
+
     gtfs <- UK2GTFS::transxchange2gtfs(
       path_in = src_path, ncores= (parallel::detectCores()-1), 
       try_mode=TRUE, scotland=ifelse(r == "S", "yes", "no"), force_merge = TRUE)
@@ -66,6 +68,8 @@ prepare_tnds_gtfs <- function(){
   }else{
     unlink(dir_working("NCSD.bus.tnds"), recursive=TRUE)
     unzip(dir_working("NCSD.bus.tnds.zip"), exdir=dir_working("NCSD.bus.tnds"))
+
+    message("Preparing GTFS from NCSD TNDS timetables...")
 
     ncsd_files <- list.files(dir_working("NCSD.bus.tnds/NCSD_TXC/"), pattern="*.xml", full.names=TRUE)
     gtfs <- UK2GTFS::transxchange2gtfs(

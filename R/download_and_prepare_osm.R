@@ -44,6 +44,8 @@ prepare_osm <- function(){
     return(dest_path)
   }
 
+  message("Preparing OpenStreetMap extract...")
+
   message("Extracting OSM within bounds...")
 
   bounded_temp_path <- tempfile(tmpdir = dir_working(), fileext=".osm.pbf")

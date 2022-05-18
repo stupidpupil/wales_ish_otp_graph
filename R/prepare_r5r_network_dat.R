@@ -22,6 +22,8 @@ prepare_r5r_network_dat <- function(){
     return(dest_path)
   }
 
+  message("Preparing R5r network.dat...")
+
   # Remove any existing 'network.dat' file, as previous failures
   # can result in malformed examples that confuse r5r
   if(fs::file_exists(dest_path)){

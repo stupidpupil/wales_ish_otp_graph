@@ -19,6 +19,8 @@ prepare_atoc_gtfs <- function(src_path = dir_working("atoc.zip")){
     return(dest_path)
   }
 
+  message("Preparing GTFS from ATOC timetables...")
+
   gtfs <- UK2GTFS::atoc2gtfs(
     path_in = src_path,
     ncores = (parallel::detectCores()-1))

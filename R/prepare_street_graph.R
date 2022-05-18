@@ -26,6 +26,8 @@ prepare_street_graph <- function(){
     fs::file_delete(dest_path)
   }
 
+  message("Preparing OpenTripPlanner street graph...")
+
   link_paths <- link_create_with_dir(input_files, dest_dir)
 
   otp_args <- c(

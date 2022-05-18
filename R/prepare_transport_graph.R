@@ -23,6 +23,8 @@ prepare_transport_graph <- function(){
     return(dest_path)
   }
 
+  message("Preparing OpenTripPlanner transport graph...")
+
   prepare_otp_config()
 
   if(fs::file_exists(dest_path)){

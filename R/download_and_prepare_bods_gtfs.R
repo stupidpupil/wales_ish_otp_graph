@@ -30,7 +30,7 @@ download_and_prepare_bods_gtfs <- function(){
       message("Cache hit for ", work_path)
     }
 
-    message("Preparing BODS data for ", r, "...")
+    message("Preparing GTFS from \'", r, "\' BODS timetables...")
     gtfs <- gtfstools::read_gtfs(work_path)
     gtfs <- gtfs %>% gtfs_parochialise()
     gtfs %>% gtfstools::write_gtfs(output_path)
