@@ -22,6 +22,16 @@ prepare_terrain50 <- function(terr50_zip_path = dir_working("terr50_gagg_gb.zip"
 
   dest_path <- dir_output(output_affix(), ".terr50.tif")
 
+  cache_key = openssl::sha1(paste0(
+    cache_key_for_file(vrt_filename),
+    bounds() %>% sf::st_as_text()
+    )) %>% as.character()
+
+  if(cache_key == cache_key_for_file(dest_path)){
+    message("Cache hit for ", dest_path)
+    return(dest_path)
+  }
+
   message("Cropping and reprojecting Terrain 50...")
 
   terra::crop(terrain50, bounds(buffer_by_metres = 20100) %>% sf::st_transform(crs="EPSG:27700")) %>% 
@@ -30,7 +40,8 @@ prepare_terrain50 <- function(terr50_zip_path = dir_working("terr50_gagg_gb.zip"
 
   list(
     CreatedAt = now_as_iso8601(),
-    DerivedFrom = I(describe_file(dir_working("terr50_gagg_gb.zip")))
+    DerivedFrom = I(describe_file(dir_working("terr50_gagg_gb.zip"))),
+    ParochialCacheKey = cache_key
   ) %>% jsonlite::toJSON(pretty = TRUE) %>%
   write(paste0(dest_path, ".meta.json"))
 
