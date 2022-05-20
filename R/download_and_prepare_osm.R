@@ -109,6 +109,13 @@ prepare_osm <- function(){
     fs::file_delete(dest_path)
   }
 
+  # Relates to the operation of osmextract::oe_read()
+  gpkg_path <- dest_path %>% stringr::str_replace("\\.osm\\.pbf$", ".gpkg")
+
+  if(fs::file_exists(gpkg_path)){
+    fs::file_delete(gpkg_path)
+  }
+
   merge_osmium_args <- c(
     "merge",
     bounded_temp_path,
