@@ -32,6 +32,7 @@ prepare_transport_graph <- function(){
   }
 
   link_paths <- link_create_with_dir(input_files, dest_dir)
+  on.exit({fs::link_delete(link_paths)}, add = TRUE)
 
   otp_args <- c(
     "-jar", dir_working("otp.jar"), 
@@ -42,8 +43,6 @@ prepare_transport_graph <- function(){
   processx::run("java", c(java_args(), otp_args))
 
   stopifnot(file.exists(dest_path))
-
-  fs::link_delete(link_paths)
 
   list(
     CreatedAt = now_as_iso8601(),

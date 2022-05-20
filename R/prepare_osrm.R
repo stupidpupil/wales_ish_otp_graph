@@ -17,9 +17,9 @@ prepare_osrm <- function(){
   unlink(Sys.glob(paste0(dest_path, "*")))
 
   link_paths <- link_create_with_dir(input_files, dest_dir)
+  on.exit({fs::link_delete(link_paths)}, add = TRUE)
 
   message("OSRM-Extracting...")
-
 
   # TODO - https://stxxl.org/tags/1.4.1/install_config.html
   
@@ -30,8 +30,6 @@ prepare_osrm <- function(){
   message("OSRM-Contracting...")
 
   processx::run("osrm-contract", dest_path)
-
-  fs::link_delete(link_paths)
 
   list(
     CreatedAt = now_as_iso8601(),
