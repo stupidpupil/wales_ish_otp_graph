@@ -2,25 +2,6 @@ prepare_test_journeys <- function(){
 
   launch_otp <- function(){
 
-    start_program <- function(command, args, message, timeout = 5, ...) {
-      timeout <- as.difftime(timeout, units = "secs")
-      deadline <- Sys.time() + timeout
-      px <- processx::process$new(command, args, stdout = "|", ...)
-      all_lines <- c()
-
-      while (px$is_alive() && (now <- Sys.time()) < deadline) {
-        poll_time <- as.double(deadline - now, units = "secs") * 1000
-        px$poll_io(as.integer(poll_time))
-        lines <- px$read_output_lines()
-        all_lines <- c(all_lines, lines)
-        if (any(grepl(message, lines))) return(px)
-      }
-
-      print(args)
-      print(all_lines)
-      stop("Cannot start ", command)
-    }
-
     px <- start_program(
       "java", c(java_args(), "-jar", dir_working("otp.jar"), "--load", dir_output("opentripplanner")), 
       "Started listener bound to \\[0.0.0.0:8080\\]", timeout=240)
