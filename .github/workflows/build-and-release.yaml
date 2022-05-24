@@ -227,7 +227,7 @@ jobs:
       id: parochial_cache_keys
       run: |-
         echo "::set-output name=hash::$(
-          ls output/*/*.meta.json output/*.meta.json | sort | xargs  jq \".ParochialCacheKey\" | shasum -a 1
+          ls output/*/*.meta.json output/*.meta.json | sort | xargs jq .ParochialCacheKey | shasum -a 1
         )"
     - name: Cache street graph
       id: cache_street_graph
@@ -563,7 +563,7 @@ jobs:
       id: parochial_cache_keys
       run: |-
         echo "::set-output name=hash::$(
-          ls output/*/*.meta.json output/*.meta.json | sort | xargs  jq \".ParochialCacheKey\" | shasum -a 1
+          ls output/*/*.meta.json output/*.meta.json | sort | xargs jq .ParochialCacheKey | shasum -a 1
         )"
     - name: Cache Merged GTFS
       id: cache_merged_gtfs
@@ -734,7 +734,7 @@ jobs:
       id: parochial_cache_keys
       run: |-
         echo "::set-output name=hash::$(
-          ls output/*/*.meta.json output/*.meta.json | sort | xargs  jq \".ParochialCacheKey\" | shasum -a 1
+          ls output/*/*.meta.json output/*.meta.json | sort | xargs jq .ParochialCacheKey | shasum -a 1
         )"
     - name: Cache transport graph
       id: cache_transport_graph
@@ -835,7 +835,7 @@ jobs:
       id: parochial_cache_keys
       run: |-
         echo "::set-output name=hash::$(
-          ls output/*/*.meta.json output/*.meta.json | sort | xargs  jq \".ParochialCacheKey\" | shasum -a 1
+          ls output/*/*.meta.json output/*.meta.json | sort | xargs jq .ParochialCacheKey | shasum -a 1
         )"
     - name: Cache r5r network.dat
       id: cache_network_dat
