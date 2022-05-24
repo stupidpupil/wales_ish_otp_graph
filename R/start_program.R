@@ -1,5 +1,13 @@
 start_program <- function(command, args, message, timeout = 5, ...) {
   timeout <- as.difftime(timeout, units = "secs")
+
+  if(missing(message)){
+    print('here')
+    px <- processx::process$new(command, args, ..., echo=TRUE)
+    Sys.sleep(timeout)
+    return(px)
+  }
+
   deadline <- Sys.time() + timeout
   px <- processx::process$new(command, args, stdout = "|", ...)
   all_lines <- c()

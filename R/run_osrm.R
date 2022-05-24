@@ -1,18 +1,30 @@
-run_osrm <- function(port=0, code) {
+run_osrm <- function(code, port=5000, osrm_file=dir_output("osrm/", output_affix(), ".osrm")) {
+
+  # OSRM-routed doesn't like its stdout being closed
+  # but it also requires that its stdout is constantly drained
+  # unless we DISABLE_ACCESS_LOGGING or similar
+  # (An alternative might be to set verbosity to NONE and investigate SIGNAL_PARENT_WHEN_READY)
 
   px <- start_program(
     "osrm-routed", 
-    c("--max-table-size", "20000", dir_output("osrm/", output_affix(), ".osrm")),
-    "running and waiting for requests", 30
+    c(
+      "--max-table-size", "20000", 
+      "--port", port,
+      osrm_file),
+    "running and waiting for requests", timeout = 30,
+    env = c(Sys.getenv(), DISABLE_ACCESS_LOGGING = "DISABLE_ACCESS_LOGGING")
     )
-
-  close(px$get_output_connection())
-
-  options(osrm.server = paste0("http://", "localhost", ":", port))
+  options(osrm.server = paste0("http://", "localhost", ":", port, "/"))
 
   if(!missing(code)){
-    force(code)
-    on.exit({px$kill()})
+
+    print(px)
+
+    on.exit({
+      px$kill()
+      })
+
+    return(force(code))
   }
 
   return(px)
