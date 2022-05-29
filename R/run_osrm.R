@@ -5,6 +5,8 @@ run_osrm <- function(code, port=5000, osrm_file=dir_output("osrm/", output_affix
   # unless we DISABLE_ACCESS_LOGGING or similar
   # (An alternative might be to set verbosity to NONE and investigate SIGNAL_PARENT_WHEN_READY)
 
+
+  message("Starting OSRM...")
   px <- start_program(
     "osrm-routed", 
     c(
@@ -21,6 +23,7 @@ run_osrm <- function(code, port=5000, osrm_file=dir_output("osrm/", output_affix
     print(px)
 
     on.exit({
+      message("Killing OSRM (pid ", px$get_pid(), ")...")
       px$kill()
       })
 
