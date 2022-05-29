@@ -20,8 +20,6 @@ run_osrm <- function(code, port=5000, osrm_file=dir_output("osrm/", output_affix
 
   if(!missing(code)){
 
-    print(px)
-
     on.exit({
       message("Killing OSRM (pid ", px$get_pid(), ")...")
       px$kill()

@@ -1,16 +1,5 @@
 prepare_test_journeys <- function(){
 
-  launch_otp <- function(){
-
-    px <- start_program(
-      "java", c(java_args(), "-jar", dir_working("otp.jar"), "--load", dir_output("opentripplanner")), 
-      "Started listener bound to \\[0.0.0.0:8080\\]", timeout=240)
-
-    close(px$get_output_connection())
-
-    return(px)
-  }
-
   otp_route_request_url <- function(fromLat, fromLon, toLat, toLon, when, public){
 
     mode <- ifelse(public, "TRANSIT%2CWALK", "CAR_DROPOFF%2CWALK")
@@ -37,7 +26,7 @@ prepare_test_journeys <- function(){
       mutate(requestUrl = otp_route_request_url(fromLat, fromLon, toLat, toLon, when, public))
   }
 
-  px <- launch_otp()
+  px <- run_opentripplanner()
 
   journeys <- initialise_test_journeys_tibble()
   journeys <- journeys %>% rowwise() %>% mutate(otpResponse = readr::read_file(requestUrl)) %>% ungroup()
