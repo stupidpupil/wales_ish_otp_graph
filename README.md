@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 00:30 BST on 26 May 2022. (The graph should update weekly.)
+The graph file was last updated at 11:17 BST on 30 May 2022. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp\_and\_graph.zip* asset.
 
@@ -42,22 +42,22 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Abergavenny to Pontypridd        | 0h39m | 2h33m  |
 | Bala to Cardiff                  | 3h36m | 4h43m  |
 | Bangor Pier to Great Orme        | 0h46m | 1h41m  |
-| Blaengarw to Bridgend            | 0h32m | 0h42m  |
-| Caerphilly to Cwmafan            | 0h50m | 2h30m  |
+| Blaengarw to Bridgend            | 0h32m | 3h 9m  |
+| Caerphilly to Cwmafan            | 0h50m | 2h52m  |
 | Cardiff to Bala                  | 3h35m | 5h23m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
 | Cardigan to Trawsfynydd          | 2h46m | 4h45m  |
 | Chirk to Walton                  | 1h30m | 4h23m  |
 | CP2 to Secret Garden Cafe        | 0h 7m | 0h 9m  |
 | Grangetown Library to UHW A\&E   | 0h23m | 0h35m  |
-| Lampeter to Llandovery           | 0h29m | 2h45m  |
-| Llangadog to Rhayader            | 1h10m | 2h32m  |
+| Lampeter to Llandovery           | 0h29m | 6h22m  |
+| Llangadog to Rhayader            | 1h10m | 2h 7m  |
 | Llangollen to Ruthin             | 0h27m | 1h13m  |
 | Merthyr to Cardiff               | 0h48m | 1h18m  |
 | Pontsticill to the Naughty Stone | 0h29m | 1h24m  |
 | Rhosllanerchrugog to Denbigh     | 0h58m | 1h52m  |
-| Swansea to Bargoed               | 1h18m | 2h49m  |
-| Swansea to Wrexham               | 3h32m | 4h50m  |
+| Swansea to Bargoed               | 1h18m | 3h10m  |
+| Swansea to Wrexham               | 3h32m | 5h20m  |
 | Treharris to Gellideg            | 0h20m | 0h46m  |
 | Whitland to Cardigan             | 0h43m | 2h 2m  |
 
