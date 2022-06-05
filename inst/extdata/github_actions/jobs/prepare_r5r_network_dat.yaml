@@ -1,5 +1,6 @@
 needs: [
   'download_and_prepare_osm',
+  'download_and_prepare_terrain',
   'merge_and_pfaedle_gtfs']
 runs-on: macOS-latest
 parochial_merge:
@@ -10,6 +11,12 @@ steps:
   - parochial_replace_with: write_config
 
   - parochial_replace_with: download_artefact_osm
+
+  - name: Download Terrain 50 artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: terr50.tif
+      path: output
 
   - parochial_replace_with: download_artefact_merged_gtfs
 

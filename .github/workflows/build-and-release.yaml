@@ -218,7 +218,7 @@ jobs:
       with:
         name: openstreetmap
         path: output/openstreetmap/
-    - name: Download Terrrain 50 artifact
+    - name: Download Terrain 50 artifact
       uses: actions/download-artifact@v2
       with:
         name: terr50.tif
@@ -805,6 +805,7 @@ jobs:
   prepare_r5r_network_dat:
     needs:
     - download_and_prepare_osm
+    - download_and_prepare_terrain
     - merge_and_pfaedle_gtfs
     runs-on: macOS-latest
     steps:
@@ -826,6 +827,11 @@ jobs:
       with:
         name: openstreetmap
         path: output/openstreetmap/
+    - name: Download Terrain 50 artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: terr50.tif
+        path: output
     - name: Download Merged GTFS artifact
       uses: actions/download-artifact@v2
       with:
