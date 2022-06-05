@@ -1,50 +1,50 @@
 {
-  "CreatedAt": ["2022-05-30T09:58:11+0000"],
+  "CreatedAt": ["2022-06-05T13:12:13+0000"],
   "DerivedFrom": [
     {
       "Filename": ["NCSD.tnds.walesish.gtfs.zip"],
-      "SizeBytes": [30715],
-      "CreatedAt": ["2022-05-30T05:51:40+0000"],
+      "SizeBytes": [29190],
+      "CreatedAt": ["2022-06-05T12:11:08+0000"],
       "DerivedFrom": {
         "Filename": ["NCSD.bus.tnds.zip"],
-        "SizeBytes": [1075298],
+        "SizeBytes": [1013738],
         "SourceUrl": ["ftp://ftp.tnds.basemap.co.uk/NCSD.zip"],
-        "SourceDownloadedAt": ["2022-05-30T05:42:31+0000"],
+        "SourceDownloadedAt": ["2022-06-05T12:02:28+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["Traveline"],
-        "ParochialCacheKey": ["42b5c1299d7de5c0cc7fac816d38ee68673801f3"]
+        "ParochialCacheKey": ["c7df541635727f119d7ae8f1602a34e72f7d6866"]
       },
-      "ParochialCacheKey": ["af76baf40603356d92f190c7ceb18e40f22cee4f"]
+      "ParochialCacheKey": ["d852ae8cb1fff43166c0fa58ee2ffe98c0089864"]
     },
     {
       "Filename": ["W.tnds.walesish.gtfs.zip"],
-      "SizeBytes": [7991909],
-      "CreatedAt": ["2022-05-30T05:49:30+0000"],
+      "SizeBytes": [9145356],
+      "CreatedAt": ["2022-06-05T12:09:23+0000"],
       "DerivedFrom": {
         "Filename": ["W.bus.tnds.zip"],
-        "SizeBytes": [10200664],
+        "SizeBytes": [9943371],
         "SourceUrl": ["ftp://ftp.tnds.basemap.co.uk/W.zip"],
-        "SourceDownloadedAt": ["2022-05-30T05:42:30+0000"],
+        "SourceDownloadedAt": ["2022-06-05T12:02:25+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["Traveline"],
-        "ParochialCacheKey": ["c95c91a75fa563324261e6037492679f1436f31a"]
+        "ParochialCacheKey": ["0589bc2b85b4128c163c3325cc621afa84c93964"]
       },
-      "ParochialCacheKey": ["754745a1b35650a06b5b03dff2e4605a4206dbdf"]
+      "ParochialCacheKey": ["72171e812826985c7ad207891ca054a00f9d0138"]
     },
     {
       "Filename": ["atoc.walesish.gtfs.zip"],
-      "SizeBytes": [1357845],
-      "CreatedAt": ["2022-05-30T09:40:18+0000"],
+      "SizeBytes": [1215562],
+      "CreatedAt": ["2022-06-05T12:54:37+0000"],
       "DerivedFrom": {
         "Filename": ["atoc.zip"],
-        "SizeBytes": [33409873],
-        "SourceUrl": ["https://data.atoc.org/system/files/ttis383.zip"],
-        "SourceDownloadedAt": ["2022-05-30T09:20:40+0000"],
+        "SizeBytes": [32603566],
+        "SourceUrl": ["https://data.atoc.org/system/files/ttis390.zip"],
+        "SourceDownloadedAt": ["2022-06-05T12:34:46+0000"],
         "SourceLicence": ["CC-BY-2.0"],
         "SourceAttribution": ["RSP Limited (Rail Delivery Group)"],
-        "ParochialCacheKey": ["2895a87a50b2b23f3b959996031f693cf58ab8e9"]
+        "ParochialCacheKey": ["7c0e64d3caf11d359c0e878d89f1ce3c16add16e"]
       },
-      "ParochialCacheKey": ["f1fa0d34073bba3d5c7b9fa3d6d3f786810e715d"]
+      "ParochialCacheKey": ["7dd85706f241654bc2d16666bbbfc1724c38c117"]
     },
     {
       "Filename": ["north_west.bods.walesish.gtfs.zip"],
@@ -93,19 +93,19 @@
     },
     {
       "Filename": ["walesish.osm.pbf"],
-      "SizeBytes": [272227654],
-      "CreatedAt": ["2022-05-30T05:53:43+0000"],
+      "SizeBytes": [272540380],
+      "CreatedAt": ["2022-06-05T12:14:05+0000"],
       "DerivedFrom": {
         "Filename": ["great-britain-latest.osm.pbf"],
-        "SizeBytes": [1499445225],
+        "SizeBytes": [1501428990],
         "SourceUrl": ["https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"],
-        "SourceDownloadedAt": ["2022-05-30T05:47:43+0000"],
+        "SourceDownloadedAt": ["2022-06-05T12:07:21+0000"],
         "SourceLicence": ["ODbL-1.0"],
         "SourceAttribution": ["OpenStreetMap contributors"],
-        "ParochialCacheKey": ["1b1d6aadbd2c98883ae524b2a0005d04afe88e28"]
+        "ParochialCacheKey": ["0c88126a599d0e3e62850f69adaffcf6c5869602"]
       },
-      "ParochialCacheKey": ["34502053a5b74f1a1fd7215f788a7d7988f24ed6"]
+      "ParochialCacheKey": ["5a2bc22c2cb7f4bad1b8971cb925162b6b93dace"]
     }
   ],
-  "ParochialCacheKey": ["8948f2b4280c830a68c34f0b4f665b275555b88b"]
+  "ParochialCacheKey": ["80d901c6dea552b78ad93b93fde33c7cc0b04054"]
 }
