@@ -46,6 +46,7 @@ download_and_prepare_bods_gtfs <- function(){
       list(
         CreatedAt = now_as_iso8601(),
         DerivedFrom = I(describe_file(work_path)),
+        Coverage = parochial_coverage_as_list(),
         ParochialCacheKey = cache_key
       ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
       write(paste0(output_path, ".meta.json"))

@@ -8,9 +8,22 @@ parochial_temporal_bounds <- function() {
 }
 
 parochial_temporal_bounds_as_character <- function(){
+  tb <- parochial_temporal_bounds()
+
   paste0(
-    parochial_temporal_bounds()[[1]] %>% strftime("%Y-%m-%d"),
+    tb[[1]] %>% strftime("%Y-%m-%d"),
     " - ",
-    parochial_temporal_bounds()[[2]] %>% strftime("%Y-%m-%d")
+    tb[[2]] %>% strftime("%Y-%m-%d")
   )
+}
+
+parochial_temporal_bounds_as_list <- function() {
+  tb <- parochial_temporal_bounds()
+
+  tbal <- list(
+    start = tb[[1]] %>% strftime("%Y-%m-%d"),
+    end = tb[[2]] %>% strftime("%Y-%m-%d")
+  )
+
+  return(tbal)
 }

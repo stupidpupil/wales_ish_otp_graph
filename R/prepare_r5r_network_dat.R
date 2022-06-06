@@ -43,6 +43,7 @@ prepare_r5r_network_dat <- function(){
     CreatedWithR5rVersion = packageVersion("r5r") %>% as.character(),
     CreatedWithR5Version = formals(r5r::setup_r5)$version %>% as.character(),
     DerivedFrom = describe_file(input_files),
+    Coverage = parochial_coverage_as_list(), # TODO - Determine from input files
     ParochialCacheKey = cache_key
   ) %>% jsonlite::toJSON(pretty = TRUE) %>%
   write(paste0(dest_path, ".meta.json"))

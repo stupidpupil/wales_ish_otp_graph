@@ -27,6 +27,7 @@ prepare_atoc_gtfs <- function(src_path = dir_working("atoc.zip")){
   list(
     CreatedAt = now_as_iso8601(),
     DerivedFrom = I(describe_file(src_path)),
+    Coverage = parochial_coverage_as_list(),
     ParochialCacheKey = cache_key
   ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
   write(paste0(dest_path, ".meta.json"))

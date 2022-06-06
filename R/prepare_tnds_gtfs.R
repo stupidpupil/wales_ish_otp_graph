@@ -41,6 +41,7 @@ prepare_tnds_gtfs <- function(){
     list(
       CreatedAt = now_as_iso8601(),
       DerivedFrom = I(describe_file(src_path)),
+      Coverage = parochial_coverage_as_list(),
       ParochialCacheKey = cache_key
     ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
     write(paste0(dest_path, ".meta.json"))
@@ -92,6 +93,7 @@ prepare_tnds_gtfs <- function(){
     list(
       CreatedAt = now_as_iso8601(),
       DerivedFrom = I(describe_file(dir_working("NCSD.bus.tnds.zip"))),
+      Coverage = parochial_coverage_as_list(),
       ParochialCacheKey = cache_key
     ) %>% jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE) %>%
     write(paste0(dest_path, ".meta.json"))

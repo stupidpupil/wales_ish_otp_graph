@@ -48,6 +48,7 @@ prepare_transport_graph <- function(){
     CreatedAt = now_as_iso8601(),
     CreatedWithOpenTripPlannerVersion = otp_version(),
     DerivedFrom = describe_file(streetgraph_path, input_files),
+    Coverage = parochial_coverage_as_list(), # TODO - Determine from input files
     ParochialCacheKey = cache_key
   ) %>% jsonlite::toJSON(pretty = TRUE) %>%
   write(paste0(dest_path, ".meta.json"))
