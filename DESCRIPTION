@@ -35,7 +35,6 @@ Imports:
   terra,
   RCurl,
   openssl,
-  fs,
-  rgdal
+  fs
 Remotes:
   stupidpupil/UK2GTFS
