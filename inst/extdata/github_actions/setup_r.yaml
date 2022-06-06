@@ -19,6 +19,6 @@
 - name: Install dependencies
   run: |
     install.packages(c("devtools"))
-    devtools::install_deps(dependencies = TRUE, type='binary')
+    devtools::install_deps(dependencies = TRUE)
   shell: Rscript {0}  
 
