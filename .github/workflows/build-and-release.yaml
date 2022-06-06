@@ -218,7 +218,7 @@ jobs:
       with:
         name: openstreetmap
         path: output/openstreetmap/
-    - name: Download Terrrain 50 artifact
+    - name: Download Terrain 50 artifact
       uses: actions/download-artifact@v2
       with:
         name: terr50.tif
