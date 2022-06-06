@@ -3,11 +3,8 @@ prepare_r5r_network_dat <- function(){
   old_opts <- options(java.parameters = java_args())
   on.exit(options(old_opts))
 
-  terr50_files <- Sys.glob(dir_output("*terr50.tif"))
-
   input_files <- c(
     Sys.glob(dir_output("openstreetmap/*.osm.pbf")),
-    terr50_files,
     paths_to_active_gtfs()
   )
 
@@ -36,9 +33,8 @@ prepare_r5r_network_dat <- function(){
   link_paths <- link_create_with_dir(input_files, dest_dir)
   on.exit({fs::link_delete(link_paths)}, add = TRUE)
 
-  r5r_core <- r5r::setup_r5(data_path = dest_dir, use_elevation = (length(terr50_files) > 0))
-
-  r5r::stop_r5(r5r_core)
+  r5r::setup_r5(data_path = dest_dir) %>%
+    r5r::stop_r5()
 
   stopifnot(file.exists(dest_path))
 
