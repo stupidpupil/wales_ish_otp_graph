@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 15:09 BST on 05 June 2022. (The graph should update weekly.)
+The graph file was last updated at 07:25 BST on 06 June 2022. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp\_and\_graph.zip* asset.
 
@@ -39,7 +39,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 
 | Description                      | Car   | Public |
 | :------------------------------- | :---- | :----- |
-| Abergavenny to Pontypridd        | 0h39m | 2h14m  |
+| Abergavenny to Pontypridd        | 0h39m | 2h33m  |
 | Bala to Cardiff                  | 3h36m | 4h43m  |
 | Bangor Pier to Great Orme        | 0h46m | 1h41m  |
 | Blaengarw to Bridgend            | 0h32m | 0h42m  |
