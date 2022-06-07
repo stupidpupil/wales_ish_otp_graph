@@ -32,12 +32,16 @@ get_atoc_download_url <- function(){
 
   message("Got URL for ATOC data:\n", atoc_download_url)
 
+  atoc_download_url %>% checkmate::assert_character(pattern="^https?://.+$")
+
   atoc_session %>% rvest::session_jump_to("https://data.atoc.org/user/logout?current=node/1")
 
   return(atoc_download_url)
 }
 
 download_atoc <- function(retries=3L){
+
+  retries %>% checkmate::assert_count()
 
   atoc_download_url <- get_atoc_download_url()
 
@@ -63,7 +67,7 @@ download_atoc <- function(retries=3L){
     atoc_session %>% rvest::session_jump_to("https://data.atoc.org/user/logout?current=node/1")
     Sys.sleep(60L)
     if(retries > 0){
-      return(download_atoc(retries-1L))
+      return(Recall(retries-1L))
     }
     stop("Downloading ATOC zip failed!")
   }
