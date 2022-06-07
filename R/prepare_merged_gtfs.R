@@ -23,7 +23,10 @@ prepare_merged_gtfs <- function(should_pfaedle = pfaedle_is_available()){
   }
 
   gtfstidy_merge_gtfs(input_gtfs, dest_path)
-  pfaedle_a_gtfs_zip(dest_path, input_osm)
+
+  if(should_pfaedle){
+    pfaedle_a_gtfs_zip(dest_path, input_osm)
+  }
 
   list(
     CreatedAt = now_as_iso8601(),
