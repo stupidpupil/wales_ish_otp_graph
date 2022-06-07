@@ -22,9 +22,16 @@ get_logged_in_atoc_session <- function(){
   return(atoc_session)
 }
 
-get_atoc_download_url <- function(){
+logout_atoc_session <- function(atoc_session){
+  atoc_session %>% rvest::session_jump_to("https://data.atoc.org/user/logout?current=node/1")
+}
 
-  atoc_session <- get_logged_in_atoc_session()
+get_atoc_download_url <- function(atoc_session){
+
+  if(missing(atoc_session)){
+    atoc_session <- get_logged_in_atoc_session()
+    on.exit(logout_atoc_session(atoc_session))
+  }
 
   atoc_session <- atoc_session %>% rvest::session_jump_to("https://data.atoc.org/data-download")
 
@@ -34,8 +41,6 @@ get_atoc_download_url <- function(){
 
   atoc_download_url %>% checkmate::assert_character(pattern="^https?://.+$")
 
-  atoc_session %>% rvest::session_jump_to("https://data.atoc.org/user/logout?current=node/1")
-
   return(atoc_download_url)
 }
 
@@ -43,7 +48,10 @@ download_atoc <- function(retries=3L){
 
   retries %>% checkmate::assert_count()
 
-  atoc_download_url <- get_atoc_download_url()
+  atoc_session <- get_logged_in_atoc_session()
+  on.exit(logout_atoc_session(atoc_session))
+
+  atoc_download_url <- get_atoc_download_url(atoc_session)
 
   cache_key <- cache_key_for_atoc_url(atoc_download_url)
 
@@ -54,9 +62,6 @@ download_atoc <- function(retries=3L){
     return(dest_path)
   }
 
-  atoc_session <- get_logged_in_atoc_session()
-
-  #atoc_session <- atoc_session %>% rvest::session_jump_to("https://data.atoc.org/data-download")
   atoc_session <- atoc_session %>% rvest::session_jump_to(atoc_download_url, atoc_user_agent())
 
   actual_content_length <- atoc_session$response$content %>% length()
@@ -73,7 +78,6 @@ download_atoc <- function(retries=3L){
   }
 
   writeBin(atoc_session$response$content, dest_path)
-  atoc_session %>% rvest::session_jump_to("https://data.atoc.org/user/logout?current=node/1")
 
   jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE, list(
     SourceUrl = atoc_download_url,
