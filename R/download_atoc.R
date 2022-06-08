@@ -1,7 +1,17 @@
+#' User-agent used for accessing ATOC
 atoc_user_agent <- function(){
   httr::user_agent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:89.0) Gecko/20100101 Firefox/89.0")
 }
 
+
+#' Get a logged-in ATOC session
+#'
+#' @details
+#' Uses the username and password provided in config.yml to attempt to
+#' to obtain a logged-in \code{rvest::session}.
+#' 
+#' @return An \code{rvest::session} if succesful.
+#'
 get_logged_in_atoc_session <- function(){
   atoc_session <- rvest::session("https://data.atoc.org/user/login", atoc_user_agent())
 
@@ -22,10 +32,26 @@ get_logged_in_atoc_session <- function(){
   return(atoc_session)
 }
 
+
+#' Logout a logged-in ATOC session
+#'
+#' @param atoc_session A logged-in ATOC session.
+#'
+#' @return TRUE
+#' 
 logout_atoc_session <- function(atoc_session){
   atoc_session %>% rvest::session_jump_to("https://data.atoc.org/user/logout?current=node/1")
+  return(TRUE)
 }
 
+
+#' Get the latest ATOC CIF download url
+#'
+#' @param atoc_session A logged-in ATOC session. If this is missing, then the function will attempt
+#' to obtain its own session, using \code{get_logged_in_atoc_session}
+#' 
+#' @return An \code{rvest::session} if succesful.
+#' 
 get_atoc_download_url <- function(atoc_session){
 
   if(missing(atoc_session)){
@@ -44,6 +70,19 @@ get_atoc_download_url <- function(atoc_session){
   return(atoc_download_url)
 }
 
+
+#' Download the latest ATOC CIF zip
+#
+#' @details
+#' This uses \code{get_atoc_download_url} to find the latest ATOC CIF download url,
+#' checks if this is different to any existing download ATOC CIF zip (using \code{cache_key_for_atoc_url}),
+#' and downloads it if necessary.
+#'
+#' It checks that the actual size of the downloaded zip matches the HTTP Content-Length header, 
+#' and will reattempt the download if this fails.
+#'
+#' @return The path of the downloaded ATOC CIF zip
+#'
 download_atoc <- function(retries=3L){
 
   retries %>% checkmate::assert_count()
