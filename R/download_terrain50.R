@@ -1,3 +1,13 @@
+#' Download the latest Terrain 50 Grid and GML (GAGG) zip
+#'
+#' @details
+#'
+#' This downloads the latest Terrain 50 Grid and GML (GAGG) zip, 
+#' checking first if this is different to any existing zip using
+#' \code{cache_key_for_terrain_50_url}
+#
+#' @return The path to the downloaded Terrain 50 GAGG zip
+#'
 download_terrain50 <- function(){
   
   terrain_50_url <- "https://api.os.uk/downloads/v1/products/Terrain50/downloads?area=GB&format=ASCII+Grid+and+GML+%28Grid%29&redirect"

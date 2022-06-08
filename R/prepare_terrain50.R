@@ -1,3 +1,17 @@
+#' Prepare Terrain 50 for parochial spatial bounds
+#' 
+#' @details
+#' This function prepares a GeoTIFF from a Terrain 50 ASCII Grid and GML (GAGG) zip.
+#' The GeoTIFF is cropped to the parochial spatial bounds (plus a buffer of 20km or so) 
+#' and reprojected to EPSG:4326.
+#'
+#' It will create a GDAL VRT (Virtual Dataset) file for the Terrain 50 zip
+#' if necessary, using \code{vrt_for_terrain50_zip}.
+#' 
+#' @param terr50_zip_path Path to the Terrain 50 Grid and GML (GAGG) zip
+#'
+#' @return The path of the prepared GeoTIFF
+#' 
 prepare_terrain50 <- function(terr50_zip_path = dir_working("terr50_gagg_gb.zip")){
   
   checkmate::assert_file_exists(terr50_zip_path, access="r", extension=".zip")

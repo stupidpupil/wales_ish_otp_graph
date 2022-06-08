@@ -1,3 +1,15 @@
+#' Create a GDAL VRT for a Terrain 50 ASCII Grid and GML (GAGG) zip
+#'
+#' @details
+#' This puts together a GDAL VRT (Virtual Dataset) file for a Terrain 50 ASCII Grid and GML (GAGG) zip.
+#'
+#' Terrain 50 GAGG zips themselves contain a set of zips, where each nested zip contains data for an individual tile. 
+#' This function uses chained GDAL's Virtual File Systems to avoid unzipping either the nested or parent zips.
+#'
+#' This function makes various assumptions about the nature of the Terrain 50 GAGG zip that probably make it quite brittle.
+#'
+#' @return A \code{terra::rast} of the created VRT
+#'
 vrt_for_terrain50_zip <- function(terr50_zip_path = "terr50_gagg_gb.zip", vrt_filename = "terr50_gagg_gb.vrt"){
 
   checkmate::assert_file_exists(terr50_zip_path, access="r", extension=".zip")
