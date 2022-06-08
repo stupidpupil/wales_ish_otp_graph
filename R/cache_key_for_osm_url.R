@@ -1,5 +1,6 @@
 #' Get the parochial cache key for a Geofabrik OSM extract URL
 #' 
+#' @details
 #' The cache key is based on the ETag HTTP header and the URL itself.
 #'
 #' @param osm_url A URL for a Geofabrik OSM extract download.

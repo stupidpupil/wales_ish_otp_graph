@@ -1,3 +1,18 @@
+#' Check that your config.yml and environment are setup correctly
+#'
+#' @details 
+#' This performs a set of basic checks on the contents of your config.yml, including
+#' whether you've specified appropriate bounds and provided useable ATOC and TNDS 
+#' usernames and passwords.
+#'
+#' It also checks if osmium is available or not.
+#'
+#' It tries to provide useful advice if a check fails.
+#' 
+#' It raises an exception if any check fails (but only after attempting to run the remaining checks.)
+#'
+#' @return TRUE if all the checks succeed.
+
 check_config_and_environment <- function(){
 
 	error_count <- 0

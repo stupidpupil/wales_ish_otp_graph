@@ -1,5 +1,6 @@
 #' Get the parochial cache key for a TNDS download URL
 #'
+#' @details
 #' The cache key is based on the FTP directory entry for the file
 #' specified by the URL.
 #' 

@@ -1,5 +1,6 @@
 #' Get the parochial cache key for a Terrain 50 download URL
 #'
+#' @details
 #' The cache key is the MD5 checksum provided by the Ordnance Survey directory at
 #' https://api.os.uk/downloads/v1/products/Terrain50/downloads
 #' 

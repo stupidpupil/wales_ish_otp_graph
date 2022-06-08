@@ -1,5 +1,6 @@
 #' Get the parochial cache key for a ATOC download URL
 #'
+#' @details
 #' The cache key is based on the URL itself and the current month.
 #' (The download URL for the ATOC CIF zip is expected to change whenever the file changes.)
 #'

@@ -1,5 +1,6 @@
 #' Get the parochial cache key for a BODS download URL
 #'
+#' @details
 #' The cache key is based on the Content-Length HTTP header (indicating the size of the zip) and the current month.
 #'
 #' @param bods_url A URL for a BODS gtfs zip.
