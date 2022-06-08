@@ -1,3 +1,5 @@
+#' Create links in a destination directory to a set of target paths 
+#' @return The paths to the created links
 link_create_with_dir <- function(target_paths, dest_dir){
 
   checkmate::assert_file_exists(target_paths)

@@ -1,7 +1,8 @@
+#' Get the parochial cache key(s) for zero or more files
 cache_key_for_file <- function(path) {
 
   if(length(path) == 0){
-    return(FALSE)
+    return(FALSE) # TODO: FALSE is a poor choice here, because you can't include it in a character vector
   }
 
   if(length(path) > 1){
@@ -9,7 +10,7 @@ cache_key_for_file <- function(path) {
   }
 
   if(!file.exists(path)){
-    return(FALSE)
+    return(FALSE) # TODO: FALSE is a poor choice here, because you can't include it in a character vector
   }
 
   meta_path <- paste0(path, ".meta.json")

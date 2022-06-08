@@ -1,3 +1,10 @@
+#' Get the parochial cache key for a TNDS download URL
+#'
+#' The cache key is based on the FTP directory entry for the file
+#' specified by the URL.
+#' 
+#' @param tnds_url A TNDS download FTP URL
+#' 
 cache_key_for_tnds_url <- function(tnds_url){
 
   checkmate::assert_character(tnds_url, len=1, pattern="^ftp://(.+)/(.+)$")
