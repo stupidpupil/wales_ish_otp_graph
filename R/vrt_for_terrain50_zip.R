@@ -94,6 +94,8 @@ vrt_for_terrain50_zip <- function(terr50_zip_path = "terr50_gagg_gb.zip", vrt_fi
 
   message("Found ", length(vsizip_paths), " tile zips in ", terr50_zip_path, " ...")
 
+  stopifnot(length(vsizip_paths) > 0)
+
   sources_tibble <- vrt_sources_from_paths(vsizip_paths)
   vrt_text <- vrt_sources_to_vrt_xml_string(sources_tibble, "OS Terrain 50 DTM")
 
