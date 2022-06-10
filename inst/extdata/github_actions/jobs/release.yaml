@@ -1,5 +1,6 @@
 needs: [
   'prepare_r5r_network_dat',
+  'prepare_osrm',
   'prepare_pretty_map',
   'prepare_final_graph']
 runs-on: macOS-latest
@@ -64,6 +65,12 @@ steps:
       name: network.dat
       path: output/r5r
 
+  - name: Download osrm graph artifact
+    uses: actions/download-artifact@v2
+    with:
+      name: osrm-graph
+      path: output/osrm/*
+
   - name: Download pretty map artifact
     uses: actions/download-artifact@v2
     with:
@@ -127,6 +134,14 @@ steps:
       zip -9 -r r5r_network_dat.zip r5r_network_dat/
       cd ..
 
+  - name: Prepare osrm_graph.zip release asset
+    run: |
+      mkdir -p assets/osrm_graph
+      cp output/osrm/* assets/osrm_graph/
+      cd assets
+      zip -9 -r osrm_graph.zip osrm_graph/
+      cd ..
+
   - name: Checkout graph-releases branch
     uses: actions/checkout@v2
     with:
@@ -168,7 +183,7 @@ steps:
     uses: ncipollo/release-action@v1
     if: github.ref == 'refs/heads/main' 
     with:
-      artifacts: "assets/otp_and_graph.zip,assets/gtfs_and_osm.zip,assets/r5r_network_dat.zip"
+      artifacts: "assets/otp_and_graph.zip,assets/gtfs_and_osm.zip,assets/r5r_network_dat.zip,assets/osrm_graph.zip"
       bodyFile: "output/release_body.md"
       token: ${{ secrets.GITHUB_TOKEN }}
       commit: graph-releases
