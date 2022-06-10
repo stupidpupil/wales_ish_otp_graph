@@ -1,0 +1,13 @@
+- name: Download osrm artifact
+  uses: actions/download-artifact@v2
+  with:
+    name: osrm
+    path: osrm-backend
+
+- name: Make osrm executable
+  run: |
+    chmod ug+x $GITHUB_WORKSPACE/osrm-backend/build/osrm-*
+
+- name: Add osrm to path
+  run: |
+    echo "$GITHUB_WORKSPACE/osrm-backend/build" >> $GITHUB_PATH

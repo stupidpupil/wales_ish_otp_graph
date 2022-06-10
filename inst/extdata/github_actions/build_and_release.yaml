@@ -9,6 +9,9 @@ jobs:
   build_pfaedle:
     parochial_merge: jobs/build_pfaedle
 
+  build_osrm:
+    parochial_merge: jobs/build_osrm
+
   download_and_prepare_terrain:
     parochial_merge: jobs/download_and_prepare_terrain
 
@@ -17,6 +20,9 @@ jobs:
 
   prepare_street_graph:
     parochial_merge: jobs/prepare_street_graph
+
+  prepare_osrm_graph:
+    parochial_merge: jobs/prepare_osrm_graph
 
   download_and_prepare_atoc:
     parochial_merge: jobs/download_and_prepare_atoc

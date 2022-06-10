@@ -1,0 +1,46 @@
+runs-on: macOS-latest
+env:
+  GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+steps:
+  - uses: actions/checkout@v2
+    with:
+      repository: 'Project-OSRM/osrm-backend'
+      path: 'osrm-backend'
+
+  - name: Get osrm-backend ref
+    id: osrm-backend-ref
+    run: |
+      echo "::set-output name=ref::$(git -C osrm-backend rev-parse HEAD)"
+    shell: bash
+
+  - name: Cache osrm-backend/build
+    id: cache_osrm_backend_build
+    uses: actions/cache@v2
+    with:
+      path: |
+        osrm-backend/build
+        osrm-backend/mason_packages
+      key: ${{ runner.os }}-${{ steps.osrm-backend-ref.outputs.ref }}-v2
+
+  - name: Build osrm-backend
+    if: steps.cache_osrm_backend_build.outputs.cache-hit != 'true'
+    run: |
+      cd osrm-backend
+      mkdir build
+      cd build
+      cmake ../ -DENABLE_MASON=1
+      make
+      cd ../../
+      rm -r osrm-backend/build/CMakeFiles
+      rm osrm-backend/build/libosrm*
+      rm -r osrm-backend/mason_packages/headers/
+      rm -r osrm-backend/third_party/sol2/docs
+
+    shell: bash
+
+  - name: Upload osrm artefact
+    uses: actions/upload-artifact@v2
+    with:
+      name: osrm
+      path: osrm-backend
+      if-no-files-found: error

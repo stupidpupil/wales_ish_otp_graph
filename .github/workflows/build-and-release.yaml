@@ -45,6 +45,48 @@ jobs:
         name: pfaedle
         path: pfaedle-build
         if-no-files-found: error
+  build_osrm:
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        repository: Project-OSRM/osrm-backend
+        path: osrm-backend
+    - name: Get osrm-backend ref
+      id: osrm-backend-ref
+      run: |
+        echo "::set-output name=ref::$(git -C osrm-backend rev-parse HEAD)"
+      shell: bash
+    - name: Cache osrm-backend/build
+      id: cache_osrm_backend_build
+      uses: actions/cache@v2
+      with:
+        path: |
+          osrm-backend/build
+          osrm-backend/mason_packages
+        key: ${{ runner.os }}-${{ steps.osrm-backend-ref.outputs.ref }}-v2
+    - name: Build osrm-backend
+      if: steps.cache_osrm_backend_build.outputs.cache-hit != 'true'
+      run: |
+        cd osrm-backend
+        mkdir build
+        cd build
+        cmake ../ -DENABLE_MASON=1
+        make
+        cd ../../
+        rm -r osrm-backend/build/CMakeFiles
+        rm osrm-backend/build/libosrm*
+        rm -r osrm-backend/mason_packages/headers/
+        rm -r osrm-backend/third_party/sol2/docs
+      shell: bash
+    - name: Upload osrm artefact
+      uses: actions/upload-artifact@v2
+      with:
+        name: osrm
+        path: osrm-backend
+        if-no-files-found: error
   download_and_prepare_terrain:
     runs-on: macOS-latest
     steps:
@@ -290,6 +332,98 @@ jobs:
       with:
         name: streetGraph.obj
         path: output/opentripplanner/streetGraph.obj*
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ATOC_USERNAME: ${{ secrets.ATOC_USERNAME }}
+      ATOC_PASSWORD: ${{ secrets.ATOC_PASSWORD }}
+      TNDS_USERNAME: ${{ secrets.TNDS_USERNAME }}
+      TNDS_PASSWORD: ${{ secrets.TNDS_PASSWORD }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
+  prepare_osrm_graph:
+    needs:
+    - build_osrm
+    - download_and_prepare_osm
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Write config.yml
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: ${{ github.workspace }}/config.yml
+        contents: |
+          default:
+            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
+            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
+            bounds: !expr Sys.getenv("BOUNDS")
+    - name: Download OpenStreetMap artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: openstreetmap
+        path: output/openstreetmap/
+    - name: Download osrm artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: osrm
+        path: osrm-backend
+    - name: Make osrm executable
+      run: |
+        chmod ug+x $GITHUB_WORKSPACE/osrm-backend/build/osrm-*
+    - name: Add osrm to path
+      run: echo "$GITHUB_WORKSPACE/osrm-backend/build" >> $GITHUB_PATH
+    - name: Derive hash from ParochialCacheKeys
+      id: parochial_cache_keys
+      run: |-
+        echo "::set-output name=hash::$(
+          ls output/*/*.meta.json output/*.meta.json | sort | xargs jq .ParochialCacheKey | shasum -a 1
+        )"
+    - name: Cache OSRM graph
+      id: cache_street_graph
+      uses: actions/cache@v2
+      with:
+        path: output/osrm/*
+        key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash
+          }}-otp.street-v1
+    - uses: r-lib/actions/setup-r@v2
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-pandoc@v1
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    - name: Query dependencies
+      run: |
+        install.packages('remotes')
+        saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+      shell: Rscript {0}
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    - name: Restore R package cache
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
+          }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    - name: Install dependencies
+      run: |
+        install.packages(c("devtools"))
+        devtools::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    - name: Prepare osrm graph
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        prepare_osrm()
+      shell: Rscript {0}
+    - name: Upload osrm outputs artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: osrm-graph
+        path: output/osrm/*
         if-no-files-found: error
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
