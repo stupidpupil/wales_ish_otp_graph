@@ -17,6 +17,10 @@ parochial <- function(){
     prepare_merged_gtfs()
   }
 
+  if(osrm_is_available()){
+    prepare_osrm_graph()
+  }
+
   # OpenTripPlanner
   # (Requires JDK 17)
   download_otp()
