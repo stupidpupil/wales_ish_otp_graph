@@ -1,6 +1,6 @@
 needs: [
   'prepare_r5r_network_dat',
-  'prepare_osrm',
+  'prepare_osrm_graph',
   'prepare_pretty_map',
   'prepare_final_graph']
 runs-on: macOS-latest
