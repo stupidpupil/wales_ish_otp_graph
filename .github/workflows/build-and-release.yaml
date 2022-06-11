@@ -1136,7 +1136,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: osrm-graph
-        path: output/osrm/*
+        path: output/osrm_driving
     - name: Download pretty map artifact
       uses: actions/download-artifact@v2
       with:
