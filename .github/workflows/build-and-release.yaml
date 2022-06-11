@@ -66,7 +66,7 @@ jobs:
         path: |
           osrm-backend/build
           osrm-backend/mason_packages
-        key: ${{ runner.os }}-${{ steps.osrm-backend-ref.outputs.ref }}-v2
+        key: ${{ runner.os }}-${{ steps.osrm-backend-ref.outputs.ref }}-osrm-v1
     - name: Build osrm-backend
       if: steps.cache_osrm_backend_build.outputs.cache-hit != 'true'
       run: |
@@ -80,6 +80,12 @@ jobs:
         rm osrm-backend/build/libosrm*
         rm -r osrm-backend/mason_packages/headers/
         rm -r osrm-backend/third_party/sol2/docs
+        rm -r osrm-backend/unit_tests/
+        rm -r osrm-backend/src/
+        rm -r osrm-backend/docs/
+        rm -r osrm-backend/features/
+        rm -r osrm-backend/include/
+        rm -r osrm-backend/test/
       shell: bash
     - name: Upload osrm artefact
       uses: actions/upload-artifact@v2
