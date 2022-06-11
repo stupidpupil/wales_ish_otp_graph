@@ -5,6 +5,8 @@ run_osrm <- function(code, port=5000, osrm_file=path_to_osrm_graph("driving")) {
   # unless we DISABLE_ACCESS_LOGGING or similar
   # (An alternative might be to set verbosity to NONE and investigate SIGNAL_PARENT_WHEN_READY)
 
+  # TODO - find an open port
+
   message("Starting OSRM...")
   px <- start_program(
     "osrm-routed", 
