@@ -24,6 +24,8 @@ prepare_osrm_graph <- function(profile_name="driving"){
   # TODO - https://stxxl.org/tags/1.4.1/install_config.html
   
   profile_path <- fs::path_package(package_name(), "inst", "extdata", "osrm", profile_name, ext="lua")
+  checkmate::assert_file_exists(profile_path, access="r")
+  
   processx::run("osrm-extract", c("-p", profile_path, link_paths))
   stopifnot(file.exists(dest_path))
 
