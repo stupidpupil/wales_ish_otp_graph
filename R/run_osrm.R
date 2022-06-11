@@ -1,4 +1,4 @@
-run_osrm <- function(code, port=5000, osrm_file=path_to_osrm_graph("driving")) {
+run_osrm <- function(code, port=5000L, osrm_file=path_to_osrm_graph("driving")) {
 
   checkmate::assert_integer(port, lower = 1024L, upper=49151L, len=1L)   # TODO - find an open port
   checkmate::assert_file_exists(osrm_file, access="r")
