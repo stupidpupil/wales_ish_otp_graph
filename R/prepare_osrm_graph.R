@@ -34,6 +34,9 @@ prepare_osrm_graph <- function(profile_name="driving"){
 
   processx::run("osrm-contract", dest_path)
 
+  # TODO - optionally clean-up files that osrm-routed doesn't need
+  # https://github.com/Project-OSRM/osrm-backend/wiki/Toolchain-file-overview
+
   list(
     CreatedAt = now_as_iso8601(),
     DerivedFrom = describe_file(input_files),
