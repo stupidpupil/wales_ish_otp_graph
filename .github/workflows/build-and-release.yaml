@@ -385,9 +385,9 @@ jobs:
       id: cache_street_graph
       uses: actions/cache@v2
       with:
-        path: output/osrm/*
+        path: output/osrm_driving/*
         key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash
-          }}-otp.street-v1
+          }}-osrm_driving-v1
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_street_graph.outputs.cache-hit != 'true'
     - uses: r-lib/actions/setup-pandoc@v1
@@ -417,13 +417,13 @@ jobs:
       if: steps.cache_street_graph.outputs.cache-hit != 'true'
       run: |
         devtools::load_all()
-        prepare_osrm()
+        prepare_osrm_graph()
       shell: Rscript {0}
     - name: Upload osrm outputs artifact
       uses: actions/upload-artifact@v2
       with:
         name: osrm-graph
-        path: output/osrm/*
+        path: output/osrm_driving/*
         if-no-files-found: error
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -1187,12 +1187,12 @@ jobs:
         cd assets
         zip -9 -r r5r_network_dat.zip r5r_network_dat/
         cd ..
-    - name: Prepare osrm_graph.zip release asset
+    - name: Prepare osrm_driving.zip release asset
       run: |
-        mkdir -p assets/osrm_graph
-        cp output/osrm/* assets/osrm_graph/
+        mkdir -p assets/osrm_driving
+        cp output/osrm_driving/* assets/osrm_driving/
         cd assets
-        zip -9 -r osrm_graph.zip osrm_graph/
+        zip -9 -r osrm_driving.zip osrm_driving/
         cd ..
     - name: Checkout graph-releases branch
       uses: actions/checkout@v2
@@ -1231,7 +1231,7 @@ jobs:
       uses: ncipollo/release-action@v1
       if: github.ref == 'refs/heads/main'
       with:
-        artifacts: assets/otp_and_graph.zip,assets/gtfs_and_osm.zip,assets/r5r_network_dat.zip,assets/osrm_graph.zip
+        artifacts: assets/otp_and_graph.zip,assets/gtfs_and_osm.zip,assets/r5r_network_dat.zip,assets/osrm_driving.zip
         bodyFile: output/release_body.md
         token: ${{ secrets.GITHUB_TOKEN }}
         commit: graph-releases

@@ -1,8 +1,8 @@
-prepare_osrm <- function(){
+prepare_osrm_graph <- function(profile_name="driving"){
 
   input_files <- dir_output("openstreetmap/", output_affix(), ".osm.pbf")
 
-  dest_path <- dir_output("osrm/", output_affix(), ".osrm")
+  dest_path <- path_to_osrm_graph(profile_name)
   dest_dir <- dirname(dest_path)
 
   cache_key <- openssl::sha1(paste0(
@@ -23,7 +23,7 @@ prepare_osrm <- function(){
 
   # TODO - https://stxxl.org/tags/1.4.1/install_config.html
   
-  profile_path <- fs::path_package(package_name(), "inst", "extdata", "osrm", "car_gb.lua")
+  profile_path <- fs::path_package(package_name(), "inst", "extdata", "osrm", profile_name, ext="lua")
   processx::run("osrm-extract", c("-p", profile_path, link_paths))
   stopifnot(file.exists(dest_path))
 

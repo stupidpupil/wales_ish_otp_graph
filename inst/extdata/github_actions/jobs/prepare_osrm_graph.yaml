@@ -19,8 +19,8 @@ steps:
     id: cache_street_graph
     uses: actions/cache@v2
     with:
-      path: output/osrm/*
-      key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash }}-otp.street-v1
+      path: output/osrm_driving/*
+      key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash }}-osrm_driving-v1
 
   - parochial_replace_with: setup_r
     if: steps.cache_street_graph.outputs.cache-hit != 'true'
@@ -29,12 +29,12 @@ steps:
     if: steps.cache_street_graph.outputs.cache-hit != 'true'
     run: |
       devtools::load_all()
-      prepare_osrm()
+      prepare_osrm_graph()
     shell: Rscript {0}
 
   - name: Upload osrm outputs artifact
     uses: actions/upload-artifact@v2
     with:
       name: osrm-graph
-      path: output/osrm/*
+      path: output/osrm_driving/*
       if-no-files-found: error

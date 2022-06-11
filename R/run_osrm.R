@@ -1,10 +1,9 @@
-run_osrm <- function(code, port=5000, osrm_file=dir_output("osrm/", output_affix(), ".osrm")) {
+run_osrm <- function(code, port=5000, osrm_file=path_to_osrm_graph("driving")) {
 
   # OSRM-routed doesn't like its stdout being closed
   # but it also requires that its stdout is constantly drained
   # unless we DISABLE_ACCESS_LOGGING or similar
   # (An alternative might be to set verbosity to NONE and investigate SIGNAL_PARENT_WHEN_READY)
-
 
   message("Starting OSRM...")
   px <- start_program(

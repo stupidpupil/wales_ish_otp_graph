@@ -134,12 +134,12 @@ steps:
       zip -9 -r r5r_network_dat.zip r5r_network_dat/
       cd ..
 
-  - name: Prepare osrm_graph.zip release asset
+  - name: Prepare osrm_driving.zip release asset
     run: |
-      mkdir -p assets/osrm_graph
-      cp output/osrm/* assets/osrm_graph/
+      mkdir -p assets/osrm_driving
+      cp output/osrm_driving/* assets/osrm_driving/
       cd assets
-      zip -9 -r osrm_graph.zip osrm_graph/
+      zip -9 -r osrm_driving.zip osrm_driving/
       cd ..
 
   - name: Checkout graph-releases branch
@@ -183,7 +183,7 @@ steps:
     uses: ncipollo/release-action@v1
     if: github.ref == 'refs/heads/main' 
     with:
-      artifacts: "assets/otp_and_graph.zip,assets/gtfs_and_osm.zip,assets/r5r_network_dat.zip,assets/osrm_graph.zip"
+      artifacts: "assets/otp_and_graph.zip,assets/gtfs_and_osm.zip,assets/r5r_network_dat.zip,assets/osrm_driving.zip"
       bodyFile: "output/release_body.md"
       token: ${{ secrets.GITHUB_TOKEN }}
       commit: graph-releases
