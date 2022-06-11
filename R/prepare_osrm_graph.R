@@ -25,7 +25,8 @@ prepare_osrm_graph <- function(profile_name="driving"){
   
   profile_path <- fs::path_package(package_name(), "inst", "extdata", "osrm", profile_name, ext="lua")
   checkmate::assert_file_exists(profile_path, access="r")
-  
+
+  unlink(Sys.glob(paste0(dest_path, "*")))
   processx::run("osrm-extract", c("-p", profile_path, link_paths))
   stopifnot(file.exists(dest_path))
 
