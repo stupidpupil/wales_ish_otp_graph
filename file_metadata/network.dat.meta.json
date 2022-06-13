@@ -1,27 +1,27 @@
 {
-  "CreatedAt": ["2022-06-11T10:02:59+0000"],
+  "CreatedAt": ["2022-06-13T06:14:02+0000"],
   "CreatedWithR5rVersion": ["0.7.0"],
   "CreatedWithR5Version": ["6.4.0"],
   "DerivedFrom": [
     {
       "Filename": ["walesish.osm.pbf"],
-      "SizeBytes": [272853221],
-      "CreatedAt": ["2022-06-11T09:24:31+0000"],
+      "SizeBytes": [272945360],
+      "CreatedAt": ["2022-06-13T05:48:00+0000"],
       "DerivedFrom": {
         "Filename": ["great-britain-latest.osm.pbf"],
-        "SizeBytes": [1503438225],
+        "SizeBytes": [1503972354],
         "SourceUrl": ["https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"],
-        "SourceDownloadedAt": ["2022-06-11T09:18:57+0000"],
+        "SourceDownloadedAt": ["2022-06-13T05:41:02+0000"],
         "SourceLicence": ["ODbL-1.0"],
         "SourceAttribution": ["OpenStreetMap contributors"],
-        "ParochialCacheKey": ["6f4605628a653db9dc12b75681461fa37d511dfe"]
+        "ParochialCacheKey": ["4c9682750c16d309a20926552af1dfb6e79f230e"]
       },
-      "ParochialCacheKey": ["a31ff7432f9c0a29c1175818c9b61aca854367ea"]
+      "ParochialCacheKey": ["b5f554437b65ef1521aefc7844f2d86d420950b7"]
     },
     {
       "Filename": ["merged.walesish.gtfs.zip"],
-      "SizeBytes": [82765675],
-      "CreatedAt": ["2022-06-11T09:54:10+0000"],
+      "SizeBytes": [82691470],
+      "CreatedAt": ["2022-06-13T06:05:04+0000"],
       "DerivedFrom": [
         {
           "Filename": ["NCSD.tnds.walesish.gtfs.zip"],
@@ -157,16 +157,16 @@
         },
         {
           "Filename": ["walesish.osm.pbf"],
-          "SizeBytes": [272853221],
-          "CreatedAt": ["2022-06-11T09:24:31+0000"],
+          "SizeBytes": [272945360],
+          "CreatedAt": ["2022-06-13T05:48:00+0000"],
           "DerivedFrom": {
             "Filename": ["great-britain-latest.osm.pbf"],
-            "SizeBytes": [1503438225],
+            "SizeBytes": [1503972354],
             "SourceUrl": ["https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"],
-            "SourceDownloadedAt": ["2022-06-11T09:18:57+0000"],
+            "SourceDownloadedAt": ["2022-06-13T05:41:02+0000"],
             "SourceLicence": ["ODbL-1.0"],
             "SourceAttribution": ["OpenStreetMap contributors"],
-            "ParochialCacheKey": ["6f4605628a653db9dc12b75681461fa37d511dfe"]
+            "ParochialCacheKey": ["4c9682750c16d309a20926552af1dfb6e79f230e"]
           },
           "Coverage": {
             "Temporal": {
@@ -175,18 +175,18 @@
             },
             "Spatial": {}
           },
-          "ParochialCacheKey": ["a31ff7432f9c0a29c1175818c9b61aca854367ea"]
+          "ParochialCacheKey": ["b5f554437b65ef1521aefc7844f2d86d420950b7"]
         }
       ],
-      "ParochialCacheKey": ["6790ca7e5be803e82294502b44faa22a525f2e03"]
+      "ParochialCacheKey": ["689e239260699cad143c0c24f8ef26c1fd12a4ce"]
     }
   ],
   "Coverage": {
     "Temporal": {
-      "start": ["2022-06-06"],
-      "end": ["2022-07-05"]
+      "start": ["2022-06-13"],
+      "end": ["2022-07-12"]
     },
     "Spatial": ["Part of Great Britain"]
   },
-  "ParochialCacheKey": ["bc98817643619882299e849a59931455239c6ebc"]
+  "ParochialCacheKey": ["11d84da52bde88f59ca0c5897d235e57a5d677fa"]
 }
