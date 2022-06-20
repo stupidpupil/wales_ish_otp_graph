@@ -1,20 +1,20 @@
 {
-  "CreatedAt": "2022-06-11T09:23:44+0000",
+  "CreatedAt": "2022-06-20T05:46:16+0000",
   "DerivedFrom": {
     "Filename": "NCSD.bus.tnds.zip",
-    "SizeBytes": 914588,
+    "SizeBytes": 908676,
     "SourceUrl": "ftp://ftp.tnds.basemap.co.uk/NCSD.zip",
-    "SourceDownloadedAt": "2022-06-11T09:16:30+0000",
+    "SourceDownloadedAt": "2022-06-20T05:35:04+0000",
     "SourceLicence": "OGL-UK-3.0",
     "SourceAttribution": "Traveline",
-    "ParochialCacheKey": "8c152855484c31750cb9f7ff5a50247bc894c06b"
+    "ParochialCacheKey": "0ad0faede773db6100385e2054b89ca9a9a676a2"
   },
   "Coverage": {
     "Temporal": {
-      "start": "2022-06-06",
-      "end": "2022-07-05"
+      "start": "2022-06-20",
+      "end": "2022-07-19"
     },
     "Spatial": "Part of Great Britain"
   },
-  "ParochialCacheKey": "805065a4cd75945a559bfa64877dcb21629cf1f2"
+  "ParochialCacheKey": "aa3ce54ac9e2e7575cb82cda836e13add8cba109"
 }
