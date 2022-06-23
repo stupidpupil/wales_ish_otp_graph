@@ -1,5 +1,0 @@
-- uses: actions/setup-go@v3
-
-- name: Get gtfstidy
-  run: |
-    go install github.com/patrickbr/gtfstidy@latest

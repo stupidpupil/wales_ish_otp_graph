@@ -9,32 +9,6 @@ License: GPL (>= 3)
 Encoding: UTF-8
 Depends: 
   R (>= 2.10),
-  UK2GTFS
-Imports:
-  magrittr,
-  tibble,
-  dplyr,
-  purrr,
-  tidyr,
-  stringr,
-  ggplot2,
-  r5r,
-  config,
-  checkmate,
-  sf,
-  jsonlite,
-  processx,
-  lubridate,
-  rmarkdown,
-  httr,
-  rvest,
-  readr,
-  crayon,
-  gtfstools,
-  lwgeom,
-  terra,
-  RCurl,
-  openssl,
-  fs
+  parochial
 Remotes:
-  stupidpupil/UK2GTFS
+  stupidpupil/parochial

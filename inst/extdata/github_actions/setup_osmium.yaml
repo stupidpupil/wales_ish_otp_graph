@@ -1,3 +1,0 @@
-- name: Install osmium
-  run: brew install osmium-tool
-

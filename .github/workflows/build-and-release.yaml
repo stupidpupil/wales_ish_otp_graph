@@ -824,7 +824,7 @@ jobs:
     - name: Prepare map
       run: |
         devtools::load_all()
-        prepare_pretty_wales_ish_map()
+        prepare_pretty_map()
       shell: Rscript {0}
     - name: Upload map artifact
       uses: actions/upload-artifact@v2
