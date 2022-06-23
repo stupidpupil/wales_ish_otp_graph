@@ -150,6 +150,8 @@ jobs:
       run: |
         devtools::load_all()
         download_terrain50()
+        zip -d data-raw/terr50_gagg_gb.zip "data/sd/sd67_OST50GRID_20220506.zip"
+        zip -d data-raw/terr50_gagg_gb.zip "data/sd/sd68_OST50GRID_20220506.zip"
         prepare_terrain50()
       shell: Rscript {0}
     - name: Upload Terrain 50 artifact
