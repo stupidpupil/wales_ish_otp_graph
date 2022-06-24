@@ -1175,8 +1175,8 @@ jobs:
       run: |
         mkdir -p assets/otp_and_graph/graph
         cp data-raw/otp.jar assets/otp_and_graph/
-        cp inst/extdata/run-otp.bat assets/otp_and_graph/
-        cp inst/extdata/run-otp.sh assets/otp_and_graph/
+        cp /Users/runner/work/_temp/Library/parochial/extdata/run-otp.bat assets/otp_and_graph/
+        cp /Users/runner/work/_temp/Library/parochial/extdata/run-otp.sh assets/otp_and_graph/
         chmod ugo+x assets/otp_and_graph/run-otp.sh
         curl https://raw.githubusercontent.com/opentripplanner/OpenTripPlanner/dev-2.x/LICENSE -o assets/otp_and_graph/OTP_LICENSE
         cp output/opentripplanner/graph.obj* assets/otp_and_graph/graph/
