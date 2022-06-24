@@ -150,6 +150,7 @@ jobs:
       run: |
         devtools::load_all()
         download_terrain50()
+      shell: Rscript {0}
     - name: Delete some upsetting zips
       if: steps.cache_terrain50.outputs.cache-hit != 'true'
       run: |
