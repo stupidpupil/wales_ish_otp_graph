@@ -9,6 +9,15 @@ License: GPL (>= 3)
 Encoding: UTF-8
 Depends: 
   R (>= 2.10),
-  parochial
+  parochial,
+Imports:
+  magrittr,
+  tibble,
+  dplyr,
+  purrr,
+  tidyr,
+  stringr,
+  lubridate,
+  readr
 Remotes:
   stupidpupil/parochial

@@ -21,7 +21,7 @@ prepare_test_journeys <- function(){
     when = lubridate::now() %>% (function(x){x + lubridate::days(9 - lubridate::wday(x, week_start = 1))}) %>% update(hour=11, minute=0, second = 0)
 
     # FIXME - Really test journeys need to be extracted from the package
-    readr::read_csv(dir_working("test_journeys.csv")) %>%
+    readr::read_csv(parochial:::dir_working("test_journeys.csv")) %>%
       crossing(expand_grid(when=when, public=c(T,F))) %>%
       mutate(requestUrl = otp_route_request_url(fromLat, fromLon, toLat, toLon, when, public))
   }
@@ -55,5 +55,5 @@ prepare_test_journeys <- function(){
       durationSeconds = try_to_get_duration(otpResponseJson),
       otpResponseJson = NULL) %>% ungroup()
 
-  journeys %>% readr::write_csv(dir_output("test_journeys.csv"))
+  journeys %>% readr::write_csv(parochial:::dir_output("test_journeys.csv"))
 }
