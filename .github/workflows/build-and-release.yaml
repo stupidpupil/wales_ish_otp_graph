@@ -142,6 +142,7 @@ jobs:
     - name: Install dependencies
       run: |
         install.packages(c("devtools"))
+        options(install.packages.check.source = "never")
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
       if: steps.cache_terrain50.outputs.cache-hit != 'true'
@@ -226,6 +227,7 @@ jobs:
     - name: Install dependencies
       run: |
         install.packages(c("devtools"))
+        options(install.packages.check.source = "never")
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
       if: steps.cache_osm.outputs.cache-hit != 'true'
@@ -316,6 +318,7 @@ jobs:
     - name: Install dependencies
       run: |
         install.packages(c("devtools"))
+        options(install.packages.check.source = "never")
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
       if: steps.cache_street_graph.outputs.cache-hit != 'true'
@@ -426,6 +429,7 @@ jobs:
     - name: Install dependencies
       run: |
         install.packages(c("devtools"))
+        options(install.packages.check.source = "never")
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
       if: steps.cache_street_graph.outputs.cache-hit != 'true'
@@ -483,6 +487,7 @@ jobs:
     - name: Install dependencies
       run: |
         install.packages(c("devtools"))
+        options(install.packages.check.source = "never")
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
     - name: Get ATOC URL
@@ -571,6 +576,7 @@ jobs:
     - name: Install dependencies
       run: |
         install.packages(c("devtools"))
+        options(install.packages.check.source = "never")
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
       if: steps.cache_tnds.outputs.cache-hit != 'true'
@@ -644,6 +650,7 @@ jobs:
     - name: Install dependencies
       run: |
         install.packages(c("devtools"))
+        options(install.packages.check.source = "never")
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
       if: steps.cache_bods.outputs.cache-hit != 'true'
@@ -745,6 +752,7 @@ jobs:
     - name: Install dependencies
       run: |
         install.packages(c("devtools"))
+        options(install.packages.check.source = "never")
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
       if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
@@ -824,6 +832,7 @@ jobs:
     - name: Install dependencies
       run: |
         install.packages(c("devtools"))
+        options(install.packages.check.source = "never")
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
     - name: Download Merged GTFS artifact
@@ -917,6 +926,7 @@ jobs:
     - name: Install dependencies
       run: |
         install.packages(c("devtools"))
+        options(install.packages.check.source = "never")
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
       if: steps.cache_transport_graph.outputs.cache-hit != 'true'
@@ -1017,6 +1027,7 @@ jobs:
     - name: Install dependencies
       run: |
         install.packages(c("devtools"))
+        options(install.packages.check.source = "never")
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
       if: steps.cache_network_dat.outputs.cache-hit != 'true'
@@ -1085,6 +1096,7 @@ jobs:
     - name: Install dependencies
       run: |
         install.packages(c("devtools"))
+        options(install.packages.check.source = "never")
         devtools::install_deps(dependencies = TRUE)
       shell: Rscript {0}
     - name: Install Java 17
