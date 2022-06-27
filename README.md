@@ -4,15 +4,6 @@ This is a bunch to scripts to help assemble OpenTripPlanner graphs that are usea
 
 [See the GitHub page for this repository for releases of graphs produced by this script](https://stupidpupil.github.io/wales_ish_otp_graph/).
 
-## Features and Anti-Features
-
-- Downloads OpenStreetMap data from geofabrik.de
-- Downloads Welsh bus etc. data from Traveline (requires registration)
-- Download heavy rail CIF from data.atoc.org (requires registration)
-- Downloads English bus etc. open data from DfT GOV.UK
-- Does some basic checking of a small number of test journeys
-- Includes a Github Actions workflow with parallelisation and caching
-
 ### Coverage
 - Creates extracts of street and public transport data covering Wales and a strip of the borders
 - Covers Chester, Crewe, Liverpool, Shrewsbury, Hereford, Bristol, Gloucester
