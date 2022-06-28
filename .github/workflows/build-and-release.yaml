@@ -97,18 +97,6 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Write config.yml
-      uses: DamianReeves/write-file-action@v1.0
-      with:
-        path: ${{ github.workspace }}/config.yml
-        contents: |
-          default:
-            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
-            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
-            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
-            bounds: !expr Sys.getenv("BOUNDS")
     - name: Get Terrain 50 md5
       id: terrain50_md5
       run: |
@@ -151,7 +139,7 @@ jobs:
         devtools::load_all()
         download_terrain50()
       shell: Rscript {0}
-    - name: Delete some upsetting zips
+    - name: Delete some upsetting zips with DEFLATE64 compression
       if: steps.cache_terrain50.outputs.cache-hit != 'true'
       run: |
         zip -d data-raw/terr50_gagg_gb.zip "data/sd/sd67_OST50GRID_20220506.zip"
@@ -180,18 +168,6 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Write config.yml
-      uses: DamianReeves/write-file-action@v1.0
-      with:
-        path: ${{ github.workspace }}/config.yml
-        contents: |
-          default:
-            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
-            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
-            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
-            bounds: !expr Sys.getenv("BOUNDS")
     - name: Get Geofabrik ETag
       id: geofabrik_etag
       run: |
@@ -259,18 +235,6 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Write config.yml
-      uses: DamianReeves/write-file-action@v1.0
-      with:
-        path: ${{ github.workspace }}/config.yml
-        contents: |
-          default:
-            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
-            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
-            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
-            bounds: !expr Sys.getenv("BOUNDS")
     - name: Download OpenStreetMap artifact
       uses: actions/download-artifact@v2
       with:
@@ -364,18 +328,6 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Write config.yml
-      uses: DamianReeves/write-file-action@v1.0
-      with:
-        path: ${{ github.workspace }}/config.yml
-        contents: |
-          default:
-            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
-            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
-            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
-            bounds: !expr Sys.getenv("BOUNDS")
     - name: Download OpenStreetMap artifact
       uses: actions/download-artifact@v2
       with:
@@ -453,18 +405,6 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Write config.yml
-      uses: DamianReeves/write-file-action@v1.0
-      with:
-        path: ${{ github.workspace }}/config.yml
-        contents: |
-          default:
-            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
-            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
-            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
-            bounds: !expr Sys.getenv("BOUNDS")
     - uses: r-lib/actions/setup-r@v2
     - uses: r-lib/actions/setup-pandoc@v1
     - name: Query dependencies
@@ -523,18 +463,6 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Write config.yml
-      uses: DamianReeves/write-file-action@v1.0
-      with:
-        path: ${{ github.workspace }}/config.yml
-        contents: |
-          default:
-            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
-            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
-            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
-            bounds: !expr Sys.getenv("BOUNDS")
     - name: Get TNDS directory listing hash
       id: tnds_dir_list_hash
       run: |
@@ -599,18 +527,6 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Write config.yml
-      uses: DamianReeves/write-file-action@v1.0
-      with:
-        path: ${{ github.workspace }}/config.yml
-        contents: |
-          default:
-            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
-            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
-            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
-            bounds: !expr Sys.getenv("BOUNDS")
     - name: Get BODS index page hash
       id: bods_index_page_hash
       run: |
@@ -677,18 +593,6 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Write config.yml
-      uses: DamianReeves/write-file-action@v1.0
-      with:
-        path: ${{ github.workspace }}/config.yml
-        contents: |
-          default:
-            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
-            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
-            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
-            bounds: !expr Sys.getenv("BOUNDS")
     - name: Download ATOC GTFS artifact
       uses: actions/download-artifact@v2
       with:
@@ -794,18 +698,6 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Write config.yml
-      uses: DamianReeves/write-file-action@v1.0
-      with:
-        path: ${{ github.workspace }}/config.yml
-        contents: |
-          default:
-            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
-            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
-            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
-            bounds: !expr Sys.getenv("BOUNDS")
     - uses: r-lib/actions/setup-r@v2
     - uses: r-lib/actions/setup-pandoc@v1
     - name: Query dependencies
@@ -858,18 +750,6 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Write config.yml
-      uses: DamianReeves/write-file-action@v1.0
-      with:
-        path: ${{ github.workspace }}/config.yml
-        contents: |
-          default:
-            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
-            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
-            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
-            bounds: !expr Sys.getenv("BOUNDS")
     - name: Download Merged GTFS artifact
       uses: actions/download-artifact@v2
       with:
@@ -959,18 +839,6 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Write config.yml
-      uses: DamianReeves/write-file-action@v1.0
-      with:
-        path: ${{ github.workspace }}/config.yml
-        contents: |
-          default:
-            atoc_username: !expr Sys.getenv("ATOC_USERNAME")
-            atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
-            tnds_username: !expr Sys.getenv("TNDS_USERNAME")
-            tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
-            output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
-            bounds: !expr Sys.getenv("BOUNDS")
     - name: Download OpenStreetMap artifact
       uses: actions/download-artifact@v2
       with:
