@@ -1,0 +1,7 @@
+default:
+  atoc_username: !expr Sys.getenv("ATOC_USERNAME")
+  atoc_password: !expr Sys.getenv("ATOC_PASSWORD")
+  tnds_username: !expr Sys.getenv("TNDS_USERNAME")
+  tnds_password: !expr Sys.getenv("TNDS_PASSWORD")
+  output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
+  bounds: !expr Sys.getenv("BOUNDS")
