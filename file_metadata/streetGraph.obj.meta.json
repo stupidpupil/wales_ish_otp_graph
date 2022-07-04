@@ -1,31 +1,31 @@
 {
-  "CreatedAt": ["2022-06-28T08:18:38+0000"],
+  "CreatedAt": ["2022-07-04T07:10:59+0000"],
   "CreatedWithOpenTripPlannerVersion": ["2.2.0-SNAPSHOT, ser.ver.id: 23, commit: 30ab5aeb2316b8532dd956a07ecab818a8b8b9e9, branch: dev-2.x"],
   "DerivedFrom": [
     {
       "Filename": ["walesish.osm.pbf"],
-      "SizeBytes": [273639366],
-      "CreatedAt": ["2022-06-28T07:35:56+0000"],
+      "SizeBytes": [274046620],
+      "CreatedAt": ["2022-07-04T06:13:44+0000"],
       "DerivedFrom": {
         "Filename": ["great-britain-latest.osm.pbf"],
-        "SizeBytes": [1508005314],
+        "SizeBytes": [1509852705],
         "SourceUrl": ["https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"],
-        "SourceDownloadedAt": ["2022-06-28T07:29:52+0000"],
+        "SourceDownloadedAt": ["2022-07-04T06:07:47+0000"],
         "SourceLicence": ["ODbL-1.0"],
         "SourceAttribution": ["OpenStreetMap contributors"],
-        "ParochialCacheKey": ["12c565fb1347af496c4c05cd58ae883dbf8cbf77"]
+        "ParochialCacheKey": ["68190481672ad6cf53ccef3bc67bc475b5f60b6a"]
       },
-      "ParochialCacheKey": ["c94d8c05d28805adc9247cf9140dc4ef59bdf713"]
+      "ParochialCacheKey": ["087fe58d5a6e629ce543a6bfaa23d4ad2528471d"]
     },
     {
       "Filename": ["walesish.terr50.tif"],
       "SizeBytes": [70794222],
-      "CreatedAt": ["2022-06-28T07:31:04+0000"],
+      "CreatedAt": ["2022-07-04T06:09:57+0000"],
       "DerivedFrom": {
         "Filename": ["terr50_gagg_gb.zip"],
         "SizeBytes": [161495988],
         "SourceUrl": ["https://api.os.uk/downloads/v1/products/Terrain50/downloads?area=GB&format=ASCII+Grid+and+GML+%28Grid%29&redirect"],
-        "SourceDownloadedAt": ["2022-06-28T07:29:19+0000"],
+        "SourceDownloadedAt": ["2022-07-04T06:07:49+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["Contains OS data © Crown copyright and database right 2022"],
         "ParochialCacheKey": ["f7ac276256d3c184a32eee205efd5a4eafeb6291"]
@@ -33,5 +33,5 @@
       "ParochialCacheKey": ["48210861146e751e92b4ac029a016048a990636f"]
     }
   ],
-  "ParochialCacheKey": ["3105228a1862911efadc231e26c33edd27ca2296"]
+  "ParochialCacheKey": ["e31ba133882335467629d75b81191bc4f861e2b5"]
 }
