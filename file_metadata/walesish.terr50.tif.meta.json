@@ -1,13 +1,13 @@
 {
-  "CreatedAt": ["2022-07-04T06:09:57+0000"],
+  "CreatedAt": ["2022-08-01T10:37:28+0000"],
   "DerivedFrom": {
     "Filename": ["terr50_gagg_gb.zip"],
-    "SizeBytes": [161495988],
+    "SizeBytes": [161575097],
     "SourceUrl": ["https://api.os.uk/downloads/v1/products/Terrain50/downloads?area=GB&format=ASCII+Grid+and+GML+%28Grid%29&redirect"],
-    "SourceDownloadedAt": ["2022-07-04T06:07:49+0000"],
+    "SourceDownloadedAt": ["2022-08-01T10:35:12+0000"],
     "SourceLicence": ["OGL-UK-3.0"],
     "SourceAttribution": ["Contains OS data © Crown copyright and database right 2022"],
-    "ParochialCacheKey": ["f7ac276256d3c184a32eee205efd5a4eafeb6291"]
+    "ParochialCacheKey": ["d056f8d655f4e19586c9dec174f12259b4b87f58"]
   },
-  "ParochialCacheKey": ["48210861146e751e92b4ac029a016048a990636f"]
+  "ParochialCacheKey": ["a86b2544ef3a0cbbaaaa464df1688e4287587d71"]
 }
