@@ -72,6 +72,7 @@ jobs:
       run: |
         cd osrm-backend
         rm -rf build
+        rm -rf mason_packages
         mkdir build
         cd build
         cmake ../ -DENABLE_MASON=1
