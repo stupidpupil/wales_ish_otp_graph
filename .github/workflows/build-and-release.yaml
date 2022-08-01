@@ -54,6 +54,7 @@ jobs:
       with:
         repository: Project-OSRM/osrm-backend
         path: osrm-backend
+        ref: 204fdaff6e83fe336db74a84db5adb3320a9a3ed
     - name: Get osrm-backend ref
       id: osrm-backend-ref
       run: |
