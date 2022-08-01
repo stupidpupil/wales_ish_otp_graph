@@ -140,11 +140,6 @@ jobs:
         devtools::load_all()
         download_terrain50()
       shell: Rscript {0}
-    - name: Delete some upsetting zips with DEFLATE64 compression
-      if: steps.cache_terrain50.outputs.cache-hit != 'true'
-      run: |
-        zip -d data-raw/terr50_gagg_gb.zip "data/sd/sd67_OST50GRID_20220506.zip"
-        zip -d data-raw/terr50_gagg_gb.zip "data/sd/sd68_OST50GRID_20220506.zip"
     - name: Prepare_terrain
       if: steps.cache_terrain50.outputs.cache-hit != 'true'
       run: |
