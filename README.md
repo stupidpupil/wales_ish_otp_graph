@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 08:51 BST on 22 August 2022. (The graph should update weekly.)
+The graph file was last updated at 09:21 BST on 29 August 2022. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp\_and\_graph.zip* asset.
 
@@ -39,12 +39,12 @@ A small number of journeys, departing on Tuesday morning the following week, are
 
 | Description                      | Car   | Public |
 | :------------------------------- | :---- | :----- |
-| Abergavenny to Pontypridd        | 0h39m | 2h33m  |
-| Bala to Cardiff                  | 3h39m | 4h43m  |
+| Abergavenny to Pontypridd        | 0h38m | 2h33m  |
+| Bala to Cardiff                  | 3h38m | 4h43m  |
 | Bangor Pier to Great Orme        | 0h46m | 1h41m  |
 | Blaengarw to Bridgend            | 0h32m | 3h 8m  |
 | Caerphilly to Cwmafan            | 0h50m | 2h40m  |
-| Cardiff to Bala                  | 3h38m | 5h20m  |
+| Cardiff to Bala                  | 3h38m | 5h23m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
 | Cardigan to Trawsfynydd          | 2h45m | 4h45m  |
 | Chirk to Walton                  | 1h30m | 4h23m  |
@@ -53,7 +53,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Lampeter to Llandovery           | 0h29m | 6h22m  |
 | Llangadog to Rhayader            | 1h10m | 2h 7m  |
 | Llangollen to Ruthin             | 0h27m | 1h13m  |
-| Merthyr to Cardiff               | 0h48m | 1h18m  |
+| Merthyr to Cardiff               | 0h46m | 1h18m  |
 | Pontsticill to the Naughty Stone | 0h27m | 1h24m  |
 | Rhosllanerchrugog to Denbigh     | 0h58m | 1h52m  |
 | Swansea to Bargoed               | 1h18m | 3h10m  |
