@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 08:56 BST on 10 October 2022. (The graph should update weekly.)
+The graph file was last updated at 09:15 BST on 17 October 2022. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp\_and\_graph.zip* asset.
 
@@ -43,7 +43,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Bala to Cardiff                  | 3h38m | 4h43m  |
 | Bangor Pier to Great Orme        | 0h46m | 1h41m  |
 | Blaengarw to Bridgend            | 0h32m | 0h42m  |
-| Caerphilly to Cwmafan            | 0h50m | 2h30m  |
+| Caerphilly to Cwmafan            | 0h50m | 2h22m  |
 | Cardiff to Bala                  | 3h38m | 5h23m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
 | Cardigan to Trawsfynydd          | 2h45m | 4h45m  |
@@ -54,7 +54,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Llangadog to Rhayader            | 1h 6m | 2h32m  |
 | Llangollen to Ruthin             | 0h28m | 1h13m  |
 | Merthyr to Cardiff               | 0h46m | 1h20m  |
-| Pontsticill to the Naughty Stone | 0h25m | 1h24m  |
+| Pontsticill to the Naughty Stone | 0h25m | 1h38m  |
 | Rhosllanerchrugog to Denbigh     | 0h58m | 1h52m  |
 | Swansea to Bargoed               | 1h17m | 2h49m  |
 | Swansea to Wrexham               | 3h34m | 4h50m  |
