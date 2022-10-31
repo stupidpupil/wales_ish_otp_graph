@@ -246,9 +246,9 @@ jobs:
     - name: Derive hash from ParochialCacheKeys
       id: parochial_cache_keys
       run: |-
-        echo "::set-output name=hash::$(
+        echo "hash=$(
           ls output/*/*.meta.json output/*.meta.json | sort | xargs jq .ParochialCacheKey | shasum -a 1
-        )"
+        )" >> $GITHUB_OUTPUT
     - name: Cache street graph
       id: cache_street_graph
       uses: actions/cache@v3
@@ -344,9 +344,9 @@ jobs:
     - name: Derive hash from ParochialCacheKeys
       id: parochial_cache_keys
       run: |-
-        echo "::set-output name=hash::$(
+        echo "hash=$(
           ls output/*/*.meta.json output/*.meta.json | sort | xargs jq .ParochialCacheKey | shasum -a 1
-        )"
+        )" >> $GITHUB_OUTPUT
     - name: Cache OSRM graph
       id: cache_street_graph
       uses: actions/cache@v3
@@ -464,9 +464,9 @@ jobs:
     - name: Get TNDS directory listing hash
       id: tnds_dir_list_hash
       run: |
-        echo "::set-output name=hash::$(
+        echo "hash=$(
           curl -s ftp://$TNDS_USERNAME:$TNDS_PASSWORD@ftp.tnds.basemap.co.uk | sort | shasum -a 1
-        )"
+        )" >> $GITHUB_OUTPUT
     - name: Cache TNDS
       id: cache_tnds
       uses: actions/cache@v3
@@ -614,9 +614,9 @@ jobs:
     - name: Derive hash from ParochialCacheKeys
       id: parochial_cache_keys
       run: |-
-        echo "::set-output name=hash::$(
+        echo "hash=$(
           ls output/*/*.meta.json output/*.meta.json | sort | xargs jq .ParochialCacheKey | shasum -a 1
-        )"
+        )" >> $GITHUB_OUTPUT
     - name: Cache Merged GTFS
       id: cache_merged_gtfs
       uses: actions/cache@v3
@@ -761,9 +761,9 @@ jobs:
     - name: Derive hash from ParochialCacheKeys
       id: parochial_cache_keys
       run: |-
-        echo "::set-output name=hash::$(
+        echo "hash=$(
           ls output/*/*.meta.json output/*.meta.json | sort | xargs jq .ParochialCacheKey | shasum -a 1
-        )"
+        )" >> $GITHUB_OUTPUT
     - name: Cache transport graph
       id: cache_transport_graph
       uses: actions/cache@v3
@@ -850,9 +850,9 @@ jobs:
     - name: Derive hash from ParochialCacheKeys
       id: parochial_cache_keys
       run: |-
-        echo "::set-output name=hash::$(
+        echo "hash=$(
           ls output/*/*.meta.json output/*.meta.json | sort | xargs jq .ParochialCacheKey | shasum -a 1
-        )"
+        )" >> $GITHUB_OUTPUT
     - name: Cache r5r network.dat
       id: cache_network_dat
       uses: actions/cache@v3
