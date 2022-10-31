@@ -113,7 +113,7 @@ jobs:
         key: ${{ steps.terrain50_md5.outputs.md5 }}-${{ hashFiles('config.yml') }}-terr50-v1
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_terrain50.outputs.cache-hit != 'true'
-    - uses: r-lib/actions/setup-pandoc@v1
+    - uses: r-lib/actions/setup-pandoc@v2
       if: steps.cache_terrain50.outputs.cache-hit != 'true'
     - name: Query dependencies
       run: |
@@ -180,7 +180,7 @@ jobs:
           }}-osm-v1
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_osm.outputs.cache-hit != 'true'
-    - uses: r-lib/actions/setup-pandoc@v1
+    - uses: r-lib/actions/setup-pandoc@v2
       if: steps.cache_osm.outputs.cache-hit != 'true'
     - name: Query dependencies
       run: |
@@ -258,7 +258,7 @@ jobs:
           }}-otp.street-v1
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_street_graph.outputs.cache-hit != 'true'
-    - uses: r-lib/actions/setup-pandoc@v1
+    - uses: r-lib/actions/setup-pandoc@v2
       if: steps.cache_street_graph.outputs.cache-hit != 'true'
     - name: Query dependencies
       run: |
@@ -356,7 +356,7 @@ jobs:
           }}-osrm_driving-v1
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_street_graph.outputs.cache-hit != 'true'
-    - uses: r-lib/actions/setup-pandoc@v1
+    - uses: r-lib/actions/setup-pandoc@v2
       if: steps.cache_street_graph.outputs.cache-hit != 'true'
     - name: Query dependencies
       run: |
@@ -404,7 +404,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: r-lib/actions/setup-r@v2
-    - uses: r-lib/actions/setup-pandoc@v1
+    - uses: r-lib/actions/setup-pandoc@v2
     - name: Query dependencies
       run: |
         install.packages('remotes')
@@ -477,7 +477,7 @@ jobs:
           }}-tnds.gtfs-v1
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_tnds.outputs.cache-hit != 'true'
-    - uses: r-lib/actions/setup-pandoc@v1
+    - uses: r-lib/actions/setup-pandoc@v2
       if: steps.cache_tnds.outputs.cache-hit != 'true'
     - name: Query dependencies
       run: |
@@ -538,7 +538,7 @@ jobs:
           }}-bods.gtfs-v1
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_bods.outputs.cache-hit != 'true'
-    - uses: r-lib/actions/setup-pandoc@v1
+    - uses: r-lib/actions/setup-pandoc@v2
       if: steps.cache_bods.outputs.cache-hit != 'true'
     - name: Query dependencies
       run: |
@@ -627,7 +627,7 @@ jobs:
           }}-merged.gtfs-v1
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
-    - uses: r-lib/actions/setup-pandoc@v1
+    - uses: r-lib/actions/setup-pandoc@v2
       if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
     - name: Query dependencies
       run: |
@@ -697,7 +697,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: r-lib/actions/setup-r@v2
-    - uses: r-lib/actions/setup-pandoc@v1
+    - uses: r-lib/actions/setup-pandoc@v2
     - name: Query dependencies
       run: |
         install.packages('remotes')
@@ -775,7 +775,7 @@ jobs:
           }}-otp.final-v1
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_transport_graph.outputs.cache-hit != 'true'
-    - uses: r-lib/actions/setup-pandoc@v1
+    - uses: r-lib/actions/setup-pandoc@v2
       if: steps.cache_transport_graph.outputs.cache-hit != 'true'
     - name: Query dependencies
       run: |
@@ -863,7 +863,7 @@ jobs:
           }}-r5r-v1
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_network_dat.outputs.cache-hit != 'true'
-    - uses: r-lib/actions/setup-pandoc@v1
+    - uses: r-lib/actions/setup-pandoc@v2
       if: steps.cache_network_dat.outputs.cache-hit != 'true'
     - name: Query dependencies
       run: |
@@ -934,7 +934,7 @@ jobs:
             output_affix: !expr Sys.getenv("OUTPUT_AFFIX")
             bounds: !expr Sys.getenv("BOUNDS")
     - uses: r-lib/actions/setup-r@v2
-    - uses: r-lib/actions/setup-pandoc@v1
+    - uses: r-lib/actions/setup-pandoc@v2
     - name: Query dependencies
       run: |
         install.packages('remotes')
