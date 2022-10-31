@@ -18,7 +18,7 @@ jobs:
     - name: Get pfaedle ref
       id: pfaedle-ref
       run: |
-        echo "::set-output name=ref::$(git -C pfaedle rev-parse HEAD)"
+        echo "ref=$(git -C pfaedle rev-parse HEAD)" >> $GITHUB_OUTPUT
       shell: bash
     - name: Cache pfaedle-build
       id: cache_pfaedle_build
@@ -58,7 +58,7 @@ jobs:
     - name: Get osrm-backend ref
       id: osrm-backend-ref
       run: |
-        echo "::set-output name=ref::$(git -C osrm-backend rev-parse HEAD)"
+        echo "ref=$(git -C osrm-backend rev-parse HEAD)" >> $GITHUB_OUTPUT
       shell: bash
     - name: Cache osrm-backend/build
       id: cache_osrm_backend_build
@@ -103,7 +103,7 @@ jobs:
     - name: Get Terrain 50 md5
       id: terrain50_md5
       run: |
-        echo "::set-output name=md5::$(curl "https://api.os.uk/downloads/v1/products/Terrain50/downloads" | jq '.[0].md5')"
+        echo "md5=$(curl "https://api.os.uk/downloads/v1/products/Terrain50/downloads" | jq '.[0].md5')" >> $GITHUB_OUTPUT
     - name: Cache Terrain 50
       id: cache_terrain50
       uses: actions/cache@v2
@@ -169,7 +169,7 @@ jobs:
     - name: Get Geofabrik ETag
       id: geofabrik_etag
       run: |
-        echo "::set-output name=etag::$(curl -I "https://download.geofabrik.de/europe/great-britain-latest.osm.pbf" | grep "ETag")"
+        echo "etag=$(curl -I "https://download.geofabrik.de/europe/great-britain-latest.osm.pbf" | grep "ETag")" >> $GITHUB_OUTPUT
     - name: Cache OSM
       id: cache_osm
       uses: actions/cache@v2
@@ -528,7 +528,7 @@ jobs:
     - name: Get BODS index page hash
       id: bods_index_page_hash
       run: |
-        echo "::set-output name=hash::$(curl "https://data.bus-data.dft.gov.uk/timetable/download/" | md5)"
+        echo "hash=$(curl "https://data.bus-data.dft.gov.uk/timetable/download/" | md5)" >> $GITHUB_OUTPUT
     - name: Cache BODS
       id: cache_bods
       uses: actions/cache@v2
@@ -1085,7 +1085,7 @@ jobs:
       id: timestamp
       env:
         TZ: Europe/London
-      run: echo "::set-output name=timestamp::$(date +'%Y-%m-%dT%H-%M-%S')"
+      run: echo "timestamp=$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_OUTPUT
     - name: Copy READMEs and other files
       run: |
         cd graph-releases
