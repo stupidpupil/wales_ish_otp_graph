@@ -1,4 +1,4 @@
-![](map.png)
+<img src="map.png" style="float:right;" data-external="1" />
 
 This is an OpenTripPlanner network graph for planning trips, by car or public transport, between places in Wales - including where these trips involve a short journey entirely within England. (It likely also works well enough for planning trips between places in Wales and a small number of English towns just the other side of the border.)
 
@@ -6,9 +6,9 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 07:06 GMT on 31 October 2022. (The graph should update weekly.)
+The graph file was last updated at 18:06 GMT on 01 November 2022. (The graph should update weekly.)
 
-[Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp\_and\_graph.zip* asset.
+[Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp_and_graph.zip* asset.
 
 You can then start OpenTripPlanner using *run-otp.bat* (under Windows) or *run-otp.sh* (under Linux or macOS). Eventually it’ll print “Started listener bound to \[0.0.0.0:8080\]” and you’ll be able to access the planner at `http://localhost:8080` .
 
@@ -22,10 +22,10 @@ The *graph.obj* graph file is made available under the [ODbL v1.0](https://opend
 
 The graph file contains:
 
-  - street map information obtained from [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), via [Geofabrik.de](https://download.geofabrik.de/europe/great-britain.html), under the [ODbL v1.0](https://opendatacommons.org/licenses/odbl/1-0/),
-  - heavy rail timetable information obtained from [RSP Limited (Rail Delivery Group)](http://data.atoc.org/) under the [CC-BY v2.0](https://creativecommons.org/licenses/by/2.0/uk/legalcode), and
-  - bus and other public transport services timetable information obtained from [Traveline](https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset/) and the [UK Department for Transport](https://data.bus-data.dft.gov.uk/) under the [OGL v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
-  - [*Terrain 50* topology data](https://www.ordnancesurvey.co.uk/business-government/products/terrain-50) obtained from Ordnance Survey under the [OGL v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) (Contains OS data © Crown copyright and database right 2022).
+- street map information obtained from [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), via [Geofabrik.de](https://download.geofabrik.de/europe/great-britain.html), under the [ODbL v1.0](https://opendatacommons.org/licenses/odbl/1-0/),
+- heavy rail timetable information obtained from [RSP Limited (Rail Delivery Group)](http://data.atoc.org/) under the [CC-BY v2.0](https://creativecommons.org/licenses/by/2.0/uk/legalcode), and
+- bus and other public transport services timetable information obtained from [Traveline](https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset/) and the [UK Department for Transport](https://data.bus-data.dft.gov.uk/) under the [OGL v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
+- [*Terrain 50* topology data](https://www.ordnancesurvey.co.uk/business-government/products/terrain-50) obtained from Ordnance Survey under the [OGL v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) (Contains OS data © Crown copyright and database right 2022).
 
 The graph file is provided without any warranty of any kind and without any endorsement by any of the individuals or organisations named above, for any purpose.
 
@@ -38,27 +38,27 @@ If you provide a routing service or similar using the graph file you should make
 A small number of journeys, departing on Tuesday morning the following week, are tested every time that the graph is built. The results from the latest update of the graph are shown below.
 
 | Description                      | Car   | Public |
-| :------------------------------- | :---- | :----- |
-| Abergavenny to Pontypridd        | 0h38m | 2h33m  |
+|:---------------------------------|:------|:-------|
+| Abergavenny to Pontypridd        | 0h38m | 2h13m  |
 | Bala to Cardiff                  | 3h38m | 4h43m  |
 | Bangor Pier to Great Orme        | 0h46m | 1h41m  |
-| Blaengarw to Bridgend            | 0h32m | 3h 8m  |
-| Caerphilly to Cwmafan            | 0h50m | 2h48m  |
+| Blaengarw to Bridgend            | 0h32m | 0h42m  |
+| Caerphilly to Cwmafan            | 0h50m | 2h35m  |
 | Cardiff to Bala                  | 3h38m | 5h23m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
 | Cardigan to Trawsfynydd          | 2h46m | 4h45m  |
 | Chirk to Walton                  | 1h30m | 4h23m  |
 | CP2 to Secret Garden Cafe        | 0h 7m | 0h 9m  |
-| Grangetown Library to UHW A\&E   | 0h24m | 0h35m  |
-| Lampeter to Llandovery           | 0h29m | 6h22m  |
-| Llangadog to Rhayader            | 1h 6m | 2h 7m  |
+| Grangetown Library to UHW A&E    | 0h24m | 0h37m  |
+| Lampeter to Llandovery           | 0h29m | 2h44m  |
+| Llangadog to Rhayader            | 1h 6m | 2h32m  |
 | Llangollen to Ruthin             | 0h28m | 1h13m  |
-| Merthyr to Cardiff               | 0h47m | 1h20m  |
+| Merthyr to Cardiff               | 0h47m | 1h18m  |
 | Pontsticill to the Naughty Stone | 0h33m | 1h38m  |
 | Rhosllanerchrugog to Denbigh     | 0h58m | 1h52m  |
-| Swansea to Bargoed               | 1h17m | 3h10m  |
-| Swansea to Wrexham               | 3h33m | 5h20m  |
-| Treharris to Gellideg            | 0h20m | 0h57m  |
+| Swansea to Bargoed               | 1h17m | 2h50m  |
+| Swansea to Wrexham               | 3h33m | 4h50m  |
+| Treharris to Gellideg            | 0h20m | 0h58m  |
 | Whitland to Cardigan             | 0h43m | 2h13m  |
 
 ## Thanks
