@@ -50,52 +50,74 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-    - uses: actions/checkout@v3
-      with:
-        repository: Project-OSRM/osrm-backend
-        path: osrm-backend
-        ref: 204fdaff6e83fe336db74a84db5adb3320a9a3ed
-    - name: Get osrm-backend ref
-      id: osrm-backend-ref
-      run: |
-        echo "ref=$(git -C osrm-backend rev-parse HEAD)" >> $GITHUB_OUTPUT
-      shell: bash
-    - name: Cache osrm-backend/build
-      id: cache_osrm_backend_build
-      uses: actions/cache@v3
-      with:
-        path: |
-          osrm-backend/build
-          osrm-backend/mason_packages
-        key: ${{ runner.os }}-${{ steps.osrm-backend-ref.outputs.ref }}-osrm-v1
-    - name: Build osrm-backend
-      if: steps.cache_osrm_backend_build.outputs.cache-hit != 'true'
-      run: |
-        cd osrm-backend
-        rm -rf build
-        rm -rf mason_packages
-        mkdir build
-        cd build
-        cmake ../ -DENABLE_MASON=1
-        make
-        cd ../../
-        rm -r osrm-backend/build/CMakeFiles
-        rm osrm-backend/build/libosrm*
-        rm -r osrm-backend/mason_packages/headers/
-        rm -r osrm-backend/third_party/sol2/docs
-        rm -r osrm-backend/unit_tests/
-        rm -r osrm-backend/src/
-        rm -r osrm-backend/docs/
-        rm -r osrm-backend/features/
-        rm -r osrm-backend/include/
-        rm -r osrm-backend/test/
-      shell: bash
-    - name: Upload osrm artefact
-      uses: actions/upload-artifact@v3
-      with:
-        name: osrm
-        path: osrm-backend
-        if-no-files-found: error
+      - uses: actions/checkout@v3
+        with:
+          repository: 'Project-OSRM/osrm-backend'
+          path: 'osrm-backend'
+          ref: '204fdaff6e83fe336db74a84db5adb3320a9a3ed'
+
+      - name: Get osrm-backend ref
+        id: osrm-backend-ref
+        run: |
+          echo "ref=$(git -C osrm-backend rev-parse HEAD)" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Cache osrm-backend/build
+        id: cache_osrm_backend_build
+        uses: actions/cache@v3
+        with:
+          path: |
+            osrm-backend/build
+            osrm-backend/mason_packages
+          key: ${{ runner.os }}-${{ steps.osrm-backend-ref.outputs.ref }}-osrm-v2
+
+      - name: Build osrm-backend
+        if: steps.cache_osrm_backend_build.outputs.cache-hit != 'true'
+        run: |
+          cd osrm-backend
+          rm -rf build
+          mkdir build
+          cd build
+          cmake ../ -DENABLE_MASON=1
+          make
+          cd ../../
+          rm -r osrm-backend/build/CMakeFiles
+          rm osrm-backend/build/libosrm*
+          rm -r osrm-backend/build/flatbuffers-build
+          rm -r osrm-backend/mason_packages/headers/
+          rm -r osrm-backend/mason_packages/.binaries/
+          rm -r osrm-backend/third_party/
+          rm -r osrm-backend/unit_tests/
+          rm -r osrm-backend/src/
+          rm -r osrm-backend/docs/
+          rm -r osrm-backend/features/
+          rm -r osrm-backend/include/
+          rm -r osrm-backend/test/
+          rm -rf osrm-backend/.git
+          rm -rf osrm-backend/.github
+          find osrm-backend -name "*.c" -type f -delete
+          find osrm-backend -name "*.cc" -type f -delete
+          find osrm-backend -name "*.h" -type f -delete
+          find osrm-backend -name "*.cpp" -type f -delete
+          find osrm-backend -name "*.hpp" -type f -delete
+          find osrm-backend -name "*.py" -type f -delete
+          find osrm-backend -name "*.md" -type f -delete
+          find osrm-backend -name "*.rst" -type f -delete
+          find osrm-backend -name "*.txt" -type f -delete
+          find osrm-backend -name "*.pbf" -type f -delete
+          find osrm-backend -name "*.rs" -type f -delete
+          find osrm-backend -name "*.png" -type f -delete
+          find osrm-backend -name "*.jpg" -type f -delete
+
+        shell: bash
+
+      - name: Upload osrm artefact
+        uses: actions/upload-artifact@v3
+        with:
+          name: osrm
+          path: osrm-backend
+          if-no-files-found: error
+
   download_and_prepare_terrain:
     runs-on: macOS-latest
     steps:
