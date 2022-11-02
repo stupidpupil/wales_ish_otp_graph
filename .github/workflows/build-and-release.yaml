@@ -256,12 +256,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Download OpenStreetMap artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: openstreetmap
         path: output/openstreetmap/
     - name: Download Terrain 50 artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: terr50.tif
         path: output
@@ -349,12 +349,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Download OpenStreetMap artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: openstreetmap
         path: output/openstreetmap/
     - name: Download osrm artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: osrm
         path: osrm-backend
@@ -614,22 +614,22 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Download ATOC GTFS artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: atoc.gtfs.zip
         path: output/gtfs
     - name: Download TNDS GTFS artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: tnds.gtfs.zip
         path: output/gtfs
     - name: Download BODS GTFS artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: bods.gtfs.zip
         path: output/gtfs
     - name: Download OpenStreetMap artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: openstreetmap
         path: output/openstreetmap/
@@ -676,7 +676,7 @@ jobs:
       run: brew install osmium-tool
       if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
     - name: Download pfaedle artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: pfaedle
         path: pfaedle-build
@@ -739,7 +739,7 @@ jobs:
         devtools::install_deps(dependencies = TRUE, type = "binary")
       shell: Rscript {0}
     - name: Download Merged GTFS artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: merged.gtfs.zip
         path: output/gtfs
@@ -771,12 +771,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Download Merged GTFS artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: merged.gtfs.zip
         path: output/gtfs
     - name: Download street graph artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: streetGraph.obj
         path: output/opentripplanner
@@ -860,12 +860,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Download OpenStreetMap artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: openstreetmap
         path: output/openstreetmap/
     - name: Download Merged GTFS artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: merged.gtfs.zip
         path: output/gtfs
@@ -986,57 +986,57 @@ jobs:
         download_otp()
       shell: Rscript {0}
     - name: Download Terrrain 50 artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: terr50.tif
         path: output
     - name: Download OpenStreetMap artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: openstreetmap
         path: output/openstreetmap/
     - name: Download ATOC GTFS artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: atoc.gtfs.zip
         path: output/gtfs
     - name: Download TNDS GTFS artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: tnds.gtfs.zip
         path: output/gtfs
     - name: Download BODS GTFS artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: bods.gtfs.zip
         path: output/gtfs
     - name: Download Merged GTFS artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: merged.gtfs.zip
         path: output/gtfs
     - name: Download street graph artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: streetGraph.obj
         path: output/opentripplanner
     - name: Download transport graph artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: graph.obj
         path: output/opentripplanner
     - name: Download network.dat artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: network.dat
         path: output/r5r
     - name: Download osrm graph artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: osrm-graph
         path: output/osrm_driving
     - name: Download pretty map artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: map.png
         path: output
