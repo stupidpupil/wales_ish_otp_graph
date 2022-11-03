@@ -463,7 +463,9 @@ jobs:
       run: |
         devtools::load_all()
         download_atoc()
-        prepare_atoc_gtfs()
+        prepare_atoc_gtfs() |>
+        summarise_gtfs_as_markdown() |>
+        cat(Sys.getenv("GITHUB_STEP_SUMMARY"))
       shell: Rscript {0}
     - name: Upload ATOC GTFS artifact
       uses: actions/upload-artifact@v3
@@ -527,7 +529,9 @@ jobs:
       run: |
         devtools::load_all()
         download_tnds()
-        prepare_tnds_gtfs()
+        prepare_tnds_gtfs() |>
+        summarise_gtfs_as_markdown() |>
+        cat(Sys.getenv("GITHUB_STEP_SUMMARY"))
       shell: Rscript {0}
     - name: Upload TNDS GTFS artifact
       uses: actions/upload-artifact@v3
@@ -587,7 +591,9 @@ jobs:
       if: steps.cache_bods.outputs.cache-hit != 'true'
       run: |
         devtools::load_all()
-        download_and_prepare_bods_gtfs()
+        download_and_prepare_bods_gtfs() |>
+        summarise_gtfs_as_markdown() |>
+        cat(Sys.getenv("GITHUB_STEP_SUMMARY"))
       shell: Rscript {0}
     - name: Upload BODS GTFS artifact
       uses: actions/upload-artifact@v3
