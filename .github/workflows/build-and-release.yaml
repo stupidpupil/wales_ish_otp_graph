@@ -81,18 +81,22 @@ jobs:
           cmake ../ -DENABLE_MASON=1
           make
           cd ../../
-          rm -r osrm-backend/build/CMakeFiles
-          rm osrm-backend/build/libosrm*
-          rm -r osrm-backend/build/flatbuffers-build
-          rm -r osrm-backend/mason_packages/headers/
-          rm -r osrm-backend/mason_packages/.binaries/
-          rm -r osrm-backend/third_party/
-          rm -r osrm-backend/unit_tests/
-          rm -r osrm-backend/src/
-          rm -r osrm-backend/docs/
-          rm -r osrm-backend/features/
-          rm -r osrm-backend/include/
-          rm -r osrm-backend/test/
+        shell: bash
+
+      - name: Clean osrm-backend
+        run: |
+          rm -rf osrm-backend/build/CMakeFiles
+          rm -rf osrm-backend/build/libosrm*
+          rm -rf osrm-backend/build/flatbuffers-build
+          rm -rf osrm-backend/mason_packages/headers/
+          rm -rf osrm-backend/mason_packages/.binaries/
+          rm -rf osrm-backend/third_party/
+          rm -rf osrm-backend/unit_tests/
+          rm -rf osrm-backend/src/
+          rm -rf osrm-backend/docs/
+          rm -rf osrm-backend/features/
+          rm -rf osrm-backend/include/
+          rm -rf osrm-backend/test/
           rm -rf osrm-backend/.git
           rm -rf osrm-backend/.github
           find osrm-backend -name "*.c" -type f -delete
@@ -108,7 +112,6 @@ jobs:
           find osrm-backend -name "*.rs" -type f -delete
           find osrm-backend -name "*.png" -type f -delete
           find osrm-backend -name "*.jpg" -type f -delete
-
         shell: bash
 
       - name: Upload osrm artefact
