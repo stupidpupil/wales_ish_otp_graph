@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 18:06 GMT on 01 November 2022. (The graph should update weekly.)
+The graph file was last updated at 19:01 GMT on 03 November 2022. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp_and_graph.zip* asset.
 
@@ -39,14 +39,14 @@ A small number of journeys, departing on Tuesday morning the following week, are
 
 | Description                      | Car   | Public |
 |:---------------------------------|:------|:-------|
-| Abergavenny to Pontypridd        | 0h38m | 2h13m  |
+| Abergavenny to Pontypridd        | 0h38m | 2h12m  |
 | Bala to Cardiff                  | 3h38m | 4h43m  |
 | Bangor Pier to Great Orme        | 0h46m | 1h41m  |
-| Blaengarw to Bridgend            | 0h32m | 0h42m  |
-| Caerphilly to Cwmafan            | 0h50m | 2h35m  |
+| Blaengarw to Bridgend            | 0h32m | 0h40m  |
+| Caerphilly to Cwmafan            | 0h50m | 2h18m  |
 | Cardiff to Bala                  | 3h38m | 5h23m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
-| Cardigan to Trawsfynydd          | 2h46m | 4h45m  |
+| Cardigan to Trawsfynydd          | 2h45m | 4h45m  |
 | Chirk to Walton                  | 1h30m | 4h23m  |
 | CP2 to Secret Garden Cafe        | 0h 7m | 0h 9m  |
 | Grangetown Library to UHW A&E    | 0h24m | 0h37m  |
@@ -56,7 +56,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Merthyr to Cardiff               | 0h47m | 1h18m  |
 | Pontsticill to the Naughty Stone | 0h33m | 1h38m  |
 | Rhosllanerchrugog to Denbigh     | 0h58m | 1h52m  |
-| Swansea to Bargoed               | 1h17m | 2h50m  |
+| Swansea to Bargoed               | 1h17m | 2h49m  |
 | Swansea to Wrexham               | 3h33m | 4h50m  |
 | Treharris to Gellideg            | 0h20m | 0h58m  |
 | Whitland to Cardigan             | 0h43m | 2h13m  |

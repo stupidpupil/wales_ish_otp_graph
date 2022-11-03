@@ -1,19 +1,19 @@
 {
-  "CreatedAt": ["2022-11-01T17:31:59+0000"],
+  "CreatedAt": ["2022-11-03T15:31:18+0000"],
   "DerivedFrom": {
     "Filename": ["walesish.osm.pbf"],
-    "SizeBytes": [282273435],
-    "CreatedAt": ["2022-11-01T16:58:58+0000"],
+    "SizeBytes": [282400975],
+    "CreatedAt": ["2022-11-03T14:56:50+0000"],
     "DerivedFrom": {
       "Filename": ["great-britain-latest.osm.pbf"],
-      "SizeBytes": [1549241988],
+      "SizeBytes": [1549824700],
       "SourceUrl": ["https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"],
-      "SourceDownloadedAt": ["2022-11-01T16:51:04+0000"],
+      "SourceDownloadedAt": ["2022-11-03T14:49:19+0000"],
       "SourceLicence": ["ODbL-1.0"],
       "SourceAttribution": ["OpenStreetMap contributors"],
-      "ParochialCacheKey": ["bc8b3c2237d7e8e222641480dca863ed2f38a70d"]
+      "ParochialCacheKey": ["ca81783b9df803c3aa8f6f1008c40ff09eca8d91"]
     },
-    "ParochialCacheKey": ["7b266526f90509a43f1bfca3d1e1c69d87699291"]
+    "ParochialCacheKey": ["0d001ba3d5726b93707c1b61f147cadfc1c99a5f"]
   },
-  "ParochialCacheKey": ["3c731d0ef8174fe34deb091f8ded8dbe051937f6"]
+  "ParochialCacheKey": ["8728f338282c988181b81641fb1f9df9a028d883"]
 }
