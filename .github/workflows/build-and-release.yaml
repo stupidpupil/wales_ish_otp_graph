@@ -464,7 +464,7 @@ jobs:
         devtools::load_all()
         download_atoc()
         prepare_atoc_gtfs() |>
-        summarise_gtfs_as_markdown() |>
+        parochial:::summarise_gtfs_as_markdown() |>
         cat(Sys.getenv("GITHUB_STEP_SUMMARY"))
       shell: Rscript {0}
     - name: Upload ATOC GTFS artifact
@@ -530,7 +530,7 @@ jobs:
         devtools::load_all()
         download_tnds()
         prepare_tnds_gtfs() |>
-        summarise_gtfs_as_markdown() |>
+        parochial:::summarise_gtfs_as_markdown() |>
         cat(Sys.getenv("GITHUB_STEP_SUMMARY"))
       shell: Rscript {0}
     - name: Upload TNDS GTFS artifact
@@ -592,7 +592,7 @@ jobs:
       run: |
         devtools::load_all()
         download_and_prepare_bods_gtfs() |>
-        summarise_gtfs_as_markdown() |>
+        parochial:::summarise_gtfs_as_markdown() |>
         cat(Sys.getenv("GITHUB_STEP_SUMMARY"))
       shell: Rscript {0}
     - name: Upload BODS GTFS artifact
