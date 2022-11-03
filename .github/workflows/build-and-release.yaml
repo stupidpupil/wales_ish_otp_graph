@@ -557,7 +557,7 @@ jobs:
     - name: Get BODS index page hash
       id: bods_index_page_hash
       run: |
-        echo "hash=$(curl "https://data.bus-data.dft.gov.uk/timetable/download/" | md5)" >> $GITHUB_OUTPUT
+        echo "hash=$(curl "https://data.bus-data.dft.gov.uk/timetable/" | md5)" >> $GITHUB_OUTPUT
     - name: Cache BODS
       id: cache_bods
       uses: actions/cache@v3
