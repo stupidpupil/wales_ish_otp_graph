@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 07:35 GMT on 14 November 2022. (The graph should update weekly.)
+The graph file was last updated at 09:44 GMT on 21 November 2022. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp_and_graph.zip* asset.
 
@@ -39,14 +39,15 @@ A small number of journeys, departing on Tuesday morning the following week, are
 
 | Description                      | Car   | Public |
 |:---------------------------------|:------|:-------|
-| Abergavenny to Pontypridd        | 0h37m | 2h36m  |
+| Aberdare to Glynneath            | 0h20m | 0h51m  |
+| Abergavenny to Pontypridd        | 0h37m | 2h18m  |
 | Bala to Cardiff                  | 3h36m | 4h47m  |
 | Bangor Pier to Great Orme        | 0h46m | 1h41m  |
 | Blaengarw to Bridgend            | 0h32m | 0h42m  |
-| Caerphilly to Cwmafan            | 0h50m | 2h27m  |
+| Caerphilly to Cwmafan            | 0h50m | 2h14m  |
 | Cardiff to Bala                  | 3h35m | 5h29m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
-| Cardigan to Trawsfynydd          | 2h44m | 3h55m  |
+| Cardigan to Trawsfynydd          | 2h44m | 4h45m  |
 | Chirk to Walton                  | 1h31m | 4h22m  |
 | CP2 to Secret Garden Cafe        | 0h 7m | 0h 9m  |
 | Grangetown Library to UHW A&E    | 0h23m | 0h49m  |
