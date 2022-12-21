@@ -1,13 +1,13 @@
 {
-  "CreatedAt": "2022-12-19T05:32:06+0000",
+  "CreatedAt": "2022-12-21T20:31:43+0000",
   "DerivedFrom": {
     "Filename": "north_west.bods.gtfs.zip",
-    "SizeBytes": 57104206,
+    "SizeBytes": 57214418,
     "SourceUrl": "https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/north_west/",
-    "SourceDownloadedAt": "2022-12-19T05:31:14+0000",
+    "SourceDownloadedAt": "2022-12-21T20:31:08+0000",
     "SourceLicence": "OGL-UK-3.0",
     "SourceAttribution": "UK Department for Transport",
-    "ParochialCacheKey": "ed3ed172268a254e68e97e8b492ddf3f7504797f"
+    "ParochialCacheKey": "7b848f55007c4b1d3138532bb60e7326d7f864d5"
   },
   "Coverage": {
     "Temporal": {
@@ -16,5 +16,5 @@
     },
     "Spatial": "Part of Great Britain"
   },
-  "ParochialCacheKey": "33184acf97108d892373e4d44a9d3a6cad1daa37"
+  "ParochialCacheKey": "a2e03f189d17f6efc15088997eecf635baf6a704"
 }
