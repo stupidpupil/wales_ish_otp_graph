@@ -1,20 +1,20 @@
 {
-  "CreatedAt": "2023-01-02T05:32:58+0000",
+  "CreatedAt": "2023-01-16T05:35:36+0000",
   "DerivedFrom": {
     "Filename": "west_midlands.bods.gtfs.zip",
-    "SizeBytes": 55997678,
+    "SizeBytes": 44859145,
     "SourceUrl": "https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/west_midlands/",
-    "SourceDownloadedAt": "2023-01-02T05:32:36+0000",
+    "SourceDownloadedAt": "2023-01-16T05:35:07+0000",
     "SourceLicence": "OGL-UK-3.0",
     "SourceAttribution": "UK Department for Transport",
-    "ParochialCacheKey": "533352f89536b84c5d944d6dd28d5379c8032b80"
+    "ParochialCacheKey": "ce54d487c89000c0f3c02a5147acd84bd7a5f0dd"
   },
   "Coverage": {
     "Temporal": {
-      "start": "2023-01-02",
-      "end": "2023-01-31"
+      "start": "2023-01-16",
+      "end": "2023-02-14"
     },
     "Spatial": "Part of Great Britain"
   },
-  "ParochialCacheKey": "ca16908542a872f0c54b841a2593552a559332d1"
+  "ParochialCacheKey": "13e1a6003b5b96c73a4b0bc34c3c064e0a604b7d"
 }
