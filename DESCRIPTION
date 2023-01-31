@@ -18,6 +18,7 @@ Imports:
   tidyr,
   stringr,
   lubridate,
-  readr
+  readr,
+  r5r (>= 1.0.0)
 Remotes:
   stupidpupil/parochial
