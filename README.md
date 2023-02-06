@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 11:31 GMT on 03 February 2023. (The graph should update weekly.)
+The graph file was last updated at 07:41 GMT on 06 February 2023. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp_and_graph.zip* asset.
 
@@ -41,7 +41,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 |:---------------------------------|:------|:-------|
 | Aberdare to Glynneath            | 0h20m | 0h51m  |
 | Abergavenny to Pontypridd        | 0h37m | 2h18m  |
-| Bala to Cardiff                  | 3h36m | 4h50m  |
+| Bala to Cardiff                  | 3h37m | 4h50m  |
 | Bangor Pier to Great Orme        | 0h46m | 1h41m  |
 | Blaengarw to Bridgend            | 0h32m | 0h42m  |
 | CP2 to Secret Garden Cafe        | 0h 7m | 0h 9m  |
@@ -57,7 +57,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Merthyr to Cardiff               | 0h45m | 1h18m  |
 | Pontsticill to the Naughty Stone | 0h34m | 1h38m  |
 | Rhosllanerchrugog to Denbigh     | 1h 0m | 1h52m  |
-| Swansea to Bargoed               | 1h17m | 3h 5m  |
+| Swansea to Bargoed               | 1h17m | 3h27m  |
 | Swansea to Wrexham               | 3h28m | 5h 5m  |
 | Treharris to Gellideg            | 0h20m | 0h57m  |
 | Whitland to Cardigan             | 0h44m | 2h 2m  |
