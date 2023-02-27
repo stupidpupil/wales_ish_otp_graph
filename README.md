@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 07:19 GMT on 20 February 2023. (The graph should update weekly.)
+The graph file was last updated at 07:18 GMT on 27 February 2023. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp_and_graph.zip* asset.
 
@@ -40,25 +40,25 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Description                      | Car   | Public |
 |:---------------------------------|:------|:-------|
 | Aberdare to Glynneath            | 0h20m | 0h51m  |
-| Abergavenny to Pontypridd        | 0h37m | 2h18m  |
+| Abergavenny to Pontypridd        | 0h37m | 2h36m  |
 | Bala to Cardiff                  | 3h37m | 4h50m  |
 | Bangor Pier to Great Orme        | 0h46m | 1h41m  |
-| Blaengarw to Bridgend            | 0h33m | 3h 8m  |
+| Blaengarw to Bridgend            | 0h33m | 0h42m  |
 | CP2 to Secret Garden Cafe        | 0h 7m | 0h 9m  |
-| Caerphilly to Cwmafan            | 0h50m | 2h42m  |
+| Caerphilly to Cwmafan            | 0h50m | 2h27m  |
 | Cardiff to Bala                  | 3h36m | 5h29m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
 | Cardigan to Trawsfynydd          | 2h44m | 4h45m  |
 | Chirk to Walton                  | 1h31m | 4h38m  |
 | Grangetown Library to UHW A&E    | 0h23m | 0h54m  |
-| Lampeter to Llandovery           | 0h29m | 15h56m |
+| Lampeter to Llandovery           | 0h29m | 2h45m  |
 | Llangadog to Rhayader            | 1h 5m | 3h26m  |
 | Llangollen to Ruthin             | 0h28m | 0h55m  |
 | Merthyr to Cardiff               | 0h45m | 1h18m  |
 | Pontsticill to the Naughty Stone | 0h34m | 1h38m  |
 | Rhosllanerchrugog to Denbigh     | 1h 0m | 1h52m  |
-| Swansea to Bargoed               | 1h17m | 2h48m  |
-| Swansea to Wrexham               | 3h28m | 5h20m  |
+| Swansea to Bargoed               | 1h17m | 3h27m  |
+| Swansea to Wrexham               | 3h28m | 5h 5m  |
 | Treharris to Gellideg            | 0h20m | 0h57m  |
 | Whitland to Cardigan             | 0h44m | 2h 2m  |
 
