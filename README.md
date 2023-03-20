@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 10:00 GMT on 14 March 2023. (The graph should update weekly.)
+The graph file was last updated at 07:37 GMT on 20 March 2023. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp_and_graph.zip* asset.
 
@@ -51,7 +51,7 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Cardigan to Trawsfynydd          | 2h44m | 4h45m  |
 | Chirk to Walton                  | 1h31m | 4h38m  |
 | Grangetown Library to UHW A&E    | 0h23m | 0h54m  |
-| Lampeter to Llandovery           | 0h29m | 2h45m  |
+| Lampeter to Llandovery           | 0h29m | 15h56m |
 | Llangadog to Rhayader            | 1h 5m | 3h26m  |
 | Llangollen to Ruthin             | 0h28m | 0h55m  |
 | Merthyr to Cardiff               | 0h45m | 1h18m  |
