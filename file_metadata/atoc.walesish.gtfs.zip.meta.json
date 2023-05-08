@@ -1,20 +1,20 @@
 {
-  "CreatedAt": "2023-05-01T06:06:47+0000",
+  "CreatedAt": "2023-05-08T06:05:15+0000",
   "DerivedFrom": {
     "Filename": "atoc.zip",
-    "SizeBytes": 51991003,
-    "SourceUrl": "https://data.atoc.org/system/files/ttis718.zip",
-    "SourceDownloadedAt": "2023-05-01T05:31:04+0000",
+    "SizeBytes": 49323905,
+    "SourceUrl": "https://data.atoc.org/system/files/ttis725.zip",
+    "SourceDownloadedAt": "2023-05-08T05:31:39+0000",
     "SourceLicence": "CC-BY-2.0",
     "SourceAttribution": "RSP Limited (Rail Delivery Group)",
-    "ParochialCacheKey": "ef410c024a7bc926ba49d1c3c12d6cbfdc07d4e5"
+    "ParochialCacheKey": "1e2c550c36391aac569f16710f517fc75a1c9cde"
   },
   "Coverage": {
     "Temporal": {
-      "start": "2023-05-01",
-      "end": "2023-05-30"
+      "start": "2023-05-08",
+      "end": "2023-06-06"
     },
     "Spatial": "Part of Great Britain"
   },
-  "ParochialCacheKey": "b28fde0fd44e8c8b8fe952ae584cae9df9e8b005"
+  "ParochialCacheKey": "781a37f546b2665ee694d87f15b3cf310a064b40"
 }
