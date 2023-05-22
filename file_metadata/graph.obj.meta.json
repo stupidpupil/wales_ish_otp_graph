@@ -1,27 +1,27 @@
 {
-  "CreatedAt": ["2023-05-15T06:49:22+0000"],
+  "CreatedAt": ["2023-05-22T06:45:10+0000"],
   "CreatedWithOpenTripPlannerVersion": ["2.2.0, ser.ver.id: 76, commit: 0e15511b630347df581f1f230de7f470db1b7b26, branch: master"],
   "DerivedFrom": [
     {
       "Filename": ["streetGraph.obj"],
-      "SizeBytes": [948355496],
-      "CreatedAt": ["2023-05-15T06:00:10+0000"],
+      "SizeBytes": [949130188],
+      "CreatedAt": ["2023-05-22T06:03:36+0000"],
       "CreatedWithOpenTripPlannerVersion": ["2.2.0, ser.ver.id: 76, commit: 0e15511b630347df581f1f230de7f470db1b7b26, branch: master"],
       "DerivedFrom": [
         {
           "Filename": ["walesish.osm.pbf"],
-          "SizeBytes": [293884750],
-          "CreatedAt": ["2023-05-15T05:38:29+0000"],
+          "SizeBytes": [294397909],
+          "CreatedAt": ["2023-05-22T05:38:53+0000"],
           "DerivedFrom": {
             "Filename": ["great-britain-latest.osm.pbf"],
-            "SizeBytes": [1615884262],
+            "SizeBytes": [1618349118],
             "SourceUrl": ["https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"],
-            "SourceDownloadedAt": ["2023-05-15T05:33:52+0000"],
+            "SourceDownloadedAt": ["2023-05-22T05:34:01+0000"],
             "SourceLicence": ["ODbL-1.0"],
             "SourceAttribution": ["OpenStreetMap contributors"],
-            "ParochialCacheKey": ["57861ef26a93a9ec8c9422924ea3f07161686936"]
+            "ParochialCacheKey": ["8914deafa415c55103f2ca8d12b3e551b72a36c5"]
           },
-          "ParochialCacheKey": ["10459d49ca156be9a15cd8b132ebf90deae16ff7"]
+          "ParochialCacheKey": ["b80b91362901cdb94ca156ee04868f6b37b54c9b"]
         },
         {
           "Filename": ["walesish.terr50.tif"],
@@ -39,157 +39,157 @@
           "ParochialCacheKey": ["dd63d2a6a126af52e6b3ba675ed7d6abd71d87d2"]
         }
       ],
-      "ParochialCacheKey": ["7e3d9f7dd4fd02687eb176fc9e74006bccc4206a"]
+      "ParochialCacheKey": ["a6f12c74dca4b93dfbfe42294cb8d0c592c82857"]
     },
     {
       "Filename": ["merged.walesish.gtfs.zip"],
-      "SizeBytes": [95770150],
-      "CreatedAt": ["2023-05-15T06:23:05+0000"],
+      "SizeBytes": [97729041],
+      "CreatedAt": ["2023-05-22T06:24:37+0000"],
       "DerivedFrom": [
         {
           "Filename": ["NCSD.tnds.walesish.gtfs.zip"],
-          "SizeBytes": [40838],
-          "CreatedAt": ["2023-05-15T05:48:30+0000"],
+          "SizeBytes": [41145],
+          "CreatedAt": ["2023-05-22T05:42:59+0000"],
           "DerivedFrom": {
             "Filename": ["NCSD.bus.tnds.zip"],
-            "SizeBytes": [1511160],
+            "SizeBytes": [1527586],
             "SourceUrl": ["ftp://ftp.tnds.basemap.co.uk/NCSD.zip"],
-            "SourceDownloadedAt": ["2023-05-15T05:30:53+0000"],
+            "SourceDownloadedAt": ["2023-05-22T05:32:51+0000"],
             "SourceLicence": ["OGL-UK-3.0"],
             "SourceAttribution": ["Traveline"],
-            "ParochialCacheKey": ["bdf79bd695ebf14c18efed6cceb9b3d9de6b9451"]
+            "ParochialCacheKey": ["05dace1b4f193a826635dfca4673b51c0b3d4374"]
           },
           "Coverage": {
             "Temporal": {
-              "start": ["2023-05-15"],
-              "end": ["2023-06-13"]
+              "start": ["2023-05-22"],
+              "end": ["2023-06-20"]
             },
             "Spatial": ["Part of Great Britain"]
           },
-          "ParochialCacheKey": ["4c35c8ca3650afac7aeca68aa0b533283c239e30"]
+          "ParochialCacheKey": ["86a333293c256e2f62713bc10ab5d02db7e870b1"]
         },
         {
           "Filename": ["W.tnds.walesish.gtfs.zip"],
-          "SizeBytes": [7851806],
-          "CreatedAt": ["2023-05-15T05:43:56+0000"],
+          "SizeBytes": [8994235],
+          "CreatedAt": ["2023-05-22T05:39:57+0000"],
           "DerivedFrom": {
             "Filename": ["W.bus.tnds.zip"],
-            "SizeBytes": [10144508],
+            "SizeBytes": [9516380],
             "SourceUrl": ["ftp://ftp.tnds.basemap.co.uk/W.zip"],
-            "SourceDownloadedAt": ["2023-05-15T05:30:53+0000"],
+            "SourceDownloadedAt": ["2023-05-22T05:32:49+0000"],
             "SourceLicence": ["OGL-UK-3.0"],
             "SourceAttribution": ["Traveline"],
-            "ParochialCacheKey": ["2fc64bff5e2e9a3948387d1f971ed2f5974c1a84"]
+            "ParochialCacheKey": ["6f79dbade59b7c68d0cf8d1638bf030e0f00848e"]
           },
           "Coverage": {
             "Temporal": {
-              "start": ["2023-05-15"],
-              "end": ["2023-06-13"]
+              "start": ["2023-05-22"],
+              "end": ["2023-06-20"]
             },
             "Spatial": ["Part of Great Britain"]
           },
-          "ParochialCacheKey": ["a4e52863bf34795a97bb724dbf4db1d0ac84755f"]
+          "ParochialCacheKey": ["ddf1c801b51fc43f5dcacf33ad5bf6c4a68cf7ee"]
         },
         {
           "Filename": ["atoc.walesish.gtfs.zip"],
-          "SizeBytes": [2061003],
-          "CreatedAt": ["2023-05-15T06:03:29+0000"],
+          "SizeBytes": [1688602],
+          "CreatedAt": ["2023-05-22T06:03:34+0000"],
           "DerivedFrom": {
             "Filename": ["atoc.zip"],
-            "SizeBytes": [48631549],
-            "SourceUrl": ["https://data.atoc.org/system/files/ttis732.zip"],
-            "SourceDownloadedAt": ["2023-05-15T05:31:12+0000"],
+            "SizeBytes": [46936334],
+            "SourceUrl": ["https://data.atoc.org/system/files/ttis739.zip"],
+            "SourceDownloadedAt": ["2023-05-22T05:31:14+0000"],
             "SourceLicence": ["CC-BY-2.0"],
             "SourceAttribution": ["RSP Limited (Rail Delivery Group)"],
-            "ParochialCacheKey": ["1fdc2f18082ee9c58a26237318d80cba484a2351"]
+            "ParochialCacheKey": ["a875c9baaac6326e4ae071357a147451c920357b"]
           },
           "Coverage": {
             "Temporal": {
-              "start": ["2023-05-15"],
-              "end": ["2023-06-13"]
+              "start": ["2023-05-22"],
+              "end": ["2023-06-20"]
             },
             "Spatial": ["Part of Great Britain"]
           },
-          "ParochialCacheKey": ["b7013257c79d74d0458c96095cd31c26ee53e6e9"]
+          "ParochialCacheKey": ["69a848bd57ff9716ad6b4a960eb00a0f28d5a84f"]
         },
         {
           "Filename": ["north_west.bods.walesish.gtfs.zip"],
-          "SizeBytes": [27923681],
-          "CreatedAt": ["2023-05-15T05:31:26+0000"],
+          "SizeBytes": [27813054],
+          "CreatedAt": ["2023-05-22T05:31:27+0000"],
           "DerivedFrom": {
             "Filename": ["north_west.bods.gtfs.zip"],
-            "SizeBytes": [52841034],
+            "SizeBytes": [52145251],
             "SourceUrl": ["https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/north_west/"],
-            "SourceDownloadedAt": ["2023-05-15T05:30:52+0000"],
+            "SourceDownloadedAt": ["2023-05-22T05:30:49+0000"],
             "SourceLicence": ["OGL-UK-3.0"],
             "SourceAttribution": ["UK Department for Transport"],
-            "ParochialCacheKey": ["4cab5e2956a018dd5ed3462c16110ada9061339a"]
+            "ParochialCacheKey": ["076432e11e6307b3098906b92c630da2edd59d33"]
           },
           "Coverage": {
             "Temporal": {
-              "start": ["2023-05-15"],
-              "end": ["2023-06-13"]
+              "start": ["2023-05-22"],
+              "end": ["2023-06-20"]
             },
             "Spatial": ["Part of Great Britain"]
           },
-          "ParochialCacheKey": ["8e30ee62621f5ee29593a8ec56896e7de81f4c84"]
+          "ParochialCacheKey": ["57288d5f65e1aa655c7ef770f5a2fafc1c1c4401"]
         },
         {
           "Filename": ["south_west.bods.walesish.gtfs.zip"],
-          "SizeBytes": [17457115],
-          "CreatedAt": ["2023-05-15T05:32:36+0000"],
+          "SizeBytes": [17276923],
+          "CreatedAt": ["2023-05-22T05:32:17+0000"],
           "DerivedFrom": {
             "Filename": ["south_west.bods.gtfs.zip"],
-            "SizeBytes": [82408812],
+            "SizeBytes": [82716918],
             "SourceUrl": ["https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/south_west/"],
-            "SourceDownloadedAt": ["2023-05-15T05:32:13+0000"],
+            "SourceDownloadedAt": ["2023-05-22T05:31:56+0000"],
             "SourceLicence": ["OGL-UK-3.0"],
             "SourceAttribution": ["UK Department for Transport"],
-            "ParochialCacheKey": ["4f04b51ef517a68b445d2a9cab928c1bd1125dbc"]
+            "ParochialCacheKey": ["a87d370122d4c7b1323ee9202c7b07138cebb622"]
           },
           "Coverage": {
             "Temporal": {
-              "start": ["2023-05-15"],
-              "end": ["2023-06-13"]
+              "start": ["2023-05-22"],
+              "end": ["2023-06-20"]
             },
             "Spatial": ["Part of Great Britain"]
           },
-          "ParochialCacheKey": ["402c7485793cb90e0171564654d4dc502c9a1e67"]
+          "ParochialCacheKey": ["860507bdbf1a7e28d0736a5ddb0818606d517d26"]
         },
         {
           "Filename": ["west_midlands.bods.walesish.gtfs.zip"],
-          "SizeBytes": [9860732],
-          "CreatedAt": ["2023-05-15T05:31:48+0000"],
+          "SizeBytes": [9807275],
+          "CreatedAt": ["2023-05-22T05:31:51+0000"],
           "DerivedFrom": {
             "Filename": ["west_midlands.bods.gtfs.zip"],
-            "SizeBytes": [48034497],
+            "SizeBytes": [49063285],
             "SourceUrl": ["https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/west_midlands/"],
-            "SourceDownloadedAt": ["2023-05-15T05:31:30+0000"],
+            "SourceDownloadedAt": ["2023-05-22T05:31:31+0000"],
             "SourceLicence": ["OGL-UK-3.0"],
             "SourceAttribution": ["UK Department for Transport"],
-            "ParochialCacheKey": ["2bd85a0c4733d680cbba70e68e4f2c49239f4317"]
+            "ParochialCacheKey": ["f84465dc8ecbb04b6a3350c46a2ffec0da8145d6"]
           },
           "Coverage": {
             "Temporal": {
-              "start": ["2023-05-15"],
-              "end": ["2023-06-13"]
+              "start": ["2023-05-22"],
+              "end": ["2023-06-20"]
             },
             "Spatial": ["Part of Great Britain"]
           },
-          "ParochialCacheKey": ["b6d5b08e0250e6ce1105b862848e9bd7dbfe38da"]
+          "ParochialCacheKey": ["5ed4c34b994ef7f00e34435e1fc232cdf7c3ed5a"]
         },
         {
           "Filename": ["walesish.osm.pbf"],
-          "SizeBytes": [293884750],
-          "CreatedAt": ["2023-05-15T05:38:29+0000"],
+          "SizeBytes": [294397909],
+          "CreatedAt": ["2023-05-22T05:38:53+0000"],
           "DerivedFrom": {
             "Filename": ["great-britain-latest.osm.pbf"],
-            "SizeBytes": [1615884262],
+            "SizeBytes": [1618349118],
             "SourceUrl": ["https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"],
-            "SourceDownloadedAt": ["2023-05-15T05:33:52+0000"],
+            "SourceDownloadedAt": ["2023-05-22T05:34:01+0000"],
             "SourceLicence": ["ODbL-1.0"],
             "SourceAttribution": ["OpenStreetMap contributors"],
-            "ParochialCacheKey": ["57861ef26a93a9ec8c9422924ea3f07161686936"]
+            "ParochialCacheKey": ["8914deafa415c55103f2ca8d12b3e551b72a36c5"]
           },
           "Coverage": {
             "Temporal": {
@@ -198,18 +198,18 @@
             },
             "Spatial": {}
           },
-          "ParochialCacheKey": ["10459d49ca156be9a15cd8b132ebf90deae16ff7"]
+          "ParochialCacheKey": ["b80b91362901cdb94ca156ee04868f6b37b54c9b"]
         }
       ],
-      "ParochialCacheKey": ["a9d08c23e8b38b1a87f01ab9f21ecf98c8391a2c"]
+      "ParochialCacheKey": ["5bf6fe6c2b9738f6ed6e38090d271ef40af7af47"]
     }
   ],
   "Coverage": {
     "Temporal": {
-      "start": ["2023-05-15"],
-      "end": ["2023-06-13"]
+      "start": ["2023-05-22"],
+      "end": ["2023-06-20"]
     },
     "Spatial": ["Part of Great Britain"]
   },
-  "ParochialCacheKey": ["b8a713eeb838f58a0d352aa09a9c43531827a93d"]
+  "ParochialCacheKey": ["68becee8fbbcd438bb54304b84c8704852f37099"]
 }
