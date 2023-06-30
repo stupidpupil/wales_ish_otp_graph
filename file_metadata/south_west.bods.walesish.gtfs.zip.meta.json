@@ -1,20 +1,20 @@
 {
-  "CreatedAt": "2023-06-19T05:37:30+0000",
+  "CreatedAt": "2023-06-30T10:38:35+0000",
   "DerivedFrom": {
     "Filename": "south_west.bods.gtfs.zip",
-    "SizeBytes": 84740559,
+    "SizeBytes": 84495220,
     "SourceUrl": "https://data.bus-data.dft.gov.uk/timetable/download/gtfs-file/south_west/",
-    "SourceDownloadedAt": "2023-06-19T05:36:54+0000",
+    "SourceDownloadedAt": "2023-06-30T10:38:15+0000",
     "SourceLicence": "OGL-UK-3.0",
     "SourceAttribution": "UK Department for Transport",
-    "ParochialCacheKey": "1c661ff92c7ff44e112eb1233f57d38dbb847266"
+    "ParochialCacheKey": "dff9f1cd2690552d60924ca42e5f0686d7cc24f5"
   },
   "Coverage": {
     "Temporal": {
-      "start": "2023-06-19",
-      "end": "2023-07-18"
+      "start": "2023-06-26",
+      "end": "2023-07-25"
     },
     "Spatial": "Part of Great Britain"
   },
-  "ParochialCacheKey": "361cca47b75450a345efad6bff1fb4763f85faa6"
+  "ParochialCacheKey": "2dc134be3dadb107308ab46cfed5fcb1b2eaab02"
 }
