@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 12:46 BST on 30 June 2023. (The graph should update weekly.)
+The graph file was last updated at 07:42 BST on 03 July 2023. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp_and_graph.zip* asset.
 
@@ -53,10 +53,10 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Grangetown Library to UHW A&E    | 0h23m | 0h49m  |
 | Lampeter to Llandovery           | 0h30m | 2h48m  |
 | Llangadog to Rhayader            | 1h 1m | 3h26m  |
-| Llangollen to Ruthin             | 0h28m | 1h11m  |
+| Llangollen to Ruthin             | 0h28m | 0h57m  |
 | Merthyr to Cardiff               | 0h45m | 1h20m  |
 | Pontsticill to the Naughty Stone | 0h35m | 1h39m  |
-| Rhosllanerchrugog to Denbigh     | 1h 1m | 1h52m  |
+| Rhosllanerchrugog to Denbigh     | 1h 2m | 1h52m  |
 | Swansea to Bargoed               | 1h17m | 3h25m  |
 | Swansea to Wrexham               | 3h29m | 4h33m  |
 | Treharris to Gellideg            | 0h20m | 0h50m  |
