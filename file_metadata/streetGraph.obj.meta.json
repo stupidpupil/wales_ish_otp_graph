@@ -1,37 +1,37 @@
 {
-  "CreatedAt": ["2023-07-03T06:06:09+0000"],
+  "CreatedAt": ["2023-07-07T12:48:52+0000"],
   "CreatedWithOpenTripPlannerVersion": ["2.2.0, ser.ver.id: 76, commit: 0e15511b630347df581f1f230de7f470db1b7b26, branch: master"],
   "DerivedFrom": [
     {
       "Filename": ["walesish.osm.pbf"],
-      "SizeBytes": [297286417],
-      "CreatedAt": ["2023-07-03T05:43:29+0000"],
+      "SizeBytes": [297471896],
+      "CreatedAt": ["2023-07-07T11:56:49+0000"],
       "DerivedFrom": {
         "Filename": ["great-britain-latest.osm.pbf"],
-        "SizeBytes": [1633292953],
+        "SizeBytes": [1634660525],
         "SourceUrl": ["https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"],
-        "SourceDownloadedAt": ["2023-07-03T05:38:00+0000"],
+        "SourceDownloadedAt": ["2023-07-07T11:51:10+0000"],
         "SourceLicence": ["ODbL-1.0"],
         "SourceAttribution": ["OpenStreetMap contributors"],
-        "ParochialCacheKey": ["eb57b79448b2b2e055c4c95c699273199903431e"]
+        "ParochialCacheKey": ["f44937b10981d17ecdf1cb6f6b7804249cb154f3"]
       },
-      "ParochialCacheKey": ["d97cd566991e30e91d148f2c6de4dcec31e6c420"]
+      "ParochialCacheKey": ["3fde40bad2849c113e7503becbe4ce568462d2a3"]
     },
     {
       "Filename": ["walesish.terr50.tif"],
-      "SizeBytes": [70794238],
-      "CreatedAt": ["2023-02-27T05:35:57+0000"],
+      "SizeBytes": [70798519],
+      "CreatedAt": ["2023-07-07T11:51:52+0000"],
       "DerivedFrom": {
         "Filename": ["terr50_gagg_gb.zip"],
-        "SizeBytes": [161700205],
+        "SizeBytes": [161687898],
         "SourceUrl": ["https://api.os.uk/downloads/v1/products/Terrain50/downloads?area=GB&format=ASCII+Grid+and+GML+%28Grid%29&redirect"],
-        "SourceDownloadedAt": ["2023-02-27T05:33:31+0000"],
+        "SourceDownloadedAt": ["2023-07-07T11:49:11+0000"],
         "SourceLicence": ["OGL-UK-3.0"],
         "SourceAttribution": ["Contains OS data © Crown copyright and database right 2022"],
-        "ParochialCacheKey": ["771a4c931d42c625c7c302ab5dc3a5cc41774d5d"]
+        "ParochialCacheKey": ["4e0846a2c1d039d5e28346d9431e9afbdcad6e0c"]
       },
-      "ParochialCacheKey": ["dd63d2a6a126af52e6b3ba675ed7d6abd71d87d2"]
+      "ParochialCacheKey": ["53231d28014c2a06613084eac16f43420a6520ef"]
     }
   ],
-  "ParochialCacheKey": ["5fc9db4f9fdbb028c40234f30514b5e63131e45f"]
+  "ParochialCacheKey": ["8f86b98b18a5e3262b4d3bdcede946c7a3eac09a"]
 }
