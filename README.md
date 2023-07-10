@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 14:23 BST on 07 July 2023. (The graph should update weekly.)
+The graph file was last updated at 07:50 BST on 10 July 2023. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp_and_graph.zip* asset.
 
@@ -41,12 +41,12 @@ A small number of journeys, departing on Tuesday morning the following week, are
 |:---------------------------------|:------|:-------|
 | Aberdare to Glynneath            | 0h20m | 0h51m  |
 | Abergavenny to Pontypridd        | 0h37m | 2h32m  |
-| Bala to Cardiff                  | 3h37m | 4h50m  |
+| Bala to Cardiff                  | 3h38m | 4h50m  |
 | Bangor Pier to Great Orme        | 0h46m | 1h41m  |
 | Blaengarw to Bridgend            | 0h33m | 0h42m  |
 | CP2 to Secret Garden Cafe        | 0h 7m | 0h 9m  |
 | Caerphilly to Cwmafan            | 0h50m | 2h27m  |
-| Cardiff to Bala                  | 3h36m | 5h29m  |
+| Cardiff to Bala                  | 3h37m | 5h29m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
 | Cardigan to Trawsfynydd          | 2h45m | 4h45m  |
 | Chirk to Walton                  | 1h31m | 4h40m  |
