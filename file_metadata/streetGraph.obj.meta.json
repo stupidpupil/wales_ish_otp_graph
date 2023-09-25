@@ -1,21 +1,21 @@
 {
-  "CreatedAt": ["2023-09-18T06:03:26+0000"],
+  "CreatedAt": ["2023-09-25T06:00:46+0000"],
   "CreatedWithOpenTripPlannerVersion": ["2.2.0, ser.ver.id: 76, commit: 0e15511b630347df581f1f230de7f470db1b7b26, branch: master"],
   "DerivedFrom": [
     {
       "Filename": ["walesish.osm.pbf"],
-      "SizeBytes": [303142850],
-      "CreatedAt": ["2023-09-18T05:40:31+0000"],
+      "SizeBytes": [303799105],
+      "CreatedAt": ["2023-09-25T05:40:59+0000"],
       "DerivedFrom": {
         "Filename": ["great-britain-latest.osm.pbf"],
-        "SizeBytes": [1663714904],
+        "SizeBytes": [1666892752],
         "SourceUrl": ["https://download.geofabrik.de/europe/great-britain-latest.osm.pbf"],
-        "SourceDownloadedAt": ["2023-09-18T05:35:18+0000"],
+        "SourceDownloadedAt": ["2023-09-25T05:35:43+0000"],
         "SourceLicence": ["ODbL-1.0"],
         "SourceAttribution": ["OpenStreetMap contributors"],
-        "ParochialCacheKey": ["455f811e3fccd09c575803f9d306365295de2cd8"]
+        "ParochialCacheKey": ["714664aa478cfd774016f653f90d8f7c6b1b229b"]
       },
-      "ParochialCacheKey": ["1c88175df0bfb47336ee05b8e96cc0c068e26381"]
+      "ParochialCacheKey": ["b782c8e188389f4b89397859ca8cddfa7680ab83"]
     },
     {
       "Filename": ["walesish.terr50.tif"],
@@ -33,5 +33,5 @@
       "ParochialCacheKey": ["53231d28014c2a06613084eac16f43420a6520ef"]
     }
   ],
-  "ParochialCacheKey": ["d7652f1799f0e8d4d160919870b8fa0f52499fac"]
+  "ParochialCacheKey": ["42198874e323ea3402b407b0e4ac212f70d5464c"]
 }
