@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 21:09 BST on 02 October 2023. (The graph should update weekly.)
+The graph file was last updated at 10:39 BST on 16 October 2023. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp_and_graph.zip* asset.
 
@@ -40,23 +40,23 @@ A small number of journeys, departing on Tuesday morning the following week, are
 | Description                      | Car   | Public |
 |:---------------------------------|:------|:-------|
 | Aberdare to Glynneath            | 0h20m | 1h 0m  |
-| Abergavenny to Pontypridd        | 0h37m | 2h31m  |
-| Bala to Cardiff                  | 3h37m | 4h46m  |
-| Bangor Pier to Great Orme        | 0h46m | 1h41m  |
+| Abergavenny to Pontypridd        | 0h37m | 2h35m  |
+| Bala to Cardiff                  | 3h41m | 4h45m  |
+| Bangor Pier to Great Orme        | 0h48m | 1h41m  |
 | Blaengarw to Bridgend            | 0h30m | 0h42m  |
 | CP2 to Secret Garden Cafe        | 0h 7m | 0h 9m  |
-| Caerphilly to Cwmafan            | 0h51m | 2h35m  |
-| Cardiff to Bala                  | 3h35m | 5h22m  |
+| Caerphilly to Cwmafan            | 0h51m | 2h27m  |
+| Cardiff to Bala                  | 3h36m | 5h22m  |
 | Cardiff to Sheffield             | N/A   | N/A    |
-| Cardigan to Trawsfynydd          | 2h45m | 4h45m  |
+| Cardigan to Trawsfynydd          | 2h46m | 4h45m  |
 | Chirk to Walton                  | 1h32m | 3h26m  |
-| Grangetown Library to UHW A&E    | 0h23m | 0h45m  |
+| Grangetown Library to UHW A&E    | 0h23m | 0h59m  |
 | Lampeter to Llandovery           | 0h29m | 2h48m  |
-| Llangadog to Rhayader            | 0h59m | 3h26m  |
-| Llangollen to Ruthin             | 0h30m | 1h11m  |
-| Merthyr to Cardiff               | 0h45m | 1h32m  |
+| Llangadog to Rhayader            | 0h59m | 6h17m  |
+| Llangollen to Ruthin             | 0h29m | 1h11m  |
+| Merthyr to Cardiff               | 0h45m | 1h18m  |
 | Pontsticill to the Naughty Stone | 0h35m | 1h38m  |
-| Rhosllanerchrugog to Denbigh     | 0h58m | 1h52m  |
+| Rhosllanerchrugog to Denbigh     | 0h59m | 1h52m  |
 | Swansea to Bargoed               | 1h18m | 3h25m  |
 | Swansea to Wrexham               | 3h32m | 4h33m  |
 | Treharris to Gellideg            | 0h20m | 0h45m  |
