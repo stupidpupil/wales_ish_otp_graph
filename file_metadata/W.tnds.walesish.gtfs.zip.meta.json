@@ -1,20 +1,20 @@
 {
-  "CreatedAt": "2023-11-06T05:46:17+0000",
+  "CreatedAt": "2023-11-13T05:39:44+0000",
   "DerivedFrom": {
     "Filename": "W.bus.tnds.zip",
-    "SizeBytes": 12774050,
+    "SizeBytes": 9808250,
     "SourceUrl": "ftp://ftp.tnds.basemap.co.uk/W.zip",
-    "SourceDownloadedAt": "2023-11-06T05:36:08+0000",
+    "SourceDownloadedAt": "2023-11-13T05:33:02+0000",
     "SourceLicence": "OGL-UK-3.0",
     "SourceAttribution": "Traveline",
-    "ParochialCacheKey": "e0d7099ca4124e81d387a2eb1d8414a704e5bf3e"
+    "ParochialCacheKey": "8a381a67663b9a5ee98c38a14cc557321819d956"
   },
   "Coverage": {
     "Temporal": {
-      "start": "2023-11-06",
-      "end": "2023-12-05"
+      "start": "2023-11-13",
+      "end": "2023-12-12"
     },
     "Spatial": "Part of Great Britain"
   },
-  "ParochialCacheKey": "ea7a7873236c0c45bb42a5c9bc9b0fabcdb99069"
+  "ParochialCacheKey": "71b36a7c889b31f9e81e03c88d532fffc859de9e"
 }
