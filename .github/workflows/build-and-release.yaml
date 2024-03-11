@@ -700,7 +700,7 @@ jobs:
     - uses: actions/setup-go@v3
       if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
     - name: Get gtfstidy
-      run: go install github.com/patrickbr/gtfstidy@latest
+      run: go install github.com/patrickbr/gtfstidy@25d4d6d1079a5926d9a558546bbe36d5b4cdb45f
       if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
     - name: Merge and Pfaedle Merged GTFS
       if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
