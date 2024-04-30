@@ -697,7 +697,7 @@ jobs:
     - name: Add pfaedle to path
       run: echo "$GITHUB_WORKSPACE/pfaedle-build/usr/local/bin" >> $GITHUB_PATH
       if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
-    - uses: actions/setup-go@v3
+    - uses: actions/setup-go@v5
       if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
     - name: Get gtfstidy
       run: go install github.com/patrickbr/gtfstidy@25d4d6d1079a5926d9a558546bbe36d5b4cdb45f
