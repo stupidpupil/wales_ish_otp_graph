@@ -9,7 +9,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         repository: stupidpupil/pfaedle
         submodules: yes
@@ -22,7 +22,7 @@ jobs:
       shell: bash
     - name: Cache pfaedle-build
       id: cache_pfaedle_build
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           pfaedle-build
@@ -40,7 +40,7 @@ jobs:
         chmod -R ug+rw pfaedle-build/
       shell: bash
     - name: Upload pfaedle artefact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: pfaedle
         path: pfaedle-build
@@ -50,7 +50,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'Project-OSRM/osrm-backend'
           path: 'osrm-backend'
@@ -64,7 +64,7 @@ jobs:
 
       - name: Cache osrm-backend/build
         id: cache_osrm_backend_build
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             osrm-backend/build
@@ -115,7 +115,7 @@ jobs:
         shell: bash
 
       - name: Upload osrm artefact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: osrm
           path: osrm-backend
@@ -124,14 +124,14 @@ jobs:
   download_and_prepare_terrain:
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Get Terrain 50 md5
       id: terrain50_md5
       run: |
         echo "md5=$(curl "https://api.os.uk/downloads/v1/products/Terrain50/downloads" | jq '.[0].md5')" >> $GITHUB_OUTPUT
     - name: Cache Terrain 50
       id: cache_terrain50
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           output/*terr50*
@@ -148,7 +148,7 @@ jobs:
       shell: Rscript {0}
       if: steps.cache_terrain50.outputs.cache-hit != 'true'
     - name: Restore R package cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.R_LIBS_USER }}
         key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
@@ -174,7 +174,7 @@ jobs:
         prepare_terrain50()
       shell: Rscript {0}
     - name: Upload Terrain 50 artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: terr50.tif
         path: output/*terr50*
@@ -190,14 +190,14 @@ jobs:
   download_and_prepare_osm:
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Get Geofabrik ETag
       id: geofabrik_etag
       run: |
         echo "etag=$(curl -I "https://download.geofabrik.de/europe/great-britain-latest.osm.pbf" | grep "ETag")" >> $GITHUB_OUTPUT
     - name: Cache OSM
       id: cache_osm
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           output/openstreetmap/*
@@ -215,7 +215,7 @@ jobs:
       shell: Rscript {0}
       if: steps.cache_osm.outputs.cache-hit != 'true'
     - name: Restore R package cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.R_LIBS_USER }}
         key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
@@ -238,7 +238,7 @@ jobs:
         download_and_prepare_osm()
       shell: Rscript {0}
     - name: Upload OpenStreetMap artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: openstreetmap
         path: output/openstreetmap/*
@@ -257,14 +257,14 @@ jobs:
     - download_and_prepare_osm
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Download OpenStreetMap artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: openstreetmap
         path: output/openstreetmap/
     - name: Download Terrain 50 artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: terr50.tif
         path: output
@@ -276,7 +276,7 @@ jobs:
         )" >> $GITHUB_OUTPUT
     - name: Cache street graph
       id: cache_street_graph
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: output/opentripplanner/streetGraph.obj*
         key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash
@@ -293,7 +293,7 @@ jobs:
       shell: Rscript {0}
       if: steps.cache_street_graph.outputs.cache-hit != 'true'
     - name: Restore R package cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.R_LIBS_USER }}
         key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
@@ -314,7 +314,7 @@ jobs:
       shell: Rscript {0}
     - name: Cache OTP elevation lookups
       if: steps.cache_street_graph.outputs.cache-hit != 'true'
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: data-raw/otp_cache/*
         key: ${{ hashFiles('output/*terr50*') }}
@@ -331,7 +331,7 @@ jobs:
         prepare_street_graph()
       shell: Rscript {0}
     - name: Upload street graph artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: streetGraph.obj
         path: output/opentripplanner/streetGraph.obj*
@@ -350,14 +350,14 @@ jobs:
     - download_and_prepare_osm
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Download OpenStreetMap artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: openstreetmap
         path: output/openstreetmap/
     - name: Download osrm artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: osrm
         path: osrm-backend
@@ -374,7 +374,7 @@ jobs:
         )" >> $GITHUB_OUTPUT
     - name: Cache OSRM graph
       id: cache_street_graph
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: output/osrm_driving/*
         key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash
@@ -391,7 +391,7 @@ jobs:
       shell: Rscript {0}
       if: steps.cache_street_graph.outputs.cache-hit != 'true'
     - name: Restore R package cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.R_LIBS_USER }}
         key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
@@ -411,7 +411,7 @@ jobs:
         prepare_osrm_graph()
       shell: Rscript {0}
     - name: Upload osrm outputs artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: osrm-graph
         path: output/osrm_driving/*
@@ -427,7 +427,7 @@ jobs:
   download_and_prepare_atoc:
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: r-lib/actions/setup-r@v2
     - uses: r-lib/actions/setup-pandoc@v2
     - name: Query dependencies
@@ -437,7 +437,7 @@ jobs:
         writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
       shell: Rscript {0}
     - name: Restore R package cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.R_LIBS_USER }}
         key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
@@ -456,7 +456,7 @@ jobs:
       shell: Rscript {0}
     - name: Cache ATOC
       id: cache_atoc
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           output/gtfs/atoc.*.gtfs.zip*
@@ -471,7 +471,7 @@ jobs:
         cat(file=Sys.getenv("GITHUB_STEP_SUMMARY"))
       shell: Rscript {0}
     - name: Upload ATOC GTFS artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: atoc.gtfs.zip
         path: output/gtfs/atoc.*.gtfs.zip*
@@ -487,7 +487,7 @@ jobs:
   download_and_prepare_tnds:
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Get TNDS directory listing hash
       id: tnds_dir_list_hash
       run: |
@@ -496,7 +496,7 @@ jobs:
         )" >> $GITHUB_OUTPUT
     - name: Cache TNDS
       id: cache_tnds
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           output/gtfs/*.tnds.*.gtfs.zip*
@@ -514,7 +514,7 @@ jobs:
       shell: Rscript {0}
       if: steps.cache_tnds.outputs.cache-hit != 'true'
     - name: Restore R package cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.R_LIBS_USER }}
         key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
@@ -537,7 +537,7 @@ jobs:
         cat(file=Sys.getenv("GITHUB_STEP_SUMMARY"))
       shell: Rscript {0}
     - name: Upload TNDS GTFS artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: tnds.gtfs.zip
         path: output/gtfs/*.tnds.*.gtfs.zip*
@@ -553,14 +553,14 @@ jobs:
   download_and_prepare_bods:
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Get BODS index page hash
       id: bods_index_page_hash
       run: |
         echo "hash=$(curl "https://data.bus-data.dft.gov.uk/timetable/" | md5)" >> $GITHUB_OUTPUT
     - name: Cache BODS
       id: cache_bods
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: output/gtfs/*.bods.*.gtfs.zip*
         key: ${{ steps.bods_index_page_hash.outputs.hash }}-${{ hashFiles('config.yml')
@@ -577,7 +577,7 @@ jobs:
       shell: Rscript {0}
       if: steps.cache_bods.outputs.cache-hit != 'true'
     - name: Restore R package cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.R_LIBS_USER }}
         key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
@@ -599,7 +599,7 @@ jobs:
         cat(file=Sys.getenv("GITHUB_STEP_SUMMARY"))
       shell: Rscript {0}
     - name: Upload BODS GTFS artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: bods.gtfs.zip
         path: output/gtfs/*.bods.*.gtfs.zip*
@@ -621,24 +621,24 @@ jobs:
     - build_pfaedle
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Download ATOC GTFS artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: atoc.gtfs.zip
         path: output/gtfs
     - name: Download TNDS GTFS artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: tnds.gtfs.zip
         path: output/gtfs
     - name: Download BODS GTFS artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: bods.gtfs.zip
         path: output/gtfs
     - name: Download OpenStreetMap artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: openstreetmap
         path: output/openstreetmap/
@@ -650,7 +650,7 @@ jobs:
         )" >> $GITHUB_OUTPUT
     - name: Cache Merged GTFS
       id: cache_merged_gtfs
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           output/gtfs/merged.*.gtfs.zip*
@@ -668,7 +668,7 @@ jobs:
       shell: Rscript {0}
       if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
     - name: Restore R package cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.R_LIBS_USER }}
         key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
@@ -685,7 +685,7 @@ jobs:
       run: brew install osmium-tool
       if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
     - name: Download pfaedle artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: pfaedle
         path: pfaedle-build
@@ -711,7 +711,7 @@ jobs:
         prepare_merged_gtfs(should_pfaedle = TRUE)
       shell: Rscript {0}
     - name: Upload Merged GTFS artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: merged.gtfs.zip
         path: output/gtfs/merged.*.gtfs.zip*
@@ -728,7 +728,7 @@ jobs:
     needs: merge_and_pfaedle_gtfs
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: r-lib/actions/setup-r@v2
     - uses: r-lib/actions/setup-pandoc@v2
     - name: Query dependencies
@@ -738,7 +738,7 @@ jobs:
         writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
       shell: Rscript {0}
     - name: Restore R package cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.R_LIBS_USER }}
         key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
@@ -750,7 +750,7 @@ jobs:
         devtools::install_deps(dependencies = TRUE, type = "binary")
       shell: Rscript {0}
     - name: Download Merged GTFS artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: merged.gtfs.zip
         path: output/gtfs
@@ -760,7 +760,7 @@ jobs:
         prepare_pretty_map()
       shell: Rscript {0}
     - name: Upload map artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: map.png
         path: output/map*.png*
@@ -780,14 +780,14 @@ jobs:
     - merge_and_pfaedle_gtfs
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Download Merged GTFS artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: merged.gtfs.zip
         path: output/gtfs
     - name: Download street graph artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: streetGraph.obj
         path: output/opentripplanner
@@ -799,7 +799,7 @@ jobs:
         )" >> $GITHUB_OUTPUT
     - name: Cache transport graph
       id: cache_transport_graph
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           output/opentripplanner/graph.obj*
@@ -818,7 +818,7 @@ jobs:
       shell: Rscript {0}
       if: steps.cache_transport_graph.outputs.cache-hit != 'true'
     - name: Restore R package cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.R_LIBS_USER }}
         key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
@@ -850,7 +850,7 @@ jobs:
         prepare_transport_graph()
       shell: Rscript {0}
     - name: Upload transport graph artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: graph.obj
         path: output/opentripplanner/graph.obj*
@@ -869,14 +869,14 @@ jobs:
     - merge_and_pfaedle_gtfs
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Download OpenStreetMap artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: openstreetmap
         path: output/openstreetmap/
     - name: Download Merged GTFS artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: merged.gtfs.zip
         path: output/gtfs
@@ -888,7 +888,7 @@ jobs:
         )" >> $GITHUB_OUTPUT
     - name: Cache r5r network.dat
       id: cache_network_dat
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           output/r5r/network.dat*
@@ -906,7 +906,7 @@ jobs:
       shell: Rscript {0}
       if: steps.cache_network_dat.outputs.cache-hit != 'true'
     - name: Restore R package cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.R_LIBS_USER }}
         key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
@@ -932,7 +932,7 @@ jobs:
         prepare_r5r_network_dat()
       shell: Rscript {0}
     - name: Upload r5r network.dat artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: network.dat
         path: output/r5r/network.dat*
@@ -953,7 +953,7 @@ jobs:
     - prepare_final_graph
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Write config.yml
       uses: DamianReeves/write-file-action@v1.2
       with:
@@ -975,7 +975,7 @@ jobs:
         writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
       shell: Rscript {0}
     - name: Restore R package cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ env.R_LIBS_USER }}
         key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds')
@@ -997,57 +997,57 @@ jobs:
         download_otp()
       shell: Rscript {0}
     - name: Download Terrrain 50 artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: terr50.tif
         path: output
     - name: Download OpenStreetMap artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: openstreetmap
         path: output/openstreetmap/
     - name: Download ATOC GTFS artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: atoc.gtfs.zip
         path: output/gtfs
     - name: Download TNDS GTFS artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: tnds.gtfs.zip
         path: output/gtfs
     - name: Download BODS GTFS artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: bods.gtfs.zip
         path: output/gtfs
     - name: Download Merged GTFS artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: merged.gtfs.zip
         path: output/gtfs
     - name: Download street graph artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: streetGraph.obj
         path: output/opentripplanner
     - name: Download transport graph artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: graph.obj
         path: output/opentripplanner
     - name: Download network.dat artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: network.dat
         path: output/r5r
     - name: Download osrm graph artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: osrm-graph
         path: output/osrm_driving
     - name: Download pretty map artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: map.png
         path: output
@@ -1058,7 +1058,7 @@ jobs:
         prepare_test_journeys()
       shell: Rscript {0}
     - name: Upload test journeys artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: test_journeys.csv
         path: output/test_journeys.csv
@@ -1110,7 +1110,7 @@ jobs:
         zip -9 -r osrm_driving.zip osrm_driving/
         cd ..
     - name: Checkout graph-releases branch
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         ref: graph-releases
         path: graph-releases
