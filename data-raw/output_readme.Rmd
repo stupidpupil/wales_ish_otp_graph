@@ -46,28 +46,6 @@ If you provide a routing service or similar using the graph file you should make
 
 *otp.jar* is a copy of the version of [OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner) used to generate the graph file; it is released under the [LGPL v3.0 (or later)](https://github.com/opentripplanner/OpenTripPlanner/blob/dev-2.x/LICENSE). Again, it is provided without any warranty of any kind and without any endorsement, for any purpose.
 
-## Test Journeys
-
-A small number of journeys, departing on Tuesday morning the following week, are tested every time that the graph is built. The results from the latest update of the graph are shown below.
-
-```{r warning = FALSE, message = FALSE, echo = FALSE, results = 'asis'}
-
-seconds_as_hhmm <- function(secs){
-  hrs <- secs %/% (60*60)
-  mins <- round((secs %% (60*60))/60)
-  ifelse(is.na(secs), "N/A", sprintf("%1ih%2im",hrs, mins))
-}
-
-readr::read_csv("output/test_journeys.csv") %>% mutate(
-    publicDescription = ifelse(public, "Public", "Car"),
-    durationDescription = seconds_as_hhmm(durationSeconds)) %>%
-    select(Description, publicDescription, durationDescription) %>%
-  tidyr::pivot_wider(Description, names_from=publicDescription, values_from=durationDescription) %>%
-  arrange(Description) %>%
-  (knitr::kable)
-
-```
-
 ## Thanks
 
 This project developed out of a [NHS Welsh Modelling Collaborative](https://twitter.com/nhswmc) hackathon, with the support of colleagues across NHS Wales including James Cooke of the Welsh Ambulance Service.
