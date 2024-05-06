@@ -1066,7 +1066,6 @@ jobs:
         chmod ugo+x assets/otp_and_graph/run-otp.sh
         curl https://raw.githubusercontent.com/opentripplanner/OpenTripPlanner/dev-2.x/LICENSE -o assets/otp_and_graph/OTP_LICENSE
         cp output/opentripplanner/graph.obj* assets/otp_and_graph/graph/
-        cp output/opentripplanner/router-config.json assets/otp_and_graph/graph/
         cd assets
         zip -9 -r otp_and_graph.zip otp_and_graph/
         cd ..
