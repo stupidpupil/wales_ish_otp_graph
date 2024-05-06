@@ -1051,22 +1051,9 @@ jobs:
       with:
         name: map.png
         path: output
-    - name: Prepare test journeys
+    - name: Prepare README
       run: |
         devtools::load_all()
-        prepare_otp_config()
-        prepare_test_journeys()
-      shell: Rscript {0}
-    - name: Upload test journeys artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: test_journeys.csv
-        path: output/test_journeys.csv
-        if-no-files-found: error
-    - name: Check test journeys and prepare README
-      run: |
-        devtools::load_all()
-        check_test_journeys()
         prepare_readme()
         prepare_bounds_geojson()
       shell: Rscript {0}
