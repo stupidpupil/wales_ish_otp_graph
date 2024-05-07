@@ -25,7 +25,7 @@ The graph file was last updated at `r file.mtime("output/opentripplanner/graph.o
 
 You can then start OpenTripPlanner using *run-otp.bat* (under Windows) or *run-otp.sh* (under Linux or macOS). Eventually it'll print "Started listener bound to [0.0.0.0:8080]" and you'll be able to access the planner at `http://localhost:8080` .
 
-(You'll need [install Java 17](https://adoptium.net). See the [OTP documentation](http://docs.opentripplanner.org/en/latest/) for more information.)
+(You'll need [install Java 21](https://adoptium.net). See the [OTP documentation](http://docs.opentripplanner.org/en/latest/) for more information.)
 
 You can [see the code used to download source data and generate this graph here](https://github.com/stupidpupil/wales_ish_otp_graph).
 
