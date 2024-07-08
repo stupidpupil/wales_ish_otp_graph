@@ -6,7 +6,7 @@ The map shows bus and train routes included in the latest graph, giving a rough 
 
 ## How to use this
 
-The graph file was last updated at 12:33 BST on 01 July 2024. (The graph should update weekly.)
+The graph file was last updated at 08:22 BST on 08 July 2024. (The graph should update weekly.)
 
 [Download the latest release of the Wales-ish OTP graph here](https://github.com/stupidpupil/wales_ish_otp_graph/releases/latest). You’ll need to download the *otp_and_graph.zip* asset.
 
