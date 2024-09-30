@@ -283,7 +283,7 @@ jobs:
     - name: Download osrm
       run: |
         wget "https://github.com/Project-OSRM/osrm-backend/releases/download/v5.27.1/node_osrm-v5.27.1-node-v108-darwin-arm64-Release.tar.gz"
-        tar xvf node_osrm-v5.27.1-node-v108-darwin-x64-Release.tar.gz
+        tar xvf node_osrm-v5.27.1-node-v108-darwin-arm64-Release.tar.gz
 
     - name: Add osrm to path
       run: echo "$PWD/binding" >> $GITHUB_PATH
