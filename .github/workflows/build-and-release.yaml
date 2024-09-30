@@ -45,81 +45,6 @@ jobs:
         name: pfaedle
         path: pfaedle-build
         if-no-files-found: error
-  build_osrm:
-    runs-on: macOS-latest
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          repository: 'Project-OSRM/osrm-backend'
-          path: 'osrm-backend'
-          ref: '204fdaff6e83fe336db74a84db5adb3320a9a3ed'
-
-      - name: Get osrm-backend ref
-        id: osrm-backend-ref
-        run: |
-          echo "ref=$(git -C osrm-backend rev-parse HEAD)" >> $GITHUB_OUTPUT
-        shell: bash
-
-      - name: Cache osrm-backend/build
-        id: cache_osrm_backend_build
-        uses: actions/cache@v4
-        with:
-          path: |
-            osrm-backend/build
-            osrm-backend/mason_packages
-          key: ${{ runner.os }}-${{ steps.osrm-backend-ref.outputs.ref }}-osrm-v2
-
-      - name: Build osrm-backend
-        if: steps.cache_osrm_backend_build.outputs.cache-hit != 'true'
-        run: |
-          cd osrm-backend
-          rm -rf build
-          mkdir build
-          cd build
-          cmake ../ -DENABLE_MASON=1
-          make
-          cd ../../
-        shell: bash
-
-      - name: Clean osrm-backend
-        run: |
-          rm -rf osrm-backend/build/CMakeFiles
-          rm -rf osrm-backend/build/libosrm*
-          rm -rf osrm-backend/build/flatbuffers-build
-          rm -rf osrm-backend/mason_packages/headers/
-          rm -rf osrm-backend/mason_packages/.binaries/
-          rm -rf osrm-backend/third_party/
-          rm -rf osrm-backend/unit_tests/
-          rm -rf osrm-backend/src/
-          rm -rf osrm-backend/docs/
-          rm -rf osrm-backend/features/
-          rm -rf osrm-backend/include/
-          rm -rf osrm-backend/test/
-          rm -rf osrm-backend/.git
-          rm -rf osrm-backend/.github
-          find osrm-backend -name "*.c" -type f -delete
-          find osrm-backend -name "*.cc" -type f -delete
-          find osrm-backend -name "*.h" -type f -delete
-          find osrm-backend -name "*.cpp" -type f -delete
-          find osrm-backend -name "*.hpp" -type f -delete
-          find osrm-backend -name "*.py" -type f -delete
-          find osrm-backend -name "*.md" -type f -delete
-          find osrm-backend -name "*.rst" -type f -delete
-          find osrm-backend -name "*.txt" -type f -delete
-          find osrm-backend -name "*.pbf" -type f -delete
-          find osrm-backend -name "*.rs" -type f -delete
-          find osrm-backend -name "*.png" -type f -delete
-          find osrm-backend -name "*.jpg" -type f -delete
-        shell: bash
-
-      - name: Upload osrm artefact
-        uses: actions/upload-artifact@v4
-        with:
-          name: osrm
-          path: osrm-backend
-          if-no-files-found: error
 
   download_and_prepare_terrain:
     runs-on: macOS-latest
@@ -346,9 +271,8 @@ jobs:
       OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
   prepare_osrm_graph:
     needs:
-    - build_osrm
     - download_and_prepare_osm
-    runs-on: macOS-latest
+    runs-on: macOS-latest-large
     steps:
     - uses: actions/checkout@v4
     - name: Download OpenStreetMap artifact
@@ -356,16 +280,14 @@ jobs:
       with:
         name: openstreetmap
         path: output/openstreetmap/
-    - name: Download osrm artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: osrm
-        path: osrm-backend
-    - name: Make osrm executable
+    - name: Download osrm
       run: |
-        chmod ug+x $GITHUB_WORKSPACE/osrm-backend/build/osrm-*
+        wget "https://github.com/Project-OSRM/osrm-backend/releases/download/v5.27.1/node_osrm-v5.27.1-node-v108-darwin-x64-Release.tar.gz"
+        tar xvf node_osrm-v5.27.1-node-v108-darwin-x64-Release.tar.gz
+
     - name: Add osrm to path
-      run: echo "$GITHUB_WORKSPACE/osrm-backend/build" >> $GITHUB_PATH
+      run: echo "$PWD/binding" >> $GITHUB_PATH
+
     - name: Derive hash from ParochialCacheKeys
       id: parochial_cache_keys
       run: |-
@@ -378,7 +300,7 @@ jobs:
       with:
         path: output/osrm_driving/*
         key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash
-          }}-osrm_driving-v1
+          }}-osrm_driving-v2
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_street_graph.outputs.cache-hit != 'true'
     - uses: r-lib/actions/setup-pandoc@v2
