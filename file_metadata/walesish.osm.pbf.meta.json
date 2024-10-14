@@ -1,13 +1,13 @@
 {
-  "CreatedAt": "2024-10-07T05:42:36+0000",
+  "CreatedAt": "2024-10-14T05:42:05+0000",
   "DerivedFrom": {
     "Filename": "great-britain-latest.osm.pbf",
-    "SizeBytes": 1817075168,
+    "SizeBytes": 1820011314,
     "SourceUrl": "https://download.geofabrik.de/europe/great-britain-latest.osm.pbf",
-    "SourceDownloadedAt": "2024-10-07T05:39:58+0000",
+    "SourceDownloadedAt": "2024-10-14T05:39:33+0000",
     "SourceLicence": "ODbL-1.0",
     "SourceAttribution": "OpenStreetMap contributors",
-    "ParochialCacheKey": "1256ec17176c11d27f52dbadda33fc1af8b65d47"
+    "ParochialCacheKey": "0175ecb4af92d17f192ce981050dfa916cfc8bbd"
   },
-  "ParochialCacheKey": "ba64cffd22df85ca2682a7fd23ca0621a1c36cbf"
+  "ParochialCacheKey": "ed179d812e6ae22412bef236abcba2a90f624689"
 }
