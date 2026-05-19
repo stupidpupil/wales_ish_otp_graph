@@ -52,17 +52,17 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v6
-    - name: Get Geofabrik ETag
-      id: geofabrik_etag
+    - name: Get Geofabrik Location
+      id: geofabrik_location
       run: |
-        echo "etag=$(curl -I 'https://download.geofabrik.de/europe/great-britain-latest.osm.pbf' | grep 'ETag')" >> $GITHUB_OUTPUT
+        echo "loc=$(curl -I 'https://download.geofabrik.de/europe/great-britain-latest.osm.pbf' | grep 'Location')" >> $GITHUB_OUTPUT
     - name: Cache OSM
       id: cache_osm
       uses: actions/cache@v5
       with:
         path: |
           output/openstreetmap/*
-        key: ${{ steps.geofabrik_etag.outputs.etag }}-${{ hashFiles('config.yml')
+        key: ${{ steps.geofabrik_location.outputs.loc }}-${{ hashFiles('config.yml')
           }}-osm-v1
     - uses: r-lib/actions/setup-r@v2
       if: steps.cache_osm.outputs.cache-hit != 'true'
@@ -110,7 +110,7 @@ jobs:
       id: parochial_cache_keys
       run: |-
         echo "hash=$(
-          ls output/*/*.meta.json output/*.meta.json | sort | xargs jq .ParochialCacheKey | shasum -a 1
+          find output -name "*.meta.json" | sort | xargs jq .ParochialCacheKey | shasum -a 1
         )" >> $GITHUB_OUTPUT
     - name: Cache street graph
       id: cache_street_graph
@@ -220,7 +220,7 @@ jobs:
       id: parochial_cache_keys
       run: |-
         echo "hash=$(
-          ls output/*/*.meta.json output/*.meta.json | sort | xargs jq .ParochialCacheKey | shasum -a 1
+          find output -name "*.meta.json" | sort | xargs jq .ParochialCacheKey | shasum -a 1
         )" >> $GITHUB_OUTPUT
     - name: Cache Merged GTFS
       id: cache_merged_gtfs
@@ -313,7 +313,7 @@ jobs:
       id: parochial_cache_keys
       run: |-
         echo "hash=$(
-          ls output/*/*.meta.json output/*.meta.json | sort | xargs jq .ParochialCacheKey | shasum -a 1
+          find output -name "*.meta.json" | sort | xargs jq .ParochialCacheKey | shasum -a 1
         )" >> $GITHUB_OUTPUT
     - name: Cache transport graph
       id: cache_transport_graph
@@ -360,9 +360,10 @@ jobs:
       OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
   prepare_r5r_network_dat:
     needs:
+    - download_and_prepare_terrain
     - download_and_prepare_osm
     - merge_and_pfaedle_gtfs
-    runs-on: macOS-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@v5
     - name: Download OpenStreetMap artifact
@@ -370,6 +371,11 @@ jobs:
       with:
         name: openstreetmap
         path: output/openstreetmap/
+    - name: Download Terrain 50 artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: terr50.tif
+        path: output
     - name: Download Merged GTFS artifact
       uses: actions/download-artifact@v8
       with:
@@ -379,7 +385,7 @@ jobs:
       id: parochial_cache_keys
       run: |-
         echo "hash=$(
-          ls output/*/*.meta.json output/*.meta.json | sort | xargs jq .ParochialCacheKey | shasum -a 1
+          find output -name "*.meta.json" | sort | xargs jq .ParochialCacheKey | shasum -a 1
         )" >> $GITHUB_OUTPUT
     - name: Cache r5r network.dat
       id: cache_network_dat
