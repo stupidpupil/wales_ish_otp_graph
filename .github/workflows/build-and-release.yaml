@@ -410,6 +410,7 @@ jobs:
     - name: Prepare r5r network.dat
       if: steps.cache_network_dat.outputs.cache-hit != 'true'
       run: |
+        options(java.parameters = "-Xmx12G")
         devtools::load_all()
         prepare_r5r_network_dat()
       shell: Rscript {0}
