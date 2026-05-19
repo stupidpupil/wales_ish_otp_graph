@@ -19,6 +19,7 @@ Imports:
   stringr,
   lubridate,
   readr,
+  devtools,
   r5r (>= 1.0.0)
 Remotes:
   stupidpupil/parochial
