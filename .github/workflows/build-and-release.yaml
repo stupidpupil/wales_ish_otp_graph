@@ -5,7 +5,7 @@
 name: build-and-release
 jobs:
   download_and_prepare_terrain:
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
     - name: Get Terrain 50 md5
@@ -93,7 +93,7 @@ jobs:
     needs:
     - download_and_prepare_terrain
     - download_and_prepare_osm
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v5
     - name: Download OpenStreetMap artifact
@@ -160,7 +160,7 @@ jobs:
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
   download_and_prepare_gtfs:
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
     - name: Get Date
@@ -296,7 +296,7 @@ jobs:
     - download_and_prepare_osm
     - prepare_street_graph
     - merge_and_pfaedle_gtfs
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
     - name: Download Merged GTFS artifact
@@ -363,7 +363,7 @@ jobs:
     - download_and_prepare_terrain
     - download_and_prepare_osm
     - merge_and_pfaedle_gtfs
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v5
     - name: Download OpenStreetMap artifact
