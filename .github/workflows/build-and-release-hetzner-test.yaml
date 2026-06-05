@@ -1,0 +1,483 @@
+'on':
+  workflow_dispatch: ~
+  schedule:
+  - cron: 25 5 * * 1
+name: build-and-release-hetzner-test
+jobs:
+ start-runner:
+    runs-on: ubuntu-latest
+    outputs:
+      runner-name: ${{ steps.jit.outputs.runner-name }}
+      server-id: ${{ steps.server.outputs.server-id }}
+
+    steps:
+      - name: Generate JIT runner config
+        id: jit
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          RUNNER_NAME="r5-${{ github.run_id }}-${{ github.run_attempt }}"
+          echo "runner-name=$RUNNER_NAME" >> "$GITHUB_OUTPUT"
+
+          JIT_RESPONSE=$(curl -sf -X POST \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/runners/generate-jit-config" \
+            -d "$(jq -n --arg name "$RUNNER_NAME" \
+              '{name: $name, runner_group_id: 1, labels: ["self-hosted", "linux", "x64"]}')")
+
+          JIT_CONFIG=$(echo "$JIT_RESPONSE" | jq -r '.encoded_jit_config')
+          echo "::add-mask::$JIT_CONFIG"
+          echo "jit-config=$JIT_CONFIG" >> "$GITHUB_OUTPUT"
+
+      - name: Create Hetzner server
+        id: server
+        env:
+          HCLOUD_TOKEN: ${{ secrets.HETZNER_API_TOKEN }}
+          JIT_CONFIG: ${{ steps.jit.outputs.jit-config }}
+          RUNNER_NAME: ${{ steps.jit.outputs.runner-name }}
+        run: |
+          USER_DATA="#!/bin/bash
+          set -eux
+          export DEBIAN_FRONTEND=noninteractive
+          apt-get update -y
+          apt-get install -y curl jq git openjdk-21-jdk
+
+          useradd -m -s /bin/bash runner
+          cd /home/runner
+
+          RUNNER_VERSION=\$(curl -sf https://api.github.com/repos/actions/runner/releases/latest | jq -r '.tag_name[1:]')
+          curl -sfLo runner.tar.gz \"https://github.com/actions/runner/releases/download/v\${RUNNER_VERSION}/actions-runner-linux-x64-\${RUNNER_VERSION}.tar.gz\"
+          tar xzf runner.tar.gz && rm runner.tar.gz
+          chown -R runner:runner /home/runner
+
+          sudo -u runner /home/runner/config.sh --jitconfig \"${JIT_CONFIG}\" --unattended
+          sudo -u runner /home/runner/run.sh"
+
+          RESPONSE=$(curl -sf -X POST \
+            -H "Authorization: Bearer $HCLOUD_TOKEN" \
+            -H "Content-Type: application/json" \
+            "https://api.hetzner.cloud/v1/servers" \
+            -d "$(jq -n \
+              --arg name "$RUNNER_NAME" \
+              --arg userdata "$USER_DATA" \
+              '{
+                name: $name,
+                server_type: "cx52",
+                image: "ubuntu-24.04",
+                location: "nbg1",
+                user_data: $userdata
+              }')")
+
+          echo "server-id=$(echo "$RESPONSE" | jq -r '.server.id')" >> "$GITHUB_OUTPUT"
+
+
+
+  download_and_prepare_terrain:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: Get Terrain 50 md5
+      id: terrain50_md5
+      run: |
+        echo "md5=$(curl 'https://api.os.uk/downloads/v1/products/Terrain50/downloads' | jq '.[0].md5')" >> $GITHUB_OUTPUT
+    - name: Cache Terrain 50
+      id: cache_terrain50
+      uses: actions/cache@v5
+      with:
+        path: |
+          output/*terr50*
+        key: ${{ steps.terrain50_md5.outputs.md5 }}-${{ hashFiles('config.yml') }}-terr50-v1
+    - uses: r-lib/actions/setup-r@v2
+      if: steps.cache_terrain50.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-pandoc@v2
+      if: steps.cache_terrain50.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-r-dependencies@v2
+      if: steps.cache_terrain50.outputs.cache-hit != 'true'
+    - name: Download terrain
+      if: steps.cache_terrain50.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        download_terrain50()
+      shell: Rscript {0}
+    - name: Prepare_terrain
+      if: steps.cache_terrain50.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        prepare_terrain50()
+      shell: Rscript {0}
+    - name: Upload Terrain 50 artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: terr50.tif
+        path: output/*terr50*
+        if-no-files-found: error
+        compression-level: 9
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
+  download_and_prepare_osm:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: Get Geofabrik Location
+      id: geofabrik_location
+      run: |
+        echo "loc=$(curl -I 'https://download.geofabrik.de/europe/great-britain-latest.osm.pbf' | grep 'Location')" >> $GITHUB_OUTPUT
+    - name: Cache OSM
+      id: cache_osm
+      uses: actions/cache@v5
+      with:
+        path: |
+          output/openstreetmap/*
+        key: ${{ steps.geofabrik_location.outputs.loc }}-${{ hashFiles('config.yml')
+          }}-osm-v1
+    - uses: r-lib/actions/setup-r@v2
+      if: steps.cache_osm.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-pandoc@v2
+      if: steps.cache_osm.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-r-dependencies@v2
+      if: steps.cache_osm.outputs.cache-hit != 'true'
+    - name: Install osmium
+      run: brew install osmium-tool
+      if: steps.cache_osm.outputs.cache-hit != 'true'
+    - name: Download and prepare OSM
+      if: steps.cache_osm.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        download_and_prepare_osm()
+      shell: Rscript {0}
+    - name: Upload OpenStreetMap artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: openstreetmap
+        path: output/openstreetmap/*
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
+  prepare_street_graph:
+    needs:
+    - download_and_prepare_terrain
+    - download_and_prepare_osm
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    - name: Download OpenStreetMap artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: openstreetmap
+        path: output/openstreetmap/
+    - name: Download Terrain 50 artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: terr50.tif
+        path: output
+    - name: Derive hash from ParochialCacheKeys
+      id: parochial_cache_keys
+      run: |-
+        echo "hash=$(
+          find output -name "*.meta.json" | sort | xargs jq .ParochialCacheKey | shasum -a 1
+        )" >> $GITHUB_OUTPUT
+    - name: Cache street graph
+      id: cache_street_graph
+      uses: actions/cache@v5
+      with:
+        path: output/opentripplanner/streetGraph.obj*
+        key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash
+          }}-otp.street-v1
+    - uses: r-lib/actions/setup-r@v2
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-pandoc@v2
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-r-dependencies@v2
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    - name: Download OTP
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        download_otp()
+      shell: Rscript {0}
+    - name: Cache OTP elevation lookups
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+      uses: actions/cache@v5
+      with:
+        path: data-raw/otp_cache/*
+        key: ${{ hashFiles('output/*terr50*') }}
+    - name: Install Java 25
+      uses: actions/setup-java@v5
+      with:
+        distribution: temurin
+        java-version: '25'
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+    - name: Prepare street graph
+      if: steps.cache_street_graph.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        prepare_street_graph()
+      shell: Rscript {0}
+    - name: Upload street graph artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: streetGraph.obj
+        path: output/opentripplanner/streetGraph.obj*
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
+  download_and_prepare_gtfs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: Get Date
+      id: get-date
+      run: |
+        echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_OUTPUT
+      shell: bash
+    - name: Cache TravelWhiz GTFS
+      id: cache_travel_whizgtfs
+      uses: actions/cache@v5
+      with:
+        path: output/gtfs/*.gtfs.zip*
+        key: ${{ steps.get-date.outputs.date }}-${{ hashFiles('config.yml') }}-travelwhiz.gtfs-v1
+    - uses: r-lib/actions/setup-r@v2
+      if: steps.cache_travel_whizgtfs.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-pandoc@v2
+      if: steps.cache_travel_whizgtfs.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-r-dependencies@v2
+      if: steps.cache_travel_whizgtfs.outputs.cache-hit != 'true'
+    - name: Download and prepare TravelWhiz GTFS
+      if: steps.cache_travel_whizgtfs.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        download_travelwhiz_bus_metro_gtfs()
+        download_travelwhiz_nationalrail_gtfs()
+        prepare_gtfs()
+      shell: Rscript {0}
+    - name: Upload TravelWhiz GTFS artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: travelwhiz.gtfs.zip
+        path: output/gtfs/*.gtfs.zip*
+        if-no-files-found: error
+        compression-level: 0
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
+  merge_and_pfaedle_gtfs:
+    needs:
+    - download_and_prepare_gtfs
+    - download_and_prepare_osm
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: Download TravelWhiz GTFS artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: travelwhiz.gtfs.zip
+        path: output/gtfs
+    - name: Download OpenStreetMap artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: openstreetmap
+        path: output/openstreetmap/
+    - name: Derive hash from ParochialCacheKeys
+      id: parochial_cache_keys
+      run: |-
+        echo "hash=$(
+          find output -name "*.meta.json" | sort | xargs jq .ParochialCacheKey | shasum -a 1
+        )" >> $GITHUB_OUTPUT
+    - name: Cache Merged GTFS
+      id: cache_merged_gtfs
+      uses: actions/cache@v5
+      with:
+        path: |
+          output/gtfs/merged.*.gtfs.zip*
+        key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash
+          }}-merged.gtfs-v2
+    - uses: r-lib/actions/setup-r@v2
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-pandoc@v2
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-r-dependencies@v2
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - name: Install osmium
+      run: brew install osmium-tool
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - uses: actions/setup-go@v6
+      with:
+        go-version: stable
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - name: Get gtfstidy
+      run: go install github.com/patrickbr/gtfstidy@d4a954bf68703563a6de4e6c3beb841a00063239
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+    - name: Merge and Pfaedle Merged GTFS
+      if: steps.cache_merged_gtfs.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        prepare_merged_gtfs(should_pfaedle = FALSE)
+      shell: Rscript {0}
+    - name: Upload Merged GTFS artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: merged.gtfs.zip
+        path: output/gtfs/merged.*.gtfs.zip*
+        if-no-files-found: error
+        compression-level: 0
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
+  prepare_final_graph:
+    needs:
+    - download_and_prepare_osm
+    - prepare_street_graph
+    - merge_and_pfaedle_gtfs
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: Download Merged GTFS artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: merged.gtfs.zip
+        path: output/gtfs
+    - name: Download street graph artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: streetGraph.obj
+        path: output/opentripplanner
+    - name: Derive hash from ParochialCacheKeys
+      id: parochial_cache_keys
+      run: |-
+        echo "hash=$(
+          find output -name "*.meta.json" | sort | xargs jq .ParochialCacheKey | shasum -a 1
+        )" >> $GITHUB_OUTPUT
+    - name: Cache transport graph
+      id: cache_transport_graph
+      uses: actions/cache@v5
+      with:
+        path: |
+          output/opentripplanner/graph.obj*
+          output/**/*.meta.json
+        key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash
+          }}-otp.final-v1
+    - uses: r-lib/actions/setup-r@v2
+      if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-pandoc@v2
+      if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-r-dependencies@v2
+      if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+    - name: Download OTP
+      if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        download_otp()
+      shell: Rscript {0}
+    - name: Install Java 25
+      uses: actions/setup-java@v5
+      with:
+        distribution: temurin
+        java-version: '25'
+      if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+    - name: Prepare transport graph
+      if: steps.cache_transport_graph.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        prepare_transport_graph()
+      shell: Rscript {0}
+    - name: Upload transport graph artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: graph.obj
+        path: output/opentripplanner/graph.obj*
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
+
+      
+  prepare_r5r_network_dat:
+    needs:
+    - download_and_prepare_terrain
+    - download_and_prepare_osm
+    - merge_and_pfaedle_gtfs
+    - start-runner
+    runs-on: ${{ needs.start-runner.outputs.runner-name }}
+    steps:
+    - uses: actions/checkout@v5
+    - name: Download OpenStreetMap artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: openstreetmap
+        path: output/openstreetmap/
+    - name: Download Terrain 50 artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: terr50.tif
+        path: output
+    - name: Download Merged GTFS artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: merged.gtfs.zip
+        path: output/gtfs
+    - name: Derive hash from ParochialCacheKeys
+      id: parochial_cache_keys
+      run: |-
+        echo "hash=$(
+          find output -name "*.meta.json" | sort | xargs jq .ParochialCacheKey | shasum -a 1
+        )" >> $GITHUB_OUTPUT
+    - name: Cache r5r network.dat
+      id: cache_network_dat
+      uses: actions/cache@v5
+      with:
+        path: |
+          output/r5r/network.dat*
+        key: ${{ hashFiles('config.yml') }}-${{ steps.parochial_cache_keys.outputs.hash
+          }}-r5r-v1
+    - uses: r-lib/actions/setup-r@v2
+      if: steps.cache_network_dat.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-pandoc@v2
+      if: steps.cache_network_dat.outputs.cache-hit != 'true'
+    - uses: r-lib/actions/setup-r-dependencies@v2
+      if: steps.cache_network_dat.outputs.cache-hit != 'true'
+    - name: Install Java 21
+      uses: actions/setup-java@v5
+      with:
+        distribution: temurin
+        java-version: '21'
+      if: steps.cache_network_dat.outputs.cache-hit != 'true'
+    - name: Prepare r5r network.dat
+      if: steps.cache_network_dat.outputs.cache-hit != 'true'
+      run: |
+        devtools::load_all()
+        prepare_r5r_network_dat()
+      shell: Rscript {0}
+    - name: Upload r5r network.dat artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: network.dat
+        path: output/r5r/network.dat*
+        if-no-files-found: error
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      BOUNDS: ${{ secrets.BOUNDS }}
+      OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
+
+  stop-runner:
+    needs: [start-runner, prepare_r5r_network_dat]
+    if: always()   # runs even if build-network fails or is cancelled
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete Hetzner server
+        env:
+          HCLOUD_TOKEN: ${{ secrets.HETZNER_API_TOKEN }}
+        run: |
+          curl -sf -X DELETE \
+            -H "Authorization: Bearer $HCLOUD_TOKEN" \
+            "https://api.hetzner.cloud/v1/servers/${{ needs.start-runner.outputs.server-id }}"
