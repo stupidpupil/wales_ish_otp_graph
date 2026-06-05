@@ -4,7 +4,7 @@
   - cron: 25 5 * * 1
 name: build-and-release-hetzner-test
 jobs:
- start-runner:
+  start-runner:
     runs-on: ubuntu-latest
     outputs:
       runner-name: ${{ steps.jit.outputs.runner-name }}
