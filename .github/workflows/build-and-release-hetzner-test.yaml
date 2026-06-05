@@ -64,7 +64,7 @@ jobs:
               --arg userdata "$USER_DATA" \
               '{
                 name: $name,
-                server_type: "cx53",
+                server_type: "cpx62",
                 image: "ubuntu-24.04",
                 user_data: $userdata
               }')")
