@@ -22,6 +22,7 @@ jobs:
           github_token: ${{ secrets.GH_PAT }}
           hcloud_token: ${{ secrets.HETZNER_API_TOKEN }}
           server_type: cpx62
+          image: 'ubuntu-24.04'
           
 
   download_and_prepare_terrain:
