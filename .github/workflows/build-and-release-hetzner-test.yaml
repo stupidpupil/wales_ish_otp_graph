@@ -38,24 +38,22 @@ jobs:
           JIT_CONFIG: ${{ steps.jit.outputs.jit-config }}
           RUNNER_NAME: ${{ steps.jit.outputs.runner-name }}
         run: |
-          USER_DATA="#!/bin/bash
-          set -eux
-          export DEBIAN_FRONTEND=noninteractive
-          apt-get update -y
-          apt-get install -y curl jq git openjdk-21-jdk
-
-          useradd -m -s /bin/bash runner
-          cd /home/runner
-
-          RUNNER_VERSION=\$(curl -sf https://api.github.com/repos/actions/runner/releases/latest | jq -r '.tag_name[1:]')
-          curl -sfLo runner.tar.gz \"https://github.com/actions/runner/releases/download/v\${RUNNER_VERSION}/actions-runner-linux-x64-\${RUNNER_VERSION}.tar.gz\"
-          tar xzf runner.tar.gz && rm runner.tar.gz
-          chown -R runner:runner /home/runner
-
-          sudo -u runner /home/runner/config.sh --jitconfig \"${JIT_CONFIG}\" --unattended
-          sudo -u runner /home/runner/run.sh"
-
-          RESPONSE=$(curl -sf -X POST \
+          read -r -d '' USER_DATA << 'USERDATA_EOF' || true
+                  #!/bin/bash
+                  set -eux
+                  export DEBIAN_FRONTEND=noninteractive
+                  useradd -m -s /bin/bash runner
+                  cd /home/runner
+        
+                  RUNNER_VERSION=$(curl -sf https://api.github.com/repos/actions/runner/releases/latest | jq -r '.tag_name[1:]')
+                  curl -sfLo runner.tar.gz "https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz"
+                  tar xzf runner.tar.gz && rm runner.tar.gz
+                  chown -R runner:runner /home/runner
+        
+                  sudo -u runner /home/runner/config.sh --jitconfig "$JIT_CONFIG" --unattended
+                  sudo -u runner /home/runner/run.sh
+                  USERDATA_EOF
+          RESPONSE=$(curl -X POST \
             -H "Authorization: Bearer $HCLOUD_TOKEN" \
             -H "Content-Type: application/json" \
             "https://api.hetzner.cloud/v1/servers" \
@@ -68,9 +66,10 @@ jobs:
                 image: "ubuntu-24.04",
                 user_data: $userdata
               }')")
-
+          
+          echo "$RESPONSE" | jq .
+          
           echo "server-id=$(echo "$RESPONSE" | jq -r '.server.id')" >> "$GITHUB_OUTPUT"
-
 
 
   download_and_prepare_terrain:
