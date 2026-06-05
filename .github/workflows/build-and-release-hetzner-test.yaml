@@ -55,8 +55,7 @@ jobs:
           tar xzf runner.tar.gz && rm runner.tar.gz
           chown -R runner:runner /home/runner
 
-          sudo -u runner /home/runner/config.sh --jitconfig "$JIT_CONFIG" --unattended
-          sudo -u runner /home/runner/run.sh
+          sudo -u runner /home/runner/run.sh --jitconfig "$JIT_CONFIG"
           USERDATA_EOF
                     
           RESPONSE=$(curl -X POST \
