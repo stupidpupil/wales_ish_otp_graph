@@ -46,6 +46,8 @@ jobs:
           #!/bin/bash
           set -eux
           export DEBIAN_FRONTEND=noninteractive
+          apt update
+          apt install -yf jq
           
           useradd -m -s /bin/bash runner
           cd /home/runner
