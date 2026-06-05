@@ -361,8 +361,6 @@ jobs:
     - merge_and_pfaedle_gtfs
     - create-runner
     runs-on: ${{  needs.create-runner.outputs.label }}
-    env:
-      HOME: /home/runner
     steps:
     - uses: actions/checkout@v5
     - name: Download OpenStreetMap artifact
@@ -422,6 +420,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
+      HOME: /home/runner
 
   delete-runner:
     name: Delete Hetzner Cloud runner
