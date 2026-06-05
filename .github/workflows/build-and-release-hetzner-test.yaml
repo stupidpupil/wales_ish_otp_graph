@@ -42,9 +42,7 @@ jobs:
           #!/bin/bash
           set -eux
           export DEBIAN_FRONTEND=noninteractive
-          apt-get update -y
-          apt-get install -y curl jq git openjdk-21-jdk
-
+          
           useradd -m -s /bin/bash runner
           cd /home/runner
 
