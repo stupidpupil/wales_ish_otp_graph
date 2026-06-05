@@ -7,7 +7,7 @@ jobs:
   start-runner:
     runs-on: ubuntu-latest
     outputs:
-      runner-name: ${{ steps.jit.outputs.runner-name }}
+      hetzner-runner-name: ${{ steps.jit.outputs.hetzner-runner-name }}
       server-id: ${{ steps.server.outputs.server-id }}
 
     steps:
@@ -16,15 +16,15 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          RUNNER_NAME="r5-${{ github.run_id }}-${{ github.run_attempt }}"
-          echo "runner-name=$RUNNER_NAME" >> "$GITHUB_OUTPUT"
+          HETZNER_RUNNER_NAME="r5-${{ github.run_id }}-${{ github.run_attempt }}"
+          echo "hetzner-runner-name=$HETZNER_RUNNER_NAME" >> "$GITHUB_OUTPUT"
 
           JIT_RESPONSE=$(curl -sf -X POST \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2026-03-10" \
             "https://api.github.com/repos/${{ github.repository }}/actions/runners/generate-jitconfig" \
-            -d "$(jq -n --arg name "$RUNNER_NAME" \
+            -d "$(jq -n --arg name "$HETZNER_RUNNER_NAME" \
               '{name: $name, runner_group_id: 1, labels: ["self-hosted", "linux", "x64"]}')")
 
           JIT_CONFIG=$(echo "$JIT_RESPONSE" | jq -r '.encoded_jit_config')
@@ -36,7 +36,7 @@ jobs:
         env:
           HCLOUD_TOKEN: ${{ secrets.HETZNER_API_TOKEN }}
           JIT_CONFIG: ${{ steps.jit.outputs.jit-config }}
-          RUNNER_NAME: ${{ steps.jit.outputs.runner-name }}
+          HETZNER_RUNNER_NAME: ${{ steps.jit.outputs.hetzner-runner-name }}
         run: |
           read -r -d '' USER_DATA << 'USERDATA_EOF' || true
           #!/bin/bash
@@ -46,32 +46,21 @@ jobs:
           useradd -m -s /bin/bash runner
           cd /home/runner
 
-          RUNNER_VERSION=$(curl -sf https://api.github.com/repos/actions/runner/releases/latest | jq -r '.tag_name[1:]')
-          curl -sfLo runner.tar.gz "https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz"
+          HETZNER_RUNNER_VERSION=$(curl -sf https://api.github.com/repos/actions/runner/releases/latest | jq -r '.tag_name[1:]')
+          curl -sfLo runner.tar.gz "https://github.com/actions/runner/releases/download/v${HETZNER_RUNNER_VERSION}/actions-runner-linux-x64-${HETZNER_RUNNER_VERSION}.tar.gz"
           tar xzf runner.tar.gz && rm runner.tar.gz
           chown -R runner:runner /home/runner
 
           sudo -u runner /home/runner/config.sh --jitconfig "$JIT_CONFIG" --unattended
           sudo -u runner /home/runner/run.sh
           USERDATA_EOF
-
-          echo "DEBUG: RUNNER_NAME='$RUNNER_NAME'"
-          echo "DEBUG: Full payload:"
-          jq -n \
-            --arg name "$RUNNER_NAME" \
-            '{
-              name: $name,
-              server_type: "cpx62",
-              image: "ubuntu-24.04",
-              user_data: $userdata
-            }'
                     
           RESPONSE=$(curl -X POST \
             -H "Authorization: Bearer $HCLOUD_TOKEN" \
             -H "Content-Type: application/json" \
             "https://api.hetzner.cloud/v1/servers" \
             -d "$(jq -n \
-              --arg name "$RUNNER_NAME" \
+              --arg name "$HETZNER_RUNNER_NAME" \
               --arg userdata "$USER_DATA" \
               '{
                 name: $name,
@@ -419,7 +408,7 @@ jobs:
     - download_and_prepare_osm
     - merge_and_pfaedle_gtfs
     - start-runner
-    runs-on: ${{ needs.start-runner.outputs.runner-name }}
+    runs-on: ${{ needs.start-runner.outputs.hetzner-runner-name }}
     steps:
     - uses: actions/checkout@v5
     - name: Download OpenStreetMap artifact
