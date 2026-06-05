@@ -407,6 +407,7 @@ jobs:
 
       
   prepare_r5r_network_dat:
+    timeout-minutes: 90
     needs:
     - download_and_prepare_terrain
     - download_and_prepare_osm
