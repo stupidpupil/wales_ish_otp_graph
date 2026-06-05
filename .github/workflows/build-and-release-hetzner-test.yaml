@@ -6,6 +6,10 @@ name: build-and-release-hetzner-test
 jobs:
   start-runner:
     runs-on: ubuntu-latest
+    needs:
+      - download_and_prepare_terrain
+      - download_and_prepare_osm
+      - merge_and_pfaedle_gtfs
     outputs:
       hetzner-runner-name: ${{ steps.jit.outputs.hetzner-runner-name }}
       server-id: ${{ steps.server.outputs.server-id }}
