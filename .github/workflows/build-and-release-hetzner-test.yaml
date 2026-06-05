@@ -54,7 +54,18 @@ jobs:
           sudo -u runner /home/runner/config.sh --jitconfig "$JIT_CONFIG" --unattended
           sudo -u runner /home/runner/run.sh
           USERDATA_EOF
-          
+
+          echo "DEBUG: RUNNER_NAME='$RUNNER_NAME'"
+          echo "DEBUG: Full payload:"
+          jq -n \
+            --arg name "$RUNNER_NAME" \
+            '{
+              name: $name,
+              server_type: "cpx62",
+              image: "ubuntu-24.04",
+              user_data: $userdata
+            }'
+                    
           RESPONSE=$(curl -X POST \
             -H "Authorization: Bearer $HCLOUD_TOKEN" \
             -H "Content-Type: application/json" \
