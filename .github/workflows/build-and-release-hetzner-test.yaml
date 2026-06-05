@@ -2,80 +2,27 @@
   workflow_dispatch: ~
 name: build-and-release-hetzner-test
 jobs:
-  start-runner:
-    runs-on: ubuntu-latest
+
+  create-runner:
+    name: Create Hetzner Cloud runner
     needs:
       - download_and_prepare_terrain
       - download_and_prepare_osm
       - merge_and_pfaedle_gtfs
+    runs-on: ubuntu-latest
     outputs:
-      hetzner-runner-name: ${{ steps.jit.outputs.hetzner-runner-name }}
-      server-id: ${{ steps.server.outputs.server-id }}
-
+      label: ${{ steps.create-hcloud-runner.outputs.label }}
+      server_id: ${{ steps.create-hcloud-runner.outputs.server_id }}
     steps:
-      - name: Generate JIT runner config
-        id: jit
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
-        run: |
-          HETZNER_RUNNER_NAME="r5-${{ github.run_id }}-${{ github.run_attempt }}"
-          echo "hetzner-runner-name=$HETZNER_RUNNER_NAME" >> "$GITHUB_OUTPUT"
-
-          JIT_RESPONSE=$(curl -sf -X POST \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2026-03-10" \
-            "https://api.github.com/repos/${{ github.repository }}/actions/runners/generate-jitconfig" \
-            -d "$(jq -n --arg name "$HETZNER_RUNNER_NAME" \
-              '{name: $name, runner_group_id: 1, labels: ["self-hosted", "linux", "x64"]}')")
-
-          JIT_CONFIG=$(echo "$JIT_RESPONSE" | jq -r '.encoded_jit_config')
-          echo "::add-mask::$JIT_CONFIG"
-          echo "jit-config=$JIT_CONFIG" >> "$GITHUB_OUTPUT"
-
-      - name: Create Hetzner server
-        id: server
-        env:
-          HCLOUD_TOKEN: ${{ secrets.HETZNER_API_TOKEN }}
-          JIT_CONFIG: ${{ steps.jit.outputs.jit-config }}
-          HETZNER_RUNNER_NAME: ${{ steps.jit.outputs.hetzner-runner-name }}
-        run: |
-          read -r -d '' USER_DATA << 'USERDATA_EOF' || true
-          #!/bin/bash
-          set -eux
-          export DEBIAN_FRONTEND=noninteractive
-          apt update
-          apt install -yf jq
+      - name: Create runner
+        id: create-hcloud-runner
+        uses: Cyclenerd/hcloud-github-runner@v1
+        with:
+          mode: create
+          github_token: ${{ secrets.GH_PAT }}
+          hcloud_token: ${{ secrets.HETZNER_API_TOKEN }}
+          server_type: cpx62
           
-          useradd -m -s /bin/bash runner
-          cd /home/runner
-
-          HETZNER_RUNNER_VERSION=$(curl -sf https://api.github.com/repos/actions/runner/releases/latest | jq -r '.tag_name[1:]')
-          curl -Lo runner.tar.gz "https://github.com/actions/runner/releases/download/v${HETZNER_RUNNER_VERSION}/actions-runner-linux-x64-${HETZNER_RUNNER_VERSION}.tar.gz"
-          tar xzf runner.tar.gz && rm runner.tar.gz
-          chown -R runner:runner /home/runner
-
-          sudo -u runner /home/runner/run.sh --jitconfig "$JIT_CONFIG"
-          USERDATA_EOF
-                    
-          RESPONSE=$(curl -X POST \
-            -H "Authorization: Bearer $HCLOUD_TOKEN" \
-            -H "Content-Type: application/json" \
-            "https://api.hetzner.cloud/v1/servers" \
-            -d "$(jq -n \
-              --arg name "$HETZNER_RUNNER_NAME" \
-              --arg userdata "$USER_DATA" \
-              '{
-                name: $name,
-                server_type: "cpx22",
-                image: "ubuntu-24.04",
-                user_data: $userdata
-              }')")
-          
-          echo "$RESPONSE" | jq .
-          
-          echo "server-id=$(echo "$RESPONSE" | jq -r '.server.id')" >> "$GITHUB_OUTPUT"
-
 
   download_and_prepare_terrain:
     runs-on: ubuntu-latest
@@ -411,8 +358,8 @@ jobs:
     - download_and_prepare_terrain
     - download_and_prepare_osm
     - merge_and_pfaedle_gtfs
-    - start-runner
-    runs-on: ${{ needs.start-runner.outputs.hetzner-runner-name }}
+    - create-runner
+    runs-on: ${{  needs.create-runner.outputs.label }}
     steps:
     - uses: actions/checkout@v5
     - name: Download OpenStreetMap artifact
@@ -473,15 +420,20 @@ jobs:
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
 
-  stop-runner:
-    needs: [start-runner, prepare_r5r_network_dat]
-    if: always()   # runs even if build-network fails or is cancelled
+  delete-runner:
+    name: Delete Hetzner Cloud runner
+    needs:
+      - create-runner # required to get output from the create-runner job
+      - prepare_r5r_network_dat # required to wait when the main job is done
     runs-on: ubuntu-latest
+    if: ${{ always() }} # required to stop the runner even if the error happened in the previous jobs
     steps:
-      - name: Delete Hetzner server
-        env:
-          HCLOUD_TOKEN: ${{ secrets.HETZNER_API_TOKEN }}
-        run: |
-          curl -sf -X DELETE \
-            -H "Authorization: Bearer $HCLOUD_TOKEN" \
-            "https://api.hetzner.cloud/v1/servers/${{ needs.start-runner.outputs.server-id }}"
+      - name: Delete runner
+        uses: Cyclenerd/hcloud-github-runner@v1
+        with:
+          mode: delete
+          github_token: ${{ secrets.GH_PAT }}
+          hcloud_token: ${{ secrets.HETZNER_API_TOKEN }}
+          name: ${{ needs.create-runner.outputs.label }}
+          server_id: ${{ needs.create-runner.outputs.server_id }}
+
