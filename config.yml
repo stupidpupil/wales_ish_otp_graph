@@ -1,4 +1,4 @@
 default:
-  java_xmx: "12G"
+  java_xmx: "30G"
   output_affix: "walesish"
   bounds: bounds.geojson
