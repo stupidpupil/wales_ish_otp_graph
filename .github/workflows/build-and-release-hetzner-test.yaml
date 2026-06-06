@@ -433,6 +433,8 @@ jobs:
     needs:
       - create-runner # required to get output from the create-runner job
       - prepare_r5r_network_dat # required to wait when the main job is done
+      - prepare_street_graph
+      - prepare_final_graph
     runs-on: ubuntu-latest
     if: ${{ always() }} # required to stop the runner even if the error happened in the previous jobs
     steps:
