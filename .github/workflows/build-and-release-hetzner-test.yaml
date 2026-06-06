@@ -420,7 +420,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       BOUNDS: ${{ secrets.BOUNDS }}
       OUTPUT_AFFIX: ${{ secrets.OUTPUT_AFFIX }}
-      HOME: /home/runner
+      HOME: /root
 
   delete-runner:
     name: Delete Hetzner Cloud runner
