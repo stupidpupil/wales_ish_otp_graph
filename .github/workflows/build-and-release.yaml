@@ -1,7 +1,6 @@
 'on':
   workflow_dispatch: ~
-  schedule:
-  - cron: 25 5 * * 1
+
 name: build-and-release
 jobs:
   download_and_prepare_terrain:
